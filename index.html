@@ -163,6 +163,198 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/01/%E5%88%9D%E8%AF%86%E9%BB%91%E7%BA%A2%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="什么时候可以重开">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/06/01/%E5%88%9D%E8%AF%86%E9%BB%91%E7%BA%A2%E6%A0%91/" class="post-title-link" itemprop="url">初识黑红树</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-06-01 15:57:54 / 修改时间：15:58:26" itemprop="dateCreated datePublished" datetime="2023-06-01T15:57:54+08:00">2023-06-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>初识黑红树</title>
+</head>
+<body><h1 id='初识黑红树'>初识黑红树  </h1>
+<h2 id='234树'>234树  </h2>
+<p>234的含义指一个节点可能含有的子节点个数  </p>
+<p>规则：<mark>非子结点的子节点数总是比它含有的数据项多1</mark>  </p>
+<p>结点所含数值编写规则有点类似普通树的中序遍历  <img src="https://s1.ax1x.com/2023/05/24/p97LfLd.png">  </p>
+<h2 id='234树的插入'>234树的插入  </h2>
+<ul>
+<li>当插入节点没满数据，时，直接插入，可能需要移动一到两个数据  </li>
+<li>若插入节点已满，则需要进行节点分裂来保证234树的平衡//AVL树//  </li>
+
+</ul>
+<p>一般情况下，分裂的规则一句话概括就是“将中间数据往上提”  </p>
+<p><img src="https://s1.ax1x.com/2023/05/26/p9b4exA.png" width="667" height="194">   </p>
+<p>但是在多次插入或者插入已知树时，遇到没满节点，需要先插入满其子节点，自身节点需要靠子节点分裂来补充  </p>
+<p><img src="https://s1.ax1x.com/2023/05/26/p9b48Pg.png" width="529" height="493"><br/>//代码在代码特殊训练中补//  </p>
+<p>##黑红树与234树  </p>
+<p><strong>黑红树就是234树的另类表示方法</strong>  </p>
+<p>黑色节点与红色节点结合起来表示234树中的节点  </p>
+<p>规则如下：  </p>
+<ul>
+<li>2节点-&gt;黑色单节点  </li>
+<li>3节点-&gt;黑色节点接红色节点（在我目前学习过程中默认左倾）  </li>
+<li>4节点-&gt;黑色节点接两红色节点  </li>
+
+</ul>
+<blockquote><p>特殊黑红树：23树所建立的黑红树（都为左倾红节点，在很多地方简化黑红树的复杂性，所以一般情况下的黑红树优先考虑23树）  </p>
+</blockquote>
+<p><strong>黑红树特性（官方特性）</strong>  </p>
+<ul>
+<li>节点颜色有黑有红（不是废话？）</li>
+<li>根节点必为黑色（感觉也是废话）  </li>
+<li>所有叶子节点都是黑色（实际情况下这种节点是空节点）  </li>
+<li><u>任意节点到叶子节点经过的黑色节点数目相同</u>  </li>
+
+</ul>
+<blockquote><p>在23树中，对应黑红树的黑红节点是同一层的，所以<mark>只有黑色节点在贡献高度</mark>，反应在黑红树中就是黑色完美平衡  </p>
+</blockquote>
+<ul>
+<li><u>不会有连续的红色节点</u>  </li>
+
+</ul>
+<p><strong>会产生以下效果：</strong></p>
+<ol start='' >
+<li>对于二叉树来说，进行查找插入删除的时间复杂度为O(logn)，但是不足以抵消维护AVL树的成本</li>
+<li>时间复杂度是基于树的高度来的，所以说理论上减少树的高度能低成本降低时间复杂度</li>
+<li>在结点中增加数据显然能降低树高，比如23树，理论上哪怕345678树，结点越高越省</li>
+<li>难点在于从代码层面上生成富数据结点树，于是将23树转化成黑红树</li>
+<li>黑红树具有和二叉树一样的结构，能以O(logn)的时间复杂度进行操作，任何不平衡只需三次旋转</li>
+
+</ol>
+<h3 id='插入时'>插入时  </h3>
+<p>黑红树将待插入节点涂成红色  </p>
+<hr />
+<blockquote><p>红色节点的意义：<strong>与父节点进行关联</strong>  </p>
+</blockquote>
+<p>若出现双红色子节点的情况（即4节点树的情况），黑红树需要在插入后进行调整  </p>
+<blockquote><p>即树的涂色与旋转  </p>
+</blockquote>
+<p>旋转与AVL树中“上提平衡”如出一辙，所以不再多言  </p>
+<hr />
+<p>先说统计结果（基于左旋黑红树）：  </p>
+<p>1、两红子节点,父节点染红，两子节点染黑  </p>
+<p>2、连续红节点，若出现与父节点同属性情况，则将三节点上提右旋，并使新父节点染红，再染黑子节点（与1出现交叉定义）  </p>
+<p>3、连续红节点，若出现与父节点反属性情况，则将两红连续节点左旋，再按照2处理  </p>
+<blockquote><p>类似结果在23树中有对应插入方式   </p>
+</blockquote>
+<h3 id='删除时'>删除时  </h3>
+<p>删除首要遵循的规则和二叉查找树通用的删除策略一样，即<font color=red>删除后用前驱节点/后继节点来填充</font>  </p>
+<p>删除结点导致的最大后果就是有可能改变了树的黑高，前面已经提到过黑红树一种维持黑色结点平衡的情况，所以说删除后的维护也同样重要。</p>
+<blockquote><p><font color=red>注意代码层面上作为叶子结点的空结点NULL视为<strong>黑色</strong></font></p>
+</blockquote>
+<p>这里分多种情况进行操作，设定要删除结点为v，删除后用来填充的结点为u</p>
+<p>先易后难，首先是比较简单的不会改变黑高的情况，那就是u或者v是红色  </p>
+<p><img src="https://pic3.zhimg.com/80/v2-f1a3cfafa40a6f318cd986f66ec46f2e_720w.webp"></p>
+<blockquote><p>直接将替换后的结点染回黑色</p>
+</blockquote>
+<p>然后是复杂的v和u都是黑色结点的情况了，这里会改变黑高，所以分多种情况表示</p>
+<h4 id='v和u都是黑色结点的复杂情况'>v和u都是黑色结点的复杂情况</h4>
+<h5 id='u是双黑结点且不是根结点'>u是双黑结点且不是根结点</h5>
+<p>先设定u的兄弟结点为s</p>
+<h6 id='s为黑且s的孩子结点至少有一个红色'>s为黑且s的孩子结点至少有一个红色</h6>
+<p>(1)s和红色子节点（或者孩子都是红色）按照“LL”排列</p>
+<p>将s的对应红色孩子染黑，然后右旋转（上提）</p>
+<p><img src="https://pic4.zhimg.com/80/v2-416be68c4157cd94e43cdfb500c54fff_720w.webp"></p>
+<blockquote><p>“双黑结点”即受到删除后待处理结点，处理完后变为单黑结点   “双黑”即占用两黑高位</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>(2)s和红色子节点（或者孩子都是红色）按照“LR”排列</p>
+<p>先将相应红色结点染红，然后小左旋，形成LL的情况</p>
+<p><img src="https://pic4.zhimg.com/80/v2-19dad08548b787afaa826397f88ac20b_720w.webp"></p>
+<p>然后和LL一样进行大右旋，平衡黑高</p>
+<p><img src="https://pic4.zhimg.com/80/v2-774dc52131cf37747220d34f91d26ed7_720w.webp"></p>
+<p>&nbsp;</p>
+<p>(3)s和红色子节点（或者孩子都是红色）按照“RR”排列</p>
+<p>和LL情况相对称,染完色后如图</p>
+<p><img src="https://pic4.zhimg.com/80/v2-00fdab4fb75ab1b00f1ea70f91b8c6ef_720w.webp"></p>
+<p>(4)s和红色子节点（或者孩子都是红色）按照“RL”排列</p>
+<p>和LR情况相对称，染完色后如图</p>
+<p><img src="https://pic2.zhimg.com/80/v2-2875d9253cf24677f8150e03c28d02b5_720w.webp"></p>
+<p><img src="https://pic1.zhimg.com/80/v2-74fc6b8d4b6031ea3257cd35e1f2a468_720w.webp"></p>
+<h6 id='s是黑色且s的两个孩子结点都是黑色'>s是黑色且s的两个孩子结点都是黑色</h6>
+<p>删除后首先将s染红，此时对于父节点来说这个子树达成黑色平衡，但对于整体树来说这个子树少了一树高，所以将父节点标记为双黑结点，即现在开始处理父节点，问题就向上转移向上递归了</p>
+<p><img src="https://pic1.zhimg.com/80/v2-667f142ff2a163ef587ac495bdb41e14_720w.webp"></p>
+<p>若爷爷结点仍然为黑，则把父节点当作问题结点按黑红树标准规则处理，若一直出现题中情况，则直到递归到红色结点停止（直接将该结点染红，则整体树达到黑红平衡！）</p>
+<p><img src="https://pic4.zhimg.com/80/v2-a79fce7413b19d1ae8d88d25988235ab_720w.webp"></p>
+<h6 id='s是红色结点'>s是红色结点</h6>
+<p>(1)s是父节点左孩子，对父节点进行右旋操作</p>
+<p><img src="https://pic1.zhimg.com/80/v2-09f86f5502a1259ae1029ee7699c0f38_720w.webp"></p>
+<blockquote><p>注意此时s结点改变对象</p>
+</blockquote>
+<p>发现双黑结点此时形成了 <strong>s 是黑色且 s 的两个孩子结点都是黑色</strong>的情况  </p>
+<p>那么直接作相应处理就好，而且父节点恰好就是红，可以不用递归</p>
+<p><img src="https://pic2.zhimg.com/80/v2-d7031957af29da4d3560ac1dc06d8a25_720w.webp"></p>
+<p>(2)s是父节点右孩子（和上面情况对称罢了）</p>
+<p><img src="https://pic4.zhimg.com/80/v2-8ed50fc431f825144b4650dfc66d5deb_720w.webp"></p>
+<p><img src="https://pic1.zhimg.com/80/v2-241bdb7fbf80e4762f2d8e0947728060_720w.webp"></p>
+<h5 id='u是双黑结点且为根结点'>u是双黑结点且为根结点</h5>
+<p>直接变单黑就行</p>
+</body>
+</html>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/28/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1400,7 +1592,7 @@ struct thread* next;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
