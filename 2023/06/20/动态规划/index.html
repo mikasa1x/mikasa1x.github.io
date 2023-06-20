@@ -21,16 +21,19 @@
   </script>
 
   <meta property="og:type" content="article">
-<meta property="og:title" content="操作系统初认识">
-<meta property="og:url" content="http://example.com/2023/05/28/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%88%9D%E8%AE%A4%E8%AF%86/index.html">
+<meta property="og:title" content="动态规划">
+<meta property="og:url" content="http://example.com/2023/06/20/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/index.html">
 <meta property="og:site_name" content="Coding中。。。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-05-28T13:26:19.000Z">
-<meta property="article:modified_time" content="2023-06-04T13:11:53.493Z">
+<meta property="og:image" content="https://s1.ax1x.com/2023/06/20/pC849eA.png">
+<meta property="og:image" content="https://s1.ax1x.com/2023/06/20/pC84AW8.png">
+<meta property="article:published_time" content="2023-06-20T14:08:03.000Z">
+<meta property="article:modified_time" content="2023-06-20T14:09:10.713Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2023/06/20/pC849eA.png">
 
-<link rel="canonical" href="http://example.com/2023/05/28/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%88%9D%E8%AE%A4%E8%AF%86/">
+<link rel="canonical" href="http://example.com/2023/06/20/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
 
 
 <script id="page-configurations">
@@ -43,7 +46,7 @@
   };
 </script>
 
-  <title>操作系统初认识 | Coding中。。。</title>
+  <title>动态规划 | Coding中。。。</title>
   
 
 
@@ -164,7 +167,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/28/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%88%9D%E8%AE%A4%E8%AF%86/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/20/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/333.jpg">
@@ -177,7 +180,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          操作系统初认识
+          动态规划
         </h1>
 
         <div class="post-meta">
@@ -186,23 +189,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2023-05-28 21:26:19" itemprop="dateCreated datePublished" datetime="2023-05-28T21:26:19+08:00">2023-05-28</time>
+              <time title="创建时间：2023-06-20 22:08:03 / 修改时间：22:09:10" itemprop="dateCreated datePublished" datetime="2023-06-20T22:08:03+08:00">2023-06-20</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-04 21:11:53" itemprop="dateModified" datetime="2023-06-04T21:11:53+08:00">2023-06-04</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
+                  <a href="/categories/%E7%AE%97%E6%B3%95%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">算法进阶</span></a>
                 </span>
             </span>
 
@@ -212,7 +209,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2k</span>
+              <span>2.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -238,128 +235,118 @@
 <title></title>
 </head>
 <span id="more"></span>
-<body><p>Blog搭建成功后写的第一篇文章，内容是b站王道考研操作系统笔记  </p>
-<p>目标是加更多的友链（看起来好像目的是建成一个Blog快捷打开器？）  </p>
-<p>以及写一些学习过程中走过的无数弯路，所以现在的Blog还不具有任何参考意义  </p>
-<p>此篇文章中<font color=red>红色</font>代表标重内容，<mark>黄底</mark>代表记忆内容</p>
-<h1 id='操作系统概念功能目标与特征'>操作系统概念功能目标与特征  </h1>
-<p>操作系统（Operating System，OS）是指<mark>控制和管理整个计算机系统的硬件和软件资源，并合理地组织调度计算机的工作和资源的分配</mark>，以<mark>提供给用户和其他软件方便的接口和环境</mark>，它是计算机系统中<mark>最基本的系统软件</mark>。  </p>
-<blockquote><p>画黄线方便答题分点  </p>
-</blockquote>
-<p>一些看起来似乎没什么用的名词解释。。</p>
-<hr />
-<p>命令接口：允许用户直接使用</p>
-<p>程序接口：允许用户通过程序间接使用（如dll文件，即系统调用）</p>
-<p>联机命令接口——交互式命令接口：说一句做一句（如cmd）</p>
-<p>脱机命令接口——批处理命令接口：说一堆做一堆（如bat）</p>
-<p>程序接口=系统调用=广义指令</p>
-<p>隔离:处于安全性和稳定性考虑，用户空间程序无法直接执行内核代码（例如：I/O 读写、创建新进程/线程），也无法访问内核数据，必须通过系统调用。</p>
-<p>没有任何软件支持的计算机称为“裸机”</p>
-<p>覆盖了软件的机器称为“扩充机器”或“虚拟机”  </p>
-<hr />
-<h2 id='操作系统的特征'>操作系统的特征  </h2>
-<ul>
-<li><p><strong>并发</strong>  </p>
-<blockquote><p>易混淆：并发与并行，前者<font color=red>宏观上同时发生</font>（用户看起来）微观上交替发生，后者表示多事件同时发生  </p>
-</blockquote>
-</li>
-<li><p><strong>共享</strong>:互斥共享方式（如不能同时用qq和微信的摄像头）、同时（宏观上）共享方式 </p>
-<blockquote><p>并发与共享：例子、如两程序同时使用（并发）硬盘资源（共享），所以说两者<font color=red>互为存在条件</font></p>
-<p>e.g</p>
-</blockquote>
-</li>
-<li><p><strong>虚拟</strong>：物理上的实体变为若干个逻辑上的对应物（用户感受到的）  </p>
-<blockquote><p>e.g.单核CPU同时处理多个软件（其实是微观上把时间分为多个小段分别处理）</p>
-<p>虚拟技术：空分复用技术（如虚存）、时分复用技术（如虚拟处理器）</p>
-<p>可得，没有<font color=red>并发性也没有虚拟性</font></p>
-</blockquote>
-</li>
-
-</ul>
-<ul>
-<li><strong>异步</strong>:资源有限，并发的程序执行速度不同不可预知（同样<font color=red>需要并发性</font>）</li>
-
-</ul>
-<h1 id='操作系统发展与分类'>操作系统发展与分类</h1>
+<body><h1 id='动态规划の一句话解释'>动态规划の一句话解释</h1>
+<p><font color=red>要点</font>：列出额外空间（通常是哈希表等）来储存计算后的结果，当再次遇到相同计算时直接查表，这样就能剩下大量重复计算的时间，是一种<mark>空间换时间</mark>的算法。</p>
+<p><font color=red>实现方法</font>：将待求解的问题分解成若干子问题，先求子问题的解，在反过来得出总问题的解。</p>
+<p><font color=red>实现步奏</font>：</p>
 <ol>
-<li>手工操作阶段：手工速度与机器速度的矛盾导致资源利用率低</li>
+<li>找出最优解的性质，并刻画其结构特征</li>
+<li>递归定义最优解</li>
+<li>以自底向上的方式计算最优解（求出最优值）</li>
+<li>构造最优解（求出最优解）</li>
 
 </ol>
+<h1 id='简单引入例'>简单引入例</h1>
+<p><strong>一列序列如下，找出最长的递增的子序列长度</strong>：</p>
+<p><strong>1，5，2，4，3</strong></p>
+<p>先用肉眼观察，最长的子序列应该是123或者124</p>
+<p>人脑子算起来很方便，对于处理这种简单数据，人脑会本能地自动对123这个顺序列“标记重点”，但对于机器他只能一个一个数去进行对比</p>
+<p>反正，最终得出的答案肯定是某个从第i个数开始到第j个数截止（那么肯定包括i和j）的从小到大的顺序列，所以直接定义从i开始到j的递归函数</p>
+<pre><code class='language-c++' lang='c++'>int L(nums,i)&#123;//定义输入操作数组本身和操作数i
+    if(i==sizeof(nums)) return 1;
+    int max_len=1;//最小为1，所以最大的长度为1
+
+<pre><code>    for(int j=i+1;j&amp;lt;sizeof(nums);j++)&#123;//重复检查i之后的所以数据
+
+    if(nums[j]&amp;gt;nums[i])&#123;//找到第一个符合条件的数
+
+            max_len=max(max_len,L(sizeof(nums),j)+1);
+            //将这个数设为操作数i并重新引用自身函数进行递归，找出下一个符合条件的数
+
+            &#125;
+
+    &#125;
+
+return max_len;//返回的就是下一个递归的i
+</code></pre>
+<p>}<br></code></pre></p>
+<p>上述函数的作用是给出从i开始的数组最长子序列，所以之后我们再将所有数i代入计算出最大的哪个数就是答案</p>
+<pre><code class='language-c++' lang='c++'>int length(nums)&#123;
+    int max_len=1;
+    for(int i=0;i&lt;sizeof(nums);i++)&#123;
+        max_len=max(L(nums,i),max_len);
+    &#125;
+    return max_len;
+&#125;
+</code></pre>
+<p>从上述函数可知，我们用L函数得出从i到后面所有数的“最优解”，再用length函数改变i的值，从而算出所有从i到j的<mark>所有</mark>结果！</p>
+<p>写算法确实爽，计算机开算CPU可能真得烧了，因为这两个函数叠一起时间复杂度竟到达了惊人的</p>
+<p><img src="https://s1.ax1x.com/2023/06/20/pC849eA.png"></p>
+<p><img src="https://s1.ax1x.com/2023/06/20/pC84AW8.png"></p>
+<p>这是一个非常恐怖的时间函数，以正常使用的计算机算法中，n^2已经算是比较缓慢的算法，而这个暴力拆解居然达到了恐怖的指数级！</p>
+<p>这个反常识的时间算法是怎么得出来的呢？从所有的i到所有的j的计算，计算机会尝试将所有的i和j给代入然后运算出来，意味着计算机会出现大量的重复计算，比如从第三个到第五个数的计算中包含从第三个数到第四个数的计算，但计算机计算第三个数到第四个数的时候，不会对计算结果进行记忆，还是会傻兮兮地再算一遍😂</p>
+<p><strong>那我们再通过人工干预让他记住计算结果呗</strong>，于是我们引入二维数组A【i】，用于记忆从i开始的最长长度。</p>
+<pre><code class='language-c++' lang='c++'>#int A[5];
+int L(nums,i)&#123;
+    #if(A[i]!=NULL)&#123;
+        return A[i];
+    &#125;
+    if(i==sizeof(nums)) return 1;
+    int max_len=1;
+
+<pre><code>    for(int j=i+1;j&amp;lt;sizeof(nums);j++)&#123;
+
+    if(nums[j]&amp;gt;nums[i])&#123;
+
+            max_len=max(max_len,L(sizeof(nums),j)+1);
+
+            &#125;
+
+    &#125;
+A[i]=max_len;
+
+return max_len;
+</code></pre>
+<p>}<br></code></pre></p>
+<blockquote><p>加#号为增添的代码</p>
+</blockquote>
+<hr />
+<p>由于递归对计算机的性能有较大要求，现再写一份非递归的</p>
+<pre><code class='language-c++' lang='c++'>int length(nums)&#123;
+    int n=sizeof(nums);
+    int L[5]=&#123;1,1,1,1,1&#125;;
+    for(int i=4;i&gt;0;i--)&#123;
+        for(int j=i-1;j&gt;0;j--)&#123;
+            if(nums[j]&gt;nums[i])&#123;
+                L[i]=max(L[i],L[j]+1);
+            &#125;
+        &#125;
+    &#125;
+    return *max_element(L,L+5);
+&#125;
+</code></pre>
+<hr />
+<p>非递归的算法显然地表示了时间复杂度为O（n^2）</p>
+<p><strong>以上例子，明显可以看出解出问题的结构是符合一般结构的</strong></p>
+<ol>
+<li>是某个数i到某个数j之间的顺序数列（数字特征，列出后可以用机器方式量化数据）</li>
+<li>递归法写出算法</li>
+<li>迭代法写出算法</li>
+
+</ol>
+<p>当然如果需要更详细的信息，则进行步奏4</p>
+<h1 id='基本要素以及01背包'>基本要素以及01背包</h1>
+<ol>
+<li><strong>最优子结构</strong></li>
+
+</ol>
+<p>在动态规划算法中，利用问题的最优子结构性质，以自底向上的方式递归地从子问题的最优解逐步构造出整个问题的最优解。在算法中，其子问题往往规模非常小，例如上例所说的“比大小”为最小算法层次，整个算法比了n^2次大小，则时间复杂度就为O（n^2）</p>
 <ol start='2' >
-<li><p>单道批处理阶段：引入“脱机输入/输出技术”，监督程序控制作业的输入、输出。矛盾略微缓解  </p>
-<p> 缺点：内存中只有一道程序运行，CPU大量时间在等待程序运行</p>
-</li>
+<li>重叠子问题</li>
 
 </ol>
-<ol start='3' >
-<li><p>多道批处理系统：程序并发，效率提高  </p>
-<p>缺点：没有人机交互功能</p>
-</li>
-
-</ol>
-<ol start='4' >
-<li><p>分时操作系统：以时间片为单位轮流为各个用户/作业服务。解决人机交互问题  </p>
-<p>缺点：不具有优先处理紧急问题的特性</p>
-</li>
-
-</ol>
-<ol start='5' >
-<li>实时操作系统：能优先响应一些紧急任务，要在严格的时限内处理完事件（<font color=red>及时性和可靠性</font>）</li>
-
-</ol>
-<blockquote><p>硬实时系统：导弹控制等</p>
-<p>软实时系统：火车订票等  </p>
-</blockquote>
-<h1 id='操作系统的运行机制与体系结构'>操作系统的运行机制与体系结构  </h1>
-<blockquote><p>指令是处理器能识别、执行的最基础命令  </p>
-</blockquote>
-<p>两种指令：</p>
-<p>1、特权指令：不允许用户程序使用（内存清零等）</p>
-<p>2、非特权指令：***（加法指令等）</p>
-<p>处理器状态（用标志位识别）：</p>
-<p>1、用户态</p>
-<p>2、核心态（特权指令与非特权指令）</p>
-<p>两种程序：</p>
-<p>1、内核程序</p>
-<p>2、应用程序</p>
-<p>两种内核：</p>
-<p>1、大内核：高性能，代码庞大结构混乱难以维护（小体量公司）</p>
-<p>2、微内核：与大内核相反（大体量公司的管理层）  </p>
-<h1 id='中断和异常'>中断和异常  </h1>
-<p>本质：需要操作系统介入，开展管理工作  </p>
-<p>过程：发生时，CPU立即进入核心态(只有 核心态能处理管理工作，也就是需要特权指令)-&gt;发生后，当前进程暂停，由操作系统进行后续处理-&gt;不同中断不同处理  </p>
-<p><mark>中断是“用户态”到“核心态”的唯一途径</mark>  </p>
-<p>核心态到用户态只需要改变程序状态字亦可（特权指令） </p>
-<h2 id='中断分类'>中断分类  </h2>
-<figure><table>
-<thead>
-<tr><th>&nbsp;</th><th>来源</th><th>包括</th></tr></thead>
-<tbody><tr><td>内中断</td><td>CPU内部</td><td>陷阱(如系统调用)、故障(如缺页)、终止(不可恢复的致命错误，如整数÷0)</td></tr><tr><td>外中断</td><td>CPU外部</td><td>I/O中断请求、人工干预</td></tr></tbody>
-</table></figure>
-<p>外中断过程： </p>
-<p>1、检查是否有外部中断信号  </p>
-<p>2、保护被中断的CPU环境（如PSW、计数器、寄存器）</p>
-<p>3、根据中断类型处理程序</p>
-<p>4、恢复原进程CPU环境退出中断，返回原进程继续执行  </p>
-<h1 id='系统调用'>系统调用</h1>
-<p>本质：应用程序请求操作系统的服务</p>
-<p>原因：系统中的各种共享资源都由操作系统掌管，所有与资源相关操作都由操作系统代为完成（另外：与资源有关还与特权指令相关）</p>
-<p>作用：保证系统的稳定性和安全性，防止非法操作  </p>
-<p>过程：传递系统调用参数-&gt;执行陷入指令（用户态）-&gt;执行系统调用程序（核心态）-&gt;返回用户程序  </p>
-<p>1、 陷入指令在用户态执行，之后马上引发内中断，CPU进入核心态</p>
-<p>2、 发出系统调用请求发生在用户态，而对系统调用相应处理在核心态进行</p>
-<p>3、 陷入指令是<font color=red>唯一一个</font>只能在用户态执行而不可在核心态执行的执行  </p>
-<p>分类：</p>
-<ul>
-<li><strong>进程控制</strong>（process control）</li>
-<li><strong>文件管理</strong>（file manipulation）</li>
-<li><strong>设备管理</strong>（device manipulation）</li>
-<li><strong>信息维护</strong>（information maintenance）</li>
-<li><strong>通信</strong>（communication）</li>
-<li><strong>保护</strong>（protection）</li>
-
-</ul>
-<p>其实就是涉及堆系统资源的管理、对进程的控制，需要执行<font color=red>特权指令</font>才能完成，因此系统调用的相关处理需要在<font color=red>核心态</font>下进行</p>
+<p>即反复重复计算的子问题只解一次，然后将解存入表格中。当再次需要解此子问题时，只需要用常数时间查看一下表格即可</p>
+<p>&nbsp;</p>
 </body>
 </html>
     </div>
@@ -376,13 +363,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/05/26/AVL%E6%A0%91/" rel="prev" title="AVL树">
-      <i class="fa fa-chevron-left"></i> AVL树
+    <a href="/2023/06/09/C-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%83%A8%E5%88%86/" rel="prev" title="C++程序设计阅读笔记面向对象部分">
+      <i class="fa fa-chevron-left"></i> C++程序设计阅读笔记面向对象部分
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/05/28/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" rel="next" title="进程与线程">
-      进程与线程 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -441,7 +425,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5%E5%8A%9F%E8%83%BD%E7%9B%AE%E6%A0%87%E4%B8%8E%E7%89%B9%E5%BE%81"><span class="nav-number">1.</span> <span class="nav-text">操作系统概念功能目标与特征  </span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%89%B9%E5%BE%81"><span class="nav-number">1.1.</span> <span class="nav-text">操作系统的特征  </span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B1%95%E4%B8%8E%E5%88%86%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">操作系统发展与分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">操作系统的运行机制与体系结构  </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AD%E6%96%AD%E5%92%8C%E5%BC%82%E5%B8%B8"><span class="nav-number">4.</span> <span class="nav-text">中断和异常  </span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E6%96%AD%E5%88%86%E7%B1%BB"><span class="nav-number">4.1.</span> <span class="nav-text">中断分类  </span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">系统调用</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E3%81%AE%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%A7%A3%E9%87%8A"><span class="nav-number">1.</span> <span class="nav-text">动态规划の一句话解释</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%BC%95%E5%85%A5%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">简单引入例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%A6%81%E7%B4%A0%E4%BB%A5%E5%8F%8A01%E8%83%8C%E5%8C%85"><span class="nav-number">3.</span> <span class="nav-text">基本要素以及01背包</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
