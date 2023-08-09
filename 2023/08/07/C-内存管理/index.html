@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="C++内存管理">
+<meta property="og:url" content="http://example.com/2023/08/07/C-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2023/08/06/pPA5Tz9.md.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2023/08/06/pPAItW4.md.jpg">
+<meta property="article:published_time" content="2023-08-06T17:34:20.000Z">
+<meta property="article:modified_time" content="2023-08-06T17:35:10.925Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2023/08/06/pPA5Tz9.md.jpg">
+
+<link rel="canonical" href="http://example.com/2023/08/07/C-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C++内存管理 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/07/C-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++内存管理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-07 01:34:20 / 修改时间：01:35:10" itemprop="dateCreated datePublished" datetime="2023-08-07T01:34:20+08:00">2023-08-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BB%8EC%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C开始的C++</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>C++内存分配方式</title>
+</head>
+<body><h1 id='内存分配方式'>内存分配方式</h1>
+<p>五大区：<mark><strong>栈、堆、自由存储区（内存池）、全局/静态存储区和常量存储区</strong></mark></p>
+<blockquote><p>以下地址空间由高到低</p>
+</blockquote>
+<ul>
+<li><strong>栈</strong>：函数局部变量、参数返回值等。使得局部变量生存周期就是申请到释放该段空间。由高到低增长，此外，采用先进后出的数据结构，由系统自行分配释放。</li>
+<li><strong>堆</strong>：由new控制的内存块，由delete释放，一般用于动态内存分配。由低到高增长，一般由程序员分配释放，不释放则由系统释放。</li>
+<li><strong>自由存储区（内存池）</strong>：由malloc分配的内存块，由free释放。</li>
+<li><strong>全局/静态存储区（数据段）</strong>：顾名思义存储全局变量与静态变量的地方，在C语言中，这块地方分为bss段与data段，分别代表未初始化的全局变量与已初始化的全局变量和静态变量。</li>
+<li><strong>常量存储区（text段）</strong>：也就是代码段，在内存中是属于“只读”，储存常量的地方。</li>
+
+</ul>
+<p>&nbsp;</p>
+<h1 id='区分堆与栈'>区分堆与栈</h1>
+<p>先上六大总结：</p>
+<ul>
+<li><strong><mark>管理方式不同</mark></strong></li>
+<li><strong><mark>空间大小不同</mark></strong></li>
+<li><strong><mark>能否产生碎片不同</mark></strong></li>
+<li><strong><mark>生长方向不同</mark></strong></li>
+<li><strong><mark>分配方式不同</mark></strong></li>
+<li><strong><mark>分配效率不同</mark></strong></li>
+
+</ul>
+<p>管理方式：栈由<strong>编译器控制管理</strong>；<strong>堆手动控制</strong>容易内存泄漏</p>
+<p>空间大小：堆内存非常大（几乎<strong>无限制</strong>）；而栈很小（<strong>有限制</strong>）</p>
+<p>碎片问题：堆的频繁new/delete操作使得它<strong>容易产生大量碎片</strong>；而栈由于先入后出的特性而<strong>不容易产生碎片</strong></p>
+<p>生长方向：堆向上（<strong>向高</strong>）增长；栈向下（<strong>向低</strong>）增长</p>
+<p>分配方式：堆是<strong>动态分配</strong>；栈<strong>既有动态(<code>alloca</code>)也有静态分配</strong>，且栈的动态分配由编译器释放</p>
+<blockquote><p>所有的静态分配都有编译器释放</p>
+</blockquote>
+<p>分配效率：栈效率更高。由于栈有专有的数据结构，有专门的指令进行操控，有专门的寄存器地址；而堆是函数库中的，在调用其空间时甚至需要用到调用算法等。</p>
+<pre><code class='language-c++' lang='c++'>//main.cpp
+int a = 0; 全局初始化区
+char *p1; 全局未初始化区
+main()
+&#123;
+    int b; 栈
+    char s[] = &quot;abc&quot;; 栈
+    char *p2; 栈
+    char *p3 = &quot;123456&quot;; 123456\0在常量区，p3在栈上。
+    static int c =0； 全局（静态）初始化区
+    p1 = (char *)malloc(10);
+    p2 = (char *)malloc(20);
+    分配得来得10和20字节的区域就在堆区。
+    strcpy(p1, &quot;123456&quot;); 123456\0放在常量区，编译器可能会将它与p3所指向的&quot;123456&quot;优化成一个地方。
+&#125;
+</code></pre>
+<h1 id='指针与数组'>指针与数组</h1>
+<p>实际上，指针与数组是两种截然不同的概念，但指针与数组在使用过程中相似的地方却经常会被弄混淆。</p>
+<p>数组是一块内存的表现形式，而数组名则对应着一块内存（指向数组首地址），内容是可改变的。</p>
+<p>指针是用于指向任意类型内存块的，经常用指针来操作动态内存，和数组“变内容”的特性不同，指针是“变指向”的。</p>
+<hr />
+<p>e.g1：</p>
+<pre><code class='language-c++' lang='c++'>char a[] = “hello”;
+a[0] = &#39;X’;
+cout &lt;&lt; a &lt;&lt; endl;
+char *p = “world”; // 注意p指向常量字符串
+p[0] = &#39;X’; // 编译器不能发现该错误
+cout &lt;&lt; p &lt;&lt; endl;
+</code></pre>
+<p>字符数组a的内容是hello，而a[0]的内容理所应当就是‘h’，由于数组可变内容，所以可以直接用<code>a[0]=&#39;X&#39;</code>来变化内容</p>
+<p>指针p指向的是常量字符串world，字符串的特征是变指向，此时p[0]也理所应当表示‘w’，<code>p[0]=&#39;X&#39;</code>对于编译器来说是没问题的，但是常量字符串不能改变内容（world就是world），所以这个操作其实是错误的</p>
+<hr />
+<p>e.g2:</p>
+<pre><code class='language-c++' lang='c++'>char a[] = &quot;hello world&quot;;
+char *p = a;
+cout&lt;&lt; sizeof(a) &lt;&lt; endl; // 12字节
+cout&lt;&lt; sizeof(p) &lt;&lt; endl; // 4字节
+</code></pre>
+<p>可以直接使用<code>sizeof</code>来计算出数组的容量，而C++没办法得知指针所指的内存容量，所以最终得出的是指针变量的字节数</p>
+<p>此外，使用函数传递数组后，数组的实质就变成同类型指针了</p>
+<pre><code class='language-c++' lang='c++'>void Func(char a[100])
+&#123;
+　cout&lt;&lt; sizeof(a) &lt;&lt; endl; // 4字节而不是100字节
+&#125;
+</code></pre>
+<hr />
+<p>&nbsp;</p>
+<h1 id='指针函数参数与内存'>指针，函数参数与内存</h1>
+<p>在学C语言指针的时候认识到</p>
+<pre><code class='language-c' lang='c'># include &lt;stdio.h&gt;
+void Swap(int *p, int *q);  //函数声明
+int main(void)
+&#123;
+    int i = 3, j = 5;
+    Swap(&amp;i, &amp;j);
+    printf(&quot;i = %d, j = %d\n&quot;, i, j);
+    return 0;
+&#125;
+void Swap(int *p, int *q)
+&#123;
+    int buf;
+    buf = *p;
+    *p = *q;
+    *q = buf;
+    return;
+&#125;
+</code></pre>
+<p>函数内指针是直接对内存单元进行操控的，传递了数据的地址，再顺藤摸瓜对本体进行操作。</p>
+<p>但是当这种效应利用在申请动态内存中时，比如说需要用函数建立链表结点之类，需要在函数内申请动态内存。</p>
+<pre><code class='language-c++' lang='c++'>void GetMemory(char *p, int num)
+&#123;
+　p = (char *)malloc(sizeof(char) * num);
+&#125;
+
+<p>void Test(void)<br>&#123;<br>　char *str &#x3D; NULL;<br>　GetMemory(str, 100); &#x2F;&#x2F; str 仍然为 NULL<br>　strcpy(str, &quot;hello&quot;); &#x2F;&#x2F; 运行错误<br>&#125;<br></code></pre></p>
+<p>在前面的例子中，传入函数的指针其实传递的是地址，在函数内用过取缔值*直接操作本体，而这个例子中在函数内是改变了参数本身的地址的，也就是说”p“传入函数中，即将”NULL“地址传入函数，但动态申请内存导致指针p所指向的地址发生改变了，所以实质就不是在操作str了，而是在操作p。</p>
+<p>除非用指向指针的指针来进行操作，这样一来相当于传入”指针的地址“（注意不是“指针所指的地址”），在函数体中对”指针的地址“取蒂值然后操作，就变成了直接对指针进行操作了。</p>
+<pre><code class='language-c++' lang='c++'>void GetMemory2(char **p, int num)
+&#123;
+　*p = (char *)malloc(sizeof(char) * num);
+&#125;
+
+<p>void Test2(void)<br>&#123;<br>　char *str &#x3D; NULL;<br>　GetMemory2(&amp;str, 100); &#x2F;&#x2F; 注意参数是 &amp;str，而不是str<br>　strcpy(str, &quot;hello&quot;);<br>　cout&lt;&lt; str &lt;&lt; endl;<br>　free(str);<br>&#125;<br></code></pre></p>
+<p>有一个更好的方法，那就是设置函数返回值类型为指针，然后返回函数指针。</p>
+<pre><code class='language-c++' lang='c++'>char *GetMemory3(int num)
+&#123;
+　char *p = (char *)malloc(sizeof(char) * num);
+　return p;
+&#125;
+
+<p>void Test3(void)<br>&#123;<br>　char *str &#x3D; NULL;<br>　str &#x3D; GetMemory3(100);<br>　strcpy(str, &quot;hello&quot;);<br>　cout&lt;&lt; str &lt;&lt; endl;<br>　free(str);<br>&#125;<br></code></pre></p>
+<p>这样一来p所指地址发生改变，但是这个改变的地址又传回了str，所以str指向的地址一致。</p>
+<p>上文提到栈内存在函数消亡时自动消亡，所以最好不要这样返回：</p>
+<pre><code class='language-c++' lang='c++'>char *GetString(void)
+&#123;
+　char p[] = &quot;hello world&quot;;
+　return p; // 编译器将提出警告
+&#125;
+
+<p>void Test4(void)<br>&#123;<br>　char *str &#x3D; NULL;<br>　str &#x3D; GetString(); &#x2F;&#x2F; str 的内容是垃圾<br>　cout&lt;&lt; str &lt;&lt; endl;<br>&#125;<br></code></pre></p>
+<p>p是局部变量，是储存在栈区内的，如果返回p的正常值，则正常返回；如果是局部变量的地址或者引用，则返回不出东西，因为返回出地址后变量值已经失效。</p>
+<p>上面的动态分配是储存在堆区内的，不手动free或者delete是释放不了内存的，所以函数结束时能保存内容。</p>
+<hr />
+<p>看了其他博主的解释，发现了个有点意思的代码（注意注释）</p>
+<pre><code class='language-c++' lang='c++'>#include&lt;iostream&gt;
+using namespace std;
+ 
+<p>int * func()<br>&#123;<br>    int a &#x3D; 10;<br>    return &amp;a;<br>&#125;</p>
+<p>int main()<br>&#123;<br>    int *p &#x3D; func();<br>    cout &lt;&lt; *p &lt;&lt; endl; &#x2F;&#x2F;第一次正常返回，因为编译器操碎了心，给数据做了一个保留<br>    cout &lt;&lt; *p &lt;&lt; endl; &#x2F;&#x2F;第二次结果错误，因为a的内存已经释放<br>    cout &lt;&lt; *p &lt;&lt; endl; &#x2F;&#x2F;结果仍然错误	<br>    return 0;<br> &#125;<br></code></pre></p>
+<p>为什么上面字符串值不保留呢，很神必</p>
+<hr />
+<p>&nbsp;</p>
+<h1 id='小心野指针'>小心野指针</h1>
+<ul>
+<li>最”常见“的野指针</li>
+
+</ul>
+<pre><code class='language-c++' lang='c++'>char *p;
+char *str;
+</code></pre>
+<pre><code class='language-c++' lang='c++'>char *p = NULL;
+char *str = (char *) malloc(100);
+</code></pre>
+<p>为初始化的指针会随便乱指，小心它撒野！</p>
+<ul>
+<li>最“暗淡“的野指针</li>
+
+</ul>
+<p>指针p被free或者delete之后，没有置为NULL，让人误以为p是个合法的指针。</p>
+<ul>
+<li>最”忽视”的野指针</li>
+
+</ul>
+<pre><code class='language-c++' lang='c++'>class A
+&#123;
+　public:
+　　void Func(void)&#123; cout &lt;&lt; “Func of class A” &lt;&lt; endl; &#125;
+&#125;;
+
+<p>void Test(void)<br>&#123;<br>　A *p;<br>　&#123;<br>　　A a;<br>　　p &#x3D; &amp;a; &#x2F;&#x2F; 注意 a 的生命期<br>　&#125;<br>　p-&gt;Func(); &#x2F;&#x2F; p是“野指针”<br>&#125;<br></code></pre></p>
+<p>&nbsp;</p>
+<blockquote><p>以上，就是C++内存管理的肤浅、初步、入门探索，<strong>健壮指针</strong>、<strong>资源管理</strong>is coming。。。。。。</p>
+</blockquote>
+<p>&nbsp;</p>
+<h1 id='内存泄漏'>内存泄漏</h1>
+<p>最接地气的解释就是：你用了malloc，用了new，结果没有free也没有delete掉，那么这段存在堆中的内存就被”孤立“了，就相当于拨款被”赃“了，导致了系统内存浪费使得程序运行效率降低。</p>
+<p><strong>如何避免内存泄漏呢</strong></p>
+<p>教科书式方法必然就是什么”良好编码习惯“”及时释放内存“云云。</p>
+<p><strong>有几种情况其实简介避免了内存泄漏</strong></p>
+<ul>
+<li>标准容器</li>
+
+</ul>
+<p>举这么一个例子：</p>
+<pre><code class='language-c++' lang='c++'>#include&lt;vector&gt;
+#include&lt;string&gt;
+#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+int main() // small program messing around with strings
+&#123;
+　cout &lt;&lt; &quot;enter some whitespace-separated words:&quot;n&quot;;
+　vector&lt;string&gt; v;
+　string s;
+　while (cin&gt;&gt;s) v.push_back(s);
+　sort(v.begin(),v.end());
+　string cat;
+　typedef vector&lt;string&gt;::const_iterator Iter;
+　for (Iter p = v.begin(); p!=v.end(); ++p) cat += *p+&quot;+&quot;;
+　cout &lt;&lt; cat &lt;&lt; ’&quot;n’;
+&#125;
+</code></pre>
+<p>假如没有<code>vector</code>和<code>string</code>这么个好东西，我们手动去malloc去分配去free，想象一下是一件多么恐怖的事情。</p>
+<p>这些容器不需要程序员去对装载内存进行操作，内存管理操作被它们隐藏在了库函数代码背后，这就避免了很多令人头疼的场面。</p>
+<p>在自己的程序当中，把所有相关内存管理都打包在相关资源控制库当中，也就是专人专事，避免在正常开发模式中去考虑这些歪瓜裂枣。</p>
+<ul>
+<li>资源句柄//太深入了了解就好//</li>
+<li>智能指针</li>
+
+</ul>
+<blockquote><ol start='' >
+<li><code>std::unique_ptr&lt;T&gt;</code> ：独占资源所有权的指针。</li>
+<li><code>std::shared_ptr&lt;T&gt;</code> ：共享资源所有权的指针。</li>
+<li><code>std::weak_ptr&lt;T&gt;</code> ：共享资源的观察者，需要和 std::shared_ptr 一起使用，不影响资源的生命周期。</li>
+
+</ol>
+</blockquote>
+<p>简单用例：</p>
+<pre><code class='language-c++' lang='c++'>&#123;
+    int* p = new int(100);
+    // ...
+    delete p;  // 要记得释放内存
+&#125;
+</code></pre>
+<pre><code class='language-c++' lang='c++'>&#123;
+    std::unique_ptr&lt;int&gt; uptr = std::make_unique&lt;int&gt;(200);
+    //...
+    // 离开 uptr 的作用域的时候自动释放内存
+&#125;
+</code></pre>
+<ul>
+<li>内存泄漏检测器等</li>
+
+</ul>
+<p>据说Smart Pointer技术比较成熟，但其实C++中应用一直不广泛，这点要和java学学</p>
+<p>&nbsp;</p>
+<h1 id='内存对齐'>内存对齐</h1>
+<p>直接上例子：</p>
+<pre><code class='language-c++' lang='c++'>//32位系统
+#include&lt;stdio.h&gt;
+struct&#123;
+    int x;
+    char y;
+&#125;s;
+
+<p>int main()<br>&#123;<br>    printf(&quot;%d\n&quot;,sizeof(s);  &#x2F;&#x2F; 输出8<br>    return 0;<br>&#125;<br></code></pre></p>
+<p>int类型大小为4byte，char类型大小为1byte，但作为结构体加一块变成了8byte。</p>
+<p>处理器一般会以某个数的倍数（2、4、8...）来取内存，内存对齐的意义就是方便计算机自个儿。</p>
+<p><strong>字节对齐规则</strong></p>
+<p>老规矩，编译器的活可以手动改的</p>
+<p><code>#pragma pack(n)</code> n取啥，啥就是编译器的对齐系数（VSC）</p>
+<blockquote><p>但是最终的有效对齐值是选择对齐系数与结构体中最大那个成员大小中的最小值胜任</p>
+</blockquote>
+<p><code>__attribute__</code>（GCC）</p>
+<p>具体规则：</p>
+<ul>
+<li>结构体第一个成员的<strong>偏移量（offset）</strong>为0，以后每个成员相对于结构体首地址的 offset 都是<strong>该成员大小与有效对齐值中较小那个</strong>的整数倍，如有需要编译器会在成员之间加上填充字节。</li>
+<li><strong>结构体的总大小</strong>为 有效对齐值 的<strong>整数倍</strong>，如有需要编译器会在最末一个成员之后加上填充字节。</li>
+
+</ul>
+<p>这两个规则分别阐述了内存对齐的操作位置，分别为<strong>结构体成员间</strong>，与<strong>结构体最后一成员后</strong>。</p>
+<p>下面用一系列struct例子保证给你解释清楚</p>
+<pre><code class='language-c++' lang='c++'>struct&#123;
+    int i;
+    char c1;
+    char c2;
+&#125;x1;//sizeof(x1)=8
+
+<p>struct&#123;<br>    char c1;<br>    int i;<br>    char c2;<br>&#125;x2;&#x2F;&#x2F;sizeof(x2)&#x3D;12</p>
+<p>struct&#123;<br>    char c1;<br>    char c2;<br>    int i;<br>&#125;x3;&#x2F;&#x2F;sizeof(x3)&#x3D;8<br></code></pre></p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pPA5Tz9'><img src="https://s1.ax1x.com/2023/08/06/pPA5Tz9.md.jpg" referrerpolicy="no-referrer" alt="pPA5Tz9.md.jpg"></a></p>
+<blockquote><p>结构体x1</p>
+</blockquote>
+<p><strong>首先看规则一</strong></p>
+<p>限制不了第一个成员，因为第一个成员offset就是0，从第二个成员开始根据char（1）或者有效对齐值（4）中最小为1，而偏移地址4可以除断1，所以可以直接存入，后面一个成员也是同样的道理，不需要空间对齐。</p>
+<p><strong>再看规则二</strong></p>
+<p>算出来struct大小为6，不是4的倍数，所以编译器在最后填充了两个空间凑成8（虚线部分）</p>
+<p>&nbsp;</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pPAItW4'><img src="https://s1.ax1x.com/2023/08/06/pPAItW4.md.jpg" referrerpolicy="no-referrer" alt="pPAItW4.md.jpg"></a></p>
+<blockquote><p>结构体x2</p>
+</blockquote>
+<p><strong>首先看规则一</strong></p>
+<p>老规矩第一个成员不管，直接从第二个开始，很容易得知int（4）最小只能选4，那么int成员从内存地址1开始往后推只能到4满足规则一，所以编译器从中补充3字节大小。</p>
+<p><strong>再看规则二</strong></p>
+<p>后续计算出9字节，不符合，于是填充到12字节</p>
+<p>&nbsp;</p>
+<blockquote><p>以上的例子只是初步了解了内存对齐的大致机制，而后的例子深挖细节与易错点</p>
+</blockquote>
+<p>首先是数组，如果结构体中带数组，则按照数组类型来进行内存对齐，即char a[3]等同于char a写三个。</p>
+<pre><code class='language-c++' lang='c++'>struct str2 &#123;
+    short c1[3];
+    char c2[5];
+    char c3[6];
+&#125;str2;//sizeof()结果为18
+</code></pre>
+<p>&nbsp;</p>
+<p><strong>数组细则</strong></p>
+<pre><code class='language-c++' lang='c++'>struct str3 &#123;
+    int c;
+    double t;
+    char c1[3];
+&#125;str3;//sizeof()结果为24
+
+<p>struct str4 &#123;<br>    double t;<br>    char c1[3];<br>    int c;<br>&#125;str4;&#x2F;&#x2F;sizeof()结果为16<br></code></pre></p>
+<p>以上两个结构体只是将顺序改变了一下，但是最终结果却天差地别。</p>
+<p>罪魁祸首在不同位置的偏移数与最终空间补齐上。</p>
+<p>str3首成员大小为4，在为第二个成员腾位置的时候要从第八个位置放（规则一），于是编译器补充了4字节，最终计算出的结果为19字节，但由于按照对齐有效值来看必须是8的倍数，所以结果为24。</p>
+<p>str4除了char后面要补充一个字节，全程几乎畅通无阻，最后算出来也是16。</p>
+<p>不过，如果在程序前加上<code>#pragma pack(4)</code>则两者的结果都会变回16。</p>
+<p>&nbsp;</p>
+<p><strong>空数组</strong></p>
+<pre><code class='language-c++' lang='c++'>struct str&#123;
+    char p;
+    int a;
+    int b[0];
+&#125;//sizeof = 8
+
+<p>struct str&#123;<br>    int b[0];<br>&#125;&#x2F;&#x2F;sizeof &#x3D; 4</p>
+<p>struct str&#123;</p>
+<p>&#125;&#x2F;&#x2F;sizeof &#x3D; 1<br></code></pre></p>
+<p>空数组在程序定义是非法的，只能在类或者结构体中定义，本身是不占空间的，只是一个指针指向一个位置。</p>
+<p>至于为什么中间那个结构体大小为4，我认为是编译器检测到空数组的类型为int，所以在结尾给他补充了四个字节大小，而不是空数组本身带给他的空间。</p>
+<p>最后一个存在一个大小为1字节，因为编译器至少需要一个空间来将不同结构体“认出来”，这个记住就好，而且这个值和编译器本身有关。</p>
+<blockquote><p>如果在空结构体中编入虚函数，则由于会生成虚函数表，所以会比1大一点</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>结构体对齐</strong></p>
+<p>如果有结构体嵌套结构体的情况，那么内部被嵌套的结构体计算对齐大小时按照它本身最大那个成员大小来计算</p>
+<pre><code class='language-c++' lang='c++'>struct pa
+&#123;
+   char a;
+   node b;
+&#125;
+sizeof(pa)=12
+//b的起始位置要是4的整倍数，因此要在a后补位，
+//b占8字节
+</code></pre>
+<p>&nbsp;</p>
+<p><strong>结构体(struct)和共同体(union)</strong></p>
+<p>结构体struct：把不同类型的数据组合成一个整体。struct里每个成员都有自己独立的地址。<code>sizeof(struct)</code>是内存对齐后所有成员长度的加和。（引申出<a target="_blank" rel="noopener" href='https://github.com/guaguaupup/cpp_interview/blob/main/C%2B%2B.md#说一说内存对齐'>内存对齐</a>的问题）</p>
+<p>共同体union：各成员共享一段内存空间, 一个union变量的长度等于各成员中最长的长度，以达到节省空间的目的。所谓的共享不是指把多个成员同时装入一个union变量内, 而是指该union变量可被赋予任一成员值,但每次只能赋一种值, 赋入新值则冲去旧值。<code>sizeof(union)</code>是最长的数据成员的长度。</p>
+<blockquote><p>总结： struct和union都是由多个不同的数据类型成员组成, 但在任何同一时刻, union中只存放了一个被选中的成员, 而struct的所有成员都存在。在struct中，各成员都占有自己的内存空间，它们是同时存在的。一个struct变量的总长度等于所有成员长度之和。<strong>在Union中，所有成员不能同时占用它的内存空间，它们不能同时存在。</strong>Union变量的长度等于最长的成员的长度。对于union的不同成员赋值, 将会对其它成员重写, 原来成员的值就不存在了, 而对于struct的不同成员赋值是互不影响的。</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1 id='malloc与new'>malloc与new</h1>
+<p><strong>malloc实现原理</strong></p>
+<p><code>malloc</code>函数是将可用内存块都链接成一个空闲链表，然后在调用的时候寻找一个满足用户条件或者接近满足用户条件的块，将这个块一分为二（一部分给用户，一部分剩下的链接回链表）。如果没找着那就动用<code>sbrk()</code>函数在堆里头划分新内存出来。</p>
+<blockquote><p>可见所谓”可用内存块“其实就是上文所提到的”<strong>自由储存区</strong>“，这个区靠近堆且性质和堆很像，动用<code>sbrk()</code>的时候就动用了栈区了</p>
+</blockquote>
+<p>另外，在空闲链表中寻找内存块的算法和操作系统中分区分配算法如出一辙</p>
+<p>如<strong>首次分配，下一次分配，最佳适配</strong>等。</p>
+<p>具体性质见//操作系统分区分配//</p>
+<p><strong>操作要点</strong></p>
+<p>原型函数：</p>
+<pre><code class='language-c++' lang='c++'>void * malloc(size_t size);
+</code></pre>
+<p>用malloc申请一块长度为length的整数类型的内存：</p>
+<pre><code class='language-c++' lang='c++'>int *p = (int *) malloc(sizeof(int) * length);
+</code></pre>
+<p>这里可以发现malloc的返回值其实是void*，所以要显式转换到我们需要的类型。</p>
+<p>后面的具体大小其实只看字节数的，不过为了防止出错，我们一般都用sizeof加类型这样的形式。</p>
+<p>&nbsp;</p>
+<p><strong>new实现原理</strong></p>
+<p>new，包括delete，其实最终都是调用malloc和free的。</p>
+<p>数据类型分为简单类型与复杂类型</p>
+<p>如果是简单类型（基本数据类型和不需要构造函数的类型），则调用<code>operator new</code>函数，核心如下：</p>
+<pre><code class='language-c++' lang='c++'> while ((p = malloc(size)) == 0)
+            if (_callnewh(size) == 0)
+            &#123;       // report no memory
+                    _THROW_NCEE(_XSTD bad_alloc, );
+            &#125;
+</code></pre>
+<p>malloc()调用失败则调用_callnewh()，再失败则返回bad_alloc异常。</p>
+<blockquote><p>这里是new和malloc区别之一，如果malloc异常则直接返回NULL</p>
+</blockquote>
+<p>如果是复杂类型，先调用 operator new()函数，然后在分配的内存上调用构造函数。</p>
+<p><strong>操作要点</strong></p>
+<pre><code class='language-c++' lang='c++'>int *p1 = (int *)malloc(sizeof(int) * length);
+int *p2 = new int[length];
+</code></pre>
+<p>new内置了sizeof、类型转换和类型安全检查功能。对于非内部数据类型的对象而言，new在创建动态对象的同时完成了初始化工作。</p>
+<p>创建对象数组</p>
+<pre><code class='language-c++' lang='c++'>Obj *objects = new Obj[100]; // 创建100个动态对象
+Obj *objects = new Obj[100](1);// **这样是错误的**创建100个动态对象的同时赋初值1
+</code></pre>
+<p>delete</p>
+<pre><code class='language-c++' lang='c++'>delete []objects; // 正确的用法
+delete objects; // 错误的用法
+</code></pre>
+<p>&nbsp;</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/01/string%E7%B1%BB%E6%96%B9%E6%B3%95/" rel="prev" title="string类方法">
+      <i class="fa fa-chevron-left"></i> string类方法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E5%8F%91%E5%B1%95%E5%8F%B2/" rel="next" title="腾讯课堂——电子游戏发展史">
+      腾讯课堂——电子游戏发展史 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E6%96%B9%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">内存分配方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8C%BA%E5%88%86%E5%A0%86%E4%B8%8E%E6%A0%88"><span class="nav-number">2.</span> <span class="nav-text">区分堆与栈</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84"><span class="nav-number">3.</span> <span class="nav-text">指针与数组</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E4%B8%8E%E5%86%85%E5%AD%98"><span class="nav-number">4.</span> <span class="nav-text">指针，函数参数与内存</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%8F%E5%BF%83%E9%87%8E%E6%8C%87%E9%92%88"><span class="nav-number">5.</span> <span class="nav-text">小心野指针</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="nav-number">6.</span> <span class="nav-text">内存泄漏</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90"><span class="nav-number">7.</span> <span class="nav-text">内存对齐</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#malloc%E4%B8%8Enew"><span class="nav-number">8.</span> <span class="nav-text">malloc与new</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/%E7%A9%BA%E9%97%B4%E5%8F%98%E6%8D%A2/" title="2023&#x2F;08&#x2F;09&#x2F;空间变换&#x2F;">空间变换</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/KMP%E7%AE%97%E6%B3%95/" title="2023&#x2F;08&#x2F;09&#x2F;KMP算法&#x2F;">KMP算法</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9C%AC%E8%B4%A8%E4%B8%8E%E6%8A%80%E5%B7%A7/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——游戏设计本质与技巧&#x2F;">腾讯课堂——游戏设计本质与技巧</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B5%85%E8%BF%B0%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——浅述游戏策划&#x2F;">腾讯课堂——浅述游戏策划</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E5%8F%91%E5%B1%95%E5%8F%B2/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——电子游戏发展史&#x2F;">腾讯课堂——电子游戏发展史</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '73ea5ffe5086c080a56f6bba0e53564f6676719d',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '68b62cbe6122629c551e55d511f824c5',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

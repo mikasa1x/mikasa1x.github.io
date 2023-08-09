@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="从机器码到高级语言1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++程序设计阅读笔记面向对象部分">
+<meta property="og:url" content="http://example.com/2023/06/09/C-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%83%A8%E5%88%86/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:description" content="从机器码到高级语言1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2023/06/09/pCEYqT1.png">
+<meta property="og:image" content="https://s1.ax1x.com/2023/06/09/pCEtnXQ.png">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-5c90fb7d61f43c448424948045aee6a1_720w.webp">
+<meta property="og:image" content="https://s1.ax1x.com/2023/06/09/pCEde5n.png">
+<meta property="og:image" content="https://s1.ax1x.com/2023/06/10/pCV8kcQ.png">
+<meta property="article:published_time" content="2023-06-09T15:50:53.000Z">
+<meta property="article:modified_time" content="2023-06-11T16:20:07.997Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2023/06/09/pCEYqT1.png">
+
+<link rel="canonical" href="http://example.com/2023/06/09/C-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%83%A8%E5%88%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C++程序设计阅读笔记面向对象部分 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/09/C-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%83%A8%E5%88%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++程序设计阅读笔记面向对象部分
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-06-09 23:50:53" itemprop="dateCreated datePublished" datetime="2023-06-09T23:50:53+08:00">2023-06-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-12 00:20:07" itemprop="dateModified" datetime="2023-06-12T00:20:07+08:00">2023-06-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BB%8EC%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C开始的C++</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>从机器码到高级语言1</title>
+</head>
+<span id="more"></span>
+<body><h1 id='从机器码到高级语言'>从机器码到高级语言</h1>
+<p>所谓对象，有一句程序员喜欢说的经典的一句话”一切皆对象“，换句话说，生活中处理的几乎一切都是对”对象“来处理的。对于程序来说，这样一个”对象“包含了唯一的身份、状态和行为，在代码中的具体表现就是<code>class</code>类</p>
+<blockquote><p>一个对象的状态表现为数据域以及当前值，一个对象的行为由一组函数定义</p>
+</blockquote>
+<p>一个程序本身，其实都是调用一个个对象和封装一个个对象的结果。可以肯定的是，对象从不同的视角来看是不一样的。</p>
+<p><img src="https://s1.ax1x.com/2023/06/09/pCEYqT1.png"></p>
+<p>只要长了眼睛就知道Mk2是由两个风扇和一个操纵杆组成，不过第一次建造时，需要一定的手法、</p>
+<p><img src="https://s1.ax1x.com/2023/06/09/pCEtnXQ.png"></p>
+<p>但如果使用究极手的话，Mk2在林克眼里就是9块左纳尼乌姆</p>
+<p>所以说同样一个对象，在不同视角下是不一样的；用更专业的术语来说，那就是<font color=red>一个对象就是类的一个实例</font>。进一步讲，我们可以创建一个类的多个实例，<mark>创建一个实例称为<strong>实例化</strong></mark>，这样说可能有点抽象，那么我们继续拿Mk2来举例子，class定义Mk2是这么一个东西，我们可以用究极手的蓝图功能将它复刻，而且我们可以用很多个左纳尼乌姆来量产很多台Mk2，这就是对class的实例化。</p>
+<p>不过这样解释还是片面了点，更深入地说，如果class将Mk2定义为“必须要用操纵杆”（这里可以将这个设定比喻成<strong>构造函数</strong>，不过这一点我们后面再讲），那么理论上如果讲两个小风扇换成大螺旋桨，这个东西和纯粹用究极手复制出来的Mk2不太一样，但也可以说是Mk2的一个“实例”。</p>
+<p>同样的，在原Mk2的基础上，如果我们能加装一个灯，我们就可以用它来探索地底；如果我们能加装几门炮，那么Mk2瞬间变为战斗飞艇。这里可以引申出面向对象的另一个特点，那就是<strong>多态</strong>，牵扯到父类与子类等，不过这些具体的我们也放在后面讲。</p>
+<p>我们现在聊聊面向对象的语言层面上的内容。</p>
+<hr />
+<p>前面提到了对象在不同视角上表现是不同的，那么一个程序对于机器与对于程序员来说也不太一样。</p>
+<p><img src="https://pic2.zhimg.com/80/v2-5c90fb7d61f43c448424948045aee6a1_720w.webp"></p>
+<blockquote><p>图片出自知乎@herb.dr</p>
+</blockquote>
+<p>汇编语言的机器码是机器认得的语言，所有程序在机器眼里就是这么一串0101代码。直接将机器码初步翻译，比如翻译成<code>mov</code>这个基础转移关键字，这是至少程序员能看懂的语言</p>
+<p>但是汇编语言对于程序员来说还是太麻烦了，一个hello world就能让操作寄存器</p>
+<pre><code class='language-asm' lang='asm'>DATA SEGMENT  
+    BUF DB &#39;HELLO WORLD!  THIS IS MY FIRST ASM FILE! $&#39;  
+DATA ENDS  
+
+<p>CODE SEGMENT<br>    ASSUME  CS:CODE,DS:DATA<br>START:<br>    MOV AX,DATA<br>    MOV DS,AX  </p>
+<pre><code>LEA DX,BUF  
+
+MOV AH,09H
+INT 21H  
+
+MOV AH,4CH  
+INT 21H  
+</code></pre>
+<p>CODE ENDS<br>END START  </p>
+<p></code></pre></p>
+<p>作为一个面向机器的语言，很难从其代码上理解程序设计意图，设计出来的程序不易被移植，所以理所当然的不被广泛使用。当然，作为最“底层”的代码，汇编语言通常在驱动程序、嵌入式操作等有很大应用</p>
+<p>所以，C语言的发明是里程碑式的</p>
+<pre><code class='language-c' lang='c'>#include &lt;stdio.h&gt;
+int main() 
+&#123;
+    printf(&quot;Hello World!&quot;);   
+    return 0;
+&#125;
+</code></pre>
+<p>简化版的helloworld十分符合人的口味儿，不仅编写简单，程序员需要处理的对象也变为了数据与算法。C语言可以看成直接对机器指令的各种调度，比如我们如果要写一个围棋程序，那么我们第一个要做的事情就是首先建立棋盘，可能要先调度图形库画出一个十九路棋盘，然后让玩家1下子，下子后要判断胜负，所以在程序中的这个阶段要引用判断胜负的函数，之后轮到玩家2下子，然后继续判断胜负，由此循环，可能还要建立for循环之类，最终在能判断出一场对局的胜负后结束程序，这就是一个很典型的<strong>面向过程的编程方式</strong></p>
+<p>我们需要发明出更符合人口味的编程方式以及编程语言，毕竟很多程序没上面说的这么简单。比如我们要正经写一个围棋游戏，那我们可能得编写账户登录程序，这儿好歹还能继续用面向过程强行编写。和水平相差太大的玩家下没意思，我们可能还需要增加排位机制和匹配机制；高水平的对局很吸引人，所以我们可能需要增加直播机制和录像机制；围棋下累了想娱乐一下，那么我们可能需要增加五子棋模式……这样程序立马就变得十分复杂了，继续使用面向过程方式，程序就会产生各种冲突和bug，屎山代码会越积越多。</p>
+<p>C++与C相比一个最大的特点就是实现<strong>面向对象编程</strong>，C++可以同时支持面向对象和面向过程编程，而更偏应用化的C#则只支持面向对象编程。</p>
+<pre><code class='language-c++' lang='c++'>class user&#123;
+public:
+   std::string name;
+   int grade
+   void introduction()&#123;
+      std::cout&lt;&lt;&quot;Hello,Nice to play chess with you&quot;&lt;&lt;std::endl;
+   &#125;
+&#125;;
+</code></pre>
+<p>这是一个简单的账号类，包括名字与段位分数以及“签名”这个简单函数，这个在人的视角中最容易理解的程序，继续拿围棋程序举例，如果使用面向对象编程，我们可以实例化这个类在建立一个个账户，也可以派生在增加账户内功能；同样，我们也可以建立棋盘类，甚至棋子类，规则类等等等等，这样的程序在人眼中是很清晰的。</p>
+<p><mark>可以说面向对象编程就是将数据和算法结合的</mark></p>
+<p>一张图,简明的表达出面向对象的历史渊源</p>
+<p><img src="https://s1.ax1x.com/2023/06/09/pCEde5n.png"></p>
+<blockquote><p>图片来源b站@---杨同学---</p>
+</blockquote>
+<h1 id='uml类图'>UML类图</h1>
+<p>设定类和对象的关系的时候，我们可以用UML类图将其标准化</p>
+<p>类图主要作用是用来显示系统中的类、接口以及它们之间的静态结构和关系的一种静态模型。</p>
+<p><strong>数据域表示如下</strong>：</p>
+<p>dataFieldName：dataFieldType</p>
+<p><strong>构造函数表示如下</strong>：</p>
+<p>ClassName（parameterName：parameterType）</p>
+<p><strong>函数表示如下</strong>：</p>
+<p>functionName（parameterName：parameterType）：returnType</p>
+<p><img src="https://s1.ax1x.com/2023/06/10/pCV8kcQ.png"></p>
+<ul>
+<li>“+”表示<code>public</code></li>
+<li>“-”表示<code>private</code></li>
+<li>“#”表示<code>protected</code></li>
+<li>不带符号表示<code>default</code></li>
+
+</ul>
+<blockquote><p>若表示抽象类，则名称改为<em>斜体</em></p>
+</blockquote>
+<p>//接口UML图、包UML图、关系UML图is coming。。。//</p>
+<h1 id='构造函数'>构造函数</h1>
+<p><mark>通过调用构造函数来创建对象</mark></p>
+<ul>
+<li>构造函数的名字必须与类名相同</li>
+<li>构造函数没有返回类型——即使返回void也不可以</li>
+<li>在创建对象时，构造函数被调用，它的作用就是初始化对象</li>
+
+</ul>
+<blockquote><p>《C++程序设计》中的原话定义</p>
+</blockquote>
+<p>值得一提，构造函数如果给予void等返回值，编译器会报错，或者把它当成一个普通函数。笔者在初学C++面向编程时，经常会因为没想起”构造函数“这个概念而对没有返回值的同名函数感到疑惑。</p>
+<p>我们在创造对象时，一般需要对对象赋初始值，比如写围棋程序时假设需要为双方分别给100个棋子，这是每局比赛必要的条件，在创建对象之后再重新赋值显得十分繁琐，就好像选手上场后，先每人给一个小碟子，然后再每人在小碟子里倒50个棋子，还不如直接每人给一个带有50个棋子的小碟子来地简单。</p>
+<p>这就是构造函数的主要目的，从另一个角度上看，构造函数也是一种对类的宣言。构造函数一旦被定义，意味着所有对象肯定要按照这个条件来，就好像建国需要先立宪法，国家运作要按照宪法来，当然宪法可以后天更改，就好像构造函数作用过后也可以单独为对象单独调用另外的函数来调整数据域。</p>
+<blockquote><p>作为类成员，直接在声明里初始化是错误的！尽管作为一个函数声明的同时初始化变量看起来是多么正常！</p>
+</blockquote>
+<p><strong>默认构造函数/缺省构造函数</strong>（default constructor）</p>
+<p>构造函数是必要的，你甚至可以直接声明一个构造函数但不做任何事！</p>
+<pre><code class='language-c++' lang='c++'>Circle()&#123;&#125;
+</code></pre>
+<p>哪怕不声明构造函数，或者说忘记声明构造函数了，编译器也会自动提供默认构造函数</p>
+<p>在《C++程序设计》这本书中，对默认构造函数的描述是：只有当程序员没有在类中显式地声明构造函数时</p>
+<p>根据这个原则，下面2种构造函数都是默认构造函数：</p>
+<pre><code class='language-c++' lang='c++'>class Sample &#123;
+public:
+    // 默认构造函数。
+    Sample() &#123;
+        // do something
+    &#125;
+&#125;;
+
+<p>class Sample &#123;<br>public:<br>    &#x2F;&#x2F; 默认构造函数。虽然有形参，但有默认值，调用的时候可以不显示的传入实参。<br>    Sample(int m &#x3D; 10) &#123;<br>        &#x2F;&#x2F; do something<br>    &#125;<br>&#125;;<br></code></pre></p>
+<blockquote><p>书中提到了另一个赋初值的方法：<strong>初始化列表法</strong>适用于对象的数据域没有无参构造函数时</p>
+<p>ClassName(parameterList)</p>
+<p>:datafield1(value1),datafield2(value2)</p>
+<p>{}</p>
+</blockquote>
+<p>//对象的具体使用方法略，这点十分基础简单，实在不行翻翻文档</p>
+<p>不过可以说说一些小细节</p>
+<ul>
+<li>circle2=circle1；实现对象间内容复制，1的数据域内容被复制到2中</li>
+<li>一个对象的大小不看其函数，因为函数存储在类中，对象共享</li>
+<li>如果一个对象只使用一次，则可以用<code>ClassName()</code>语法创建一个匿名对象，带括号的匿名对象满足大部分一般对象的功能（可能我一般用不到，但看别人代码的时候忽视这一点又会很浪费时间）</li>
+
+</ul>
+<h1 id='类定义和类实现的分离'>类定义和类实现的分离</h1>
+<p>和C程序写函数文件一样，类也会将其实现与定义分开，就像函数的声明的定义，最傻瓜的区分方式就是声明文件直接接<code>;</code></p>
+<p>二元作用域解析运算符<code>::</code>用于指明类的作用范围</p>
+<p>例如下为例类实现</p>
+<pre><code class='language-c++' lang='c++'>Circle::Circle()
+&#123;
+  radius=1;
+&#125;
+Circle::Circle（double newRadius）
+&#123;
+  radius=newRadius；
+&#125;
+double Circle::getArea（）
+&#123;
+  return radius*radius*3.14;
+&#125;
+</code></pre>
+<ul>
+<li>这种方式可以方便保护软件工作者的知识产权，比如只提供头文件和类，隐藏类的实现就相当于“祖传秘方”</li>
+
+</ul>
+<ul>
+<li>类定义用于提供给客户程序，如果客户有需求更改条件，则只需更改实现，客户程序不需要更改</li>
+
+</ul>
+<p>这种将类定义和实现分开的方式，其实就是<font color=red>类抽象</font></p>
+<p>抽象后的类的具体实现是隐藏的，这就是<font color=red>类封装</font></p>
+<h1 id='数据域的封装'>数据域的封装</h1>
+<p>一个非常常用的功能，类数据域的内容通常由类本身的函数来改变，有时候也会由其他类函数改变，也甚至可能直接被客户程序改变<code>circle1.radius=5</code>。</p>
+<p>问题来了，如果该变量非常重要，关乎程序整体生态的，比如说在一个已经写好的程序中，需要增加一个对某变量÷的操作，那么这个变量肯定不能为0了。这个变量的赋值都是由类函数进行，假设理论上不会出现0的情况，那么这个操作相对来说是安全的。这个时候谁家小孩直接在自己的操作界面加了句<code>circle1.radius=0</code>，那么恭喜程序直接崩溃。</p>
+<p><mark>直接让类以外的操作对类本身数据域进行操作是危险的</mark>，这个时候我们需要用到<code>private</code>关键字,对数据域进行保护，这样类以外的操作就不会对所属数据发生改变，甚至连访问都是不被允许的</p>
+<p>相对的，允许改变的使用<code>public</code>关键字</p>
+<blockquote><p>引言：如果需要对private成分进行访问或者修改，则可以使用get与set函数</p>
+</blockquote>
+<p>//略变量作用域</p>
+<hr />
+<p>到这里为止，就能对面向对象编程有一个基本的认识了，不过要对面向编程有更深入的了解还是要具体实操，接下来会继续针对面向对象思想深入了解string类等进阶操作</p>
+<p>&nbsp;</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/06/09/C-%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/" rel="prev" title="C#理论基础">
+      <i class="fa fa-chevron-left"></i> C#理论基础
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/06/20/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="next" title="动态规划">
+      动态规划 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8E%E6%9C%BA%E5%99%A8%E7%A0%81%E5%88%B0%E9%AB%98%E7%BA%A7%E8%AF%AD%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">从机器码到高级语言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#uml%E7%B1%BB%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">UML类图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%AE%9A%E4%B9%89%E5%92%8C%E7%B1%BB%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%88%86%E7%A6%BB"><span class="nav-number">4.</span> <span class="nav-text">类定义和类实现的分离</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%9F%9F%E7%9A%84%E5%B0%81%E8%A3%85"><span class="nav-number">5.</span> <span class="nav-text">数据域的封装</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/%E7%A9%BA%E9%97%B4%E5%8F%98%E6%8D%A2/" title="2023&#x2F;08&#x2F;09&#x2F;空间变换&#x2F;">空间变换</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/KMP%E7%AE%97%E6%B3%95/" title="2023&#x2F;08&#x2F;09&#x2F;KMP算法&#x2F;">KMP算法</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9C%AC%E8%B4%A8%E4%B8%8E%E6%8A%80%E5%B7%A7/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——游戏设计本质与技巧&#x2F;">腾讯课堂——游戏设计本质与技巧</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B5%85%E8%BF%B0%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——浅述游戏策划&#x2F;">腾讯课堂——浅述游戏策划</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E5%8F%91%E5%B1%95%E5%8F%B2/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——电子游戏发展史&#x2F;">腾讯课堂——电子游戏发展史</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '73ea5ffe5086c080a56f6bba0e53564f6676719d',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '0203974c1a088c4c011e408c3c3becab',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

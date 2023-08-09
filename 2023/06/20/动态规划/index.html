@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="动态规划">
+<meta property="og:url" content="http://example.com/2023/06/20/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2023/06/20/pC849eA.png">
+<meta property="og:image" content="https://s1.ax1x.com/2023/06/20/pC84AW8.png">
+<meta property="article:published_time" content="2023-06-20T14:08:03.000Z">
+<meta property="article:modified_time" content="2023-06-20T14:09:10.713Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2023/06/20/pC849eA.png">
+
+<link rel="canonical" href="http://example.com/2023/06/20/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>动态规划 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/20/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          动态规划
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-06-20 22:08:03 / 修改时间：22:09:10" itemprop="dateCreated datePublished" datetime="2023-06-20T22:08:03+08:00">2023-06-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">算法进阶</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title></title>
+</head>
+<span id="more"></span>
+<body><h1 id='动态规划の一句话解释'>动态规划の一句话解释</h1>
+<p><font color=red>要点</font>：列出额外空间（通常是哈希表等）来储存计算后的结果，当再次遇到相同计算时直接查表，这样就能剩下大量重复计算的时间，是一种<mark>空间换时间</mark>的算法。</p>
+<p><font color=red>实现方法</font>：将待求解的问题分解成若干子问题，先求子问题的解，在反过来得出总问题的解。</p>
+<p><font color=red>实现步奏</font>：</p>
+<ol>
+<li>找出最优解的性质，并刻画其结构特征</li>
+<li>递归定义最优解</li>
+<li>以自底向上的方式计算最优解（求出最优值）</li>
+<li>构造最优解（求出最优解）</li>
+
+</ol>
+<h1 id='简单引入例'>简单引入例</h1>
+<p><strong>一列序列如下，找出最长的递增的子序列长度</strong>：</p>
+<p><strong>1，5，2，4，3</strong></p>
+<p>先用肉眼观察，最长的子序列应该是123或者124</p>
+<p>人脑子算起来很方便，对于处理这种简单数据，人脑会本能地自动对123这个顺序列“标记重点”，但对于机器他只能一个一个数去进行对比</p>
+<p>反正，最终得出的答案肯定是某个从第i个数开始到第j个数截止（那么肯定包括i和j）的从小到大的顺序列，所以直接定义从i开始到j的递归函数</p>
+<pre><code class='language-c++' lang='c++'>int L(nums,i)&#123;//定义输入操作数组本身和操作数i
+    if(i==sizeof(nums)) return 1;
+    int max_len=1;//最小为1，所以最大的长度为1
+
+<pre><code>    for(int j=i+1;j&amp;lt;sizeof(nums);j++)&#123;//重复检查i之后的所以数据
+
+    if(nums[j]&amp;gt;nums[i])&#123;//找到第一个符合条件的数
+
+            max_len=max(max_len,L(sizeof(nums),j)+1);
+            //将这个数设为操作数i并重新引用自身函数进行递归，找出下一个符合条件的数
+
+            &#125;
+
+    &#125;
+
+return max_len;//返回的就是下一个递归的i
+</code></pre>
+<p>}<br></code></pre></p>
+<p>上述函数的作用是给出从i开始的数组最长子序列，所以之后我们再将所有数i代入计算出最大的哪个数就是答案</p>
+<pre><code class='language-c++' lang='c++'>int length(nums)&#123;
+    int max_len=1;
+    for(int i=0;i&lt;sizeof(nums);i++)&#123;
+        max_len=max(L(nums,i),max_len);
+    &#125;
+    return max_len;
+&#125;
+</code></pre>
+<p>从上述函数可知，我们用L函数得出从i到后面所有数的“最优解”，再用length函数改变i的值，从而算出所有从i到j的<mark>所有</mark>结果！</p>
+<p>写算法确实爽，计算机开算CPU可能真得烧了，因为这两个函数叠一起时间复杂度竟到达了惊人的</p>
+<p><img src="https://s1.ax1x.com/2023/06/20/pC849eA.png"></p>
+<p><img src="https://s1.ax1x.com/2023/06/20/pC84AW8.png"></p>
+<p>这是一个非常恐怖的时间函数，以正常使用的计算机算法中，n^2已经算是比较缓慢的算法，而这个暴力拆解居然达到了恐怖的指数级！</p>
+<p>这个反常识的时间算法是怎么得出来的呢？从所有的i到所有的j的计算，计算机会尝试将所有的i和j给代入然后运算出来，意味着计算机会出现大量的重复计算，比如从第三个到第五个数的计算中包含从第三个数到第四个数的计算，但计算机计算第三个数到第四个数的时候，不会对计算结果进行记忆，还是会傻兮兮地再算一遍😂</p>
+<p><strong>那我们再通过人工干预让他记住计算结果呗</strong>，于是我们引入二维数组A【i】，用于记忆从i开始的最长长度。</p>
+<pre><code class='language-c++' lang='c++'>#int A[5];
+int L(nums,i)&#123;
+    #if(A[i]!=NULL)&#123;
+        return A[i];
+    &#125;
+    if(i==sizeof(nums)) return 1;
+    int max_len=1;
+
+<pre><code>    for(int j=i+1;j&amp;lt;sizeof(nums);j++)&#123;
+
+    if(nums[j]&amp;gt;nums[i])&#123;
+
+            max_len=max(max_len,L(sizeof(nums),j)+1);
+
+            &#125;
+
+    &#125;
+A[i]=max_len;
+
+return max_len;
+</code></pre>
+<p>}<br></code></pre></p>
+<blockquote><p>加#号为增添的代码</p>
+</blockquote>
+<hr />
+<p>由于递归对计算机的性能有较大要求，现再写一份非递归的</p>
+<pre><code class='language-c++' lang='c++'>int length(nums)&#123;
+    int n=sizeof(nums);
+    int L[5]=&#123;1,1,1,1,1&#125;;
+    for(int i=4;i&gt;0;i--)&#123;
+        for(int j=i-1;j&gt;0;j--)&#123;
+            if(nums[j]&gt;nums[i])&#123;
+                L[i]=max(L[i],L[j]+1);
+            &#125;
+        &#125;
+    &#125;
+    return *max_element(L,L+5);
+&#125;
+</code></pre>
+<hr />
+<p>非递归的算法显然地表示了时间复杂度为O（n^2）</p>
+<p><strong>以上例子，明显可以看出解出问题的结构是符合一般结构的</strong></p>
+<ol>
+<li>是某个数i到某个数j之间的顺序数列（数字特征，列出后可以用机器方式量化数据）</li>
+<li>递归法写出算法</li>
+<li>迭代法写出算法</li>
+
+</ol>
+<p>当然如果需要更详细的信息，则进行步奏4</p>
+<h1 id='基本要素以及01背包'>基本要素以及01背包</h1>
+<ol>
+<li><strong>最优子结构</strong></li>
+
+</ol>
+<p>在动态规划算法中，利用问题的最优子结构性质，以自底向上的方式递归地从子问题的最优解逐步构造出整个问题的最优解。在算法中，其子问题往往规模非常小，例如上例所说的“比大小”为最小算法层次，整个算法比了n^2次大小，则时间复杂度就为O（n^2）</p>
+<ol start='2' >
+<li>重叠子问题</li>
+
+</ol>
+<p>即反复重复计算的子问题只解一次，然后将解存入表格中。当再次需要解此子问题时，只需要用常数时间查看一下表格即可</p>
+<p>&nbsp;</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/06/09/C-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%83%A8%E5%88%86/" rel="prev" title="C++程序设计阅读笔记面向对象部分">
+      <i class="fa fa-chevron-left"></i> C++程序设计阅读笔记面向对象部分
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/06/27/Unity%E4%B8%AD%E7%9A%84C-%E8%84%9A%E6%9C%AC/" rel="next" title="Unity中的C#脚本">
+      Unity中的C#脚本 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E3%81%AE%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%A7%A3%E9%87%8A"><span class="nav-number">1.</span> <span class="nav-text">动态规划の一句话解释</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%BC%95%E5%85%A5%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">简单引入例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%A6%81%E7%B4%A0%E4%BB%A5%E5%8F%8A01%E8%83%8C%E5%8C%85"><span class="nav-number">3.</span> <span class="nav-text">基本要素以及01背包</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/%E7%A9%BA%E9%97%B4%E5%8F%98%E6%8D%A2/" title="2023&#x2F;08&#x2F;09&#x2F;空间变换&#x2F;">空间变换</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/KMP%E7%AE%97%E6%B3%95/" title="2023&#x2F;08&#x2F;09&#x2F;KMP算法&#x2F;">KMP算法</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9C%AC%E8%B4%A8%E4%B8%8E%E6%8A%80%E5%B7%A7/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——游戏设计本质与技巧&#x2F;">腾讯课堂——游戏设计本质与技巧</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B5%85%E8%BF%B0%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——浅述游戏策划&#x2F;">腾讯课堂——浅述游戏策划</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E5%8F%91%E5%B1%95%E5%8F%B2/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——电子游戏发展史&#x2F;">腾讯课堂——电子游戏发展史</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '73ea5ffe5086c080a56f6bba0e53564f6676719d',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : 'a87ce55ac76e405173c4e571689acef0',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

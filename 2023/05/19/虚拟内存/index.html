@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="虚拟内存">
+<meta property="og:url" content="http://example.com/2023/05/19/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-19T10:01:08.000Z">
+<meta property="article:modified_time" content="2023-06-04T13:14:27.554Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/05/19/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>虚拟内存 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/19/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          虚拟内存
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-19 18:01:08" itemprop="dateCreated datePublished" datetime="2023-05-19T18:01:08+08:00">2023-05-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-04 21:14:27" itemprop="dateModified" datetime="2023-06-04T21:14:27+08:00">2023-06-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>0</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title></title>
+</head>
+<body>
+<h1 id="传统存储管理方式的特征“><a href="#传统存储管理方式的特征"></a>传统存储管理方式的特征</h1>
+<ul>
+<li>一次性：作业必须一次性全部装入内存后才能开始运行  
+</li>
+<li>驻留性：作业被装入内存后会一直驻留在内存中  
+</li>
+</ul>
+<p>前者导致：<br />
+1、作业很大时不能全部装入内存<br />
+2、大量作业运行无法全部装入，并发度下降  
+</p>
+<p>后者导致运行时只需访问作业一小部分，所以大部分被浪费了  
+</p>
+<h1 id="局部性原理"><a href="#传统存储管理方式的特征"></a>局部性原理</h1>
+<ul>
+<li>时间局部性：由于循环等程序特征，导致指令短时间内多次循环  
+</li>
+<li>空间局部性：由于很多数据在内存中是连续存放的，指令也是连续存放，所以程序访问存储单元后，很可能附近储存单元也会被访问  
+</li>
+</ul>
+<h1 id="虚拟内存的定义和特征"><a href="#虚拟内存的定义和特征"></a>虚拟内存的定义和特征</h1>
+<p>在程序装入时，程序将很快会用到的部分装入内存，暂时用不到的部分留在外存<br />
+在程序执行时，<mark>所访问信息不在内存时，由操作系统负责将所需信息从外存调入内存</mark><br />
+在内存不够时，<mark>操作系统负责将用不到的信息调出外存</mark><br />
+这样一个看起来很大的内存，就是虚拟内存  
+</p>
+<p>特征：<br />
+1、多次性：被允许分成多次调入<br />
+2、对换性：被允许在作业允许过程中将作业换入换出<br />
+3、虚拟性：内存容量看起来比原来的大很大  
+</p>
+<h1 id="实现虚拟内存技术"><a href="#实现虚拟内存技术"></a>实现虚拟内存技术</h1>
+<blockquote>
+<p>建立在离散分配的内存管理方式基础上  
+</p>
+</blockquote>
+<p>实现：<br />
+1、请求分页存储管理<br />
+2、请求分段存储管理<br />
+3、请求段页式存储管理  
+</p>
+<p>与传统非连续分配存储管理的主要区别：<br />
+1、所访问信息不存在时，操作系统负责将信息从外存调入<strong>（请求调页/调段）</strong><br />
+2、内存空间不够时操作系统负责将不用的信息调出<strong>（页面置换/段置换）</strong>  
+</p>
+<h1 id="请求分页管理方式"><a href="#请求分页管理方式"></a>请求分页管理方式</h1>
+<h2 id="缺页中断"><a href="#缺页中断"></a>缺页中断</h2>
+<p>缺页中断（属于内中断）：当前执行的指令未调入内存时发生。  
+</p>
+<blockquote>
+<p>一条指令可能发生多次中断 <em>e.g:copy A to B</em>  
+</p>
+</blockquote>
+<hr />
+<p>//和普通内存调用的区别以后再补//  
+</p>
+<hr />
+<h1 id="页面置换算法"><a href="#页面置换算法"></a>页面置换算法</h1>
+<blockquote>
+<p>越好的算法应该追求更少的缺页率  
+</p>
+</blockquote>
+<h2 id="最佳置换算法（OPT）"><a href="#最佳置换算法（OPT）"></a>最佳置换算法（OPT）</h2>
+<p>每次选择淘汰的页面将是以后永不使用，或者在最长时间内不再被访问的页面  
+</p>
+<blockquote>
+<p>缺页时未必发生页面置换，若还有可用的空闲内存块，则不需进行页面置换是一个无法实现的理想算法  
+</p>
+</blockquote>
+<h2 id="先进先出置换算法（FIFO）"><a href="#先进先出置换算法（FIFO）"></a>先进先出置换算法（FIFO）</h2>
+<p>每次选择淘汰的页面是最早进入内存的页面  
+</p>
+<p><mark>Belady异常：当为进程分配的物理块数增大时，缺页次数不减反增的异常现象</mark>  
+</p>
+<blockquote>
+<p>只有FIFO会发生这个异常，算法性能最差，因为有可能先进的页面很受欢迎  
+</p>
+</blockquote>
+<h2 id="最近最久未使用置换算法（LRU）"><a href="#最近最久未使用置换算法（LRU）"></a>最近最久未使用置换算法（LRU）</h2>
+<p>每次淘汰的页面是最近最久未使用的页面<br />
+实现方法：对应页表项中，用访问字段记录该页面自上次被访问以来所经历的时间t<br />
+特点：算法性能好，实现困难，开销大  
+</p>
+<h2 id="时钟置换算法（CLOCK）/最近未用算法（NRU）"><a href="#时钟置换算法（CLOCK）/最近未用算法（NRU）"></a>时钟置换算法（CLOCK）/最近未用算法（NRU）</h2>
+<p>折中算法  
+</p>
+<h3 id="简单CLOCK算法实现方法"><a href="#简单CLOCK算法实现方法"></a>简单CLOCK算法实现方法</h3>
+<p>为每个页面设置一个访问位，将内存中的页面用指针连接成循环队列。设置两个指针，一个是扫描指针，用来在循环的队列中循环扫描；一个是访问指针，用来指向待访问的页面串。每次访问指针变动时，检测队列中页面，相应页面访问位置1，若访问指针指向队列中不存在的页面，也就是当到需要选择页面替换的时候，移动扫描指针知道遇到访问位为0的块对应页，将其替换，若扫描指针指到访问位为1，则置0（复活甲）  
+</p>
+<blockquote>
+<p>最多进行两轮扫描</p>
+</blockquote>
+<h3 id="改进CLOCK算法"><a href="#改进CLOCK算法"></a>改进CLOCK算法</h3>
+<p>相对前者多考虑了一个未被修改页面不需要写回外存的设定，即<mark>只有被淘汰的页面被修改过的，才需要写回外存</mark>。  
+</p>
+<p>具体规则简单来说分四大优先级：<br />
+* 第一优先——最近没访问，且没修改的页面（0，0）<br />
+* 第二优先——最近没访问，但修改过的页面（0，1）且改访问位为0<br />
+* 第三优先——最近访问过，但没修改的页面（0，0）<br />
+* 第四优先——最近访问过，且修改过的页面（0，1）  
+</p>
+<blockquote>
+<p>助记：00，01，10（改访问位之前），11</p>
+</blockquote>
+<h1 id='页面分配策略'>页面分配策略   </h1>
+<h2 id='驻留集'>驻留集  </h2>
+<p> 指请求分页存储管理中给进程分配的物理块的集合  </p>
+<p> 我更喜欢另一种解释：<mark>进程已装入内存的页面的集合</mark>  </p>
+<p> 其实就是作业里操作系统给进程分配的固定块数量  </p>
+<p> 从操作系统角度，可以分为<strong>固定分配</strong>与<strong>可变分配</strong>两种 
+ 从进程本身角度，可以分为<strong>局部置换</strong>与<strong>全局置换</strong>两种 
+ 顾名思义，固定分配肯定和全局置换（可以置换其他空闲物理块或别的进程的物理块）相矛盾 </p>
+<figure><table>
+<thead>
+<tr><th style='text-align:center;' >&nbsp;</th><th style='text-align:center;' >固定分配</th><th style='text-align:center;' >可变分配</th></tr></thead>
+<tbody><tr><td style='text-align:center;' >局部置换</td><td style='text-align:center;' >√</td><td style='text-align:center;' >√</td></tr><tr><td style='text-align:center;' >全局置换</td><td style='text-align:center;' >×</td><td style='text-align:center;' >√</td></tr></tbody>
+</table></figure>
+<p><em>所以页面分配策略能分为以下三种</em></p>
+<h2 id='页面分配置换策略'>页面分配/置换策略  </h2>
+<h3 id='固定分配局部置换'>固定分配局部置换  </h3>
+<p>物理块在分配期间不变，且发生缺页时切换都发生在给自己分配的页面中进行</p>
+<p>缺点：物理块的分配难以测定，不知道分多少合适</p>
+<h3 id='可变分配全局置换'>可变分配全局置换  </h3>
+<p>物理块分配可以改变，发生缺页时，操作系统从空闲物理块队列中取出一块分配给该进程，当没有空闲物理块时，选择一个<strong>未锁定</strong>的页面换出外存，再分配给进程  </p>
+<blockquote><p>未锁定:不能置换出外存的页面,如一些内核数据等  </p>
+</blockquote>
+<p>优点:发生缺页时必定获得新物理块  </p>
+<p>缺点:被分出物理块的进程缺页率增加  </p>
+<h3 id='可变分配局部置换'>可变分配局部置换    </h3>
+<p><mark>根据缺页率来分配</mark>,刚开始物理块不变,若缺页率较高则分配物理块,若较低则分出物理块</p>
+<h2 id='调入页面的时机'>调入页面的时机   </h2>
+<ul>
+<li><p>预调页策略:根据<strong>局部性原理</strong>提前调入多个相邻页面,主要用于<mark>进程的首次调入</mark>,成功率低(50%)   </p>
+<blockquote><p>运行前</p>
+</blockquote>
+</li>
+<li><p>请求调页策略:<mark>运行期间发生缺页时才将所缺页面调入内存</mark>,需要频繁使用I/O操作  </p>
+<blockquote><p>运行时  </p>
+</blockquote>
+</li>
+
+</ul>
+<h2 id='抖动颠簸'>抖动/颠簸  </h2>
+<p>症状:频繁的页面调入调出 </p>
+<p>发生原因:进程频繁访问的页面数量高于物理块数(其实就是物理块分配不够)  </p>
+<blockquote><p>物理块分配少,抖动发生频繁,物理块分配多,造成系统整体并发度降低  </p>
+<p>所以&quot;工作集&quot;概念被提出</p>
+</blockquote>
+<h2 id='工作集'>工作集  </h2>
+<p>指在某段时间间隔内,进程实际访问页面的集合  </p>
+<p>例如(某窗口尺寸下):  </p>
+<p>1 3 5 6 3 5 3 5  </p>
+<p>工作集为1 3 5 6  </p>
+<blockquote><p>驻留集回顾:给进程分配的物理块的集合  </p>
+</blockquote>
+<p><mark>驻留集大小不能小于工作集大小,否则容易频繁缺页</mark>  </p>
+<p>所以说在实际应用中,根据工作集给出页面置换算法是是比较科学的选择,如上例子给出4个以上内存块就能满足运行需要</p>
+</body>
+</html>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/05/19/%E6%B5%8B%E8%AF%95/" rel="next" title="测试">
+      测试 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F%E7%9A%84%E7%89%B9%E5%BE%81%E2%80%9C%3E%3Ca%20href="><span class="nav-number">1.</span> <span class="nav-text">传统存储管理方式的特征</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B1%80%E9%83%A8%E6%80%A7%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">局部性原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E7%89%B9%E5%BE%81"><span class="nav-number">3.</span> <span class="nav-text">虚拟内存的定义和特征</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E6%8A%80%E6%9C%AF"><span class="nav-number">4.</span> <span class="nav-text">实现虚拟内存技术</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E5%88%86%E9%A1%B5%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">请求分页管理方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E9%A1%B5%E4%B8%AD%E6%96%AD"><span class="nav-number">5.1.</span> <span class="nav-text">缺页中断</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">页面置换算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%EF%BC%88OPT%EF%BC%89"><span class="nav-number">6.1.</span> <span class="nav-text">最佳置换算法（OPT）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E8%BF%9B%E5%85%88%E5%87%BA%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%EF%BC%88FIFO%EF%BC%89"><span class="nav-number">6.2.</span> <span class="nav-text">先进先出置换算法（FIFO）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E8%BF%91%E6%9C%80%E4%B9%85%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%EF%BC%88LRU%EF%BC%89"><span class="nav-number">6.3.</span> <span class="nav-text">最近最久未使用置换算法（LRU）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E9%92%9F%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%EF%BC%88CLOCK%EF%BC%89/%E6%9C%80%E8%BF%91%E6%9C%AA%E7%94%A8%E7%AE%97%E6%B3%95%EF%BC%88NRU%EF%BC%89"><span class="nav-number">6.4.</span> <span class="nav-text">时钟置换算法（CLOCK）&#x2F;最近未用算法（NRU）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95CLOCK%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95"><span class="nav-number">6.4.1.</span> <span class="nav-text">简单CLOCK算法实现方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B9%E8%BF%9BCLOCK%E7%AE%97%E6%B3%95"><span class="nav-number">6.4.2.</span> <span class="nav-text">改进CLOCK算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%B5%E9%9D%A2%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5"><span class="nav-number">7.</span> <span class="nav-text">页面分配策略   </span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A9%BB%E7%95%99%E9%9B%86"><span class="nav-number">7.1.</span> <span class="nav-text">驻留集  </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B5%E9%9D%A2%E5%88%86%E9%85%8D%E7%BD%AE%E6%8D%A2%E7%AD%96%E7%95%A5"><span class="nav-number">7.2.</span> <span class="nav-text">页面分配&#x2F;置换策略  </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BA%E5%AE%9A%E5%88%86%E9%85%8D%E5%B1%80%E9%83%A8%E7%BD%AE%E6%8D%A2"><span class="nav-number">7.2.1.</span> <span class="nav-text">固定分配局部置换  </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E5%88%86%E9%85%8D%E5%85%A8%E5%B1%80%E7%BD%AE%E6%8D%A2"><span class="nav-number">7.2.2.</span> <span class="nav-text">可变分配全局置换  </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E5%88%86%E9%85%8D%E5%B1%80%E9%83%A8%E7%BD%AE%E6%8D%A2"><span class="nav-number">7.2.3.</span> <span class="nav-text">可变分配局部置换    </span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E5%85%A5%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%97%B6%E6%9C%BA"><span class="nav-number">7.3.</span> <span class="nav-text">调入页面的时机   </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%96%E5%8A%A8%E9%A2%A0%E7%B0%B8"><span class="nav-number">7.4.</span> <span class="nav-text">抖动&#x2F;颠簸  </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E9%9B%86"><span class="nav-number">7.5.</span> <span class="nav-text">工作集  </span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/%E7%A9%BA%E9%97%B4%E5%8F%98%E6%8D%A2/" title="2023&#x2F;08&#x2F;09&#x2F;空间变换&#x2F;">空间变换</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/KMP%E7%AE%97%E6%B3%95/" title="2023&#x2F;08&#x2F;09&#x2F;KMP算法&#x2F;">KMP算法</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9C%AC%E8%B4%A8%E4%B8%8E%E6%8A%80%E5%B7%A7/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——游戏设计本质与技巧&#x2F;">腾讯课堂——游戏设计本质与技巧</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B5%85%E8%BF%B0%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——浅述游戏策划&#x2F;">腾讯课堂——浅述游戏策划</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E5%8F%91%E5%B1%95%E5%8F%B2/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——电子游戏发展史&#x2F;">腾讯课堂——电子游戏发展史</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '73ea5ffe5086c080a56f6bba0e53564f6676719d',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '513a21fe8c2df8cb21c516a34125adaa',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

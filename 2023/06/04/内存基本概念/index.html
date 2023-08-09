@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="内存基本概念">
+<meta property="og:url" content="http://example.com/2023/06/04/%E5%86%85%E5%AD%98%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-04T07:38:31.000Z">
+<meta property="article:modified_time" content="2023-06-04T13:09:50.368Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/06/04/%E5%86%85%E5%AD%98%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>内存基本概念 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/04/%E5%86%85%E5%AD%98%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          内存基本概念
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-06-04 15:38:31 / 修改时间：21:09:50" itemprop="dateCreated datePublished" datetime="2023-06-04T15:38:31+08:00">2023-06-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>12k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>按字编址与按字节编址</title>
+</head>
+<body><h1 id='按字编址与按字节编址'>按字编址与按字节编址</h1>
+<p>如今计算机分为32位和64位，其实就是代表总线进行数据传输时一块数据的内存大小，即字的大小</p>
+<blockquote><p>32位计算机：32位(bit)=4字节(byte)=1字(word)</p>
+<p>64位计算机：64位(bit)=8字节(byte)=1字(word)</p>
+</blockquote>
+<p><mark>很显然一字等于几个字节不是固定的，只和计算机硬件有关</mark></p>
+<blockquote><p>作为一些基础的编程语言数据类型单位，设定如下(b-&gt;bit,B-&gt;byte)</p>
+<p>byte：1字节</p>
+<p>short：2字节</p>
+<p>int：4字节</p>
+<p>long：8字节</p>
+<p>float：4字节</p>
+<p>double：8字节</p>
+<p>char：2字节</p>
+<p>boolean：1字节</p>
+<p>ASCII：英文字符（1字节）、中文汉字（2字节）</p>
+<p>UTF-8：英文字符（1字节）、中文汉字（3字节）</p>
+<p>Unicode：英文字符（2字节）、中文汉字（2字节）</p>
+<p>1byte=8bit,1024byte=1KB,1024KB=1MB,1024MB=1GB,1024GB=1TB</p>
+<p>1KB=2的10次方B，1MB=2的20次方B</p>
+</blockquote>
+<p>存放一个机器字的存储单元，通常称为<strong>字存储单元</strong>，相应的单元地址叫<strong>字地址</strong>。
+存放一个字节的存储单元，称为<strong>字节存储单元</strong>，相应的地址称为<strong>字节地址</strong>。
+如果计算机中可编程的最小单位是<strong>字存储单元</strong>，则该计算机称为<strong>按字寻址的计算机</strong>。
+如果计算机中可编程的最小单位是<strong>字节</strong>，则该计算机称为<strong>按字节寻址的计算机</strong>。
+一个机器字可以包含数个字节，所以一个存储单元也可以包含数个能够单独编制的字节地址。</p>
+<blockquote><p>不过题目中一般都是按字节编址，只有按字节编址才利用相应考察</p>
+</blockquote>
+<hr />
+<p><strong>例题.某存储器按字节编址，容量为1MB，cache为256B，块大小为4个字，一个字为4个字节。</strong></p>
+<p><strong>（1）cache地址为几位？有多少块？</strong></p>
+<p><strong>（2）主存地址为几位？有多少块？</strong></p>
+<details>
+    <summary>答案</summary>
+    1MB=2的20次方B，256B=2的8次方B，一个块=16个字节=2的4次方个字节
+    按字节编址，则cache地址位数为8，主存地址位数为20
+    2的八次方/2的四次方=16个块
+    同理主存有2的16次方个块
+</details>
+<p>在写多点就到计组了，让我们回到操作系统内存</p>
+<hr />
+<h1 id='三种程序地址装入方式'>三种程序地址装入方式</h1>
+<ol start='' >
+<li>绝对装入：<strong>编译时</strong>直接转换（前提是提前知道程序装入模块中的地址）</li>
+<li>静态重定位：编译、链接时地址都是从0开始，<strong>装入过程</strong>中完成地址转换，<mark> 必需分配其要求的全部内存空间，在运行时不能移动</mark></li>
+<li>动态重定位：动态运行时装入，地址转换推迟到程序真正要<strong>执行时</strong>才进行</li>
+
+</ol>
+<blockquote><p>回顾程序从编译到运行的阶段</p>
+<p>预处理-&gt;编译-&gt;汇编-&gt;链接</p>
+<p>具体详情见“从0开始的C++”栏目//目前还没有！//</p>
+</blockquote>
+<p>总之，装入发生在链接之后，毕竟生成的可执行文件装入到内存中开始运行</p>
+<p>同时，链接也有三种方式</p>
+<ol start='' >
+<li>静态链接：程序运行之前将所有所需库函数链接成完成可执行文件（装入）</li>
+<li>装入时动态链接：边装入边链接</li>
+<li>运行时动态链接：执行时需要目标模块时才进行链接</li>
+
+</ol>
+<p>&nbsp;</p>
+<h1 id='内存管理'>内存管理</h1>
+<p>F&amp;Q：操作系统作为系统资源的管理者，需要对内存进行管理，要管理什么呢？</p>
+<ol start='' >
+<li>负责<strong>内存空间的分配与回收</strong></li>
+<li>需要提供某种技术从逻辑上<strong>对内存空间进行扩充</strong></li>
+<li>需要提供地址转化功能，负责程序的<strong>逻辑地址与物理地址的转化</strong></li>
+
+</ol>
+<blockquote><p>三种方式的后两种</p>
+</blockquote>
+<ol start='4' >
+<li>提供<strong>内存保护</strong>功能</li>
+
+</ol>
+<blockquote><p>设置上下限寄存器和利用重定位寄存器、界地址寄存器进行判断</p>
+</blockquote>
+<p>&nbsp;</p>
+<h1 id='覆盖与交换'>覆盖与交换</h1>
+<p>覆盖：将程序分为多个段，常用的常驻内存，不常用的需要时调入，分为“固定区”与“覆盖区”</p>
+<blockquote><p>缺点：程序员必须声明覆盖结构，对用户不透明，增加编程负担，且是一直用调用时间交换空间的方式</p>
+</blockquote>
+<p>交换：把不需要的整个进程换出外存，把已具备运行条件的进程换入内存</p>
+<blockquote><p><strong>中级调度</strong>就是这个意义，另外，暂时换出外存等待的进程的状态叫<strong>挂起状态</strong></p>
+</blockquote>
+<p>Q&amp;A：1、外存什么位置保存被换出的进程？2、什么时候交换？3、换出什么进程？</p>
+<ol start='' >
+<li>换入磁盘中的<strong>对换区</strong>，所以说对换区采用<strong><font color=red>连续分配方式</font></strong>，输入输出速度比文件区快很多</li>
+<li>在进程运行很多且内存吃紧是进行，例如频繁缺页时</li>
+<li>优先换出阻塞进程，优先级低的进程，驻留时间等。。。（PCB常驻内存）</li>
+
+</ol>
+<p>&nbsp;</p>
+<h1 id='连续分配管理方式'>连续分配管理方式 </h1>
+<blockquote><p>这种方式的前提是分配的内存空间必须是<mark>连续的</mark></p>
+</blockquote>
+<hr />
+<p>内存分区历史：</p>
+<ul>
+<li>单一连续分配：优点：实现简单，无外部碎片；缺点：只能单任务，空间利用率低，有内部碎片（未利用的内存区）</li>
+<li>固定分区分配：分为相同分区大小与不同分区大小（需要分区说明表）；优点：实现简单，无外部碎片；缺点：会产生内部碎片，内存利用率低</li>
+<li><font color=red>动态分区分配</font>：<mark>不会预先划分内存分区</mark>，根据进程大小动态建立分区</li>
+
+</ul>
+<hr />
+<p>很显然动态分区分配为现代常用的最优分配方式</p>
+<p>所以接下来会以动态分区分配为核心探讨研究</p>
+<p>Q&amp;A：1、每个分配的分区用什么方式来储存？2、多个分区都满足需求时，选哪个？3、如何分配/回收分区？</p>
+<ol start='' >
+<li>空闲分区表/空闲分区链</li>
+<li>见“空闲分区算法”</li>
+<li>对于空闲分区表/链，一般情况下修改数据/删除结点（表）就可，不一定会按照地址递增顺序来排列，同时需要<mark>将处理过后相邻的空闲分区合并</mark></li>
+
+</ol>
+<blockquote><p>内部碎片：分配给进程的内存区域没用上的部分</p>
+<p>外部碎片：内存中某些空闲分区太小哦啊难以利用(解决方式：“紧凑”技术)</p>
+<p>对于动态分区分配，<font color=red>无内部碎片，有外部碎片</font></p>
+</blockquote>
+<p>&nbsp;</p>
+<h1 id='动态分区分配算法'>动态分区分配算法</h1>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include&lt;string&gt;
+#include&lt;vector&gt;
+#include&lt;functional&gt;
+#include&lt;cstdlib&gt;
+#include&lt;map&gt;
+#include&lt;set&gt;
+using namespace std;
+typedef struct//分区
+&#123;
+    static int PartitionNum;//分区数量 
+    int m_PartitionId;//分区首地容量址
+    int m_PartitionSize;//分区
+    int m_BlockId;//空白分区首地址
+&#125;Partition;
+
+<p>typedef struct&#x2F;&#x2F;进程控制块<br>&#123;<br>    static int PCBNum;&#x2F;&#x2F;进程数量<br>    string m_PidName;&#x2F;&#x2F;进程名称<br>    int m_PidSize;&#x2F;&#x2F;进程大小<br>&#125;PCB;</p>
+<p>void ReadData();&#x2F;&#x2F;读入数据<br>void Display1();<br>void Display_Partition();<br>void Display();&#x2F;&#x2F;输出分区完后各个分区的状态<br>void Display_PCB();&#x2F;&#x2F;显示进程的状态<br>void FirstFit();&#x2F;&#x2F;首次适应算法<br>void NextFit();&#x2F;&#x2F;循环首次适应算法<br>void BestFit();&#x2F;&#x2F;最佳适应算法<br>void WorstFit();&#x2F;&#x2F;最坏适应算法</p>
+<p>int main()<br>&#123;<br>    int choose;<br>    while (1)<br>    &#123;<br>        cout &lt;&lt; &quot;请选择实现的算法：&quot; &lt;&lt; endl;<br>        cout &lt;&lt; &quot;*****  1 - 首次适应算法     <em><strong><strong>&quot; &lt;&lt; endl;<br>        cout &lt;&lt; &quot;</strong></strong></em>  2 - 循环首次适应算法 <em><strong><strong>&quot; &lt;&lt; endl;<br>        cout &lt;&lt; &quot;</strong></strong></em>  3 - 最佳适应算法     <em><strong><strong>&quot; &lt;&lt; endl;<br>        cout &lt;&lt; &quot;</strong></strong></em>  4 - 最坏适应算法     <em><strong><strong>&quot; &lt;&lt; endl;<br>        cout &lt;&lt; &quot;</strong></strong></em>  0 - 结束             *****&quot; &lt;&lt; endl;<br>        cout &lt;&lt; &quot;输入你的选择 ： &quot;;<br>        cin &gt;&gt; choose;<br>        switch (choose)<br>        &#123;</p>
+<pre><code>        case 0:exit(0); break;
+        case 1:FirstFit(); break;
+        case 2:NextFit(); break;
+        case 3:BestFit(); break;
+        case 4:WorstFit(); break;
+        default:cout &amp;lt;&amp;lt; &amp;quot;请输入正确的序号：&amp;quot; &amp;lt;&amp;lt; endl;
+    &#125;
+&#125;
+system(&amp;quot;pause&amp;quot;);
+return 0;
+</code></pre>
+<p>}<br></code></pre></p>
+<h2 id='首次适应算法first-fit）'>首次适应算法（First Fit）</h2>
+<p>每次从低地址开始查找，找到第一个能满足大小的空闲分区</p>
+<pre><code class='language-c++' lang='c++'>void FirstFit()//首次适应算法
+&#123;
+    bool flag = false;
+    int i, j;
+    string choose;
+    ReadData();
+    //cout &lt;&lt; &quot;输入MIN:&quot;;
+    //cin &gt;&gt; MIN;
+    //Display_PCB();
+    do
+    &#123;
+        Display_Partition();
+        pcb = (PCB*)realloc(pcb, sizeof(PCB)*(PCB::PCBNum + 1));
+        cout &lt;&lt; &quot;输入进程名称：&quot;;
+        cin &gt;&gt; pcb[PCB::PCBNum - 1].m_PidName;
+        cout &lt;&lt; &quot;输入进程大小:&quot;;
+        cin &gt;&gt; pcb[PCB::PCBNum - 1].m_PidSize;
+
+<pre><code>    i = PCB::PCBNum - 1;
+
+    for (j = 0; j &amp;lt; Partition::PartitionNum; j++)
+    &#123;
+        if (pcb[i].m_PidSize &amp;lt;= partition[j].m_PartitionSize)
+        &#123;
+            partition[j].m_PartitionSize -= pcb[i].m_PidSize;
+            partition[j].m_BlockId += partition[j].m_PartitionSize;
+            if (partition[j].m_PartitionSize &amp;lt;= MIN)
+            &#123;
+                partition[j].m_PartitionSize = 0;
+            &#125;
+            flag = true;
+            break;
+        &#125;
+    &#125;
+    if (flag)
+    &#123;
+        flag = false;
+        cout &amp;lt;&amp;lt; &amp;quot;进程&amp;quot; &amp;lt;&amp;lt; pcb[i].m_PidName &amp;lt;&amp;lt; &amp;quot;分配到分区&amp;quot; &amp;lt;&amp;lt; partition[j].m_PartitionId &amp;lt;&amp;lt; endl;
+    &#125;
+    else
+    &#123;
+        cout &amp;lt;&amp;lt; &amp;quot;进程&amp;quot; &amp;lt;&amp;lt; pcb[i].m_PidName &amp;lt;&amp;lt; &amp;quot;分配失败！&amp;quot; &amp;lt;&amp;lt; endl;
+    &#125;
+    Display1();
+    cout &amp;lt;&amp;lt; &amp;quot;继续分配按Y&amp;quot; &amp;lt;&amp;lt; endl;
+    cin &amp;gt;&amp;gt; choose;
+
+&#125; while (choose == &amp;quot;Y&amp;quot;);
+</code></pre>
+<p>}<br></code></pre></p>
+<h2 id='最佳适应算法bext-fit）'>最佳适应算法（Bext Fit）</h2>
+<p>空闲分区链中分区大小递增排列，每次从链首开始查找，这样就能找到最合适的来分配内存</p>
+<p>缺点：每次都会留下很多越来越小的外部碎片</p>
+<pre><code class='language-c++' lang='c++'>void BestFit()//最佳适应算法
+&#123;
+    int pos = 0;
+    bool flag = false;
+    int i, j;
+    multimap&lt;int, Partition*&gt; m;
+    multimap&lt;int, Partition*&gt;::iterator ip;
+    string choose;
+    ReadData();
+    //Display_PCB();
+    /*cout &lt;&lt; &quot;输入MIN:&quot;;
+    cin &gt;&gt; MIN;*/
+    do
+    &#123;
+        Display_Partition();
+        pcb = (PCB*)realloc(pcb, sizeof(PCB)*(PCB::PCBNum + 1));
+        cout &lt;&lt; &quot;输入进程名称：&quot;;
+        cin &gt;&gt; pcb[PCB::PCBNum - 1].m_PidName;
+        cout &lt;&lt; &quot;输入进程大小:&quot;;
+        cin &gt;&gt; pcb[PCB::PCBNum - 1].m_PidSize;
+        i = PCB::PCBNum - 1;
+
+<pre><code>    m.clear();
+    for (j = 0; j &amp;lt; Partition::PartitionNum; j++)//按从小带大排序
+    &#123;
+        m.insert(make_pair(partition[j].m_PartitionSize, partition + j));
+    &#125;
+
+    for (ip = m.begin(); ip != m.end();)
+    &#123;
+        if (pcb[i].m_PidSize &amp;lt;= ip-&amp;gt;first)
+        &#123;
+            ip-&amp;gt;second-&amp;gt;m_PartitionSize -= pcb[i].m_PidSize;
+            ip-&amp;gt;second-&amp;gt;m_BlockId += ip-&amp;gt;second-&amp;gt;m_PartitionSize;
+            /*if (ip-&amp;gt;second-&amp;gt;m_PartitionSize &amp;lt;= MIN)
+            &#123;
+            ip-&amp;gt;second-&amp;gt;m_PartitionSize = 0;
+            &#125;*/
+            flag = true;
+            break;
+        &#125;
+        else
+        &#123;
+            ip++;
+        &#125;
+    &#125;
+    if (flag)
+    &#123;
+        flag = false;
+        cout &amp;lt;&amp;lt; &amp;quot;进程&amp;quot; &amp;lt;&amp;lt; pcb[i].m_PidName &amp;lt;&amp;lt; &amp;quot;分配到分区&amp;quot; &amp;lt;&amp;lt; ip-&amp;gt;second-&amp;gt;m_PartitionId &amp;lt;&amp;lt; endl;
+    &#125;
+    else
+    &#123;
+        cout &amp;lt;&amp;lt; &amp;quot;进程&amp;quot; &amp;lt;&amp;lt; pcb[i].m_PidName &amp;lt;&amp;lt; &amp;quot;分配失败！&amp;quot; &amp;lt;&amp;lt; endl;
+    &#125;
+    Display();
+    cout &amp;lt;&amp;lt; &amp;quot;继续分配按Y&amp;quot; &amp;lt;&amp;lt; endl;
+    cin &amp;gt;&amp;gt; choose;
+
+&#125; while (choose == &amp;quot;Y&amp;quot;);
+</code></pre>
+<p>}<br></code></pre></p>
+<h2 id='最坏适应算法'>最坏适应算法</h2>
+<p>和最佳想法优先使用最大的空闲区，每次排序时按大小递减，所以链首肯定符合</p>
+<p>缺点：大空闲区消耗更快，导致将来的大进程可能难以使用</p>
+<pre><code class='language-c++' lang='c++'>void WorstFit()//最坏适应算法
+&#123;
+    int pos = 0;
+    bool flag = false;
+    int i, j;
+    multimap&lt;int, Partition*, greater&lt;int&gt;&gt; m;
+    multimap&lt;int, Partition*&gt;::iterator ip = m.begin();
+    string choose;
+    ReadData();
+    //Display_PCB();
+    /*cout &lt;&lt; &quot;输入MIN:&quot;;
+    cin &gt;&gt; MIN;*/
+    do
+    &#123;
+        Display_Partition();
+        pcb = (PCB*)realloc(pcb, sizeof(PCB)*(PCB::PCBNum + 1));
+        cout &lt;&lt; &quot;输入进程名称：&quot;;
+        cin &gt;&gt; pcb[PCB::PCBNum - 1].m_PidName;
+        cout &lt;&lt; &quot;输入进程大小:&quot;;
+        cin &gt;&gt; pcb[PCB::PCBNum - 1].m_PidSize;
+        i = PCB::PCBNum - 1;
+
+<pre><code>    m.clear();
+    for (j = 0; j &amp;lt; Partition::PartitionNum; j++)//按从大到小排序
+    &#123;
+        m.insert(make_pair(partition[j].m_PartitionSize, partition + j));
+    &#125;
+
+    for (ip = m.begin(); ip != m.end();)
+    &#123;
+        if (pcb[i].m_PidSize &amp;lt;= ip-&amp;gt;first)
+        &#123;
+            ip-&amp;gt;second-&amp;gt;m_PartitionSize -= pcb[i].m_PidSize;
+            ip-&amp;gt;second-&amp;gt;m_BlockId += ip-&amp;gt;second-&amp;gt;m_PartitionSize;
+            /*if (ip-&amp;gt;second-&amp;gt;m_PartitionSize &amp;lt;= MIN)
+            &#123;
+            ip-&amp;gt;second-&amp;gt;m_PartitionSize = 0;
+            &#125;*/
+            flag = true;
+            break;
+        &#125;
+        else
+        &#123;
+            ip++;
+        &#125;
+    &#125;
+    if (flag)
+    &#123;
+        flag = false;
+        cout &amp;lt;&amp;lt; &amp;quot;进程&amp;quot; &amp;lt;&amp;lt; pcb[i].m_PidName &amp;lt;&amp;lt; &amp;quot;分配到分区&amp;quot; &amp;lt;&amp;lt; ip-&amp;gt;second-&amp;gt;m_PartitionId &amp;lt;&amp;lt; endl;
+    &#125;
+    else
+    &#123;
+        cout &amp;lt;&amp;lt; &amp;quot;进程&amp;quot; &amp;lt;&amp;lt; pcb[i].m_PidName &amp;lt;&amp;lt; &amp;quot;分配失败！&amp;quot; &amp;lt;&amp;lt; endl;
+    &#125;
+    Display();
+    cout &amp;lt;&amp;lt; &amp;quot;继续分配按Y&amp;quot; &amp;lt;&amp;lt; endl;
+    cin &amp;gt;&amp;gt; choose;
+
+&#125; while (choose == &amp;quot;Y&amp;quot;);
+</code></pre>
+<p>}<br></code></pre></p>
+<h2 id='邻近适应算法'>邻近适应算法</h2>
+<p>从上次查找结束的位置开始检查，可以减小查找的开销，而且可以防止小空闲分区聚合在链头。另外，空闲分区只需要按地址递增的顺序排列了（可以考虑用循环链表）</p>
+<p>这个方法会将前言所有优点甚至缺点都聚合。。。属于是摆烂算法</p>
+<pre><code class='language-c++' lang='c++'>void NextFit()//循环首次适应算法
+&#123;
+    int pos = 0;
+    bool flag = false;
+    int i, j;
+    string choose;
+    ReadData();
+    //Display_PCB();
+    /*cout &lt;&lt; &quot;输入MIN:&quot;;
+    cin &gt;&gt; MIN;*/
+    do
+    &#123;
+
+<pre><code>    Display_Partition();
+    pcb = (PCB*)realloc(pcb, sizeof(PCB)*(PCB::PCBNum+1));
+    cout &amp;lt;&amp;lt; &amp;quot;输入进程名称：&amp;quot;;
+    cin &amp;gt;&amp;gt; pcb[PCB::PCBNum - 1].m_PidName;
+    cout &amp;lt;&amp;lt; &amp;quot;输入进程大小:&amp;quot;;
+    cin &amp;gt;&amp;gt; pcb[PCB::PCBNum - 1].m_PidSize;
+    i = PCB::PCBNum - 1;
+
+    for (j = pos;; j++)
+    &#123;
+        if (pos &amp;gt;= PCB::PCBNum)
+        &#123;
+            pos = 0;
+        &#125;
+        if (pcb[i].m_PidSize &amp;lt;= partition[j].m_PartitionSize)
+        &#123;
+            partition[j].m_PartitionSize -= pcb[i].m_PidSize;
+            partition[j].m_BlockId += partition[j].m_PartitionSize;
+            if (partition[j].m_PartitionSize &amp;lt;= MIN)
+            &#123;
+                partition[j].m_PartitionSize = 0;
+            &#125;
+            flag = true;
+            pos = j + 1;
+            if (pos == PCB::PCBNum)
+            &#123;
+                pos = 0;
+            &#125;
+            break;
+        &#125;
+    &#125;
+    if (flag)
+    &#123;
+        flag = false;
+        cout &amp;lt;&amp;lt; &amp;quot;进程&amp;quot; &amp;lt;&amp;lt; pcb[i].m_PidName &amp;lt;&amp;lt; &amp;quot;分配到分区&amp;quot; &amp;lt;&amp;lt; partition[j].m_PartitionId &amp;lt;&amp;lt; endl;
+    &#125;
+    else
+    &#123;
+        cout &amp;lt;&amp;lt; &amp;quot;进程&amp;quot; &amp;lt;&amp;lt; pcb[i].m_PidName &amp;lt;&amp;lt; &amp;quot;分配失败！&amp;quot; &amp;lt;&amp;lt; endl;
+    &#125;
+    Display1();
+    cout &amp;lt;&amp;lt; &amp;quot;继续分配按Y&amp;quot; &amp;lt;&amp;lt; endl;
+    cin &amp;gt;&amp;gt; choose;
+
+&#125; while (choose == &amp;quot;Y&amp;quot;);
+</code></pre>
+<p>}<br></code></pre></p>
+<p>&nbsp;</p>
+<h1 id='分页存储管理'>分页存储管理</h1>
+<p>内存空间被分为一个个<font color=red>大小相等的分区</font>，每个分区就是一个“<font color=red>页框</font>“，编号为”<font color=red>页框号</font>“，<font color=red>从0开始</font>。</p>
+<blockquote><p><strong>页框=页帧=内存块=物理块=物理页面</strong></p>
+<p><strong>页框号=页帧号=内存块号=物理块号=物理页号</strong></p>
+</blockquote>
+<p>进程的逻辑地址空间也被分为<mark>与页框大小相等</mark>的”<font color=red>页</font>“或”<font color=red>页面</font>“,“<font color=red>页号</font>”<font color=red>从0开始</font>.</p>
+<p>这样就有了<mark>一一对应关系</mark></p>
+<blockquote><p>各个页面不必连续存放，也不必放到相邻页框中</p>
+</blockquote>
+<h2 id='页表'>页表</h2>
+<blockquote><p>存放在PCB中,本质是数组</p>
+</blockquote>
+<p>由页号和块号组成，代表了每个页与每个块的一一对应关系</p>
+<p>对于页号，不占用储存空间，因为<mark>页号按照数字顺序排列</mark>，在数据结构中相当于隐藏数据了</p>
+<p>对于块号，<strong>哪怕在题目中，通过内存块的数量推算出页表项中块号所占字节也是一个很重要的考点</strong></p>
+<blockquote><p>块号不是地址，x号块起始地址为“x*内存块大小”</p>
+</blockquote>
+<hr />
+<p>例题：假设某系统物理内存大小为4GB，页面大小为4KB，则每个页表项至少为多少个字节？</p>
+<details>
+    <summary>答案</summary>
+    内存块大小=页面大小=4KB=2的12次方B
+    4GB会被分为2的20次方个内存块
+    用二进制表示地址，那么要用20bit来表示内存块号
+    按字节编址，则要至少用3B来表示块号
+    每个页表占3B，则储存整个页表至少需要3*（n+1）B
+</details>
+<hr />
+<h2 id='地址转换'>地址转换</h2>
+<blockquote><p>进程各个页面是离散存放的，但页面内部是连续存放的</p>
+</blockquote>
+<p>先说结论：</p>
+<p>逻辑地址A对应的物理地址=P号页面在内存中的起始地址+业内偏移量W</p>
+<hr />
+<p>例题：页面大小50B。某进程逻辑地址空间大小为200B，则逻辑地址110对应的页号、页内偏移量是多少？</p>
+<details>
+    <summary>答案</summary>
+    首先易得有四个页
+    页号=110/50=2……10
+    则页号为2
+    偏移量为10
+</details>
+<hr />
+<p>由于计算机地址是用二进制表示的，也就是说其实一般情况下题目的计算在计算机中很少发生，而若把<mark>页面大小设置为2的整数幂</mark>，则可以快速将逻辑地址拆分为页号和页内偏移量</p>
+<p>例如页面大小为4KB，即2的12次方幂B，末尾12位则为页内偏移量</p>
+<p>0号页的逻辑地址范围用二进制表示为：</p>
+<p><font color=red>00000000000000000000</font>000000000000~<font color=red>00000000000000000000</font>111111111111</p>
+<p>1号页表示范围为：</p>
+<p><font color=red>00000000000000000001</font>000000000000~<font color=red>00000000000000000001</font>111111111111</p>
+<p><font color=red>红色即为页号</font>，黑色即为页内偏移量</p>
+<p>此外，最终的物理地址也可以直接通过将<font color=red>物理块号拼接上页内偏移量就能得到物理地址</font></p>
+<p>如：页表中，1号页面存放的内存块号为9（1001）</p>
+<p>则起始地址为：<font color=red>00000000000000001001</font>000000000000=9*4096=x乘以内存块大小</p>
+<blockquote><p>总结：对于二进制逻辑地址结构</p>
+<p>有K位表示“页内偏移量”，说明一个页面大小是2的k次方个内存单元</p>
+<p>有M位表示“页号”，说明一个进程最多允许有2的m次方个页面</p>
+</blockquote>
+<p>&nbsp;</p>
+<h1 id='基本地址变换机构'>基本地址变换机构</h1>
+<p>该机构的具体作用就是在计计算机层面上借助页表将逻辑地址转换为物理地址</p>
+<p>主要核心工具：<font color=red>页表寄存器</font>，存放页表在内存中的<font color=red>起始地址F</font>和<font color=red>页表长度M</font></p>
+<p>进程未执行时这些东西都是放在PCB中的</p>
+<blockquote><p>PCB:进程控制块</p>
+</blockquote>
+<p>进程被调度时，内核会把他们放到页表寄存器中，计算过程如下：</p>
+<ol>
+<li>根据逻辑地址计算出页号、页内偏移量</li>
+<li>根据页表长度判断页号是否越界</li>
+<li>查询页表，找到页号对应的页表项，确定页面存放的内存块号</li>
+<li>用内存块号和页内偏移量得到物理地址</li>
+<li>访问目标内存单元</li>
+
+</ol>
+<blockquote><p>越界中断：包括对数组的大小进行越界。在这里，判断条件为“P&gt;=M”，则越界，P为页表中的逻辑编号，由于P初始值为0，所以当两者相等时也算越界</p>
+</blockquote>
+<p>总结公式：<mark>页表项地址=页表起始地址F+页号P*页表项长度</mark></p>
+<p>即：E=b*L+W</p>
+<blockquote><p>一些名词区分：</p>
+<p>页表长度：页表中总共有几个页表项</p>
+<p>页表项长度：页表项占的存储空间</p>
+<p>页面大小：一个页面占多大的存储空间</p>
+<p>页表是TMD表，页面是进行具体工作的页面</p>
+</blockquote>
+<hr />
+<p>例题：页面大小1K，页号2对应的内存块号b=8，将逻辑地址A=2500转换为物理地址E</p>
+<details>
+    <summary>答案</summary>
+    一个页面大小1K=2的10次方字节
+    先看是否越界：2500/2的10次方=2余452（偏移量）
+    不满足“P&gt;=M”，不越界
+    再由公式E=b*L+W=8*2的10次方+452=8644为物理地址
+</details>
+<p><font color=red>页式管理中地址是一维的</font></p>
+<p><mark>其实在真正的计算机中，每个页面大小和逻辑地址结构其实是物理已知量，不可能有变动的，所以对于系统来说，只要给出逻辑地址，就能自动算出物理地址</mark></p>
+<hr />
+<p>&nbsp;</p>
+<h1 id='快表tlb）'>快表（TLB）</h1>
+<p>又称“联想寄存器”，实质是<mark>高速缓存而不是内存</mark>，用来存放<mark>最近访问的页表项的副本</mark></p>
+<blockquote><p>相应的，内存中页表叫“慢表”</p>
+</blockquote>
+<p>TLB速度很快，但不适合存页表，因为价格太贵，相当于用名牌书包取书本很快，但用一个书包存一整个图书馆的书是很不理智的</p>
+<p>快表的大致内容和慢表是一致的，都有页号和内存块号，而快表的具体作用中“存放最近访问的页表项的副本”以为着存储最近访问的页号和对应内存块号，所以在多次查询相同页号的内容时，只要先查询快表是否命中，若命中则直接使用相应内存块号与内存偏移量相计算，就能快速得出结果。</p>
+<p>所以说，若快表命中，则只需进行一次访存</p>
+<p>若未命中，则需两次访存，当然，查询完慢表后须将内容复制到快表中</p>
+<p>（这里一般会出现一个有关访问逻辑地址平均耗时的问题，注意有时候会出现“系统支持同时查找的情况”）</p>
+<blockquote><p>为什么快表存放很少的内容会使得速度大幅度提升，这里还是和著名的<mark>局部性原理 </mark>有关</p>
+</blockquote>
+<p>TLB与Cache：TLB只存有页表项的副本，Cache中可能有其他数据的副本</p>
+<p>&nbsp;</p>
+<h1 id='两级页表'>两级页表</h1>
+<blockquote><p>还是局部性原理</p>
+</blockquote>
+<p>单级页表的问题：</p>
+<p>1、页表必须连续存放，当页表很大时，需要占用多个连续页框</p>
+<p>2、页表没必要常驻内存，进程在一段时间内可能只需要访问某几个特点页面</p>
+<p>解决方法1：将页表进行分组，离散地分入一个个内存块中，为这些分组再建立页表”<font color=red>页目录表</font>&quot;</p>
+<p>解决方法2：需要访问页面时再调入内存（虚拟内存技术）</p>
+<hr />
+<p>一些小细节：</p>
+<ol>
+<li>多级页表中，各级页表的<font color=red>大小不能超过一个页面</font>,超过的话建立多一级页表</li>
+<li>两级页表的访存次数分析（默认没有快表机制）N+1</li>
+
+</ol>
+<hr />
+<p>&nbsp;</p>
+<h1 id='分段存储管理方式'>分段存储管理方式</h1>
+<blockquote><p>和分页比，离散分配时地址空间的基本单位不同</p>
+</blockquote>
+<h2 id='分段'>分段</h2>
+<p>按照<mark>程序自身逻辑来分为若干个段</mark>，每段都有段名，从0开始编址</p>
+<p>分配规则：每个段在内存中占据连续空间，但各段之间可以不相邻</p>
+<blockquote><p>由于是按逻辑功能划分，所以用户编程更方便，程序可读性更高</p>
+</blockquote>
+<h2 id='段表'>段表</h2>
+<p>哎，这不是和分页差不了太多吗，头晕了摸了不想看了，有神能评论区指点两下就更好了</p>
+<p>*</p>
+<p>*</p>
+<p>*</p>
+<p>*</p>
+<p>*</p>
+<p>*</p>
+<p>*</p>
+<p>*</p>
+<p>*</p>
+<p>*</p>
+<p>*</p>
+<p>*</p>
+<p>*</p>
+<p>总结了两天10个小时给累昏了，打游戏都没这么累</p>
+<p>————————————————
+字与字节原文链接：<a href='https://blog.csdn.net/qq_43627631/article/details/106456371' target='_blank' class='url'>https://blog.csdn.net/qq_43627631/article/details/106456371</a></p>
+<p>算法代码原文链接：<a href='https://blog.csdn.net/weixin_43886592/article/details/107581653' target='_blank' class='url'>https://blog.csdn.net/weixin_43886592/article/details/107581653</a></p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/06/01/%E5%88%9D%E8%AF%86%E9%BB%91%E7%BA%A2%E6%A0%91/" rel="prev" title="初识黑红树">
+      <i class="fa fa-chevron-left"></i> 初识黑红树
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/06/09/C-%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/" rel="next" title="C#理论基础">
+      C#理论基础 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%89%E5%AD%97%E7%BC%96%E5%9D%80%E4%B8%8E%E6%8C%89%E5%AD%97%E8%8A%82%E7%BC%96%E5%9D%80"><span class="nav-number">1.</span> <span class="nav-text">按字编址与按字节编址</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E7%A8%8B%E5%BA%8F%E5%9C%B0%E5%9D%80%E8%A3%85%E5%85%A5%E6%96%B9%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">三种程序地址装入方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">内存管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A6%86%E7%9B%96%E4%B8%8E%E4%BA%A4%E6%8D%A2"><span class="nav-number">4.</span> <span class="nav-text">覆盖与交换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9E%E7%BB%AD%E5%88%86%E9%85%8D%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">连续分配管理方式 </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%88%86%E5%8C%BA%E5%88%86%E9%85%8D%E7%AE%97%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">动态分区分配算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A6%96%E6%AC%A1%E9%80%82%E5%BA%94%E7%AE%97%E6%B3%95first-fit%EF%BC%89"><span class="nav-number">6.1.</span> <span class="nav-text">首次适应算法（First Fit）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E9%80%82%E5%BA%94%E7%AE%97%E6%B3%95bext-fit%EF%BC%89"><span class="nav-number">6.2.</span> <span class="nav-text">最佳适应算法（Bext Fit）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%9D%8F%E9%80%82%E5%BA%94%E7%AE%97%E6%B3%95"><span class="nav-number">6.3.</span> <span class="nav-text">最坏适应算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%82%BB%E8%BF%91%E9%80%82%E5%BA%94%E7%AE%97%E6%B3%95"><span class="nav-number">6.4.</span> <span class="nav-text">邻近适应算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E9%A1%B5%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86"><span class="nav-number">7.</span> <span class="nav-text">分页存储管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B5%E8%A1%A8"><span class="nav-number">7.1.</span> <span class="nav-text">页表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2"><span class="nav-number">7.2.</span> <span class="nav-text">地址转换</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%9C%B0%E5%9D%80%E5%8F%98%E6%8D%A2%E6%9C%BA%E6%9E%84"><span class="nav-number">8.</span> <span class="nav-text">基本地址变换机构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BF%AB%E8%A1%A8tlb%EF%BC%89"><span class="nav-number">9.</span> <span class="nav-text">快表（TLB）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%A4%E7%BA%A7%E9%A1%B5%E8%A1%A8"><span class="nav-number">10.</span> <span class="nav-text">两级页表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%AE%B5%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="nav-number">11.</span> <span class="nav-text">分段存储管理方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%AE%B5"><span class="nav-number">11.1.</span> <span class="nav-text">分段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AE%B5%E8%A1%A8"><span class="nav-number">11.2.</span> <span class="nav-text">段表</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/%E7%A9%BA%E9%97%B4%E5%8F%98%E6%8D%A2/" title="2023&#x2F;08&#x2F;09&#x2F;空间变换&#x2F;">空间变换</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/KMP%E7%AE%97%E6%B3%95/" title="2023&#x2F;08&#x2F;09&#x2F;KMP算法&#x2F;">KMP算法</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9C%AC%E8%B4%A8%E4%B8%8E%E6%8A%80%E5%B7%A7/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——游戏设计本质与技巧&#x2F;">腾讯课堂——游戏设计本质与技巧</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B5%85%E8%BF%B0%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——浅述游戏策划&#x2F;">腾讯课堂——浅述游戏策划</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E5%8F%91%E5%B1%95%E5%8F%B2/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——电子游戏发展史&#x2F;">腾讯课堂——电子游戏发展史</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '73ea5ffe5086c080a56f6bba0e53564f6676719d',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : 'cde274950accb649b790b392c5ff1956',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

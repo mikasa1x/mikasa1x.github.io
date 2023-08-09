@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="搭建blog时遇到的问题以及逆天思路逆天解决方案">
+<meta property="og:url" content="http://example.com/2023/05/23/%E6%90%AD%E5%BB%BAblog%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E9%80%86%E5%A4%A9%E6%80%9D%E8%B7%AF%E9%80%86%E5%A4%A9%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2023/05/23/p9T2U41.png">
+<meta property="og:image" content="https://s1.ax1x.com/2023/05/23/p9T2j2V.png">
+<meta property="og:image" content="https://s1.ax1x.com/2023/05/23/p9TRtsS.png">
+<meta property="og:image" content="https://s1.ax1x.com/2023/05/23/p9TR6MT.png">
+<meta property="og:image" content="https://s1.ax1x.com/2023/05/23/p9TRgLF.png">
+<meta property="og:image" content="https://s1.ax1x.com/2023/05/23/p9TWZYn.png">
+<meta property="og:image" content="https://s1.ax1x.com/2023/05/23/p9TW3TJ.png">
+<meta property="og:image" content="https://s1.ax1x.com/2023/05/23/p9TWNSx.png">
+<meta property="og:image" content="https://s1.ax1x.com/2023/05/23/p9ThBid.png">
+<meta property="article:published_time" content="2023-05-23T13:13:08.000Z">
+<meta property="article:modified_time" content="2023-06-04T13:12:15.879Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2023/05/23/p9T2U41.png">
+
+<link rel="canonical" href="http://example.com/2023/05/23/%E6%90%AD%E5%BB%BAblog%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E9%80%86%E5%A4%A9%E6%80%9D%E8%B7%AF%E9%80%86%E5%A4%A9%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>搭建blog时遇到的问题以及逆天思路逆天解决方案 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/23/%E6%90%AD%E5%BB%BAblog%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E9%80%86%E5%A4%A9%E6%80%9D%E8%B7%AF%E9%80%86%E5%A4%A9%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          搭建blog时遇到的问题以及逆天思路逆天解决方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-05-23 21:13:08" itemprop="dateCreated datePublished" datetime="2023-05-23T21:13:08+08:00">2023-05-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-04 21:12:15" itemprop="dateModified" datetime="2023-06-04T21:12:15+08:00">2023-06-04</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>344</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><span id="more"></span>这个问题主要出现在next主题的官方配置中，可以自动为文章内的内标题标记并设置侧目录，最重要的是，可以直接点击该小标题跳转至页面内相应位置，如下： 
+</p>
+<p><img src="https://s1.ax1x.com/2023/05/23/p9T2U41.png" width="227" height="407">  
+</p>
+<blockquote>
+<p>问题产生时没有黄色高亮  
+</p>
+</blockquote>
+<p>但是我在上传第一篇文章时，发现点击相应小标题不会跳转，甚至黄色高亮也不会显示  
+</p>
+<p>其实一开始并没有注重这个问题，因为blog设计初衷就是为了方便，而且还有其他很多重要功能还没有实现，所以文章上传时图侥幸心理并没有做任何修改  
+</p>
+<p>第一反应是next相应配置文件未修改<br />
+<img src="https://s1.ax1x.com/2023/05/23/p9T2j2V.png" width="813" height="197"><br />
+但现实情况是配置文件中只有“是否开启”以及相应的格式控制<br />
+看来跳转功能是打包在这个功能内了，是默认开启的  
+</p>
+<p>于是懒狗习惯性各种搜索，百度搜，CSDN搜，GitHub搜<br />
+后来意识到这个问题属于交叉问题（hexo×next主题），在一般搜索引擎甚至专业代码平台上是难以直接搜索到的  
+</p>
+<p><img src="https://s1.ax1x.com/2023/05/23/p9TRtsS.png" width="663" height=153">  
+</p>
+<blockquote>
+<p>不过功夫不负苦心人，难得找到了一个相似问题描述  
+</p>
+</blockquote>
+<p>好，经典版本问题，经典中文问题。。。。。  
+</p>
+<p>于是找到目的文件+依葫芦画瓢+傻瓜式指导一气呵成，找到目标代码行  
+</p>
+<p>正当我准备更改时，诡异的一幕发生了<br />
+<img src="https://s1.ax1x.com/2023/05/23/p9TR6MT.png" width="919" height="439"> <br />
+<img src="https://s1.ax1x.com/2023/05/23/p9TRgLF.png" width="804" height="360"><br />
+教程代码<mark>更改后的代码其实和我电脑上的源代码一样</mark>，也就是说人家根本就没错，但问题是问题描述几乎一模一样，连版本和时间都对上了  
+</p>
+<p>在我的世界观里就没有搜索引擎解决不了的东西，这一瞬间给我直接懵住了，于是进行了包括看源码这种无意义操作近一个小时。。。。  
+</p>
+<p>明明是傻瓜包！凭什么会有搜索引擎都搜不到的bug，亏你还是使用量最多的blog主题！  
+</p>
+<p>本来是一个可有可无的小bug，，但在建立blog路上总是遇到这种看起来很nt但我自己又解决不了的问题就会感到很恼火，那段时间走马灯式的回忆起刚学c语言时因为没搞懂main函数为什么要有返回值浪费整整好几周看hello world的唐经历的相似感受  
+</p>
+<p>那就看源码！！  
+</p>
+<blockquote>
+<p>真不知到为什么那一瞬间居然产生了改源码更改别人做好的傻瓜包的冲动，明明自己一分钟都没学过JavaScript  
+</p>
+</blockquote>
+<p>没想到还真看出点蹊跷<br />
+<img src="https://s1.ax1x.com/2023/05/23/p9TWZYn.png" width="525" height="23">  
+</p>
+<blockquote>
+<p>点击不跳转时打开网页开发攻击，红色报错提示在这一行，提示“什么什么NULL”  
+</p>
+</blockquote>
+<p>看来是这个函数输出不了之类了，那八成就是输入的问题或者函数本身逻辑问题<br />
+<s>为什么会产生这么自以为是又铸币的想法⬆</s>  
+</p>
+<p><img src="https://s1.ax1x.com/2023/05/23/p9TW3TJ.png" width="762" height="30">  
+</p>
+<blockquote>
+<p>最终锁定内鬼代码函数，内含“#”等符号，和markdown语法“#标题”相似  
+</p>
+</blockquote>
+<p>等等    
+</p>
+<p>Markdown？  
+</p>
+<p>偶然间找到了next开发人员（大概）的回复  
+</p>
+<p><img src="https://s1.ax1x.com/2023/05/23/p9TWNSx.png" width="517" height="133"> <br />
+<strong>感觉被开发人员狠狠抽了两巴掌</strong>  
+</p>
+<hr />
+<p>最终总结：由于markdown作为一个便捷文档语言，markdown渲染下的文档转化成html后省略了很多语句的语法，其中就包括标题的信息以及链接（我不懂HTML，不知道正常情况下要不要写链接，早知道大一学HTML的时候认真点了）。而next主题中锁定标题的方式就是对HTML码直接检测，于是大概找到一个&lt; h&gt;，然后就显示有什么个标题，便打引在blog文章左侧，但由于丢失id信息以及&lt; a&gt;链接，无法定位标题的具体位置，所以点下去没反应  
+</p>
+<p>问题找到了，其实挺后怕，因为如果继续使用这种方式写blog，意味着以后文章量多起来后，想再解决这个bug就会非常麻烦，<u>因为要对整个文章代码逻辑甚至主题都进行更改！</u>  
+</p>
+<p>解决方法很多，但最简单便捷的就是重新寻找一个文档编辑方式，毕竟我不会写HTML，更别说css，无法对文章进行花里胡哨的装饰  
+</p>
+<p>那么最佳方案应该就是停止使用markdown，或者寻找一个其他跟契合next的版本  
+</p>
+<hr />
+<p>但铸币脑子就楞想出了一个最逆天的解决方案：<br />
+<strong>直接更改HTML码，对标题一个个手打补上相应信息</strong>  
+</p>
+<blockquote>
+<p>题外话，精确找到next对标题的索引方式居然是拿别人一样用next但没bug的网页查阅HTML码进行一个个比对，然后排除法得出  
+</p>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2023/05/23/p9ThBid.png" width="226" height="407">  
+</p>
+<p>最终经过一系列怪操作终于是让小小的侧目录图标给动起来了，属于是浅入再深入再浅出了  
+</p>
+<p><strong>唐中唐了</strong>  
+</p>
+<p>不过对markdown写blog的想法还是暂时没咋改变，<s>好不容易花一晚上下的markdown好不容易学的语法别浪费了啊，</s>具体长期的解决方案先不管了，还不如先问问别人是咋写的，但这么唐的问题我也实在不好意思问，也不知道读者发现我居然使用markdown+傻瓜包的方式来写blog会不会狠狠嘲笑我  
+</p>
+<p>于是第一篇手打源码的文章“<a href="www.jiuriri.com/2023/05/19">虚拟内存</a>”就这么诞生了<br />
+<s>这篇问题感想正是问题解决后编写的，所以暂时真没敢再用标题</s>  
+</p>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/05/19/%E6%B5%8B%E8%AF%95/" rel="prev" title="测试">
+      <i class="fa fa-chevron-left"></i> 测试
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/05/26/AVL%E6%A0%91/" rel="next" title="AVL树">
+      AVL树 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/%E7%A9%BA%E9%97%B4%E5%8F%98%E6%8D%A2/" title="2023&#x2F;08&#x2F;09&#x2F;空间变换&#x2F;">空间变换</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/KMP%E7%AE%97%E6%B3%95/" title="2023&#x2F;08&#x2F;09&#x2F;KMP算法&#x2F;">KMP算法</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9C%AC%E8%B4%A8%E4%B8%8E%E6%8A%80%E5%B7%A7/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——游戏设计本质与技巧&#x2F;">腾讯课堂——游戏设计本质与技巧</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B5%85%E8%BF%B0%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——浅述游戏策划&#x2F;">腾讯课堂——浅述游戏策划</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E5%8F%91%E5%B1%95%E5%8F%B2/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——电子游戏发展史&#x2F;">腾讯课堂——电子游戏发展史</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '73ea5ffe5086c080a56f6bba0e53564f6676719d',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : 'ff0af3e9564ee677ebc7109b9be678f9',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

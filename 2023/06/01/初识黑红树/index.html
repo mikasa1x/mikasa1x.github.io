@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="初识黑红树">
+<meta property="og:url" content="http://example.com/2023/06/01/%E5%88%9D%E8%AF%86%E9%BB%91%E7%BA%A2%E6%A0%91/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2023/05/24/p97LfLd.png">
+<meta property="og:image" content="https://s1.ax1x.com/2023/05/26/p9b4exA.png">
+<meta property="og:image" content="https://s1.ax1x.com/2023/05/26/p9b48Pg.png">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-f1a3cfafa40a6f318cd986f66ec46f2e_720w.webp">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-416be68c4157cd94e43cdfb500c54fff_720w.webp">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-19dad08548b787afaa826397f88ac20b_720w.webp">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-774dc52131cf37747220d34f91d26ed7_720w.webp">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-00fdab4fb75ab1b00f1ea70f91b8c6ef_720w.webp">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-2875d9253cf24677f8150e03c28d02b5_720w.webp">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-74fc6b8d4b6031ea3257cd35e1f2a468_720w.webp">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-667f142ff2a163ef587ac495bdb41e14_720w.webp">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-a79fce7413b19d1ae8d88d25988235ab_720w.webp">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-09f86f5502a1259ae1029ee7699c0f38_720w.webp">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-d7031957af29da4d3560ac1dc06d8a25_720w.webp">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-8ed50fc431f825144b4650dfc66d5deb_720w.webp">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-241bdb7fbf80e4762f2d8e0947728060_720w.webp">
+<meta property="article:published_time" content="2023-06-01T07:57:54.000Z">
+<meta property="article:modified_time" content="2023-06-04T13:11:07.685Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2023/05/24/p97LfLd.png">
+
+<link rel="canonical" href="http://example.com/2023/06/01/%E5%88%9D%E8%AF%86%E9%BB%91%E7%BA%A2%E6%A0%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>初识黑红树 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/01/%E5%88%9D%E8%AF%86%E9%BB%91%E7%BA%A2%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          初识黑红树
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-06-01 15:57:54" itemprop="dateCreated datePublished" datetime="2023-06-01T15:57:54+08:00">2023-06-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-04 21:11:07" itemprop="dateModified" datetime="2023-06-04T21:11:07+08:00">2023-06-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>初识黑红树</title>
+</head>
+<body><h1 id='初识黑红树'>初识黑红树  </h1>
+<h2 id='234树'>234树  </h2>
+<p>234的含义指一个节点可能含有的子节点个数  </p>
+<p>规则：<mark>非子结点的子节点数总是比它含有的数据项多1</mark>  </p>
+<p>结点所含数值编写规则有点类似普通树的中序遍历  <img src="https://s1.ax1x.com/2023/05/24/p97LfLd.png">  </p>
+<h2 id='234树的插入'>234树的插入  </h2>
+<ul>
+<li>当插入节点没满数据，时，直接插入，可能需要移动一到两个数据  </li>
+<li>若插入节点已满，则需要进行节点分裂来保证234树的平衡//AVL树//  </li>
+
+</ul>
+<p>一般情况下，分裂的规则一句话概括就是“将中间数据往上提”  </p>
+<p><img src="https://s1.ax1x.com/2023/05/26/p9b4exA.png" width="667" height="194">   </p>
+<p>但是在多次插入或者插入已知树时，遇到没满节点，需要先插入满其子节点，自身节点需要靠子节点分裂来补充  </p>
+<p><img src="https://s1.ax1x.com/2023/05/26/p9b48Pg.png" width="529" height="493"><br/>//代码在代码特殊训练中补//  </p>
+<p>##黑红树与234树  </p>
+<p><strong>黑红树就是234树的另类表示方法</strong>  </p>
+<p>黑色节点与红色节点结合起来表示234树中的节点  </p>
+<p>规则如下：  </p>
+<ul>
+<li>2节点-&gt;黑色单节点  </li>
+<li>3节点-&gt;黑色节点接红色节点（在我目前学习过程中默认左倾）  </li>
+<li>4节点-&gt;黑色节点接两红色节点  </li>
+
+</ul>
+<blockquote><p>特殊黑红树：23树所建立的黑红树（都为左倾红节点，在很多地方简化黑红树的复杂性，所以一般情况下的黑红树优先考虑23树）  </p>
+</blockquote>
+<p><strong>黑红树特性（官方特性）</strong>  </p>
+<ul>
+<li>节点颜色有黑有红（不是废话？）</li>
+<li>根节点必为黑色（感觉也是废话）  </li>
+<li>所有叶子节点都是黑色（实际情况下这种节点是空节点）  </li>
+<li><u>任意节点到叶子节点经过的黑色节点数目相同</u>  </li>
+
+</ul>
+<blockquote><p>在23树中，对应黑红树的黑红节点是同一层的，所以<mark>只有黑色节点在贡献高度</mark>，反应在黑红树中就是黑色完美平衡  </p>
+</blockquote>
+<ul>
+<li><u>不会有连续的红色节点</u>  </li>
+
+</ul>
+<p><strong>会产生以下效果：</strong></p>
+<ol start='' >
+<li>对于二叉树来说，进行查找插入删除的时间复杂度为O(logn)，但是不足以抵消维护AVL树的成本</li>
+<li>时间复杂度是基于树的高度来的，所以说理论上减少树的高度能低成本降低时间复杂度</li>
+<li>在结点中增加数据显然能降低树高，比如23树，理论上哪怕345678树，结点越高越省</li>
+<li>难点在于从代码层面上生成富数据结点树，于是将23树转化成黑红树</li>
+<li>黑红树具有和二叉树一样的结构，能以O(logn)的时间复杂度进行操作，任何不平衡只需三次旋转</li>
+
+</ol>
+<h3 id='插入时'>插入时  </h3>
+<p>黑红树将待插入节点涂成红色  </p>
+<hr />
+<blockquote><p>红色节点的意义：<strong>与父节点进行关联</strong>  </p>
+</blockquote>
+<p>若出现双红色子节点的情况（即4节点树的情况），黑红树需要在插入后进行调整  </p>
+<blockquote><p>即树的涂色与旋转  </p>
+</blockquote>
+<p>旋转与AVL树中“上提平衡”如出一辙，所以不再多言  </p>
+<hr />
+<p>先说统计结果（基于左旋黑红树）：  </p>
+<p>1、两红子节点,父节点染红，两子节点染黑  </p>
+<p>2、连续红节点，若出现与父节点同属性情况，则将三节点上提右旋，并使新父节点染红，再染黑子节点（与1出现交叉定义）  </p>
+<p>3、连续红节点，若出现与父节点反属性情况，则将两红连续节点左旋，再按照2处理  </p>
+<blockquote><p>类似结果在23树中有对应插入方式   </p>
+</blockquote>
+<h3 id='删除时'>删除时  </h3>
+<p>删除首要遵循的规则和二叉查找树通用的删除策略一样，即<font color=red>删除后用前驱节点/后继节点来填充</font>  </p>
+<p>删除结点导致的最大后果就是有可能改变了树的黑高，前面已经提到过黑红树一种维持黑色结点平衡的情况，所以说删除后的维护也同样重要。</p>
+<blockquote><p><font color=red>注意代码层面上作为叶子结点的空结点NULL视为<strong>黑色</strong></font></p>
+</blockquote>
+<p>这里分多种情况进行操作，设定要删除结点为v，删除后用来填充的结点为u</p>
+<p>先易后难，首先是比较简单的不会改变黑高的情况，那就是u或者v是红色  </p>
+<p><img src="https://pic3.zhimg.com/80/v2-f1a3cfafa40a6f318cd986f66ec46f2e_720w.webp"></p>
+<blockquote><p>直接将替换后的结点染回黑色</p>
+</blockquote>
+<p>然后是复杂的v和u都是黑色结点的情况了，这里会改变黑高，所以分多种情况表示</p>
+<h4 id='v和u都是黑色结点的复杂情况'>v和u都是黑色结点的复杂情况</h4>
+<h5 id='u是双黑结点且不是根结点'>u是双黑结点且不是根结点</h5>
+<p>先设定u的兄弟结点为s</p>
+<h6 id='s为黑且s的孩子结点至少有一个红色'>s为黑且s的孩子结点至少有一个红色</h6>
+<p>(1)s和红色子节点（或者孩子都是红色）按照“LL”排列</p>
+<p>将s的对应红色孩子染黑，然后右旋转（上提）</p>
+<p><img src="https://pic4.zhimg.com/80/v2-416be68c4157cd94e43cdfb500c54fff_720w.webp"></p>
+<blockquote><p>“双黑结点”即受到删除后待处理结点，处理完后变为单黑结点   “双黑”即占用两黑高位</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>(2)s和红色子节点（或者孩子都是红色）按照“LR”排列</p>
+<p>先将相应红色结点染红，然后小左旋，形成LL的情况</p>
+<p><img src="https://pic4.zhimg.com/80/v2-19dad08548b787afaa826397f88ac20b_720w.webp"></p>
+<p>然后和LL一样进行大右旋，平衡黑高</p>
+<p><img src="https://pic4.zhimg.com/80/v2-774dc52131cf37747220d34f91d26ed7_720w.webp"></p>
+<p>&nbsp;</p>
+<p>(3)s和红色子节点（或者孩子都是红色）按照“RR”排列</p>
+<p>和LL情况相对称,染完色后如图</p>
+<p><img src="https://pic4.zhimg.com/80/v2-00fdab4fb75ab1b00f1ea70f91b8c6ef_720w.webp"></p>
+<p>(4)s和红色子节点（或者孩子都是红色）按照“RL”排列</p>
+<p>和LR情况相对称，染完色后如图</p>
+<p><img src="https://pic2.zhimg.com/80/v2-2875d9253cf24677f8150e03c28d02b5_720w.webp"></p>
+<p><img src="https://pic1.zhimg.com/80/v2-74fc6b8d4b6031ea3257cd35e1f2a468_720w.webp"></p>
+<h6 id='s是黑色且s的两个孩子结点都是黑色'>s是黑色且s的两个孩子结点都是黑色</h6>
+<p>删除后首先将s染红，此时对于父节点来说这个子树达成黑色平衡，但对于整体树来说这个子树少了一树高，所以将父节点标记为双黑结点，即现在开始处理父节点，问题就向上转移向上递归了</p>
+<p><img src="https://pic1.zhimg.com/80/v2-667f142ff2a163ef587ac495bdb41e14_720w.webp"></p>
+<p>若爷爷结点仍然为黑，则把父节点当作问题结点按黑红树标准规则处理，若一直出现题中情况，则直到递归到红色结点停止（直接将该结点染红，则整体树达到黑红平衡！）</p>
+<p><img src="https://pic4.zhimg.com/80/v2-a79fce7413b19d1ae8d88d25988235ab_720w.webp"></p>
+<h6 id='s是红色结点'>s是红色结点</h6>
+<p>(1)s是父节点左孩子，对父节点进行右旋操作</p>
+<p><img src="https://pic1.zhimg.com/80/v2-09f86f5502a1259ae1029ee7699c0f38_720w.webp"></p>
+<blockquote><p>注意此时s结点改变对象</p>
+</blockquote>
+<p>发现双黑结点此时形成了 <strong>s 是黑色且 s 的两个孩子结点都是黑色</strong>的情况  </p>
+<p>那么直接作相应处理就好，而且父节点恰好就是红，可以不用递归</p>
+<p><img src="https://pic2.zhimg.com/80/v2-d7031957af29da4d3560ac1dc06d8a25_720w.webp"></p>
+<p>(2)s是父节点右孩子（和上面情况对称罢了）</p>
+<p><img src="https://pic4.zhimg.com/80/v2-8ed50fc431f825144b4650dfc66d5deb_720w.webp"></p>
+<p><img src="https://pic1.zhimg.com/80/v2-241bdb7fbf80e4762f2d8e0947728060_720w.webp"></p>
+<h5 id='u是双黑结点且为根结点'>u是双黑结点且为根结点</h5>
+<p>直接变单黑就行</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/05/28/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" rel="prev" title="进程与线程">
+      <i class="fa fa-chevron-left"></i> 进程与线程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/06/04/%E5%86%85%E5%AD%98%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" rel="next" title="内存基本概念">
+      内存基本概念 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9D%E8%AF%86%E9%BB%91%E7%BA%A2%E6%A0%91"><span class="nav-number">1.</span> <span class="nav-text">初识黑红树  </span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#234%E6%A0%91"><span class="nav-number">1.1.</span> <span class="nav-text">234树  </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#234%E6%A0%91%E7%9A%84%E6%8F%92%E5%85%A5"><span class="nav-number">1.2.</span> <span class="nav-text">234树的插入  </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%97%B6"><span class="nav-number">1.2.1.</span> <span class="nav-text">插入时  </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%97%B6"><span class="nav-number">1.2.2.</span> <span class="nav-text">删除时  </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#v%E5%92%8Cu%E9%83%BD%E6%98%AF%E9%BB%91%E8%89%B2%E7%BB%93%E7%82%B9%E7%9A%84%E5%A4%8D%E6%9D%82%E6%83%85%E5%86%B5"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">v和u都是黑色结点的复杂情况</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#u%E6%98%AF%E5%8F%8C%E9%BB%91%E7%BB%93%E7%82%B9%E4%B8%94%E4%B8%8D%E6%98%AF%E6%A0%B9%E7%BB%93%E7%82%B9"><span class="nav-number">1.2.2.1.1.</span> <span class="nav-text">u是双黑结点且不是根结点</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#s%E4%B8%BA%E9%BB%91%E4%B8%94s%E7%9A%84%E5%AD%A9%E5%AD%90%E7%BB%93%E7%82%B9%E8%87%B3%E5%B0%91%E6%9C%89%E4%B8%80%E4%B8%AA%E7%BA%A2%E8%89%B2"><span class="nav-number">1.2.2.1.1.1.</span> <span class="nav-text">s为黑且s的孩子结点至少有一个红色</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#s%E6%98%AF%E9%BB%91%E8%89%B2%E4%B8%94s%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%AD%A9%E5%AD%90%E7%BB%93%E7%82%B9%E9%83%BD%E6%98%AF%E9%BB%91%E8%89%B2"><span class="nav-number">1.2.2.1.1.2.</span> <span class="nav-text">s是黑色且s的两个孩子结点都是黑色</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#s%E6%98%AF%E7%BA%A2%E8%89%B2%E7%BB%93%E7%82%B9"><span class="nav-number">1.2.2.1.1.3.</span> <span class="nav-text">s是红色结点</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#u%E6%98%AF%E5%8F%8C%E9%BB%91%E7%BB%93%E7%82%B9%E4%B8%94%E4%B8%BA%E6%A0%B9%E7%BB%93%E7%82%B9"><span class="nav-number">1.2.2.1.2.</span> <span class="nav-text">u是双黑结点且为根结点</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/%E7%A9%BA%E9%97%B4%E5%8F%98%E6%8D%A2/" title="2023&#x2F;08&#x2F;09&#x2F;空间变换&#x2F;">空间变换</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/KMP%E7%AE%97%E6%B3%95/" title="2023&#x2F;08&#x2F;09&#x2F;KMP算法&#x2F;">KMP算法</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9C%AC%E8%B4%A8%E4%B8%8E%E6%8A%80%E5%B7%A7/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——游戏设计本质与技巧&#x2F;">腾讯课堂——游戏设计本质与技巧</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B5%85%E8%BF%B0%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——浅述游戏策划&#x2F;">腾讯课堂——浅述游戏策划</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E5%8F%91%E5%B1%95%E5%8F%B2/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——电子游戏发展史&#x2F;">腾讯课堂——电子游戏发展史</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '73ea5ffe5086c080a56f6bba0e53564f6676719d',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '5683686740dcfedca910e416d81d2c22',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

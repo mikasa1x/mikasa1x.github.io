@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="Unity中的C#脚本">
+<meta property="og:url" content="http://example.com/2023/06/27/Unity%E4%B8%AD%E7%9A%84C-%E8%84%9A%E6%9C%AC/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2023/06/27/pCaERe0.png">
+<meta property="article:published_time" content="2023-06-27T12:21:52.000Z">
+<meta property="article:modified_time" content="2023-06-27T12:22:57.571Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2023/06/27/pCaERe0.png">
+
+<link rel="canonical" href="http://example.com/2023/06/27/Unity%E4%B8%AD%E7%9A%84C-%E8%84%9A%E6%9C%AC/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Unity中的C#脚本 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/27/Unity%E4%B8%AD%E7%9A%84C-%E8%84%9A%E6%9C%AC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Unity中的C#脚本
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-06-27 20:21:52 / 修改时间：20:22:57" itemprop="dateCreated datePublished" datetime="2023-06-27T20:21:52+08:00">2023-06-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Unity%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">Unity基础概念</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>脚本概述</title>
+</head>
+<body><h1 id='脚本概述'>脚本概述</h1>
+<p>unity中的脚本定义了对象运行的逻辑，包括用户输入、游戏事件等。脚本的本质是新创建组件，在unity内置组件无法完成应实现的功能时，脚本文件为其提供补充。通常所说的“unity编程”或者说“C#编程”，其实本质就是编写脚本。</p>
+<p>创建脚本时，系统会自动在脚本中创建一个由MonoBehaviour的内置类派生而来的类，此类包含一些用于链接unity内部架构的函数，此外，<font color=red>类名和文件名必须相同才能时脚本附加到游戏对象中</font></p>
+<p>新建的脚本默认文件如下：</p>
+<pre><code class='language-c#' lang='c#'>using UnityEngine;
+using System.Collections;
+
+<p>public class NewBehaviourScript : MonoBehaviour &#123;</p>
+<pre><code>// Use this for initialization
+void Start () &#123;
+
+&#125;
+
+// Update is called once per frame
+void Update () &#123;
+
+&#125;
+</code></pre>
+<p>}<br></code></pre></p>
+<p>其中，<code>Start()</code>函数就类似于构造函数，用于对对象的各种变量进行初始化。</p>
+<p>而<code>Update()</code>用于放置具体的实现代码，用于游戏对象的帧更新，包括移动等。</p>
+<p><code>Start()</code>函数在组件激活时调用，所以适用于初始化，<code>Update()</code>每一帧都会调用，所以适用于帧更新</p>
+<blockquote><p>此外，还包括<code>Awake()</code>最早调用函数，<code>FixedUpdate()</code>固定频率调用函数，<code>OnDestroy()</code>销毁时调用函数等等等等，不过初学者可以先只关注Start于Update</p>
+</blockquote>
+<p>如果有没用到update的情况，那么最好及时删除，因为空调用update也会造成一定开销</p>
+<p>以上函数，统称为脚本的“生命周期方法”</p>
+<p>&nbsp;</p>
+<h1 id='debug命令'>Debug命令</h1>
+<p>可以在start函数中添加以下代码：</p>
+<pre><code class='language-c#' lang='c#'>void Start () 
+&#123;
+    Debug.Log(&quot;Hello world!&quot;);
+&#125;
+</code></pre>
+<p><code>Debug.Log()</code>用于将消息输出到Unity控制台，作用是检测对象是否正确初始化，若成功，则在窗口底部打印Hello world</p>
+<blockquote><p>此外</p>
+<p>Debug.Lob(String str)也用于标准输出</p>
+<p>Debug.LogWarning(object obj)用于输出警告信息</p>
+<p>Debug.logWarning(object obj)用于输出错误信息</p>
+</blockquote>
+<p>//等等，unity中的Debug命令还有很多很多。。。。//</p>
+<p>&nbsp;</p>
+<h1 id='变量'>变量</h1>
+<p>类似C++中的调试，Inspector作为一个变量查看器，只能查看声明为public的变量</p>
+<p>Unity 实际上允许您在游戏运行时更改脚本变量的值。此功能很有用，无需停止和重新启动即可直接查看更改的效果。当游戏运行过程结束时，变量的值将重置为按下 Play 之前所处的任何值。这样可确保自由调整对象的设置，而不必担心会造成任何永久性损坏。</p>
+<p>&nbsp;</p>
+<h1 id='脚本执行顺序'>脚本执行顺序</h1>
+<p>单个脚本中存在一个隐含的生命周期函数执行顺序<mark><code>Awake()</code>-&gt;<code>OnEnable()</code>-&gt;<code>Start()</code>-&gt;<code>Update()</code></mark></p>
+<blockquote><p><code>OnEnable()</code>是一个每次激活脚本都会调用一次的方法</p>
+</blockquote>
+<p>理论上每个脚本会严格按着这个顺序调用方法，所以在执行简单的脚本程序时，初始化的语句放在<code>Awake()</code>或者<code>Start()</code>中都是可行的。不过当一个对象中运行多个脚本时，具体的调用顺序就会变成逐个执行每个脚本的优先方法，所以说如果有非常紧急的事务，可以直接放在最优先的<code>Awake()</code>方法</p>
+<p>此外，可以在Unity中自行设置全部脚本执行顺序方法</p>
+<p>&nbsp;</p>
+<h1 id='脚本组件与对象'>脚本组件与对象</h1>
+<p>在官方的Unity文档中，对象的数据更改定义了有两种方式</p>
+<ul>
+<li>一是通过Inspector来更改属性，这种方式相当于为脚本提供一个更方便的接口，Inspector窗口直接放在脚本内容下，游戏窗口旁边，在调试过程中动动手就能更改，十分方便：</li>
+
+</ul>
+<p><img src="https://s1.ax1x.com/2023/06/27/pCaERe0.png"></p>
+<blockquote><p>详细解析如下</p>
+</blockquote>
+<p>在具体的脚本代码中，<code>public</code>的变量都会自动显示在Inspector中并随时提供更改，如果要显示<code>private</code>变量，那么就在前面增加一行<code>[SerializeField]</code></p>
+<pre><code class='language-c#' lang='c#'>[SerializeField] private LayerMask _groundLayer;
+[SerializeField] private int _detectorCount = 3;
+[SerializeField] private float _detectionRayLength = 0.1f;
+</code></pre>
+<p>如上对应图片中COLLSION项以下部分变量，而如果要增加像图片中的小标题，则用以下格式：</p>
+<pre><code class='language-c#' lang='c#'>[Header(&quot;COLLISION&quot;)]
+</code></pre>
+<p>拖动条的代码如下（其实就是增加了Range关键字）：</p>
+<pre><code class='language-c#' lang='c#'>[SerializeField] [Range(0.1f, 0.3f)] private float _rayBuffer = 0.1f;
+</code></pre>
+<p>此外，还有<code>[Space]</code>关键字用于隔行，<code>[HideInInspector]</code>关键字用于隐藏不想显示在面版中的变量</p>
+<p>&nbsp;</p>
+<ul>
+<li>二是通过脚本自身定义方法来对游戏对象进行数据操控，这种方式最为常用，因为这种方式可以在游戏运行时进行，并能响应用户输入，以用于完成例如游戏对象摧毁等任务</li>
+
+</ul>
+<p>&nbsp;</p>
+<h2 id='游戏对象内组件的访问'>游戏对象内组件的访问</h2>
+<p>游戏对象内的多个组件往往需要相互交流，例如经典格斗游戏中跳跃时与站立时同一个招数是不同效果的。</p>
+<p>组件就是类的实例，所以第一步是获取所需要组件的实例引用，使用<code>GetComponent</code>函数来完成</p>
+<pre><code class='language-c#' lang='c#'>void Start () 
+&#123;
+    Rigidbody rb = GetComponent&lt;Rigidbody&gt;();
+&#125;
+</code></pre>
+<p>这个例子中，用<code>Rigidbody</code>声明的变量<code>rb</code>来储存实例引用游戏对象刚体组件，尖括号意思是引用该类型的所有引用</p>
+<p>根据官方文档提示，带有类型的的访问是最优于性能的（这里先排除一些某类型用不了的情况），所以这里先只使用这种方式，其他重载仅限了解即可:</p>
+<ul>
+<li>GetComponent()</li>
+<li>GetComponent(typeof(T))</li>
+<li>GetComponent(string)</li>
+
+</ul>
+<p>引用过后，我们就可以通过这种方式来访问相应变量辣</p>
+<pre><code class='language-c#' lang='c#'> rb.mass = 10f;
+</code></pre>
+<p>另外，还可以直接调用引用实例的函数，这是Inspector中所没有的</p>
+<p>若未找到相应引用，则该函数返回NULL，这会导致主要开销</p>
+<p>&nbsp;</p>
+<h2 id='游戏对象间的组件访问'>游戏对象间的组件访问</h2>
+<p>一个玩家需要知道另一个玩家的位置，这种情况经常发生，尽管对象经常孤立运行，但对象是没有隐私的。</p>
+<p>现在直接public一个游戏对象变量</p>
+<pre><code class='language-c#' lang='c#'>public class Enemy : MonoBehaviour
+&#123;
+    public GameObject player;
+    
+<pre><code>// 其他变量和函数...
+</code></pre>
+<p>}<br></code></pre></p>
+<p>这个变量的类型是游戏对象，它甚至可以在Inspector中显示出来。于是乎这个变量成为一个接口，一个用于操控其他目标对象的接口</p>
+<p>你可以直接拖拽将想要的对象对接给他，也可以在Inspector里面调，哪样都行</p>
+<p>对接上后就可以直接通过<code>变量.</code>这样的方式来直接调用了。同样的，这个“对接”过来的变量也可以被GetComponent函数引用</p>
+<p>此外，如果在脚本中声明组件类型的公共变量，则可以拖动已附加该组件的任何游戏对象。这样可以直接访问组件而不是游戏对象本身</p>
+<pre><code class='language-c#' lang='c#'>public Transform playerTransform; 
+</code></pre>
+<blockquote><p>小tips：GameObject是Unity的一个关键类，Transform是GameObject属下的一个脚本API，掌管物体的大小位置旋转等信息</p>
+</blockquote>
+<p><mark>以上是游戏组件对象的最基本运行逻辑，以下介绍批量化处理方法</mark></p>
+<p>&nbsp;</p>
+<h1 id='子游戏对象'>子游戏对象</h1>
+<p>从以上方式中可得知，每进行一次对象间的信息链接，就要重新声明一个对象变量，但游戏对象往往是批量化的，如果我们删除一个对象，那么引用这个对象的相关变量都要一个个删除，十分麻烦。</p>
+<p>所以我们使用子游戏对象的概念来管理游戏对象</p>
+<pre><code class='language-c#' lang='c#'>using UnityEngine;
+
+<p>public class WaypointManager : MonoBehaviour &#123;<br>    public Transform[] waypoints;</p>
+<pre><code>void Start() 
+&#123;
+    waypoints = new Transform[transform.childCount];
+    int i = 0;
+    
+    foreach (Transform t in transform)
+    &#123;
+        waypoints[i++] = t;
+    &#125;
+&#125;
+</code></pre>
+<p>}<br></code></pre></p>
+<p>示例创建数组来对子游戏对象进行储存，方法对各个对象遍历，有意思的是与C++比起来C#的数组声明的尖括号居然是放在类型后面的，另外，查找子对象的可以使用<code>Teansform.Find</code>函数（记得加双引号）</p>
+<blockquote><p>在场景层级视图中查找任意可以识别的对象，可以用<code>GameObject.Find</code></p>
+</blockquote>
+<p>&nbsp;</p>
+<h1 id='时间和帧率管理子弹时间的实现）'>时间和帧率管理（子弹时间的实现）</h1>
+<p>//待补充//</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/06/20/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="prev" title="动态规划">
+      <i class="fa fa-chevron-left"></i> 动态规划
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/07/11/%E6%B5%85%E6%B5%85%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E7%AC%AC%E4%B8%80%E6%AC%A1GameJam%EF%BC%88solo%EF%BC%89%E7%BB%8F%E5%8E%86/" rel="next" title="浅浅记录一下第一次GameJam（solo）经历">
+      浅浅记录一下第一次GameJam（solo）经历 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">脚本概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#debug%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">Debug命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%98%E9%87%8F"><span class="nav-number">3.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="nav-number">4.</span> <span class="nav-text">脚本执行顺序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC%E7%BB%84%E4%BB%B6%E4%B8%8E%E5%AF%B9%E8%B1%A1"><span class="nav-number">5.</span> <span class="nav-text">脚本组件与对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E5%AF%B9%E8%B1%A1%E5%86%85%E7%BB%84%E4%BB%B6%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="nav-number">5.1.</span> <span class="nav-text">游戏对象内组件的访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E5%AF%B9%E8%B1%A1%E9%97%B4%E7%9A%84%E7%BB%84%E4%BB%B6%E8%AE%BF%E9%97%AE"><span class="nav-number">5.2.</span> <span class="nav-text">游戏对象间的组件访问</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%90%E6%B8%B8%E6%88%8F%E5%AF%B9%E8%B1%A1"><span class="nav-number">6.</span> <span class="nav-text">子游戏对象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%92%8C%E5%B8%A7%E7%8E%87%E7%AE%A1%E7%90%86%E5%AD%90%E5%BC%B9%E6%97%B6%E9%97%B4%E7%9A%84%E5%AE%9E%E7%8E%B0%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">时间和帧率管理（子弹时间的实现）</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/%E7%A9%BA%E9%97%B4%E5%8F%98%E6%8D%A2/" title="2023&#x2F;08&#x2F;09&#x2F;空间变换&#x2F;">空间变换</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/09/KMP%E7%AE%97%E6%B3%95/" title="2023&#x2F;08&#x2F;09&#x2F;KMP算法&#x2F;">KMP算法</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9C%AC%E8%B4%A8%E4%B8%8E%E6%8A%80%E5%B7%A7/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——游戏设计本质与技巧&#x2F;">腾讯课堂——游戏设计本质与技巧</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B5%85%E8%BF%B0%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——浅述游戏策划&#x2F;">腾讯课堂——浅述游戏策划</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E5%8F%91%E5%B1%95%E5%8F%B2/" title="2023&#x2F;08&#x2F;08&#x2F;腾讯课堂——电子游戏发展史&#x2F;">腾讯课堂——电子游戏发展史</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '73ea5ffe5086c080a56f6bba0e53564f6676719d',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '1b5ec7edfe91790139db601529cd91d0',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
