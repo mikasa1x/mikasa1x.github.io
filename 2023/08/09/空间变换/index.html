@@ -20,12 +20,10 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="空间变换的意义  空间变换的意义 &amp;nbsp; 模型变换  描述摄像机运动 描述模型运动   &amp;nbsp; 视图变换  3D到2D的投影变换    二维变换 刻度矩阵  x&#96;&#x3D;sx  y&#96;&#x3D;sy 写成矩阵： 叫做缩放矩阵  y轴反转：    x&#96;&#x3D;-x y&#96;&#x3D;y  &amp;nbsp;  斜变化：      旋转变化：     将特殊点代入就可以算出来  没有额外交代，旋转永远以原点为旋转中心">
-<meta property="og:type" content="article">
+  <meta property="og:type" content="article">
 <meta property="og:title" content="空间变换">
 <meta property="og:url" content="http://example.com/2023/08/09/%E7%A9%BA%E9%97%B4%E5%8F%98%E6%8D%A2/index.html">
 <meta property="og:site_name" content="Coding中。。。">
-<meta property="og:description" content="空间变换的意义  空间变换的意义 &amp;nbsp; 模型变换  描述摄像机运动 描述模型运动   &amp;nbsp; 视图变换  3D到2D的投影变换    二维变换 刻度矩阵  x&#96;&#x3D;sx  y&#96;&#x3D;sy 写成矩阵： 叫做缩放矩阵  y轴反转：    x&#96;&#x3D;-x y&#96;&#x3D;y  &amp;nbsp;  斜变化：      旋转变化：     将特殊点代入就可以算出来  没有额外交代，旋转永远以原点为旋转中心">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s1.ax1x.com/2023/08/08/pPVeYvD.md.png">
 <meta property="og:image" content="https://s1.ax1x.com/2023/08/08/pPVZIje.md.png">
@@ -55,7 +53,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2023/08/09/pPZlCj0.png">
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-eb5992872c8f8ab9317d43334a892684_720w.webp">
 <meta property="article:published_time" content="2023-08-08T19:51:20.000Z">
-<meta property="article:modified_time" content="2023-08-08T19:52:38.680Z">
+<meta property="article:modified_time" content="2023-08-09T07:44:04.836Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://s1.ax1x.com/2023/08/08/pPVeYvD.md.png">
@@ -218,7 +216,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-08-09 03:51:20 / 修改时间：03:52:38" itemprop="dateCreated datePublished" datetime="2023-08-09T03:51:20+08:00">2023-08-09</time>
+              <time title="创建时间：2023-08-09 03:51:20 / 修改时间：15:44:04" itemprop="dateCreated datePublished" datetime="2023-08-09T03:51:20+08:00">2023-08-09</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -259,6 +257,7 @@
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
 <title>空间变换的意义</title>
 </head>
 <body><h1 id='空间变换的意义'>空间变换的意义</h1>

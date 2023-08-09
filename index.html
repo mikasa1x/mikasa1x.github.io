@@ -188,7 +188,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-08-09 03:51:20 / 修改时间：03:52:38" itemprop="dateCreated datePublished" datetime="2023-08-09T03:51:20+08:00">2023-08-09</time>
+              <time title="创建时间：2023-08-09 03:51:20 / 修改时间：15:44:04" itemprop="dateCreated datePublished" datetime="2023-08-09T03:51:20+08:00">2023-08-09</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -229,194 +229,14 @@
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title>空间变换的意义</title>
-</head>
-<body><h1 id='空间变换的意义'>空间变换的意义</h1>
-<p>&nbsp;</p>
-<h2 id='模型变换'><strong>模型变换</strong></h2>
-<ul>
-<li>描述摄像机运动</li>
-<li>描述模型运动</li>
-
-</ul>
-<p>&nbsp;</p>
-<h2 id='视图变换'><strong>视图变换</strong></h2>
-<ul>
-<li>3D到2D的投影变换</li>
-
-</ul>
-<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pPVeYvD'><img src="https://s1.ax1x.com/2023/08/08/pPVeYvD.md.png" referrerpolicy="no-referrer" alt="pPVeYvD.md.png"></a></p>
-<h1 id='二维变换'>二维变换</h1>
-<p><strong>刻度矩阵</strong></p>
-<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pPVZIje'><img src="https://s1.ax1x.com/2023/08/08/pPVZIje.md.png" referrerpolicy="no-referrer" alt="pPVZIje.md.png"></a></p>
-<p>x`=sx </p>
-<p>y`=sy</p>
-<p>写成矩阵：<img src="https://s1.ax1x.com/2023/08/08/pPVZTnH.png"></p>
-<p>叫做<strong>缩放矩阵</strong></p>
-<ul>
-<li>y轴反转：</li>
-
-</ul>
-<p><img src="https://s1.ax1x.com/2023/08/08/pPVZ7Bd.png"></p>
-<p>x`=-x</p>
-<p>y`=y</p>
-<p><img src="https://s1.ax1x.com/2023/08/08/pPVZHHA.png"></p>
-<p>&nbsp;</p>
-<ul>
-<li>斜变化：</li>
-
-</ul>
-<p><img src="https://s1.ax1x.com/2023/08/08/pPVZqAI.png"></p>
-<p><img src="https://s1.ax1x.com/2023/08/08/pPVZLNt.png"></p>
-<ul>
-<li>旋转变化：</li>
-
-</ul>
-<p><img src="https://s1.ax1x.com/2023/08/08/pPVZO4P.png"></p>
-<p><img src="https://s1.ax1x.com/2023/08/08/pPVeZgU.png"></p>
-<blockquote><p>将特殊点代入就可以算出来</p>
-</blockquote>
-<blockquote><p>没有额外交代，旋转永远以原点为旋转中心</p>
-</blockquote>
-<h1 id='齐次坐标'>齐次坐标</h1>
-<p><img src="https://s1.ax1x.com/2023/08/08/pPVe14x.png"></p>
-<p>并不能用上述说的矩阵表示</p>
-<p>于是</p>
-<ul>
-<li>2D point   =(x,y,1)T</li>
-<li>2D vector =(x,y,0)T</li>
-
-</ul>
-<p><img src="https://s1.ax1x.com/2023/08/08/pPVeG8K.png"></p>
-<p>但是不是线性变换，不满足”由一个矩阵变换而来“的约定俗成格式</p>
-<p>所以引入一个新坐标</p>
-<p><img src="https://s1.ax1x.com/2023/08/08/pPVeNKe.png"></p>
-<p>解释如下：</p>
-<blockquote><ul>
-<li>vector + vector   = vector</li>
-<li>point   - point      = vector</li>
-<li>point   + vector   = point</li>
-<li>point   + point     = ??</li>
-
-</ul>
-<blockquote><p>两点相加其实是中点</p>
-</blockquote>
-<p>其实所有二维点(x,y,w)T最终都能变换成这样的形式(x/w,y/w,1)T</p>
-<p>然后为什么坐标后面增加的是1，而向量后面增加的是0呢？首先看结果，进行平移变换后，点的坐标是满足我们需求的，而向量的特点是”平移不变“，所以我们不应该在进行平移操作后改变向量的值，所以0是用来保护向量的</p>
-</blockquote>
-<p><strong>特点</strong>：在二维情况下的仿射矩阵中，最下面一排必为001</p>
-<ul>
-<li>逆变换：</li>
-
-</ul>
-<p><img src="https://s1.ax1x.com/2023/08/08/pPVerPP.png"></p>
-<p>变换回来的方法就是乘以逆矩阵</p>
-<blockquote><p>有意思的是对于旋转变换来说，他的逆变换就是向反方向旋转相同角度，而反方向旋转矩阵就是正方形旋转矩阵的<strong>转置</strong>，所以说对于旋转矩阵，他的<mark><strong>转置就等同于他的逆</strong></mark>（数学上叫正交矩阵）</p>
-</blockquote>
-<h1 id='组合变换'>组合变换</h1>
-<ol start='' >
-<li>复杂的变换通过简单变换组合得来</li>
-<li>简单变换的顺序很重要（很形象：矩阵乘法不满足交换律）</li>
-
-</ol>
-<p>于是：</p>
-<p><img src="https://s1.ax1x.com/2023/08/08/pPVes8f.png"></p>
-<blockquote><p><mark><strong>从右到左</strong></mark></p>
-</blockquote>
-<p>可以说，一个3X3的矩阵，可以代表很多变换的组合，这就是这个矩阵很神奇的地方，无论多么复杂的变换，通过这个小小的3X3矩阵就能够表示</p>
-<p>实战：</p>
-<p><img src="https://s1.ax1x.com/2023/08/08/pPVey28.png"></p>
-<blockquote><p>非原点的旋转如何实现？很难写，那么可以先把这个点移动到原点，平移过去后再进行旋转，这就是逆向思考，反过来分解矩阵</p>
-</blockquote>
-<p>&nbsp;</p>
-<h1 id='三维变换'>三维变换</h1>
-<p><strong>依葫芦画瓢</strong></p>
-<ul>
-<li>3D point    =(x,y,z,1)T</li>
-<li>3D vector  =(x,y,z,0)T</li>
-
-</ul>
-<p>同样多一个齐次坐标</p>
-<p><img src="https://s1.ax1x.com/2023/08/08/pPVeRbj.png"></p>
-<p>对于三维物体变换来说，难点在于旋转</p>
-<ul>
-<li>绕轴旋转变换</li>
-
-</ul>
-<p><img src="https://s1.ax1x.com/2023/08/09/pPZQPTe.png"></p>
-<blockquote><p>分别代表绕某条轴旋转</p>
-</blockquote>
-<ul>
-<li>普遍旋转</li>
-
-</ul>
-<p>Rxyz(a,b,c) = Rx(a)Ry(b)Rz(c)</p>
-<p>飞机三大基本旋转：<strong>roll、pitch、yaw</strong></p>
-<p><img src="https://s1.ax1x.com/2023/08/09/pPZQkYd.png"></p>
-<blockquote><p>罗德里格斯旋转公式<img src="https://s1.ax1x.com/2023/08/09/pPZQAfA.png"></p>
-</blockquote>
-<p>//</p>
-<h1 id='观测变换'>观测变换</h1>
-<blockquote><p>View/Camera Transformation</p>
-</blockquote>
-<p>回忆一下现实生活中拍照片的过程</p>
-<p>摆造型-&gt;选角度-&gt;拍</p>
-<p>观察变换，就是“选角度”的过程</p>
-<p>&nbsp;</p>
-<h1 id='投影变换'>投影变换</h1>
-<p><img src="https://s1.ax1x.com/2023/08/09/pPZQ4tH.png"></p>
-<blockquote><p>其实这个可以见//cinemachime基本操作//</p>
-<p>那就不细聊原理了</p>
-</blockquote>
-<h2 id='正交'>正交</h2>
-<p>实际上投影的实质是从<strong>相机空间</strong>到<strong>裁剪空间</strong>的变换：</p>
-<ul>
-<li>将相机摆放到原点，布置好方向，朝向等</li>
-<li>去除z轴（会出现无法区分物体前后的情况）</li>
-<li>按比例移动并拉扯成到[-1,1]2的矩形上（转换为<strong>规范视域体</strong>，为了方便处理，无需考虑屏幕尺寸）</li>
-
-</ul>
-<p><strong>实质操作</strong></p>
-<ul>
-<li>用AABB包围盒（6个参数）转换为规范视规体</li>
-
-</ul>
-<blockquote><p>OpenGL为(-1,-1,-1)到(1,1,1)</p>
-<p>DirectX为(-1,-1,0)到(1,1,1)</p>
-</blockquote>
-<p><img src="https://pic4.zhimg.com/v2-34d52d90943eac487c86600f3019f263_r.jpg"></p>
-<blockquote><p>在三维上，由于常用右手系坐标，所以远近在z轴上表示是远比近小（比如x轴是远比近大，是完全相反的</p>
-</blockquote>
-<p><img src="https://pic2.zhimg.com/80/v2-8e6ca0093ddc333ef493a68e74b082e5_720w.webp"></p>
-<blockquote><p>图片来着知乎@杨鼎超</p>
-</blockquote>
-<h2 id='透视'>透视</h2>
-<blockquote><p>先导复习：点(1,0,0,1)与点(2,0,0,2)在三维中其实代表一个点</p>
-</blockquote>
-<p>实质是把一块空间中所有点，各自按照一定角度形成线状”挤“入屏幕中</p>
-<p><img src="https://s1.ax1x.com/2023/08/09/pPZQ7ct.png"></p>
-<p>细说如何变换：</p>
-<p><img src="https://s1.ax1x.com/2023/08/09/pPZQqnf.png"></p>
-<blockquote><p> 颇有一种土木老哥测距内味儿</p>
-</blockquote>
-<p>将某个点的变换写成齐次矩阵性质：</p>
-<p><img src="https://pic1.zhimg.com/80/v2-af0c8b4dfbcdf1944821e70d6c03fb00_720w.webp">发现问题：Z不见了，发生了和正交一样的情况</p>
-<p>于是变换一下思维，可以先把这个锥体（视锥体）变为AABB包围盒，再转变成规范视规体（如上上图所示）</p>
-<p><img src="https://s1.ax1x.com/2023/08/09/pPZlCj0.png"></p>
-<p>矩阵计算方法如下：</p>
-<ul>
-<li>统计所有常规点位变换规律（就是上图）</li>
-<li>统计近裁面上的所有点（也就是(x,y,z,1)T=W(x,y,z,1)T)</li>
-<li>统计z轴上的点，z轴值不变</li>
-
-</ul>
-<p>解方程最终结果为：</p>
-<p><img src="https://pic1.zhimg.com/80/v2-eb5992872c8f8ab9317d43334a892684_720w.webp"></p>
-<blockquote><p>图片分别来自知乎@杨鼎超与BiliBili@闫令琪</p>
-</blockquote>
-<p>&nbsp;</p>
-</body>
-</html>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/08/09/%E7%A9%BA%E9%97%B4%E5%8F%98%E6%8D%A2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
