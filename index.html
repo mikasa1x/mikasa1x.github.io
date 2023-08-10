@@ -188,7 +188,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-08-10 22:35:53 / 修改时间：22:36:22" itemprop="dateCreated datePublished" datetime="2023-08-10T22:35:53+08:00">2023-08-10</time>
+              <time title="创建时间：2023-08-10 22:35:53 / 修改时间：23:27:00" itemprop="dateCreated datePublished" datetime="2023-08-10T22:35:53+08:00">2023-08-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -229,97 +229,14 @@
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title>C++异常处理</title>
-</head>
-<body><h1 id='概述'>概述</h1>
-<p>除数不能为0、索引数组元素不能为空、指针不能过界……</p>
-<p>最典型的异常处理方式是用if树做分支处理，剔除错误的路线</p>
-<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
-using namespace std;
-
-<p>int main()&#123;<br>    int number1,number2;<br>    if(number2!&#x3D;0)&#123;<br>        cout&lt;&lt;(number1&#x2F;number2)&lt;&lt;endl;<br>    &#125;<br>    else&#123;<br>        cout&lt;&lt;&quot;Divisor cannot be zero&quot;&lt;&lt;endl;<br>    &#125;<br>    return 0;<br>&#125;<br></code></pre></p>
-<p>C++引入了异常处理机制。基本思想是：<strong>函数 A 在执行过程中发现异常时可以不加处理，而只是“拋出一个异常”给 A 的调用者，假定为函数 B。</strong></p>
-<p>即“创建、<mark><strong>抛出、获取和处理</strong> </mark>”一个异常。</p>
-<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
-using namespace std;
-
-<p>int main()&#123;<br>    int number1,number2;<br>    try&#123;<br>        if(number2&#x3D;&#x3D;0)<br>            throw number1;<br>        cout&lt;&lt;(number1&#x2F;number2)&lt;&lt;endl;<br>    &#125;<br>    catch(int ex)&#123;<br>        cout&lt;&lt;ex&lt;&lt;&quot;Divisor cannot be zero&quot;&lt;&lt;endl;<br>    &#125;<br>    return 0;<br>&#125;<br></code></pre></p>
-<ul>
-<li>正常情况下，<code>try</code> 块是应该运行的代码</li>
-<li><code>throw</code>就是异常信号，出现了这个就说明出现异常了，那么就带着“异常”抛出</li>
-<li>“异常”被<code>catch</code>接收，当出现异常时执行catch块，执行过后执行catch块的下一个语句；不出现时不执行catch块</li>
-
-</ul>
-<blockquote><p>可以满足多个catch块，抛出的异常需要满足相对应catch块的接收类型才可执行，若接收不到相应类型，也就是说异常得不到处理，那么程序就立即中止</p>
-</blockquote>
-<blockquote><p>可以捕获任何异常的块：catch(...){}</p>
-</blockquote>
-<blockquote><p>如果对异常参数不感兴趣，也可以不写catch块参数</p>
-</blockquote>
-<p>&nbsp;</p>
-<h1 id='异常抛出机制'>异常抛出机制</h1>
-<p>如果一个函数在执行过程中拋出的异常在本函数内就被 catch 块捕获并处理，那么该异常就不会拋给这个函数的调用者（也称为“上一层的函数”）；如果异常在本函数中没有被处理，则它就会被拋给上一层的函数。</p>
-<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
-using namespace std;
-
-<p>int quotient(int number1,int number2)&#123;<br>    if(number2&#x3D;&#x3D;0)<br>        throw number1;<br>    return number1&#x2F;number2;<br>&#125;</p>
-<p>int main&#123;<br>    int number1,number2;<br>    cin&gt;&gt;number1&gt;&gt;number2;</p>
-<pre><code>try&#123;
-    int result=quotient(number1,number2);
-    cout&amp;lt;&amp;lt;result&amp;lt;&amp;lt;endl;
-&#125;
-catch(int ex)&#123;
-    cout&amp;lt;&amp;lt;ex&amp;lt;&amp;lt;endl;
-&#125;
-return 0;
-</code></pre>
-<p>}<br></code></pre></p>
-<p>可见函数<code>quotient</code>抛出了异常，但函数本身并没有能接收的<code>catch</code>。但主函数中有。如果本函数没找到相应<code>catch</code>，那么就会返回上一级调用函数。</p>
-<blockquote><p>这样的话处理异常就会非常方便，大程序中层层调用的小函数往往没有自己处理异常的能力（尤其是库函数），这个能力交给大函数统一处理更加方便</p>
-</blockquote>
-<blockquote><p>如果拋出的异常是派生类的对象，而 catch 块的异常类型是基类，那么这两者也能够匹配，因为派生类对象也是基类对象。</p>
-</blockquote>
-<blockquote><p><code>throw</code>写在<code>catch</code>内，这个叫做“<strong>重抛出异常</strong>”，这个时候异常被抛给调用者，用于无法处理异常或者想通知调用者发生了这么一个异常的情况</p>
-</blockquote>
-<hr />
-<p>tips:</p>
-<p><strong>函数的异常声明列表</strong></p>
-<pre><code class='language-c++' lang='c++'>void func() throw (int, double, A, B, C);
-void func() throw (int, double, A, B, C)&#123;...&#125;
-</code></pre>
-<p>只是为了增强可读性，编译器一般也不会管他</p>
-<hr />
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1 id='异常类'>异常类</h1>
-<p>一个异常其实往往需要抛出更多需要的信息，一个int类肯定远远不止。C++预定了很多可用于创建异常对象的类。</p>
-<p><img src="https://s1.ax1x.com/2023/08/10/pPmcgDx.jpg"></p>
-<ul>
-<li><code>exception</code>根类包含一个虚函数<code>what()</code>，返回一个异常对象的错误信息</li>
-<li><code>runtime_error</code>类是多个描述运行错误的<strong>标准异常类</strong>的基类，类<code>overflow_error</code>描述算数太大溢出，类<code>underflow_error</code>描述太小溢出</li>
-<li><code>logic_error</code>类是多个描述逻辑错误的<strong>标准异常类</strong>的基类，类<code>length_error</code>描述对象大小超过最大允许长度的错误，类<code>out_of_range</code>描述值超出允许范围的错误</li>
-<li><code>bad_alloc</code>,<code>bad_cast</code>,<code>bad_typeid</code>和<code>bad_exception</code>类描述C++运算符抛出的异常。其中<code>bad_alloc</code>对应<code>new</code>运算符无法分配内存，<code>bad_cast</code>对应<code>dynamic_cast</code>在转换引用类型发生错误时的溢出，<code>bad_typeid</code>对应<code>typeid</code>在运算对象为空指针时抛出，<code>bad_exception</code>描述了从未遇到的异常</li>
-
-</ul>
-<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
-using namespace std;
-
-<p>int quotient(int number1,int number2)&#123;<br>    if(number2&#x3D;&#x3D;0)<br>        throw runtime_error(&quot;Divisor cannot be zero&quot;);<br>    return number1&#x2F;number2;<br>&#125;</p>
-<p>int main&#123;<br>    int number1,number2;<br>    cin&gt;&gt;number1&gt;&gt;number2;</p>
-<pre><code>try&#123;
-    int result=quotient(number1,number2);
-    cout&amp;lt;&amp;lt;result&amp;lt;&amp;lt;endl;
-&#125;
-catch(runtime_error&amp;amp; ex)&#123;
-    cout&amp;lt;&amp;lt;ex.what()&amp;lt;&amp;lt;endl;
-&#125;
-return 0;
-</code></pre>
-<p>}<br></code></pre></p>
-<p>//太深入的自定义类再学就消化不良了，先留个todo</p>
-<p>&nbsp;</p>
-</body>
-</html>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/08/10/C-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
