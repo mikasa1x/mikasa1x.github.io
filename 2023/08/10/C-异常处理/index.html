@@ -20,20 +20,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="动态规划">
-<meta property="og:url" content="http://example.com/2023/06/20/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/index.html">
+  <meta name="description" content="C++异常处理  概述 除数不能为0、索引数组元素不能为空、指针不能过界…… 最典型的异常处理方式是用if树做分支处理，剔除错误的路线 #include &lt;iostream&gt; using namespace std;  int main()&amp;#123;    int number1,number2;    if(number2!&#x3D;0)&amp;#123;        cou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++异常处理">
+<meta property="og:url" content="http://example.com/2023/08/10/C-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/index.html">
 <meta property="og:site_name" content="Coding中。。。">
+<meta property="og:description" content="C++异常处理  概述 除数不能为0、索引数组元素不能为空、指针不能过界…… 最典型的异常处理方式是用if树做分支处理，剔除错误的路线 #include &lt;iostream&gt; using namespace std;  int main()&amp;#123;    int number1,number2;    if(number2!&#x3D;0)&amp;#123;        cou">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s1.ax1x.com/2023/06/20/pC849eA.png">
-<meta property="og:image" content="https://s1.ax1x.com/2023/06/20/pC84AW8.png">
-<meta property="article:published_time" content="2023-06-20T14:08:03.000Z">
-<meta property="article:modified_time" content="2023-06-20T14:09:10.713Z">
+<meta property="og:image" content="https://s1.ax1x.com/2023/08/10/pPmcgDx.jpg">
+<meta property="article:published_time" content="2023-08-10T14:35:53.000Z">
+<meta property="article:modified_time" content="2023-08-10T14:36:22.335Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s1.ax1x.com/2023/06/20/pC849eA.png">
+<meta name="twitter:image" content="https://s1.ax1x.com/2023/08/10/pPmcgDx.jpg">
 
-<link rel="canonical" href="http://example.com/2023/06/20/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+<link rel="canonical" href="http://example.com/2023/08/10/C-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
 
 
 <script id="page-configurations">
@@ -46,7 +47,7 @@
   };
 </script>
 
-  <title>动态规划 | Coding中。。。</title>
+  <title>C++异常处理 | Coding中。。。</title>
   
 
 
@@ -167,7 +168,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/20/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/10/C-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/333.jpg">
@@ -180,7 +181,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          动态规划
+          C++异常处理
         </h1>
 
         <div class="post-meta">
@@ -191,7 +192,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-06-20 22:08:03 / 修改时间：22:09:10" itemprop="dateCreated datePublished" datetime="2023-06-20T22:08:03+08:00">2023-06-20</time>
+              <time title="创建时间：2023-08-10 22:35:53 / 修改时间：22:36:22" itemprop="dateCreated datePublished" datetime="2023-08-10T22:35:53+08:00">2023-08-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -199,7 +200,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">算法进阶</span></a>
+                  <a href="/categories/%E4%BB%8EC%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C开始的C++</span></a>
                 </span>
             </span>
 
@@ -209,7 +210,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.1k</span>
+              <span>2.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -232,120 +233,94 @@
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title></title>
+<title>C++异常处理</title>
 </head>
-<span id="more"></span>
-<body><h1 id='动态规划の一句话解释'>动态规划の一句话解释</h1>
-<p><font color=red>要点</font>：列出额外空间（通常是哈希表等）来储存计算后的结果，当再次遇到相同计算时直接查表，这样就能剩下大量重复计算的时间，是一种<mark>空间换时间</mark>的算法。</p>
-<p><font color=red>实现方法</font>：将待求解的问题分解成若干子问题，先求子问题的解，在反过来得出总问题的解。</p>
-<p><font color=red>实现步奏</font>：</p>
-<ol>
-<li>找出最优解的性质，并刻画其结构特征</li>
-<li>递归定义最优解</li>
-<li>以自底向上的方式计算最优解（求出最优值）</li>
-<li>构造最优解（求出最优解）</li>
+<body><h1 id='概述'>概述</h1>
+<p>除数不能为0、索引数组元素不能为空、指针不能过界……</p>
+<p>最典型的异常处理方式是用if树做分支处理，剔除错误的路线</p>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+using namespace std;
 
-</ol>
-<h1 id='简单引入例'>简单引入例</h1>
-<p><strong>一列序列如下，找出最长的递增的子序列长度</strong>：</p>
-<p><strong>1，5，2，4，3</strong></p>
-<p>先用肉眼观察，最长的子序列应该是123或者124</p>
-<p>人脑子算起来很方便，对于处理这种简单数据，人脑会本能地自动对123这个顺序列“标记重点”，但对于机器他只能一个一个数去进行对比</p>
-<p>反正，最终得出的答案肯定是某个从第i个数开始到第j个数截止（那么肯定包括i和j）的从小到大的顺序列，所以直接定义从i开始到j的递归函数</p>
-<pre><code class='language-c++' lang='c++'>int L(nums,i)&#123;//定义输入操作数组本身和操作数i
-    if(i==sizeof(nums)) return 1;
-    int max_len=1;//最小为1，所以最大的长度为1
+<p>int main()&#123;<br>    int number1,number2;<br>    if(number2!&#x3D;0)&#123;<br>        cout&lt;&lt;(number1&#x2F;number2)&lt;&lt;endl;<br>    &#125;<br>    else&#123;<br>        cout&lt;&lt;&quot;Divisor cannot be zero&quot;&lt;&lt;endl;<br>    &#125;<br>    return 0;<br>&#125;<br></code></pre></p>
+<p>C++引入了异常处理机制。基本思想是：<strong>函数 A 在执行过程中发现异常时可以不加处理，而只是“拋出一个异常”给 A 的调用者，假定为函数 B。</strong></p>
+<p>即“创建、<mark><strong>抛出、获取和处理</strong> </mark>”一个异常。</p>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+using namespace std;
 
-<pre><code>    for(int j=i+1;j&amp;lt;sizeof(nums);j++)&#123;//重复检查i之后的所以数据
+<p>int main()&#123;<br>    int number1,number2;<br>    try&#123;<br>        if(number2&#x3D;&#x3D;0)<br>            throw number1;<br>        cout&lt;&lt;(number1&#x2F;number2)&lt;&lt;endl;<br>    &#125;<br>    catch(int ex)&#123;<br>        cout&lt;&lt;ex&lt;&lt;&quot;Divisor cannot be zero&quot;&lt;&lt;endl;<br>    &#125;<br>    return 0;<br>&#125;<br></code></pre></p>
+<ul>
+<li>正常情况下，<code>try</code> 块是应该运行的代码</li>
+<li><code>throw</code>就是异常信号，出现了这个就说明出现异常了，那么就带着“异常”抛出</li>
+<li>“异常”被<code>catch</code>接收，当出现异常时执行catch块，执行过后执行catch块的下一个语句；不出现时不执行catch块</li>
 
-    if(nums[j]&amp;gt;nums[i])&#123;//找到第一个符合条件的数
+</ul>
+<blockquote><p>可以满足多个catch块，抛出的异常需要满足相对应catch块的接收类型才可执行，若接收不到相应类型，也就是说异常得不到处理，那么程序就立即中止</p>
+</blockquote>
+<blockquote><p>可以捕获任何异常的块：catch(...){}</p>
+</blockquote>
+<blockquote><p>如果对异常参数不感兴趣，也可以不写catch块参数</p>
+</blockquote>
+<p>&nbsp;</p>
+<h1 id='异常抛出机制'>异常抛出机制</h1>
+<p>如果一个函数在执行过程中拋出的异常在本函数内就被 catch 块捕获并处理，那么该异常就不会拋给这个函数的调用者（也称为“上一层的函数”）；如果异常在本函数中没有被处理，则它就会被拋给上一层的函数。</p>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+using namespace std;
 
-            max_len=max(max_len,L(sizeof(nums),j)+1);
-            //将这个数设为操作数i并重新引用自身函数进行递归，找出下一个符合条件的数
-
-            &#125;
-
-    &#125;
-
-return max_len;//返回的就是下一个递归的i
-</code></pre>
-<p>}<br></code></pre></p>
-<p>上述函数的作用是给出从i开始的数组最长子序列，所以之后我们再将所有数i代入计算出最大的哪个数就是答案</p>
-<pre><code class='language-c++' lang='c++'>int length(nums)&#123;
-    int max_len=1;
-    for(int i=0;i&lt;sizeof(nums);i++)&#123;
-        max_len=max(L(nums,i),max_len);
-    &#125;
-    return max_len;
+<p>int quotient(int number1,int number2)&#123;<br>    if(number2&#x3D;&#x3D;0)<br>        throw number1;<br>    return number1&#x2F;number2;<br>&#125;</p>
+<p>int main&#123;<br>    int number1,number2;<br>    cin&gt;&gt;number1&gt;&gt;number2;</p>
+<pre><code>try&#123;
+    int result=quotient(number1,number2);
+    cout&amp;lt;&amp;lt;result&amp;lt;&amp;lt;endl;
 &#125;
-</code></pre>
-<p>从上述函数可知，我们用L函数得出从i到后面所有数的“最优解”，再用length函数改变i的值，从而算出所有从i到j的<mark>所有</mark>结果！</p>
-<p>写算法确实爽，计算机开算CPU可能真得烧了，因为这两个函数叠一起时间复杂度竟到达了惊人的</p>
-<p><img src="https://s1.ax1x.com/2023/06/20/pC849eA.png"></p>
-<p><img src="https://s1.ax1x.com/2023/06/20/pC84AW8.png"></p>
-<p>这是一个非常恐怖的时间函数，以正常使用的计算机算法中，n^2已经算是比较缓慢的算法，而这个暴力拆解居然达到了恐怖的指数级！</p>
-<p>这个反常识的时间算法是怎么得出来的呢？从所有的i到所有的j的计算，计算机会尝试将所有的i和j给代入然后运算出来，意味着计算机会出现大量的重复计算，比如从第三个到第五个数的计算中包含从第三个数到第四个数的计算，但计算机计算第三个数到第四个数的时候，不会对计算结果进行记忆，还是会傻兮兮地再算一遍😂</p>
-<p><strong>那我们再通过人工干预让他记住计算结果呗</strong>，于是我们引入二维数组A【i】，用于记忆从i开始的最长长度。</p>
-<pre><code class='language-c++' lang='c++'>#int A[5];
-int L(nums,i)&#123;
-    #if(A[i]!=NULL)&#123;
-        return A[i];
-    &#125;
-    if(i==sizeof(nums)) return 1;
-    int max_len=1;
-
-<pre><code>    for(int j=i+1;j&amp;lt;sizeof(nums);j++)&#123;
-
-    if(nums[j]&amp;gt;nums[i])&#123;
-
-            max_len=max(max_len,L(sizeof(nums),j)+1);
-
-            &#125;
-
-    &#125;
-A[i]=max_len;
-
-return max_len;
+catch(int ex)&#123;
+    cout&amp;lt;&amp;lt;ex&amp;lt;&amp;lt;endl;
+&#125;
+return 0;
 </code></pre>
 <p>}<br></code></pre></p>
-<blockquote><p>加#号为增添的代码</p>
+<p>可见函数<code>quotient</code>抛出了异常，但函数本身并没有能接收的<code>catch</code>。但主函数中有。如果本函数没找到相应<code>catch</code>，那么就会返回上一级调用函数。</p>
+<blockquote><p>这样的话处理异常就会非常方便，大程序中层层调用的小函数往往没有自己处理异常的能力（尤其是库函数），这个能力交给大函数统一处理更加方便</p>
+</blockquote>
+<blockquote><p>如果拋出的异常是派生类的对象，而 catch 块的异常类型是基类，那么这两者也能够匹配，因为派生类对象也是基类对象。</p>
+</blockquote>
+<blockquote><p><code>throw</code>写在<code>catch</code>内，这个叫做“<strong>重抛出异常</strong>”，这个时候异常被抛给调用者，用于无法处理异常或者想通知调用者发生了这么一个异常的情况</p>
 </blockquote>
 <hr />
-<p>由于递归对计算机的性能有较大要求，现再写一份非递归的</p>
-<pre><code class='language-c++' lang='c++'>int length(nums)&#123;
-    int n=sizeof(nums);
-    int L[5]=&#123;1,1,1,1,1&#125;;
-    for(int i=4;i&gt;0;i--)&#123;
-        for(int j=i-1;j&gt;0;j--)&#123;
-            if(nums[j]&gt;nums[i])&#123;
-                L[i]=max(L[i],L[j]+1);
-            &#125;
-        &#125;
-    &#125;
-    return *max_element(L,L+5);
-&#125;
+<p>tips:</p>
+<p><strong>函数的异常声明列表</strong></p>
+<pre><code class='language-c++' lang='c++'>void func() throw (int, double, A, B, C);
+void func() throw (int, double, A, B, C)&#123;...&#125;
 </code></pre>
+<p>只是为了增强可读性，编译器一般也不会管他</p>
 <hr />
-<p>非递归的算法显然地表示了时间复杂度为O（n^2）</p>
-<p><strong>以上例子，明显可以看出解出问题的结构是符合一般结构的</strong></p>
-<ol>
-<li>是某个数i到某个数j之间的顺序数列（数字特征，列出后可以用机器方式量化数据）</li>
-<li>递归法写出算法</li>
-<li>迭代法写出算法</li>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1 id='异常类'>异常类</h1>
+<p>一个异常其实往往需要抛出更多需要的信息，一个int类肯定远远不止。C++预定了很多可用于创建异常对象的类。</p>
+<p><img src="https://s1.ax1x.com/2023/08/10/pPmcgDx.jpg"></p>
+<ul>
+<li><code>exception</code>根类包含一个虚函数<code>what()</code>，返回一个异常对象的错误信息</li>
+<li><code>runtime_error</code>类是多个描述运行错误的<strong>标准异常类</strong>的基类，类<code>overflow_error</code>描述算数太大溢出，类<code>underflow_error</code>描述太小溢出</li>
+<li><code>logic_error</code>类是多个描述逻辑错误的<strong>标准异常类</strong>的基类，类<code>length_error</code>描述对象大小超过最大允许长度的错误，类<code>out_of_range</code>描述值超出允许范围的错误</li>
+<li><code>bad_alloc</code>,<code>bad_cast</code>,<code>bad_typeid</code>和<code>bad_exception</code>类描述C++运算符抛出的异常。其中<code>bad_alloc</code>对应<code>new</code>运算符无法分配内存，<code>bad_cast</code>对应<code>dynamic_cast</code>在转换引用类型发生错误时的溢出，<code>bad_typeid</code>对应<code>typeid</code>在运算对象为空指针时抛出，<code>bad_exception</code>描述了从未遇到的异常</li>
 
-</ol>
-<p>当然如果需要更详细的信息，则进行步奏4</p>
-<h1 id='基本要素以及01背包'>基本要素以及01背包</h1>
-<ol>
-<li><strong>最优子结构</strong></li>
+</ul>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+using namespace std;
 
-</ol>
-<p>在动态规划算法中，利用问题的最优子结构性质，以自底向上的方式递归地从子问题的最优解逐步构造出整个问题的最优解。在算法中，其子问题往往规模非常小，例如上例所说的“比大小”为最小算法层次，整个算法比了n^2次大小，则时间复杂度就为O（n^2）</p>
-<ol start='2' >
-<li>重叠子问题</li>
-
-</ol>
-<p>即反复重复计算的子问题只解一次，然后将解存入表格中。当再次需要解此子问题时，只需要用常数时间查看一下表格即可</p>
+<p>int quotient(int number1,int number2)&#123;<br>    if(number2&#x3D;&#x3D;0)<br>        throw runtime_error(&quot;Divisor cannot be zero&quot;);<br>    return number1&#x2F;number2;<br>&#125;</p>
+<p>int main&#123;<br>    int number1,number2;<br>    cin&gt;&gt;number1&gt;&gt;number2;</p>
+<pre><code>try&#123;
+    int result=quotient(number1,number2);
+    cout&amp;lt;&amp;lt;result&amp;lt;&amp;lt;endl;
+&#125;
+catch(runtime_error&amp;amp; ex)&#123;
+    cout&amp;lt;&amp;lt;ex.what()&amp;lt;&amp;lt;endl;
+&#125;
+return 0;
+</code></pre>
+<p>}<br></code></pre></p>
+<p>//太深入的自定义类再学就消化不良了，先留个todo</p>
 <p>&nbsp;</p>
 </body>
 </html>
@@ -363,13 +338,10 @@ return max_len;
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/06/09/C-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%83%A8%E5%88%86/" rel="prev" title="C++程序设计阅读笔记面向对象部分">
-      <i class="fa fa-chevron-left"></i> C++程序设计阅读笔记面向对象部分
+    <a href="/2023/08/10/C-%E5%9F%BA%E7%A1%80%E5%94%90%E9%A2%98%E5%AD%A6%E4%B9%A08-10/" rel="prev" title="C++基础唐题学习8.10">
+      <i class="fa fa-chevron-left"></i> C++基础唐题学习8.10
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/06/27/Unity%E4%B8%AD%E7%9A%84C-%E8%84%9A%E6%9C%AC/" rel="next" title="Unity中的C#脚本">
-      Unity中的C#脚本 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -429,7 +401,7 @@ return max_len;
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E3%81%AE%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%A7%A3%E9%87%8A"><span class="nav-number">1.</span> <span class="nav-text">动态规划の一句话解释</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%BC%95%E5%85%A5%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">简单引入例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%A6%81%E7%B4%A0%E4%BB%A5%E5%8F%8A01%E8%83%8C%E5%8C%85"><span class="nav-number">3.</span> <span class="nav-text">基本要素以及01背包</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E6%8A%9B%E5%87%BA%E6%9C%BA%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">异常抛出机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">异常类</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -579,7 +551,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog-comment',
       owner       : 'mikasa1x',
       admin       : ['mikasa1x'],
-      id          : 'a87ce55ac76e405173c4e571689acef0',
+      id          : 'f53912b1095395b780d89613733126e4',
         language: '',
       distractionFreeMode: true
     });
