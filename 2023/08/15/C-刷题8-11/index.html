@@ -21,18 +21,18 @@
   </script>
 
   <meta property="og:type" content="article">
-<meta property="og:title" content="C++异常处理">
-<meta property="og:url" content="http://example.com/2023/08/10/C-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/index.html">
+<meta property="og:title" content="C++刷题8.11">
+<meta property="og:url" content="http://example.com/2023/08/15/C-%E5%88%B7%E9%A2%988-11/index.html">
 <meta property="og:site_name" content="Coding中。。。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s1.ax1x.com/2023/08/10/pPmcgDx.jpg">
-<meta property="article:published_time" content="2023-08-10T14:35:53.000Z">
-<meta property="article:modified_time" content="2023-08-10T15:27:00.167Z">
+<meta property="og:image" content="https://s1.ax1x.com/2023/08/15/pPMgnLd.png">
+<meta property="article:published_time" content="2023-08-14T18:17:49.000Z">
+<meta property="article:modified_time" content="2023-08-14T18:18:36.688Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s1.ax1x.com/2023/08/10/pPmcgDx.jpg">
+<meta name="twitter:image" content="https://s1.ax1x.com/2023/08/15/pPMgnLd.png">
 
-<link rel="canonical" href="http://example.com/2023/08/10/C-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
+<link rel="canonical" href="http://example.com/2023/08/15/C-%E5%88%B7%E9%A2%988-11/">
 
 
 <script id="page-configurations">
@@ -45,7 +45,7 @@
   };
 </script>
 
-  <title>C++异常处理 | Coding中。。。</title>
+  <title>C++刷题8.11 | Coding中。。。</title>
   
 
 
@@ -166,7 +166,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/10/C-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/15/C-%E5%88%B7%E9%A2%988-11/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/333.jpg">
@@ -179,7 +179,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          C++异常处理
+          C++刷题8.11
         </h1>
 
         <div class="post-meta">
@@ -190,7 +190,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-08-10 22:35:53 / 修改时间：23:27:00" itemprop="dateCreated datePublished" datetime="2023-08-10T22:35:53+08:00">2023-08-10</time>
+              <time title="创建时间：2023-08-15 02:17:49 / 修改时间：02:18:36" itemprop="dateCreated datePublished" datetime="2023-08-15T02:17:49+08:00">2023-08-15</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -198,7 +198,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BB%8EC%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C开始的C++</span></a>
+                  <a href="/categories/%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">做题笔记</span></a>
                 </span>
             </span>
 
@@ -208,7 +208,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.7k</span>
+              <span>2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -232,94 +232,121 @@
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 <span id="more"></span>
-<title>C++异常处理</title>
+<title>C++8.11</title>
 </head>
-<body><h1 id='概述'>概述</h1>
-<p>除数不能为0、索引数组元素不能为空、指针不能过界……</p>
-<p>最典型的异常处理方式是用if树做分支处理，剔除错误的路线</p>
-<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
-using namespace std;
-
-<p>int main()&#123;<br>    int number1,number2;<br>    if(number2!&#x3D;0)&#123;<br>        cout&lt;&lt;(number1&#x2F;number2)&lt;&lt;endl;<br>    &#125;<br>    else&#123;<br>        cout&lt;&lt;&quot;Divisor cannot be zero&quot;&lt;&lt;endl;<br>    &#125;<br>    return 0;<br>&#125;<br></code></pre></p>
-<p>C++引入了异常处理机制。基本思想是：<strong>函数 A 在执行过程中发现异常时可以不加处理，而只是“拋出一个异常”给 A 的调用者，假定为函数 B。</strong></p>
-<p>即“创建、<mark><strong>抛出、获取和处理</strong> </mark>”一个异常。</p>
-<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
-using namespace std;
-
-<p>int main()&#123;<br>    int number1,number2;<br>    try&#123;<br>        if(number2&#x3D;&#x3D;0)<br>            throw number1;<br>        cout&lt;&lt;(number1&#x2F;number2)&lt;&lt;endl;<br>    &#125;<br>    catch(int ex)&#123;<br>        cout&lt;&lt;ex&lt;&lt;&quot;Divisor cannot be zero&quot;&lt;&lt;endl;<br>    &#125;<br>    return 0;<br>&#125;<br></code></pre></p>
-<ul>
-<li>正常情况下，<code>try</code> 块是应该运行的代码</li>
-<li><code>throw</code>就是异常信号，出现了这个就说明出现异常了，那么就带着“异常”抛出</li>
-<li>“异常”被<code>catch</code>接收，当出现异常时执行catch块，执行过后执行catch块的下一个语句；不出现时不执行catch块</li>
-
-</ul>
-<blockquote><p>可以满足多个catch块，抛出的异常需要满足相对应catch块的接收类型才可执行，若接收不到相应类型，也就是说异常得不到处理，那么程序就立即中止</p>
+<body><h1 id='常量指针'>常量指针</h1>
+<p>下面指针所指向的内存，可以修改的是（）</p>
+<p>A <code>const int* a</code></p>
+<p>B <code>int const* b</code></p>
+<p>C <code>int* const c</code></p>
+<p>D <code>const int* const d</code></p>
+<p>A 和 B 是等价的。<code>const int* a</code> 和 <code>int const* b</code> 都表示一个指向常量整数的指针。你可以改变这个指针所指向的地址，但不能通过这个指针来改变地址处的值。</p>
+<p>D <code>const int* const d</code> 表示一个指向常量整数的常量指针。你既不能改变这个指针所指向的地址，也不能通过这个指针来改变地址处的值。</p>
+<p>C <code>int* const c</code> 表示一个指向整数的常量指针。这个指针的值（即它指向的地址）不能改变，但是你可以改变这个地址处的值。</p>
+<p>&nbsp;</p>
+<h1 id='define宏定义'>define宏定义</h1>
+<blockquote><p>宏定义只是替换</p>
 </blockquote>
-<blockquote><p>可以捕获任何异常的块：catch(...){}</p>
+<p>下面程序输出的是:</p>
+<pre><code class='language-c++' lang='c++'>#define f(x) x*x
+main ()&#123; 
+    int a=5,b=2,c;
+    c=f(a)/f(b);
+    printf(&quot;%d&quot;,c);
+&#125;
+</code></pre>
+<p>这题注意乘除法，/不要代入数学里的分号了，是按顺序算的。</p>
+<p>所以答案是24</p>
+<p>&nbsp;</p>
+<h1 id='地址相减'>地址相减</h1>
+<p>原来我一直以为地址值本身不能做到相减这个操作的，但其实是可以的，不过结果的差值要除以<code>sizeof(类型)</code></p>
+<blockquote><p>参考指针的++或者--运算，都是指针的步长乘以一个移动的步长，再除以一个指针的步长</p>
 </blockquote>
-<blockquote><p>如果对异常参数不感兴趣，也可以不写catch块参数</p>
+<pre><code class='language-c++' lang='c++'>int a[3];
+a[0] = 0;
+a[1] = 1;
+a[2] = 2;
+int *p, *q;
+p = a;
+q = &amp;a[2];
+</code></pre>
+<blockquote><p>答案是2</p>
 </blockquote>
 <p>&nbsp;</p>
-<h1 id='异常抛出机制'>异常抛出机制</h1>
-<p>如果一个函数在执行过程中拋出的异常在本函数内就被 catch 块捕获并处理，那么该异常就不会拋给这个函数的调用者（也称为“上一层的函数”）；如果异常在本函数中没有被处理，则它就会被拋给上一层的函数。</p>
-<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
-using namespace std;
-
-<p>int quotient(int number1,int number2)&#123;<br>    if(number2&#x3D;&#x3D;0)<br>        throw number1;<br>    return number1&#x2F;number2;<br>&#125;</p>
-<p>int main&#123;<br>    int number1,number2;<br>    cin&gt;&gt;number1&gt;&gt;number2;</p>
-<pre><code>try&#123;
-    int result=quotient(number1,number2);
-    cout&amp;lt;&amp;lt;result&amp;lt;&amp;lt;endl;
+<h1 id='strlen'>strlen()</h1>
+<blockquote><p>坑！全是坑，题做的有高考一轮复习内味了</p>
+</blockquote>
+<pre><code class='language-c++' lang='c++'>int main() &#123; 
+  char a[7] = &quot;a0\0a0\0&quot;;
+  int i, j;
+  i = sizeof(a); 
+  j = strlen(a);
+  printf(&quot;%d %d\n&quot;,i, j);
 &#125;
-catch(int ex)&#123;
-    cout&amp;lt;&amp;lt;ex&amp;lt;&amp;lt;endl;
-&#125;
-return 0;
 </code></pre>
-<p>}<br></code></pre></p>
-<p>可见函数<code>quotient</code>抛出了异常，但函数本身并没有能接收的<code>catch</code>。但主函数中有。如果本函数没找到相应<code>catch</code>，那么就会返回上一级调用函数。</p>
-<blockquote><p>这样的话处理异常就会非常方便，大程序中层层调用的小函数往往没有自己处理异常的能力（尤其是库函数），这个能力交给大函数统一处理更加方便</p>
+<p><code>strlen()</code>到\0会停下，你就坑吧！</p>
+<blockquote><p>7 2</p>
 </blockquote>
-<blockquote><p>如果拋出的异常是派生类的对象，而 catch 块的异常类型是基类，那么这两者也能够匹配，因为派生类对象也是基类对象。</p>
-</blockquote>
-<blockquote><p><code>throw</code>写在<code>catch</code>内，这个叫做“<strong>重抛出异常</strong>”，这个时候异常被抛给调用者，用于无法处理异常或者想通知调用者发生了这么一个异常的情况</p>
-</blockquote>
-<hr />
-<p>tips:</p>
-<p><strong>函数的异常声明列表</strong></p>
-<pre><code class='language-c++' lang='c++'>void func() throw (int, double, A, B, C);
-void func() throw (int, double, A, B, C)&#123;...&#125;
-</code></pre>
-<p>只是为了增强可读性，编译器一般也不会管他</p>
-<hr />
 <p>&nbsp;</p>
+<h1 id='加法操作符重载'>加法操作符重载</h1>
+<p>如果表达式++a中的&quot;++&quot;是作为成员函数重载的运算符，若运用运算符函数调用格式，则可表示为（）</p>
+<p>A a.operator++(1)</p>
+<p>B operator++(a)</p>
+<p>C operator++(a，1)</p>
+<p>D a.operator++()</p>
+<p>答案是D</p>
+<p>乱七八糟的<strong>解析</strong>：</p>
+<p>当运算符重载为类的成员函数时，函数的参数个数比原来的操作数要少一个（后置单目运算符除外），这是因为成员函数用this指针隐式地访问了类的一个对象，它充当了运算符函数最左边的操作数。因此： </p>
+<p>  (1) 双目运算符重载为类的成员函数时，函数只显式说明一个参数，该形参是运算符的右操作数。 </p>
+<p>  (2) 前置单目运算符重载为类的成员函数时，不需要显式说明参数，即函数没有形参。 </p>
+<p>  (3) 后置单目运算符重载为类的成员函数时，函数要带有一个整型形参。 </p>
 <p>&nbsp;</p>
-<h1 id='异常类'>异常类</h1>
-<p>一个异常其实往往需要抛出更多需要的信息，一个int类肯定远远不止。C++预定了很多可用于创建异常对象的类。</p>
-<p><img src="https://s1.ax1x.com/2023/08/10/pPmcgDx.jpg"></p>
-<ul>
-<li><code>exception</code>根类包含一个虚函数<code>what()</code>，返回一个异常对象的错误信息</li>
-<li><code>runtime_error</code>类是多个描述运行错误的<strong>标准异常类</strong>的基类，类<code>overflow_error</code>描述算数太大溢出，类<code>underflow_error</code>描述太小溢出</li>
-<li><code>logic_error</code>类是多个描述逻辑错误的<strong>标准异常类</strong>的基类，类<code>length_error</code>描述对象大小超过最大允许长度的错误，类<code>out_of_range</code>描述值超出允许范围的错误</li>
-<li><code>bad_alloc</code>,<code>bad_cast</code>,<code>bad_typeid</code>和<code>bad_exception</code>类描述C++运算符抛出的异常。其中<code>bad_alloc</code>对应<code>new</code>运算符无法分配内存，<code>bad_cast</code>对应<code>dynamic_cast</code>在转换引用类型发生错误时的溢出，<code>bad_typeid</code>对应<code>typeid</code>在运算对象为空指针时抛出，<code>bad_exception</code>描述了从未遇到的异常</li>
-
-</ul>
-<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
-using namespace std;
-
-<p>int quotient(int number1,int number2)&#123;<br>    if(number2&#x3D;&#x3D;0)<br>        throw runtime_error(&quot;Divisor cannot be zero&quot;);<br>    return number1&#x2F;number2;<br>&#125;</p>
-<p>int main&#123;<br>    int number1,number2;<br>    cin&gt;&gt;number1&gt;&gt;number2;</p>
-<pre><code>try&#123;
-    int result=quotient(number1,number2);
-    cout&amp;lt;&amp;lt;result&amp;lt;&amp;lt;endl;
+<p>不如先直接记：<strong>重载前缀:a.operator++(); 重载后缀:a.operator++(1)    </strong></p>
+<p>&nbsp;</p>
+<h1 id='运算符重载'>运算符重载</h1>
+<p>下面运算符不能被重载的是（）</p>
+<p>A 做用域运算符“::”</p>
+<p>B 对象成员运算符“.”</p>
+<p>C 指针成员运算符“-&gt;”</p>
+<p>D 三目运算符“? :”</p>
+<p>答案：ABD</p>
+<blockquote><p>似乎有方法说“<strong>带点的都不能重载</strong>”</p>
+<p>不过还是看图吧</p>
+</blockquote>
+<p><img src="https://s1.ax1x.com/2023/08/15/pPMgnLd.png"></p>
+<p>&nbsp;</p>
+<h1 id='数组指针与函数'><mark>数组、指针与函数</mark></h1>
+<pre><code class='language-c++' lang='c++'>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+void fun(int *p1, int *p2, int *s) &#123;
+    s = (int *)malloc(sizeof(int));
+    *s = *p1 + *(p2++);
 &#125;
-catch(runtime_error&amp;amp; ex)&#123;
-    cout&amp;lt;&amp;lt;ex.what()&amp;lt;&amp;lt;endl;
+int main() &#123;
+    int a[2] = &#123;1, 2&#125;, b[2] = &#123;10, 20&#125;, *s = a;
+    fun(a, b, s);
+    printf(&quot;%d \n&quot;, *s);
 &#125;
-return 0;
 </code></pre>
-<p>}<br></code></pre></p>
-<p>//太深入的自定义类再学就消化不良了，先留个todo</p>
+<p>这个题对于我这个唐b来说很有价值,因为它包含了非常多有关指针的操作。</p>
+<p><strong>首先是函数传递</strong></p>
+<p>fun()函数定义了局部变量p1与p2与s，如果这个局部变量是指针，那么他们会和上一级函数中的对应变量指针指向同一位置，就像这里p1与s，在上一级中s已经指向了数组a的第一个位置，所以说p1、s指向的都是一个位置，这是第一个给我给我蒙住的地方。</p>
+<p><strong>然后是自增</strong></p>
+<p>fun()函数内p2的自增是后缀，先赋值再自增，尽管这个是我为数不多已经知道的点，但面对这么一个大体量题目还是给我晃倒了。</p>
+<p><strong>再者是malloc函数的返回值</strong></p>
+<p>malloc函数返回的是新内存地址的指针，所以在fun()函数内部，经过malloc的“洗礼”之后地址遭到改变，s指向也变了，于是乎函数内部的这个“s”和上一级函数中s的指向就变得不一样了，也就不能对之前指向的目标进行操作了，所以程序输出的仍是1</p>
+<blockquote><p>所以如果注释掉malloc，结果就是11了</p>
+</blockquote>
+<p>&nbsp;</p>
+<h1 id='逗号表达式'>逗号表达式</h1>
+<blockquote><p>这个就多少带点离谱了</p>
+</blockquote>
+<p>a=3*5 , a *4;(空格是防止markdown语句)</p>
+<p>这样一行表达式，a肯定最终为15</p>
+<p>但如果b=(a=3*5,a *4)</p>
+<p>那么最终b的值就是60</p>
+<p>逗号表达式，依次计算，整体的值为最后结果</p>
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 </body>
 </html>
@@ -337,13 +364,10 @@ return 0;
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/08/10/C-%E5%9F%BA%E7%A1%80%E5%94%90%E9%A2%98%E5%AD%A6%E4%B9%A08-10/" rel="prev" title="C++基础唐题学习8.10">
-      <i class="fa fa-chevron-left"></i> C++基础唐题学习8.10
+    <a href="/2023/08/14/C-%E6%8C%87%E9%92%88/" rel="prev" title="C++指针">
+      <i class="fa fa-chevron-left"></i> C++指针
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/08/14/C-%E6%8C%87%E9%92%88/" rel="next" title="C++指针">
-      C++指针 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -403,7 +427,7 @@ return 0;
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E6%8A%9B%E5%87%BA%E6%9C%BA%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">异常抛出机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">异常类</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88"><span class="nav-number">1.</span> <span class="nav-text">常量指针</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#define%E5%AE%8F%E5%AE%9A%E4%B9%89"><span class="nav-number">2.</span> <span class="nav-text">define宏定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%B0%E5%9D%80%E7%9B%B8%E5%87%8F"><span class="nav-number">3.</span> <span class="nav-text">地址相减</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#strlen"><span class="nav-number">4.</span> <span class="nav-text">strlen()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A0%E6%B3%95%E6%93%8D%E4%BD%9C%E7%AC%A6%E9%87%8D%E8%BD%BD"><span class="nav-number">5.</span> <span class="nav-text">加法操作符重载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD"><span class="nav-number">6.</span> <span class="nav-text">运算符重载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E6%8C%87%E9%92%88%E4%B8%8E%E5%87%BD%E6%95%B0"><span class="nav-number">7.</span> <span class="nav-text">数组、指针与函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%97%E5%8F%B7%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">8.</span> <span class="nav-text">逗号表达式</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -553,7 +577,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog-comment',
       owner       : 'mikasa1x',
       admin       : ['mikasa1x'],
-      id          : 'f53912b1095395b780d89613733126e4',
+      id          : 'd8d7f25354c6bd99fd39afb111e9b5bd',
         language: '',
       distractionFreeMode: true
     });
