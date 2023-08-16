@@ -21,18 +21,16 @@
   </script>
 
   <meta property="og:type" content="article">
-<meta property="og:title" content="C++刷题8.11">
-<meta property="og:url" content="http://example.com/2023/08/15/C-%E5%88%B7%E9%A2%988-11/index.html">
+<meta property="og:title" content="吉比特动作游戏设计笔记">
+<meta property="og:url" content="http://example.com/2023/08/16/%E5%90%89%E6%AF%94%E7%89%B9%E5%8A%A8%E4%BD%9C%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Coding中。。。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s1.ax1x.com/2023/08/15/pPMgnLd.png">
-<meta property="article:published_time" content="2023-08-14T18:17:49.000Z">
-<meta property="article:modified_time" content="2023-08-14T18:18:36.688Z">
+<meta property="article:published_time" content="2023-08-16T15:10:31.000Z">
+<meta property="article:modified_time" content="2023-08-16T15:15:34.308Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s1.ax1x.com/2023/08/15/pPMgnLd.png">
 
-<link rel="canonical" href="http://example.com/2023/08/15/C-%E5%88%B7%E9%A2%988-11/">
+<link rel="canonical" href="http://example.com/2023/08/16/%E5%90%89%E6%AF%94%E7%89%B9%E5%8A%A8%E4%BD%9C%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E7%AC%94%E8%AE%B0/">
 
 
 <script id="page-configurations">
@@ -45,7 +43,7 @@
   };
 </script>
 
-  <title>C++刷题8.11 | Coding中。。。</title>
+  <title>吉比特动作游戏设计笔记 | Coding中。。。</title>
   
 
 
@@ -166,7 +164,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/15/C-%E5%88%B7%E9%A2%988-11/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/16/%E5%90%89%E6%AF%94%E7%89%B9%E5%8A%A8%E4%BD%9C%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E7%AC%94%E8%AE%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/333.jpg">
@@ -179,7 +177,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          C++刷题8.11
+          吉比特动作游戏设计笔记
         </h1>
 
         <div class="post-meta">
@@ -190,7 +188,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-08-15 02:17:49 / 修改时间：02:18:36" itemprop="dateCreated datePublished" datetime="2023-08-15T02:17:49+08:00">2023-08-15</time>
+              <time title="创建时间：2023-08-16 23:10:31 / 修改时间：23:15:34" itemprop="dateCreated datePublished" datetime="2023-08-16T23:10:31+08:00">2023-08-16</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -198,7 +196,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">做题笔记</span></a>
+                  <a href="/categories/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9D%82%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">游戏设计杂谈</span></a>
                 </span>
             </span>
 
@@ -208,7 +206,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2k</span>
+              <span>2.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -232,122 +230,154 @@
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 <span id="more"></span>
-<title>C++8.11</title>
+<title>吉比特动作游戏设计</title>
 </head>
-<body><h1 id='常量指针'>常量指针</h1>
-<p>下面指针所指向的内存，可以修改的是（）</p>
-<p>A <code>const int* a</code></p>
-<p>B <code>int const* b</code></p>
-<p>C <code>int* const c</code></p>
-<p>D <code>const int* const d</code></p>
-<p>A 和 B 是等价的。<code>const int* a</code> 和 <code>int const* b</code> 都表示一个指向常量整数的指针。你可以改变这个指针所指向的地址，但不能通过这个指针来改变地址处的值。</p>
-<p>D <code>const int* const d</code> 表示一个指向常量整数的常量指针。你既不能改变这个指针所指向的地址，也不能通过这个指针来改变地址处的值。</p>
-<p>C <code>int* const c</code> 表示一个指向整数的常量指针。这个指针的值（即它指向的地址）不能改变，但是你可以改变这个地址处的值。</p>
-<p>&nbsp;</p>
-<h1 id='define宏定义'>define宏定义</h1>
-<blockquote><p>宏定义只是替换</p>
-</blockquote>
-<p>下面程序输出的是:</p>
-<pre><code class='language-c++' lang='c++'>#define f(x) x*x
-main ()&#123; 
-    int a=5,b=2,c;
-    c=f(a)/f(b);
-    printf(&quot;%d&quot;,c);
-&#125;
-</code></pre>
-<p>这题注意乘除法，/不要代入数学里的分号了，是按顺序算的。</p>
-<p>所以答案是24</p>
-<p>&nbsp;</p>
-<h1 id='地址相减'>地址相减</h1>
-<p>原来我一直以为地址值本身不能做到相减这个操作的，但其实是可以的，不过结果的差值要除以<code>sizeof(类型)</code></p>
-<blockquote><p>参考指针的++或者--运算，都是指针的步长乘以一个移动的步长，再除以一个指针的步长</p>
-</blockquote>
-<pre><code class='language-c++' lang='c++'>int a[3];
-a[0] = 0;
-a[1] = 1;
-a[2] = 2;
-int *p, *q;
-p = a;
-q = &amp;a[2];
-</code></pre>
-<blockquote><p>答案是2</p>
+<body><h1 id='吉比特动作游戏设计'>吉比特动作游戏设计</h1>
+<p>动作游戏两大重点——<strong>打击感</strong>（美术资产、动作编辑器）、<strong>好玩</strong>（游戏设计）</p>
+<blockquote><p>这种笔记类暂时不供图</p>
 </blockquote>
 <p>&nbsp;</p>
-<h1 id='strlen'>strlen()</h1>
-<blockquote><p>坑！全是坑，题做的有高考一轮复习内味了</p>
+<h1 id='打击感的设计'>打击感的设计</h1>
+<ul>
+<li><strong>策划——拆解竞品</strong></li>
+
+</ul>
+<blockquote><p><mark><strong>少谈“感觉”多谈“现象”</strong></mark></p>
 </blockquote>
-<pre><code class='language-c++' lang='c++'>int main() &#123; 
-  char a[7] = &quot;a0\0a0\0&quot;;
-  int i, j;
-  i = sizeof(a); 
-  j = strlen(a);
-  printf(&quot;%d %d\n&quot;,i, j);
-&#125;
-</code></pre>
-<p><code>strlen()</code>到\0会停下，你就坑吧！</p>
-<blockquote><p>7 2</p>
-</blockquote>
+<p>由于每个人理解有差异，难以被量化，需要把重心放在客观存在的、可以被量化的“现象”。</p>
+<p>曾老师对打击感的观点：攻击-&gt;空挥和命中</p>
+<ol start='' >
+<li>空挥-&gt;也要体现出角色的帅气和力量（美术、音效）</li>
+<li>命中-&gt;体现出打击瞬间的反应（程序设计）</li>
+
+</ol>
 <p>&nbsp;</p>
-<h1 id='加法操作符重载'>加法操作符重载</h1>
-<p>如果表达式++a中的&quot;++&quot;是作为成员函数重载的运算符，若运用运算符函数调用格式，则可表示为（）</p>
-<p>A a.operator++(1)</p>
-<p>B operator++(a)</p>
-<p>C operator++(a，1)</p>
-<p>D a.operator++()</p>
-<p>答案是D</p>
-<p>乱七八糟的<strong>解析</strong>：</p>
-<p>当运算符重载为类的成员函数时，函数的参数个数比原来的操作数要少一个（后置单目运算符除外），这是因为成员函数用this指针隐式地访问了类的一个对象，它充当了运算符函数最左边的操作数。因此： </p>
-<p>  (1) 双目运算符重载为类的成员函数时，函数只显式说明一个参数，该形参是运算符的右操作数。 </p>
-<p>  (2) 前置单目运算符重载为类的成员函数时，不需要显式说明参数，即函数没有形参。 </p>
-<p>  (3) 后置单目运算符重载为类的成员函数时，函数要带有一个整型形参。 </p>
-<p>&nbsp;</p>
-<p>不如先直接记：<strong>重载前缀:a.operator++(); 重载后缀:a.operator++(1)    </strong></p>
-<p>&nbsp;</p>
-<h1 id='运算符重载'>运算符重载</h1>
-<p>下面运算符不能被重载的是（）</p>
-<p>A 做用域运算符“::”</p>
-<p>B 对象成员运算符“.”</p>
-<p>C 指针成员运算符“-&gt;”</p>
-<p>D 三目运算符“? :”</p>
-<p>答案：ABD</p>
-<blockquote><p>似乎有方法说“<strong>带点的都不能重载</strong>”</p>
-<p>不过还是看图吧</p>
-</blockquote>
-<p><img src="https://s1.ax1x.com/2023/08/15/pPMgnLd.png"></p>
-<p>&nbsp;</p>
-<h1 id='数组指针与函数'><mark>数组、指针与函数</mark></h1>
-<pre><code class='language-c++' lang='c++'>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-void fun(int *p1, int *p2, int *s) &#123;
-    s = (int *)malloc(sizeof(int));
-    *s = *p1 + *(p2++);
-&#125;
-int main() &#123;
-    int a[2] = &#123;1, 2&#125;, b[2] = &#123;10, 20&#125;, *s = a;
-    fun(a, b, s);
-    printf(&quot;%d \n&quot;, *s);
-&#125;
-</code></pre>
-<p>这个题对于我这个唐b来说很有价值,因为它包含了非常多有关指针的操作。</p>
-<p><strong>首先是函数传递</strong></p>
-<p>fun()函数定义了局部变量p1与p2与s，如果这个局部变量是指针，那么他们会和上一级函数中的对应变量指针指向同一位置，就像这里p1与s，在上一级中s已经指向了数组a的第一个位置，所以说p1、s指向的都是一个位置，这是第一个给我给我蒙住的地方。</p>
-<p><strong>然后是自增</strong></p>
-<p>fun()函数内p2的自增是后缀，先赋值再自增，尽管这个是我为数不多已经知道的点，但面对这么一个大体量题目还是给我晃倒了。</p>
-<p><strong>再者是malloc函数的返回值</strong></p>
-<p>malloc函数返回的是新内存地址的指针，所以在fun()函数内部，经过malloc的“洗礼”之后地址遭到改变，s指向也变了，于是乎函数内部的这个“s”和上一级函数中s的指向就变得不一样了，也就不能对之前指向的目标进行操作了，所以程序输出的仍是1</p>
-<blockquote><p>所以如果注释掉malloc，结果就是11了</p>
+<ul>
+<li><strong>美术——让玩家感受到游戏的真实感</strong></li>
+
+</ul>
+<p><strong>举例</strong>——李小龙甩双截棍片段</p>
+<p>双截棍的特点：</p>
+<ol start='' >
+<li>起手和收招明显</li>
+<li>武器运动是肢体运动的延申和放大</li>
+<li>武器的运动规矩是我完整的弧形</li>
+
+</ol>
+<blockquote><p>肢体运动-&gt;武器运动-&gt;特效运动-&gt;敌人受击运动</p>
 </blockquote>
 <p>&nbsp;</p>
-<h1 id='逗号表达式'>逗号表达式</h1>
-<blockquote><p>这个就多少带点离谱了</p>
+<p><strong>举例</strong>——《任天堂明星大乱斗》林克的攻击动画设计</p>
+<p>林克攻击分三阶段：</p>
+<ol start='' >
+<li>IDLE前摇蓄力阶段</li>
+<li>伤害产生阶段</li>
+<li>后摇保持阶段</li>
+
+</ol>
+<p>&nbsp;</p>
+<p><strong>举例</strong>——街霸2D到3D的变换</p>
+<p>抽帧动画：</p>
+<p>出腿的极限蓄力pose到极限的舒张pose并不是延续的，无论是2D还是3D，还是到后面多少代。（力量感）</p>
+<p>姿态差别变化：</p>
+<p>随着版本变化，出招姿态会越来越”有型“，越来越符合现实武打美学。</p>
+<p>&nbsp;</p>
+<p><strong>举例</strong>——3D游戏的动作美学（挑选部分印象深刻的）</p>
+<p>蓝色协议：每一招都有”反向蓄力“</p>
+<p>鬼泣5（尼禄）：注重每一招的pose留存，每一个动作的运动夸张化，”反向蓄力“在鬼泣角色身上更加明显，更加夸张。</p>
+<p>打击特效的”维新派“与”守旧派“：各有取舍，但把打击特效放在攻击瞬间用于补充”抽帧“造成的视觉效果丢失是一个更广泛的选择。</p>
+<p>打击特效与游戏主题的关系：比如《原神》角色莫娜打出带星星的水花，跟符合角色”占星师“身份。</p>
+<p>打击感设计的”风格化“与”写实化“：谨慎对待”写实“，不能盲目排斥”风格化“。</p>
+<p>尊重游戏多样性：不要盲目”套模板“，《真人快打》系列动作逻辑几乎完全不符合上述经典格斗游戏动作设计，但仍然被市场认可。</p>
+<p>尚未发掘的我国文化遗产：举例bilibli@ZG止戈，动作完全可以搬入游戏，但问题在需求如何提出，动作转变为游戏如何实例化，由于真人武学家的每一个动作都有设计，无法适应游戏的”可操作性“。</p>
+<p>&nbsp;</p>
+<ul>
+<li><strong>程序——敏捷开发、快速迭代</strong></li>
+
+</ul>
+<p>每个人工种不同，各执所长，对于文化创意总监，稳定产品期望是很重要的。</p>
+<p><strong>动作编辑器</strong>，业内常用并认可的一套系统，内含板块<strong>技能时间轴</strong>，大致含有以下板块：<strong>总时间轴、允许转向、转向辅助/位移辅助、指令缓存/动作跳转、攻击框、聚怪框</strong>。</p>
+<blockquote><p>这些都是动作游戏提升手感的细节（取部分）</p>
 </blockquote>
-<p>a=3*5 , a *4;(空格是防止markdown语句)</p>
-<p>这样一行表达式，a肯定最终为15</p>
-<p>但如果b=(a=3*5,a *4)</p>
-<p>那么最终b的值就是60</p>
-<p>逗号表达式，依次计算，整体的值为最后结果</p>
+<p><strong>root motion</strong>：由美术制作的动画驱动逻辑体运动，防止滑步。</p>
+<p><strong>允许转向</strong>：维吉尔连招只允许每一招出招瞬间进行改变方向。</p>
+<p><strong>允许移动</strong>：盖伦转圈允许完全由程序来操控移动。</p>
+<p><strong>转向辅助</strong>：第三人称动作游戏十分常见。</p>
+<p><strong>位移辅助</strong>：同上。（不过容易造成滑步）</p>
+<p><strong>持续面对对象</strong>：同上。</p>
+<p><strong>指令缓存</strong>：玩家指令会储存起来，知道时间到了该运行的时候才开始运行指令。</p>
+<p><strong>事件盒子</strong>：指接触受击后打中了角色的事件盒子（往往是一些动作的特殊时间段），就会触发一些新的事件（一般都是防反）。</p>
+<p><strong>推挤</strong>：</p>
+<p><strong>传统/新型盒子</strong>：各种攻击判定区域等。</p>
+<p><strong>攻击结果判断</strong>：破盾等等等等。</p>
+<p><strong>即时判定受击动作</strong>：被击中动画瞬间变化。</p>
+<p><strong>硬直状态时长</strong>：</p>
+<p><strong>击退击飞（位置发生变化）</strong>：</p>
+<p><strong>顿帧</strong>：击中敌人后造成帧冻结。</p>
+<blockquote><p>还有非常多游戏本身特性逻辑……</p>
+</blockquote>
+<p><strong>霸体</strong>、<strong>受伤后再次受伤（被控制的时候容易出现bug）</strong>、<strong>拖拽/聚怪盒子</strong>、<strong>多方向受伤</strong>、<strong>使敌人改变朝向（前面一个没做好就会这样了）</strong>、<strong>各种视觉效果</strong></p>
 <p>&nbsp;</p>
+<blockquote><p>老师给的干货太多了……根本记不过来</p>
+<p>1k字其实并没有记录全面（上课时间太长精力集中时间太长溜号了），但其实也无所谓了，毕竟设计只是一门艺术……</p>
+<p>从曾老师这得到很多启发，非常感谢老师的指导😂</p>
+</blockquote>
 <p>&nbsp;</p>
+<h1 id='游戏好不好玩的设计'>游戏“好不好玩”的设计</h1>
+<blockquote><p>策划的核心才能是<strong>审美</strong>                  ——曾老师</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>从DEMO到产品</strong></p>
+<p>老师用了一个很生动的说法，就是到产品这个路上，其实是发际线脱落的过程（？</p>
+<ul>
+<li>在一开始设计Demo的时候，最好事先选择参考模型</li>
+
+</ul>
+<p>例子：</p>
+<p>无双：还原IP——成熟生产线、应付监修</p>
+<p>鬼泣：表现力——角色、武器、战斗流派</p>
+<p>黑魂：弱对强——精妙的关卡</p>
+<blockquote><p>选择Demo的时候，有没有实现考虑一下有什么能力？能确定什么卖点？最重要的是，最好选择自己最喜欢最熟悉的类型，”力往一处使“，能极力体现出这种品类的魅力</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>单次遭遇战</strong></p>
+<p>“马斯洛需求金字塔”：如黑魂重点放在生存，鬼泣重点放在style风格化</p>
+<p>“combat loop”：陷入困境、思考、做出反应、得到反馈、再次陷入困境</p>
+<blockquote><p>设计要点</p>
+</blockquote>
+<p><strong>机制（开局“自我介绍”，视觉提示等都能暗示机制）</strong>、<strong>难度控制</strong>、<strong>（武器）类型契合的特性</strong>、<strong>代入感</strong></p>
+<blockquote><p>战斗谜题</p>
+</blockquote>
+<p><strong>环境</strong>、<strong>怪物属性、数量、能力</strong></p>
+<p><strong>展示事物之间的联系</strong>：“技能”是角色和其他事物发生联系的能力（拒绝数值游戏），玩家的行动需要能够产生结果，至少有“好”和“坏”两种结果。</p>
+<p>&nbsp;</p>
+<p><strong>生产线</strong></p>
+<p>生成管线：设计规划</p>
+<p>例子：</p>
+<p>原神有多角色：满足多位玩家的不同喜好需求</p>
+<p>例子：</p>
+<p><s>夸张化、结合、变形</s>容易导致同质化</p>
+<p>锤子、锯子、斧头已经足够破坏一块木头，如果要强行增加武器类型，增强乐趣味，很容易同质化。所以应该<strong>从“难题”入手</strong>，将木头换成其他的物体，来增加武器类型，增加乐趣。</p>
+<p>“流派”思维也是这样，一个“难题”需要有多种“解法”，而且这个“解法”最好任意一个都能有“解难题的方式”。</p>
+<p>《怪物猎人》是一个教科书式的例子，每种武器不同战斗模式，不同战斗体验，不同战斗策略，虽然不一定是最优解，但一定有”讨伐成功“的方法，这就是《怪物猎人》成功的一个原因。</p>
+<p>&nbsp;</p>
+<p><strong>总结</strong></p>
+<p><mark>抓住游戏乐趣（策划）、保证生产质量（生产线）</mark></p>
+<p>&nbsp;</p>
+<h1 id='游戏摄像机'>游戏摄像机</h1>
+<ul>
+<li>多个优秀3D格斗摄像机案例</li>
+
+</ul>
+<p>猎天使魔女：攻击敌人进入状态，切换子虚拟摄像机，拉远距离又变回普通越肩视角。</p>
+<p>师傅：一打多，所以程序会计算所有单位位置，当作一个单位放在镜头中央，若打到只剩一个就缓慢进入经典格斗对角视角。</p>
+<p>蝙蝠侠：摄像机运动随着玩家动作决定，比如玩家开始攻击，摄像机才会慢慢转换视角。</p>
+<p>&nbsp;</p>
+<blockquote><p>后面还有很多比如敌人AI这种，哎时间还是太短了 </p>
+</blockquote>
+<p>&nbsp;</p>
+<p>最后面也聊了很多有关战斗ch的自己的坎坷经历，希望我们这些学员，也希望老师自己能像老师所说的，能坚持作为ch最初的<strong>审美</strong>吧。</p>
+<p>ok，重装前哨一定会买的</p>
 </body>
 </html>
     </div>
@@ -364,13 +394,10 @@ int main() &#123;
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/08/14/C-%E6%8C%87%E9%92%88/" rel="prev" title="C++指针">
-      <i class="fa fa-chevron-left"></i> C++指针
+    <a href="/2023/08/15/C-%E5%88%B7%E9%A2%988-11/" rel="prev" title="C++刷题8.11">
+      <i class="fa fa-chevron-left"></i> C++刷题8.11
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/08/16/%E5%90%89%E6%AF%94%E7%89%B9%E5%8A%A8%E4%BD%9C%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E7%AC%94%E8%AE%B0/" rel="next" title="吉比特动作游戏设计笔记">
-      吉比特动作游戏设计笔记 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -430,7 +457,7 @@ int main() &#123;
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88"><span class="nav-number">1.</span> <span class="nav-text">常量指针</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#define%E5%AE%8F%E5%AE%9A%E4%B9%89"><span class="nav-number">2.</span> <span class="nav-text">define宏定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%B0%E5%9D%80%E7%9B%B8%E5%87%8F"><span class="nav-number">3.</span> <span class="nav-text">地址相减</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#strlen"><span class="nav-number">4.</span> <span class="nav-text">strlen()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A0%E6%B3%95%E6%93%8D%E4%BD%9C%E7%AC%A6%E9%87%8D%E8%BD%BD"><span class="nav-number">5.</span> <span class="nav-text">加法操作符重载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD"><span class="nav-number">6.</span> <span class="nav-text">运算符重载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E6%8C%87%E9%92%88%E4%B8%8E%E5%87%BD%E6%95%B0"><span class="nav-number">7.</span> <span class="nav-text">数组、指针与函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%97%E5%8F%B7%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">8.</span> <span class="nav-text">逗号表达式</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%89%E6%AF%94%E7%89%B9%E5%8A%A8%E4%BD%9C%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.</span> <span class="nav-text">吉比特动作游戏设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%93%E5%87%BB%E6%84%9F%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.</span> <span class="nav-text">打击感的设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E5%A5%BD%E4%B8%8D%E5%A5%BD%E7%8E%A9%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">游戏“好不好玩”的设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E6%91%84%E5%83%8F%E6%9C%BA"><span class="nav-number">4.</span> <span class="nav-text">游戏摄像机</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -580,7 +607,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog-comment',
       owner       : 'mikasa1x',
       admin       : ['mikasa1x'],
-      id          : 'd8d7f25354c6bd99fd39afb111e9b5bd',
+      id          : '3823cebc0f0c1d7d6dba69c718db0321',
         language: '',
       distractionFreeMode: true
     });
