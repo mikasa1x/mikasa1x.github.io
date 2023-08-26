@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="C++类多态">
+<meta property="og:url" content="http://example.com/2023/08/26/C-%E7%B1%BB%E5%A4%9A%E6%80%81/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2023/08/16/pPQcGmd.png">
+<meta property="og:image" content="https://s1.ax1x.com/2023/08/16/pPQcNkt.png">
+<meta property="article:published_time" content="2023-08-26T06:45:52.000Z">
+<meta property="article:modified_time" content="2023-08-26T06:46:18.180Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2023/08/16/pPQcGmd.png">
+
+<link rel="canonical" href="http://example.com/2023/08/26/C-%E7%B1%BB%E5%A4%9A%E6%80%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C++类多态 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/26/C-%E7%B1%BB%E5%A4%9A%E6%80%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++类多态
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-26 14:45:52 / 修改时间：14:46:18" itemprop="dateCreated datePublished" datetime="2023-08-26T14:45:52+08:00">2023-08-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BB%8EC%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C开始的C++</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>基类和派生类</title>
+</head>
+<body><p>还记得面对对象篇章中提到过的对“Mk2”进行“改造”的内容吗，接下来这一篇章，将引入C++<strong>继承</strong>和<strong>多态</strong>的相关操作与衍生内容。</p>
+<h1 id='基类和派生类'>基类和派生类</h1>
+<p>开门见山，一个类C1从另一个类C2扩展而来，称C1为<strong>派生类/子类</strong>，C2为<strong>基类/父类/超类</strong>。</p>
+<p>对于派生类，它能继承父类的所有数据域和函数，也能增加新的数据域和函数。</p>
+<p><strong>继承</strong>，也就是<strong>is a</strong>关系。</p>
+<pre><code class='language-c++' lang='c++'>class vegetable&#123;
+    int shape;
+    int color;
+&#125;;
+
+<p>class cabbage : public vegetable&#123;<br>    bool edible;<br>&#125;;<br></code></pre></p>
+<blockquote><p>白菜继承与蔬菜，并多赋予了“可食用”布尔值</p>
+</blockquote>
+<p>对于基类<code>vegetable</code>，可以派生多个类似<code>cabbage</code>这样的类，什么胡萝卜番茄都行。</p>
+<p>对于派生类<code>cabbage</code>，可以继承多个类似<code>vegetable</code>这样的类，比如白菜可以是蔬菜也可以是食物。</p>
+<p>&nbsp;</p>
+<p><strong>安全</strong></p>
+<p>派生类中冒号后面的标识符叫“<strong>访问修饰符access-specifier</strong>”，默认是<code>private</code></p>
+<p>一般情况下在<code>public</code>、<code>protected</code>或<code>private</code>之中选一个</p>
+<p>对于数值类型本身访问类型：</p>
+<figure><table>
+<thead>
+<tr><th style='text-align:left;' >访问</th><th style='text-align:left;' >public</th><th style='text-align:left;' >protected</th><th style='text-align:left;' >private</th></tr></thead>
+<tbody><tr><td style='text-align:left;' >同一个类</td><td style='text-align:left;' >yes</td><td style='text-align:left;' >yes</td><td style='text-align:left;' >yes</td></tr><tr><td style='text-align:left;' >派生类</td><td style='text-align:left;' >yes</td><td style='text-align:left;' >yes</td><td style='text-align:left;' >no</td></tr><tr><td style='text-align:left;' >外部的类</td><td style='text-align:left;' >yes</td><td style='text-align:left;' >no</td><td style='text-align:left;' >no</td></tr></tbody>
+</table></figure>
+<p>对于类继承类型（也就是访问修饰符作用）：</p>
+<ul>
+<li>一般情况下都是用<code>public</code>来继承，除了（   ）</li>
+
+</ul>
+<figure><table>
+<thead>
+<tr><th style='text-align:left;' >数据类型\继承类型</th><th style='text-align:left;' >public</th><th style='text-align:left;' >protected</th><th style='text-align:left;' >private</th></tr></thead>
+<tbody><tr><td style='text-align:left;' >public</td><td style='text-align:left;' >public</td><td style='text-align:left;' >protected</td><td style='text-align:left;' >private</td></tr><tr><td style='text-align:left;' >protected</td><td style='text-align:left;' >protected</td><td style='text-align:left;' >protected</td><td style='text-align:left;' >private</td></tr><tr><td style='text-align:left;' >private</td><td style='text-align:left;' >private</td><td style='text-align:left;' >private</td><td style='text-align:left;' >private</td></tr></tbody>
+</table></figure>
+<blockquote><p>当然，被保护的成员或者私有成员可以通过基类的其他公有函数和成员来被派生类访问</p>
+</blockquote>
+<p>&nbsp;</p>
+<h1 id='构造函数和析构函数'>构造函数和析构函数</h1>
+<blockquote><p>派生类的构造函数在执行其自身代码之前首先调用它的基类的构造函数。派生类的构造析构函数首先执行其自身的代码，然后自动调用其基类的析构函数</p>
+</blockquote>
+<p>派生类并不继承基类的构造函数，取而代之的是，派生类会调用基类的构造函数来给基类的数据进行初始化。</p>
+<p>可以通过初始化列表的方式来主动调用基类的构造函数，额，当然更专业的说法是显式调用。</p>
+<pre><code class='language-c++' lang='c++'>DerivedClass(parameterList): BaseClass()&#123;&#125;
+DerivedClass(parameterList): BaseClass(argumentList)&#123;&#125;//带参数的构造函数
+</code></pre>
+<p>当然，你不主动人家就会主动调用，这个叫隐式调用。</p>
+<p>如果类叠的很多，那么构造函数和析构函数会在该调用的时候依次调用，特别是构造函数，创建一个派生类的对象的时候，构造函数会从祖宗类开始一连串地被调用，这个叫<strong>构造函数链</strong>；析构函数则是反着来，从自己到祖宗一连串被调用，这个叫<strong>析构函数链</strong>。</p>
+<p>&nbsp;</p>
+<h1 id='函数重定义函数重写与函数重载'>函数重定义、函数重写与函数重载</h1>
+<blockquote><p>这三个都是C++中截然不同的概念，因为长得像我把他们放一块讲</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>函数重定义</strong></p>
+<blockquote><p>在基类定义的函数能够在派生类中被重新定义</p>
+</blockquote>
+<p>用法是重写并重新定义函数内容。</p>
+<pre><code class='language-c++' lang='c++'>void print(int num) &#123;
+    cout &lt;&lt; &quot;Original: &quot; &lt;&lt; num &lt;&lt; endl;
+&#125;
+
+<p>void print(int num, string message) &#123;<br>    cout &lt;&lt; &quot;Redefined: &quot; &lt;&lt; message &lt;&lt; num &lt;&lt; endl;<br>&#125;</p>
+<p>print(10);                      &#x2F;&#x2F; 调用 print(int)<br>print(20, &quot;Value is: &quot;);        &#x2F;&#x2F; 调用 print(int, string)<br></code></pre></p>
+<ol start='' >
+<li>函数重定义会覆盖原有的函数定义，使得原有函数的行为改变。</li>
+<li>函数重定义只能在同一个作用域内进行，不同的作用域内可以存在同名函数，互相之间不构成重定义关系。</li>
+<li>函数重定义与函数的参数列表和返回类型都必须完全一致。</li>
+
+</ol>
+<blockquote><p>在子类中可以重定义父类的函数</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>函数重载</strong></p>
+<blockquote><p>在一个作用域内有多个同名但参数列表不同的函数</p>
+</blockquote>
+<p>只是用于适应不同的参数类型或参数个数。</p>
+<pre><code class='language-c++' lang='c++'>void print(int num) &#123;
+    cout &lt;&lt; &quot;Integer: &quot; &lt;&lt; num &lt;&lt; endl;
+&#125;
+
+<p>void print(double num) &#123;<br>    cout &lt;&lt; &quot;Double: &quot; &lt;&lt; num &lt;&lt; endl;<br>&#125;</p>
+<p>print(10);      &#x2F;&#x2F; 调用 print(int)<br>print(3.14);    &#x2F;&#x2F; 调用 print(double)<br></code></pre></p>
+<ol start='' >
+<li>同一个作用域内可以有多个同名函数，但它们的参数列表<strong>必须不同</strong>（参数类型、参数个数或参数顺序不同）。</li>
+<li>函数重载是静态多态性（编译时多态性）的一种表现，编译器根据函数调用时的参数类型或个数来确定调用哪个重载函数。</li>
+<li>函数重载只能在同一个作用域内进行，不同的作用域内可以存在同名函数，互相之间不构成重载关系。</li>
+<li>函数重载与函数的返回类型无关，只与参数列表有关。</li>
+
+</ol>
+<p>&nbsp;</p>
+<p><strong>函数重写/覆盖</strong></p>
+<blockquote><p>指子类重新定义父类中已有的虚函数。</p>
+</blockquote>
+<p>用于实现多态性，对父类虚函数进行重新实现。</p>
+<pre><code class='language-c++' lang='c++'>class Shape &#123;
+public:
+    virtual void draw() &#123;
+        cout &lt;&lt; &quot;Drawing a shape.&quot; &lt;&lt; endl;
+    &#125;
+&#125;;
+
+<p>class Circle : public Shape &#123;<br>public:<br>    void draw() override &#123;<br>        cout &lt;&lt; &quot;Drawing a circle.&quot; &lt;&lt; endl;<br>    &#125;<br>&#125;;</p>
+<p>class Rectangle : public Shape &#123;<br>public:<br>    void draw() override &#123;<br>        cout &lt;&lt; &quot;Drawing a rectangle.&quot; &lt;&lt; endl;<br>    &#125;<br>&#125;;</p>
+<p>Shape* shape1 &#x3D; new Circle();<br>Shape* shape2 &#x3D; new Rectangle();</p>
+<p>shape1-&gt;draw();     &#x2F;&#x2F; 调用 Circle 类的 draw 函数<br>shape2-&gt;draw();     &#x2F;&#x2F; 调用 Rectangle 类的 draw 函数<br></code></pre></p>
+<ol start='' >
+<li>函数重写只能发生在父类和子类之间，在同一个继承关系中进行。</li>
+<li>函数重写要求父类中的函数必须是虚函数（通过关键字 <code>virtual</code> 声明）。</li>
+<li>函数重写的函数签名（函数名、参数列表和返回类型）必须与父类中被重写的虚函数完全一致。</li>
+<li>函数重写可以改变函数的实现细节，子类可以根据自身需要重新定义虚函数的行为。</li>
+<li>函数重写是动态多态性（运行时多态性）的一种表现，具体调用哪个函数是在运行时根据对象的实际类型确定的。</li>
+
+</ol>
+<blockquote><p>子类和父类同名函数不是重定义就是重写</p>
+</blockquote>
+<p>&nbsp;</p>
+<h1 id='多态'>多态</h1>
+<p>首先，<strong>子类型</strong>是被派生类定义的类型，<strong>超类型</strong>是被基类定义的类型。</p>
+<blockquote><p>多态意味着一个超类型的变量可以引用一个子类型的对象。</p>
+</blockquote>
+<p>另外《C++程序设计》这本书讲的太抽象了，<strong>所以我引用了CSDN@programing菜鸟的文章内容</strong>。</p>
+<p>文章中提到：</p>
+<blockquote><p>C++的多态必须满足两个条件：
+<strong>1 必须通过基类的指针或者引用调用虚函数
+2 被调用的函数是虚函数，且必须完成对基类虚函数的重写</strong></p>
+</blockquote>
+<pre><code class='language-c++' lang='c++'>class Person //成人
+&#123;
+  public:
+  virtual void fun()
+   &#123;
+       cout &lt;&lt; &quot;全价票&quot; &lt;&lt; endl; //成人票全价
+   &#125;
+&#125;;
+class Student : public Person //学生
+&#123;
+   public:
+   virtual void fun() //子类完成对父类虚函数的重写
+   &#123;
+       cout &lt;&lt; &quot;半价票&quot; &lt;&lt; endl;//学生票半价
+   &#125;
+&#125;;
+void BuyTicket(Person* p)
+&#123;
+   p-&gt;fun();
+&#125;
+
+<p>int main()<br>&#123;<br>   Student st;<br>   Person p;<br>   BuyTicket(&amp;st);&#x2F;&#x2F;子类对象切片过去<br>   BuyTicket(&amp;p);&#x2F;&#x2F;父类对象传地址<br>&#125;<br></code></pre></p>
+<p>代码中Student类继承了父类Person，众所周知学生应该享受半价票，所以是否为半价票的输出结果藏在响应类中。但是函数可认不出是不是学生，如果要实现”认出是学生“这个功能，那么不可避免的可能要写两个函数或者写一个判断条件甚至引用不同的类，这样不仅浪费了计算机资源还不符合代码工程基本规范，素质极低。</p>
+<p>尝试使用多态，首先在主函数中将各自类的地址传入相同函数中，<code>BuyTicket()</code>函数内使用<strong>指针引用了虚函数<code>fun()</code></strong>，结果如下：</p>
+<p><img src="https://s1.ax1x.com/2023/08/16/pPQcGmd.png"></p>
+<p>函数<code>BuyTicket()</code>中的参数为父类对象，理论上应该打出两个全价票，不过传入的是子类地址，所以就实现了子类方法，这就是C++多态的一个理解思路。</p>
+<p>如果只是传类本身，而不是指针，那么就不满足多态了。</p>
+<pre><code class='language-c++' lang='c++'>Student st;
+Person p;
+BuyTicket(&amp;st);
+BuyTicket(&amp;p);
+</code></pre>
+<p>结果是：</p>
+<p><img src="https://s1.ax1x.com/2023/08/16/pPQcNkt.png"></p>
+<blockquote><p><strong>如果满足多态，编译器会调用指针指向对象的虚函数，而与指针的类型无关。如果不满足多态，编译器会直接根据指针的类型去调用虚函数。</strong></p>
+</blockquote>
+<p>&nbsp;</p>
+<h1 id='虚函数'>虚函数</h1>
+<blockquote><p>虚函数使得系统能够基于对象的实际类型决定在运行时调用哪一个函数</p>
+</blockquote>
+<p>首先，虚函数是定义在类里头的，类外面的虚函数没有意义。</p>
+<p>基类使用<code>virtual</code>进行函数声明，然后子类再进行重写（<strong>重定义</strong>），这个动作叫<strong>函数覆盖</strong>，而这样一来，就能在运行时系统基于对象类型来判断调用的哪个函数，这个功能叫<strong>动态绑定</strong>。</p>
+<p>不过有意思的是在《C++程序设计》中提到过如果在基类中定义为虚函数，那么在派生类中重写的函数不需要再加上关键字<code>virtual</code>，已经是关键字了（上示例中没有这样做可能是为了更好体现）。</p>
+<p>匹配一个函数的签名与绑定一个函数的实现是两个独立的问题。</p>
+<ul>
+<li>变量类型决定<strong>编译时</strong>匹配到的函数，这个叫<strong>静态绑定</strong>。</li>
+<li>C++通过参数类型、参数个数、参数顺序在编译时寻找匹配的函数，在<strong>运行时</strong>动态绑定函数的实现，这个叫<strong>动态绑定</strong>。</li>
+<li>把含有虚函数的类称为<strong>多态类型</strong>。</li>
+
+</ul>
+<p>&nbsp;</p>
+<h1 id='虚函数表'>虚函数表</h1>
+<p>动态绑定的技术核心就是虚函数表</p>
+<p>如果定义了一个虚函数，那么编译器会生成一个虚函数表</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1 id='动态绑定过程todo）'>动态绑定过程（todo）</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1 id='抽象类和纯虚函数'>抽象类和纯虚函数</h1>
+<p><strong>纯虚函数与抽象类定义</strong></p>
+<p><code>virtual double getArea()=0;</code></p>
+<p>也就是虚函数后面加<code>=0</code></p>
+<p>抽象类就是包含纯虚函数的类。</p>
+<p>言简意赅，抽象类不会包含任何具体的实例，实际的作用就是强制子类重写虚函数，实现多态，这里书中给出了一个很好的例子解释，大概意思就是不同形状的图形都由一个抽象类抽象出来，但是实际上无法完成实例化，说具体点就是这个抽象类定义了纯虚函数”算周长“和”算面积“，任何图形都得包含这两个功能。但是这么一个类没办法给出具体形状，所以只能通过子类继承重写虚函数来实现多态以实现实例化。</p>
+<blockquote><p>这里纯是书中写的太长懒得记录</p>
+</blockquote>
+<p>&nbsp;</p>
+<h1 id='c11新关键字overridefinal'>C++11新关键字：override&amp;&amp;final</h1>
+<ul>
+<li>用final修饰的虚函数无法重写。用final修饰的类无法被继承。final像这个单词的意思一样，这就是最终的版本，不用再更新了。</li>
+<li>被override修饰的虚函数，编译器会检查这个虚函数是否重写。如果没有重写，编译器会报错。</li>
+
+</ul>
+<pre><code class='language-c++' lang='c++'>virtual void fun() final&#123;&#125;
+virtual void fun1() override&#123;&#125;
+</code></pre>
+<p>&nbsp;</p>
+<h1 id='强制类型转换'>强制类型转换</h1>
+<p>&nbsp;</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/16/%E5%90%89%E6%AF%94%E7%89%B9%E5%8A%A8%E4%BD%9C%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E7%AC%94%E8%AE%B0/" rel="prev" title="吉比特动作游戏设计笔记">
+      <i class="fa fa-chevron-left"></i> 吉比特动作游戏设计笔记
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%B1%BB%E5%92%8C%E6%B4%BE%E7%94%9F%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">基类和派生类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%92%8C%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">构造函数和析构函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E9%87%8D%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0%E9%87%8D%E5%86%99%E4%B8%8E%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD"><span class="nav-number">3.</span> <span class="nav-text">函数重定义、函数重写与函数重载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E6%80%81"><span class="nav-number">4.</span> <span class="nav-text">多态</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text">虚函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8"><span class="nav-number">6.</span> <span class="nav-text">虚函数表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A%E8%BF%87%E7%A8%8Btodo%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">动态绑定过程（todo）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-number">8.</span> <span class="nav-text">抽象类和纯虚函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#c11%E6%96%B0%E5%85%B3%E9%94%AE%E5%AD%97overridefinal"><span class="nav-number">9.</span> <span class="nav-text">C++11新关键字：override&amp;&amp;final</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">10.</span> <span class="nav-text">强制类型转换</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/26/C-%E7%B1%BB%E5%A4%9A%E6%80%81/" title="2023&#x2F;08&#x2F;26&#x2F;C-类多态&#x2F;">C++类多态</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/16/%E5%90%89%E6%AF%94%E7%89%B9%E5%8A%A8%E4%BD%9C%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E7%AC%94%E8%AE%B0/" title="2023&#x2F;08&#x2F;16&#x2F;吉比特动作游戏设计笔记&#x2F;">吉比特动作游戏设计笔记</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/15/C-%E5%88%B7%E9%A2%988-11/" title="2023&#x2F;08&#x2F;15&#x2F;C-刷题8-11&#x2F;">C++刷题8.11</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/14/C-%E6%8C%87%E9%92%88/" title="2023&#x2F;08&#x2F;14&#x2F;C-指针&#x2F;">C++指针</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/10/C-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" title="2023&#x2F;08&#x2F;10&#x2F;C-异常处理&#x2F;">C++异常处理</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : 'df520ae5b14d53c8972fe2d209ca58f1',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
