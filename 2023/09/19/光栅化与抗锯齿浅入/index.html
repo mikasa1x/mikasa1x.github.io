@@ -20,19 +20,22 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="常量指针  前言 C++指针有很多地方和C语言共通的，所以会忽略很多C指针基础知识，这篇最好有C指针基础再来批判">
+  <meta name="description" content="9.17  定义透视投影视锥两概念：长宽比、垂直的可视角度 知道这两个规则后，一个视锥的所有数值都能相互转换  MVP矩阵   模型（Model）、观察（View）、观察（Projection） 局部坐标（局部空间） → 世界坐标 → 观察坐标 → 裁剪坐标 →屏幕坐标 物体的储存是依赖于自身的坐标系的，如果要将物体摆放在世界坐标上，就要将物体的坐标转换到世界的坐标上，这就是局部坐标到世界">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++指针">
-<meta property="og:url" content="http://example.com/2023/08/14/C-%E6%8C%87%E9%92%88/index.html">
+<meta property="og:title" content="光栅化与抗锯齿浅入">
+<meta property="og:url" content="http://example.com/2023/09/19/%E5%85%89%E6%A0%85%E5%8C%96%E4%B8%8E%E6%8A%97%E9%94%AF%E9%BD%BF%E6%B5%85%E5%85%A5/index.html">
 <meta property="og:site_name" content="Coding中。。。">
-<meta property="og:description" content="常量指针  前言 C++指针有很多地方和C语言共通的，所以会忽略很多C指针基础知识，这篇最好有C指针基础再来批判">
+<meta property="og:description" content="9.17  定义透视投影视锥两概念：长宽比、垂直的可视角度 知道这两个规则后，一个视锥的所有数值都能相互转换  MVP矩阵   模型（Model）、观察（View）、观察（Projection） 局部坐标（局部空间） → 世界坐标 → 观察坐标 → 裁剪坐标 →屏幕坐标 物体的储存是依赖于自身的坐标系的，如果要将物体摆放在世界坐标上，就要将物体的坐标转换到世界的坐标上，这就是局部坐标到世界">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-08-13T16:39:33.000Z">
-<meta property="article:modified_time" content="2023-08-13T16:42:22.221Z">
+<meta property="og:image" content="https://img1.imgtp.com/2023/09/17/Z7KO3FUv.png">
+<meta property="og:image" content="https://img1.imgtp.com/2023/09/19/UKO0qtXn.png">
+<meta property="article:published_time" content="2023-09-19T11:42:37.000Z">
+<meta property="article:modified_time" content="2023-09-19T11:43:53.838Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img1.imgtp.com/2023/09/17/Z7KO3FUv.png">
 
-<link rel="canonical" href="http://example.com/2023/08/14/C-%E6%8C%87%E9%92%88/">
+<link rel="canonical" href="http://example.com/2023/09/19/%E5%85%89%E6%A0%85%E5%8C%96%E4%B8%8E%E6%8A%97%E9%94%AF%E9%BD%BF%E6%B5%85%E5%85%A5/">
 
 
 <script id="page-configurations">
@@ -45,7 +48,7 @@
   };
 </script>
 
-  <title>C++指针 | Coding中。。。</title>
+  <title>光栅化与抗锯齿浅入 | Coding中。。。</title>
   
 
 
@@ -166,7 +169,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/14/C-%E6%8C%87%E9%92%88/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/19/%E5%85%89%E6%A0%85%E5%8C%96%E4%B8%8E%E6%8A%97%E9%94%AF%E9%BD%BF%E6%B5%85%E5%85%A5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/333.jpg">
@@ -179,7 +182,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          C++指针
+          光栅化与抗锯齿浅入
         </h1>
 
         <div class="post-meta">
@@ -190,7 +193,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-08-14 00:39:33 / 修改时间：00:42:22" itemprop="dateCreated datePublished" datetime="2023-08-14T00:39:33+08:00">2023-08-14</time>
+              <time title="创建时间：2023-09-19 19:42:37 / 修改时间：19:43:53" itemprop="dateCreated datePublished" datetime="2023-09-19T19:42:37+08:00">2023-09-19</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -198,7 +201,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BB%8EC%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C开始的C++</span></a>
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">计算机图形学</span></a>
                 </span>
             </span>
 
@@ -208,7 +211,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -231,115 +234,98 @@
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title>常量指针</title>
+<title>9.17</title>
 </head>
-<body><p><strong>前言</strong></p>
-<p>C++指针有很多地方和C语言共通的，所以会忽略很多C指针基础知识，这篇最好有C指针基础再来批判</p>
-<span id="more"></span>
-<blockquote><p>int* p1,p2;看起来像声明了两个指针，其实不是，和int *p1,p2;等价</p>
+<body><p>定义透视投影<strong>视锥</strong>两概念：长宽比、垂直的可视角度</p>
+<p>知道这两个规则后，一个视锥的所有数值都能相互转换</p>
+<ul>
+<li>MVP矩阵</li>
+
+</ul>
+<p>模型（Model）、观察（View）、观察（Projection）</p>
+<p>局部坐标（局部空间） → 世界坐标 → 观察坐标 → 裁剪坐标 →屏幕坐标</p>
+<blockquote><p>物体的储存是依赖于自身的坐标系的，如果要将物体摆放在世界坐标上，就要将物体的坐标转换到世界的坐标上，这就是局部坐标到世界坐标的转换，具体如下：</p>
+<p>矩阵缩放——物体模型大小在世界坐标中不一定是原来建模时的尺寸，要按照新建规矩来调整</p>
+<p>矩阵旋转——和缩放一样是依照模型原点为中心的</p>
+<p>矩阵平移——将物体坐标系与世界坐标系对齐</p>
+<p><strong>以上顺序不能改变</strong></p>
+<p>除了这两个矩阵，还有一个重要的矩阵是视图矩阵，粗糙地说就是摄像机矩阵，是以观察者为原点的</p>
+<p>首先是构造世界相机，规定正对方向<strong>g</strong>，向上方向<strong>t</strong>，再构造相机坐标系（<strong>t</strong>×<strong>-g</strong>），<strong>t</strong>，-<strong>g</strong>，也可以说是<strong>u，v，w</strong>基向量，<strong>v</strong>向上，方向为<strong>w</strong>的负向（向上方向未知，其实可以先随便设置，算出叉积后再反过来叉积得出向上向量）</p>
+<p>相机显示出来物体是什么位置，这个时候需要依靠世界坐标和物体坐标的关系，以及世界坐标和相机坐标的关系来计算出相机与物体的关系</p>
+<p>我们不妨这样想：假如世界坐标就是相机坐标，那么现在物体在世界坐标上的位置是已知的，这个位置其实就是需要传给相机的关键信息。那么现在开始将相机坐标系与物体绑定做运动，也就是说物体对于相机来说是不动的，然后将相机移动到原来的需要求的位置上，再将物体移动回去，这样的话整个相机和物体的任何数值都是没变的。有没有发现关键点，那就是在这整个“从未知到已知”的过程中，从相机视角上看就只是“物体本身发生了相机移动的逆运动”。那么这样思路就很清晰了，计算出物体在相机上的位置其实就是把相机移动的逆矩阵乘以物体的世界坐标。又由<strong>正交矩阵的逆就是它的转制</strong>这个定理，其实就是将相机坐标的转至乘以物体坐标得来。</p>
+<p>这就是将世界坐标转换到观察坐标</p>
+<p>然后到裁剪坐标这一步，这个上一篇已经讲过，其实就是在规定相机的眼睛大小，能看到多少地方，然后将这些“地方”按照一定的规矩展示出来，也就是正交变换或者投影变换</p>
 </blockquote>
-<blockquote><p>可以用typedef语句避免这个错误，例如<code>typedef int* intPointer</code>，然后<code>intPointer p1,p2;</code>就声明了两个指针</p>
-</blockquote>
-<blockquote><p>可以对指使用比较运算符来确定指针的先后次序</p>
-</blockquote>
+<p>接下来是显示在屏幕上的一些规矩</p>
 <p>&nbsp;</p>
-<h1 id='常量指针'>常量指针</h1>
-<blockquote><p>这个点见8.11号的做题，涉及到了</p>
+<h1 id='光栅化'>光栅化</h1>
+<p>无论是正交还是透视投影，最终都要转换到[-1,1]的三次方矩阵上，转换后要将这个矩阵在屏幕中显示</p>
+<p>首先定义一下<strong>屏幕</strong>（光栅成像设备）数据：</p>
+<ul>
+<li>一个二维数组（数组中元素是像素）</li>
+<li>屏幕大小（分辨率）——像素多少</li>
+<li>光栅化的类型</li>
+
+</ul>
+<p><strong>光栅化</strong>：将图片展示在屏幕上</p>
+<p><strong>像素</strong>：抽象理解——一个个内部颜色分别一致的单位，不同像素颜色也许不同</p>
+<p>假如说屏幕是一个xy轴，现在有width个x轴上的像素，height个y轴上的像素，那么光栅化的第一步就是将[-1,1]矩阵乘以这样一个数值将它拉到这么屏幕上</p>
+<p><img src="https://img1.imgtp.com/2023/09/17/Z7KO3FUv.png" referrerpolicy="no-referrer" alt="_WI_S___U_I7_8JN___XQ14.png"></p>
+<blockquote><p>这也是视口变换的一步</p>
 </blockquote>
-<p>可以用<code>const</code>关键字声明一个常量，同样也可以用这个关键字声明指针，用于“固定”指向的<strong>位置</strong>。</p>
-<pre><code class='language-c++' lang='c++'>double radius = 5;
-double* const p = &amp;radius;
+<p>然后就是将这个物体的二维形态“打散成像素”</p>
+<p>选择三角形作为基本图形的原因：</p>
+<ul>
+<li>图形最为简单</li>
+<li>确定的三角形肯定在一个平面之内，内部外部定义非常清楚</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>采样法</strong></p>
+<pre><code class='language-c++' lang='c++'>for(int x=0;x&lt;xmax;++x)
+    for(int y=0;y&lt;ymax;++y)
+        image[x][y]=inside(tri,x+0.5,y+0.5);
 </code></pre>
+<p>&quot;判断是否在三角形内&quot;：首先规定三角形的三边方向，然后分别用三边和点进行叉积</p>
+<p>&nbsp;</p>
+<p><strong>采样带来的问题</strong></p>
 <ul>
-<li>p是常量，但p指向的数据不是常量，是可以改变的</li>
+<li>锯齿——空间采样</li>
+<li>摩尔纹——图片质量问题</li>
+<li>车轮倒转效应——时间采样</li>
 
 </ul>
-<p>如果把<code>const</code>放在数据类型之前</p>
-<pre><code class='language-c++' lang='c++'>const double* p = &amp;radius
-</code></pre>
-<p>那么指向的就是常量了</p>
-<p>当然如果两边都放</p>
-<pre><code class='language-c++' lang='c++'>const double* const pValue = &amp;radius
-</code></pre>
-<p>就是一个常量指针指向常量了</p>
-<p>&nbsp;</p>
-<h1 id='数组与指针'>数组与指针</h1>
-<p>这一方面在C中已经很成熟了，那么就写一些容易混淆的</p>
-<ul>
-<li><code>list[i]</code>与<code>*(list+i)</code>等价，解引用比+优先，所以<code>*(list+i)</code>与<code>*list+i</code>情况不同</li>
-<li>C++中数组名的实质是一个常量指针，是不能改变的</li>
-<li><code>*p++</code>值为<code>arr[0]</code>但是运行完后指向<code>arr[1]</code>，<code>*++p</code>是p先加一，再解引用，<code>++*p</code>是先解引用再加一</li>
-
-</ul>
-<p>&nbsp;</p>
-<h1 id='函数内传指针与返回指针'>函数内传指针与返回指针</h1>
-<p>对于</p>
-<pre><code class='language-c++' lang='c++'>void f(int* p1,int* &amp;p2)&#123;&#125;//函数
-    
-<p>f(q1,q2);&#x2F;&#x2F;调用，q1,q2为指针<br></code></pre></p>
-<p>结果为：</p>
-<ul>
-<li>q1传值给p1，使得指向的内容都一致，再函数内直接更改内容，使得外部内容同样遭到更改。但若更改p1的指向，那么函数外的q1其实不受影响</li>
-<li>q2传引用给p2，所以q2是p2的别名，那么无论什么修改就会共同影响</li>
-
-</ul>
-<p>&nbsp;</p>
-<p>函数返回指针：</p>
-<p>这是一个用于反转数组的一个函数</p>
-<pre><code class='language-c++' lang='c++'>int* reverse(int* list,int size)&#123;
-    for(int i = 0;j=size - 1;i&lt;j;i++,j--)&#123;
-        int temp=list[j];
-        list[j]=list[i];
-        list[i]=temp;
-    &#125;
-    return list;
-&#125;
-</code></pre>
-<p>&nbsp;</p>
-<h1 id='数组函数api'>数组函数API</h1>
-<ul>
-<li><code>min_element</code>，<code>max_element</code>返回数组中最小、最大元素的指针</li>
-
-</ul>
-<blockquote><p>e.g. min_element(list,list+6)返回数组中list[0],list[5]之间最小元素的指针</p>
+<blockquote><p>信号变化太快导致采样速度更不上变化速度</p>
 </blockquote>
-<ul>
-<li><code>sort</code>对数组进行排序</li>
-<li><code>random_shuffle</code>随机安排数组元素排序</li>
-<li><code>find</code>寻找匹配元素指针</li>
-
-</ul>
 <p>&nbsp;</p>
-<h1 id='this指针'>this指针</h1>
-<blockquote><p>this只能出现在类的内部，通过this可以访问类的所有成员，包括private内的。在对象创建后才有意义</p>
+<p>走样定义：采样两种完全不一样的函数，得到的确实一个同样的结果</p>
+<hr />
+<p><strong>滤波：把某特定频段去除</strong></p>
+<p>首先，先了解一下一张彩色图片的像素成分</p>
+<p><img src="https://img1.imgtp.com/2023/09/19/UKO0qtXn.png" referrerpolicy="no-referrer" alt="1111.png"></p>
+<p>从0~255，从黑色到白色，这个叫做像素灰度</p>
+<p>为不同灰度像素赋予颜色，就获得了颜色深度不同的色块，彩色图片比灰色图片多一个维度，也就是颜色的不同，一般的彩色图片都由三原色构成，也就是常说的RGB三原色，深度为3（不过过多了就不涉及了）</p>
+<p>图像的频率，正是<strong>图片某段灰度变化剧烈的指标</strong></p>
+<p>一般图片在什么地方灰度变化剧烈呢？那肯定就是图形边缘的部分了，这部分又恰好是锯齿化最为严重的部分</p>
+<hr />
+<p><strong>反走样</strong></p>
+<ul>
+<li><p>增加采样率——负担过高，受制于物理限制，不现实</p>
+</li>
+<li><p>抗锯齿——模糊化后再进行采样</p>
+<blockquote><p>模糊操作： </p>
+<p>根据每个像素中三角形的覆盖面积来求平均值，最终结果作为本像素的统一颜色（这就是卷积操作）</p>
 </blockquote>
-<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
-using namespace std;
+</li>
 
-<p>class Student&#123;<br>public:<br>    void setname(char *name);<br>    void setage(int age);<br>    void setscore(float score);<br>    void show();<br>private:<br>    char *name;<br>    int age;<br>    float score;<br>&#125;;</p>
-<p>void Student::setname(char *name)&#123;<br>    this-&gt;name &#x3D; name;<br>&#125;<br>void Student::setage(int age)&#123;<br>    this-&gt;age &#x3D; age;<br>&#125;<br>void Student::setscore(float score)&#123;<br>    this-&gt;score &#x3D; score;<br>&#125;<br>void Student::show()&#123;<br>    cout&lt;&lt;this-&gt;name&lt;&lt;&quot;的年龄是&quot;&lt;&lt;this-&gt;age&lt;&lt;&quot;，成绩是&quot;&lt;&lt;this-&gt;score&lt;&lt;endl;<br>&#125;</p>
-<p>int main()&#123;<br>    Student *pstu &#x3D; new Student;<br>    pstu -&gt; setname(&quot;李华&quot;);<br>    pstu -&gt; setage(16);<br>    pstu -&gt; setscore(96.5);<br>    pstu -&gt; show();</p>
-<pre><code>return 0;
-</code></pre>
-<p>}<br></code></pre></p>
-<p>其中发现，类中函数的形参与类中参数重名，这就是一种不得不使用this的情况</p>
+</ul>
+<p><strong>MSAA</strong>：在像素内增加几个采样点，这几个采样点是为单个像素本身来服务的，而不是单纯为了增加采样点。像素内的多出来的像素点用于计算边界覆盖面积平均值，比如像素点内部有四个采样点（4x），其中一个采样点被覆盖，那么这个像素点的覆盖率就是25%，理应计算25%的颜色平均值。</p>
+<p><strong>FXAA</strong>：快速近似抗锯齿，后处理，形变抗锯齿，注重性能，和采样无关在图像层面上进行操作</p>
+<p><strong>TAA</strong>：时间相关抗锯齿，静止物体上，多次采样求平均分摊到多帧</p>
 <p>&nbsp;</p>
-<h1 id='拷贝构造函数'>拷贝构造函数</h1>
-<blockquote><p>拷贝构造函数可以用来创造一个对象，并用另一个对象的数据初始化新建对象</p>
-</blockquote>
-<p><code>ClassName(const ClassName&amp;)</code></p>
-<p>和构造函数一样，C++会隐式提供一个缺省的拷贝构造函数（没有主动定义的情况下）。</p>
-<p>如果新建一个新对象，将所有参数一个个复制过去，这个思路是和拷贝构造函数是一致的，不过拷贝构造函数会自动新建对象。</p>
-<ul>
-<li>浅拷贝：上述两种拷贝方式都叫浅拷贝</li>
-
-</ul>
-<blockquote><p>对于指针参数来说，浅拷贝会将指针地址也拷贝过去，所以两个对象中的指针就同时指向一个地址了，这不是我们想要的</p>
-</blockquote>
-<ul>
-<li>深拷贝：可以在拷贝构造函数中自定义</li>
-
-</ul>
+<p><strong>超分辨率</strong></p>
+<p>DLSS：深度学习方法——将一个小图拉大，会出现锯齿，这个时候用计算机“猜出来”，适用于深度学习方法</p>
+<p>&nbsp;</p>
 </body>
 </html>
     </div>
@@ -356,13 +342,10 @@ using namespace std;
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/08/10/C-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" rel="prev" title="C++异常处理">
-      <i class="fa fa-chevron-left"></i> C++异常处理
+    <a href="/2023/08/26/C-%E7%B1%BB%E5%A4%9A%E6%80%81/" rel="prev" title="C++类多态">
+      <i class="fa fa-chevron-left"></i> C++类多态
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/08/15/C-%E5%88%B7%E9%A2%988-11/" rel="next" title="C++刷题8.11">
-      C++刷题8.11 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -422,7 +405,7 @@ using namespace std;
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88"><span class="nav-number">1.</span> <span class="nav-text">常量指针</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E4%B8%8E%E6%8C%87%E9%92%88"><span class="nav-number">2.</span> <span class="nav-text">数组与指针</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%86%85%E4%BC%A0%E6%8C%87%E9%92%88%E4%B8%8E%E8%BF%94%E5%9B%9E%E6%8C%87%E9%92%88"><span class="nav-number">3.</span> <span class="nav-text">函数内传指针与返回指针</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E5%87%BD%E6%95%B0api"><span class="nav-number">4.</span> <span class="nav-text">数组函数API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#this%E6%8C%87%E9%92%88"><span class="nav-number">5.</span> <span class="nav-text">this指针</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">6.</span> <span class="nav-text">拷贝构造函数</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%89%E6%A0%85%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">光栅化</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -572,7 +555,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog-comment',
       owner       : 'mikasa1x',
       admin       : ['mikasa1x'],
-      id          : 'bf7329237ae82c46750a8de0ef9346e3',
+      id          : '6fd28f1ce90127cb03689f2c72bf6c6b',
         language: '',
       distractionFreeMode: true
     });

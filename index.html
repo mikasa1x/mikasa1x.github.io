@@ -163,6 +163,184 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/19/%E5%85%89%E6%A0%85%E5%8C%96%E4%B8%8E%E6%8A%97%E9%94%AF%E9%BD%BF%E6%B5%85%E5%85%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/09/19/%E5%85%89%E6%A0%85%E5%8C%96%E4%B8%8E%E6%8A%97%E9%94%AF%E9%BD%BF%E6%B5%85%E5%85%A5/" class="post-title-link" itemprop="url">光栅化与抗锯齿浅入</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-09-19 19:42:37 / 修改时间：19:43:53" itemprop="dateCreated datePublished" datetime="2023-09-19T19:42:37+08:00">2023-09-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">计算机图形学</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>9.17</title>
+</head>
+<body><p>定义透视投影<strong>视锥</strong>两概念：长宽比、垂直的可视角度</p>
+<p>知道这两个规则后，一个视锥的所有数值都能相互转换</p>
+<ul>
+<li>MVP矩阵</li>
+
+</ul>
+<p>模型（Model）、观察（View）、观察（Projection）</p>
+<p>局部坐标（局部空间） → 世界坐标 → 观察坐标 → 裁剪坐标 →屏幕坐标</p>
+<blockquote><p>物体的储存是依赖于自身的坐标系的，如果要将物体摆放在世界坐标上，就要将物体的坐标转换到世界的坐标上，这就是局部坐标到世界坐标的转换，具体如下：</p>
+<p>矩阵缩放——物体模型大小在世界坐标中不一定是原来建模时的尺寸，要按照新建规矩来调整</p>
+<p>矩阵旋转——和缩放一样是依照模型原点为中心的</p>
+<p>矩阵平移——将物体坐标系与世界坐标系对齐</p>
+<p><strong>以上顺序不能改变</strong></p>
+<p>除了这两个矩阵，还有一个重要的矩阵是视图矩阵，粗糙地说就是摄像机矩阵，是以观察者为原点的</p>
+<p>首先是构造世界相机，规定正对方向<strong>g</strong>，向上方向<strong>t</strong>，再构造相机坐标系（<strong>t</strong>×<strong>-g</strong>），<strong>t</strong>，-<strong>g</strong>，也可以说是<strong>u，v，w</strong>基向量，<strong>v</strong>向上，方向为<strong>w</strong>的负向（向上方向未知，其实可以先随便设置，算出叉积后再反过来叉积得出向上向量）</p>
+<p>相机显示出来物体是什么位置，这个时候需要依靠世界坐标和物体坐标的关系，以及世界坐标和相机坐标的关系来计算出相机与物体的关系</p>
+<p>我们不妨这样想：假如世界坐标就是相机坐标，那么现在物体在世界坐标上的位置是已知的，这个位置其实就是需要传给相机的关键信息。那么现在开始将相机坐标系与物体绑定做运动，也就是说物体对于相机来说是不动的，然后将相机移动到原来的需要求的位置上，再将物体移动回去，这样的话整个相机和物体的任何数值都是没变的。有没有发现关键点，那就是在这整个“从未知到已知”的过程中，从相机视角上看就只是“物体本身发生了相机移动的逆运动”。那么这样思路就很清晰了，计算出物体在相机上的位置其实就是把相机移动的逆矩阵乘以物体的世界坐标。又由<strong>正交矩阵的逆就是它的转制</strong>这个定理，其实就是将相机坐标的转至乘以物体坐标得来。</p>
+<p>这就是将世界坐标转换到观察坐标</p>
+<p>然后到裁剪坐标这一步，这个上一篇已经讲过，其实就是在规定相机的眼睛大小，能看到多少地方，然后将这些“地方”按照一定的规矩展示出来，也就是正交变换或者投影变换</p>
+</blockquote>
+<p>接下来是显示在屏幕上的一些规矩</p>
+<p>&nbsp;</p>
+<h1 id='光栅化'>光栅化</h1>
+<p>无论是正交还是透视投影，最终都要转换到[-1,1]的三次方矩阵上，转换后要将这个矩阵在屏幕中显示</p>
+<p>首先定义一下<strong>屏幕</strong>（光栅成像设备）数据：</p>
+<ul>
+<li>一个二维数组（数组中元素是像素）</li>
+<li>屏幕大小（分辨率）——像素多少</li>
+<li>光栅化的类型</li>
+
+</ul>
+<p><strong>光栅化</strong>：将图片展示在屏幕上</p>
+<p><strong>像素</strong>：抽象理解——一个个内部颜色分别一致的单位，不同像素颜色也许不同</p>
+<p>假如说屏幕是一个xy轴，现在有width个x轴上的像素，height个y轴上的像素，那么光栅化的第一步就是将[-1,1]矩阵乘以这样一个数值将它拉到这么屏幕上</p>
+<p><img src="https://img1.imgtp.com/2023/09/17/Z7KO3FUv.png" referrerpolicy="no-referrer" alt="_WI_S___U_I7_8JN___XQ14.png"></p>
+<blockquote><p>这也是视口变换的一步</p>
+</blockquote>
+<p>然后就是将这个物体的二维形态“打散成像素”</p>
+<p>选择三角形作为基本图形的原因：</p>
+<ul>
+<li>图形最为简单</li>
+<li>确定的三角形肯定在一个平面之内，内部外部定义非常清楚</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>采样法</strong></p>
+<pre><code class='language-c++' lang='c++'>for(int x=0;x&lt;xmax;++x)
+    for(int y=0;y&lt;ymax;++y)
+        image[x][y]=inside(tri,x+0.5,y+0.5);
+</code></pre>
+<p>&quot;判断是否在三角形内&quot;：首先规定三角形的三边方向，然后分别用三边和点进行叉积</p>
+<p>&nbsp;</p>
+<p><strong>采样带来的问题</strong></p>
+<ul>
+<li>锯齿——空间采样</li>
+<li>摩尔纹——图片质量问题</li>
+<li>车轮倒转效应——时间采样</li>
+
+</ul>
+<blockquote><p>信号变化太快导致采样速度更不上变化速度</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>走样定义：采样两种完全不一样的函数，得到的确实一个同样的结果</p>
+<hr />
+<p><strong>滤波：把某特定频段去除</strong></p>
+<p>首先，先了解一下一张彩色图片的像素成分</p>
+<p><img src="https://img1.imgtp.com/2023/09/19/UKO0qtXn.png" referrerpolicy="no-referrer" alt="1111.png"></p>
+<p>从0~255，从黑色到白色，这个叫做像素灰度</p>
+<p>为不同灰度像素赋予颜色，就获得了颜色深度不同的色块，彩色图片比灰色图片多一个维度，也就是颜色的不同，一般的彩色图片都由三原色构成，也就是常说的RGB三原色，深度为3（不过过多了就不涉及了）</p>
+<p>图像的频率，正是<strong>图片某段灰度变化剧烈的指标</strong></p>
+<p>一般图片在什么地方灰度变化剧烈呢？那肯定就是图形边缘的部分了，这部分又恰好是锯齿化最为严重的部分</p>
+<hr />
+<p><strong>反走样</strong></p>
+<ul>
+<li><p>增加采样率——负担过高，受制于物理限制，不现实</p>
+</li>
+<li><p>抗锯齿——模糊化后再进行采样</p>
+<blockquote><p>模糊操作： </p>
+<p>根据每个像素中三角形的覆盖面积来求平均值，最终结果作为本像素的统一颜色（这就是卷积操作）</p>
+</blockquote>
+</li>
+
+</ul>
+<p><strong>MSAA</strong>：在像素内增加几个采样点，这几个采样点是为单个像素本身来服务的，而不是单纯为了增加采样点。像素内的多出来的像素点用于计算边界覆盖面积平均值，比如像素点内部有四个采样点（4x），其中一个采样点被覆盖，那么这个像素点的覆盖率就是25%，理应计算25%的颜色平均值。</p>
+<p><strong>FXAA</strong>：快速近似抗锯齿，后处理，形变抗锯齿，注重性能，和采样无关在图像层面上进行操作</p>
+<p><strong>TAA</strong>：时间相关抗锯齿，静止物体上，多次采样求平均分摊到多帧</p>
+<p>&nbsp;</p>
+<p><strong>超分辨率</strong></p>
+<p>DLSS：深度学习方法——将一个小图拉大，会出现锯齿，这个时候用计算机“猜出来”，适用于深度学习方法</p>
+<p>&nbsp;</p>
+</body>
+</html>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/26/C-%E7%B1%BB%E5%A4%9A%E6%80%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -537,98 +715,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/10/C-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/333.jpg">
-      <meta itemprop="name" content="九日">
-      <meta itemprop="description" content="饥冻虽切，违己交病">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Coding中。。。">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/08/10/C-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">C++异常处理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-08-10 22:35:53 / 修改时间：23:27:00" itemprop="dateCreated datePublished" datetime="2023-08-10T22:35:53+08:00">2023-08-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BB%8EC%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C开始的C++</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <!doctype html>
-<html>
-<head>
-<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/08/10/C-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -700,7 +786,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -727,6 +813,9 @@
     </div>
     <ul class="links-of-recent-posts-list">
         <li class="links-of-recent-posts-item">
+          <a href="/2023/09/19/%E5%85%89%E6%A0%85%E5%8C%96%E4%B8%8E%E6%8A%97%E9%94%AF%E9%BD%BF%E6%B5%85%E5%85%A5/" title="2023&#x2F;09&#x2F;19&#x2F;光栅化与抗锯齿浅入&#x2F;">光栅化与抗锯齿浅入</a>
+        </li>
+        <li class="links-of-recent-posts-item">
           <a href="/2023/08/26/C-%E7%B1%BB%E5%A4%9A%E6%80%81/" title="2023&#x2F;08&#x2F;26&#x2F;C-类多态&#x2F;">C++类多态</a>
         </li>
         <li class="links-of-recent-posts-item">
@@ -737,9 +826,6 @@
         </li>
         <li class="links-of-recent-posts-item">
           <a href="/2023/08/14/C-%E6%8C%87%E9%92%88/" title="2023&#x2F;08&#x2F;14&#x2F;C-指针&#x2F;">C++指针</a>
-        </li>
-        <li class="links-of-recent-posts-item">
-          <a href="/2023/08/10/C-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" title="2023&#x2F;08&#x2F;10&#x2F;C-异常处理&#x2F;">C++异常处理</a>
         </li>
     </ul>
   </div>
