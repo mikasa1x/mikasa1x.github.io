@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="深度缓存、光照与纹理">
+<meta property="og:url" content="http://example.com/2023/09/25/%E6%B7%B1%E5%BA%A6%E7%BC%93%E5%AD%98%E3%80%81%E5%85%89%E7%85%A7%E4%B8%8E%E7%BA%B9%E7%90%86/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img1.imgtp.com/2023/09/20/NWgzw2RM.png">
+<meta property="og:image" content="https://img1.imgtp.com/2023/09/22/btNIX9xj.png">
+<meta property="og:image" content="https://img1.imgtp.com/2023/09/22/w3lN8rEi.png">
+<meta property="og:image" content="https://img1.imgtp.com/2023/09/22/Be430gqI.png">
+<meta property="og:image" content="https://img1.imgtp.com/2023/09/22/nt8yEfNT.png">
+<meta property="og:image" content="https://img1.imgtp.com/2023/09/22/PhNunaJq.png">
+<meta property="og:image" content="https://img1.imgtp.com/2023/09/25/ONqLh6Od.png">
+<meta property="og:image" content="https://img1.imgtp.com/2023/09/25/xrUIqGcc.png">
+<meta property="og:image" content="https://img1.imgtp.com/2023/09/25/KYDCjCQW.png">
+<meta property="og:image" content="https://img1.imgtp.com/2023/09/25/xWMWsMHe.png">
+<meta property="og:image" content="https://img1.imgtp.com/2023/09/25/feE6XnOv.png">
+<meta property="og:image" content="https://img1.imgtp.com/2023/09/25/yFGQykoV.png">
+<meta property="article:published_time" content="2023-09-25T13:39:45.000Z">
+<meta property="article:modified_time" content="2023-09-25T13:40:30.087Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img1.imgtp.com/2023/09/20/NWgzw2RM.png">
+
+<link rel="canonical" href="http://example.com/2023/09/25/%E6%B7%B1%E5%BA%A6%E7%BC%93%E5%AD%98%E3%80%81%E5%85%89%E7%85%A7%E4%B8%8E%E7%BA%B9%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>深度缓存、光照与纹理 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/25/%E6%B7%B1%E5%BA%A6%E7%BC%93%E5%AD%98%E3%80%81%E5%85%89%E7%85%A7%E4%B8%8E%E7%BA%B9%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          深度缓存、光照与纹理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-09-25 21:39:45 / 修改时间：21:40:30" itemprop="dateCreated datePublished" datetime="2023-09-25T21:39:45+08:00">2023-09-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">计算机图形学</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>深度缓存</title>
+</head>
+<body><p>Q：为什么先采样再模糊是错误的</p>
+<p>A：因为不先做滤波会导致信号混叠</p>
+<h1 id='深度缓存------z-buffer'>深度缓存——Z-buffer</h1>
+<p>不同图形存在相互遮挡，一般在绘制图形的时候，后绘制的图形会遮挡先绘制的图形，所以会对图形设置深度。</p>
+<p>在实际的计算机图像生成当中，会生成两个图，一个是成品图，一个是每个像素对应的深度值。</p>
+<p><strong>深度</strong>可以理解成这个点到摄像机的距离，当然深度数值越大，离摄像机越远（z轴上大小越小）</p>
+<p>深度缓存算法的原理，是每次遍历记录每个像素的最浅深度。</p>
+<p><img src="https://img1.imgtp.com/2023/09/20/NWgzw2RM.png" referrerpolicy="no-referrer" alt="2222.png"></p>
+<p>复杂度O（n），好处是与三角形绘制顺序无关，最终结果都一样</p>
+<p>&nbsp;</p>
+<h1 id='着色'>着色</h1>
+<p>对不同材质的物体提供不同的着色策略。</p>
+<p>&nbsp;</p>
+<p><strong>局部着色</strong></p>
+<p>只看光照方向，不看任何遮挡，只看自己本身</p>
+<p>&nbsp;</p>
+<p><strong>漫反射</strong></p>
+<ul>
+<li>光线打到物体表面，会被均匀反射出去，利用这个”结果“，我们通过光照射角度来计算接收到的光照能量，再”反射“出相应亮度（冯-布林光照模型）——光照“数量”</li>
+<li>把光看成能量，离光源越远能量越小（I/r^2）——光照“质量”</li>
+<li><img src="https://img1.imgtp.com/2023/09/22/btNIX9xj.png" referrerpolicy="no-referrer" alt="999.png"></li>
+
+</ul>
+<p>kd为吸收的能量（颜色反射）</p>
+<p>max防止负数</p>
+<p>&nbsp;</p>
+<h1 id='高光blinn--phong模型）'>高光（Blinn--Phong模型）</h1>
+<p>如果材质接近金属等接近镜面反射的材质，则会再某个角度得到接近镜面高光的效果。</p>
+<p>目前的模型需要解决的问题是计算出观察方向与高光方向的接近程度，做到越接近越高光的效果。</p>
+<p><strong>Blinn--Phong模型</strong>的解释是如果观察向量与光线向量的半程向量和法向量足够接近，则说明观察向量越接近高光向量。</p>
+<p>即比较半程向量与法向量</p>
+<ul>
+<li><img src="https://img1.imgtp.com/2023/09/22/w3lN8rEi.png" referrerpolicy="no-referrer" alt="000.png"></li>
+
+</ul>
+<p>如果直接使用的是观察向量与高光向量比较，那么那个模型叫<strong>Phong模型</strong></p>
+<blockquote><p>优势是前者是优化过后的，半程向量比较好算</p>
+</blockquote>
+<p>p指数的解释（64常用）——用来控制高光程度有多大：</p>
+<ul>
+<li><img src="https://img1.imgtp.com/2023/09/22/Be430gqI.png" referrerpolicy="no-referrer" alt="0000.png"></li>
+
+</ul>
+<p>p指数与镜面反射系数的直观对比：</p>
+<ul>
+<li><img src="https://img1.imgtp.com/2023/09/22/nt8yEfNT.png" referrerpolicy="no-referrer" alt="11111.png"></li>
+
+</ul>
+<p>&nbsp;</p>
+<h1 id='环境光照'>环境光照</h1>
+<p>环境光从四面八方射入，保证每一个像素都获取得到</p>
+<p><strong>La = ka Ia</strong></p>
+<p>ka为光照系数，la为光照强度</p>
+<p>&nbsp;</p>
+<p><strong>高光、漫反射、环境光</strong>三者结合就是完整的布林-冯光照模型</p>
+<ul>
+<li><img src="https://img1.imgtp.com/2023/09/22/PhNunaJq.png" referrerpolicy="no-referrer" alt="333.png"></li>
+
+</ul>
+<p>&nbsp;</p>
+<h1 id='着色频率'>着色频率</h1>
+<blockquote><p>含有插值的新用法</p>
+</blockquote>
+<ul>
+<li><strong>Flat Shading</strong>——每个基础三角形的两条边，求其叉积，得到法线，用这个法线来计算着色</li>
+<li><strong>Gouraud Shading</strong>——求每个基础三角形的三顶点法线，计算着色，而三角形内部的着色由各自顶点的着色进行插值算出</li>
+
+</ul>
+<blockquote><p>顶点法线求法</p>
+</blockquote>
+<ul>
+<li><strong>Phong Shading</strong>——（和着色模型是一个发明者）对三角形三顶点法线进行插值，算出三角形中每一个像素的法线，再对三角形中的每个像素进行着色</li>
+
+</ul>
+<p>&nbsp;</p>
+<p>虽然从上到下效果越来越好，但其实实际运用中如果物体本身几何图形面数很多，那么其实不需要使用高质量的逐像素着色，这个时候使用最简单的逐图形着色，有时候效果差不了很多，而且开销更小。</p>
+<blockquote><p>比如极端情况下面数比像素更多的情况</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>Q：顶点法线怎么算？</p>
+<p>A：通过顶点原本背后视图表示的物体（球）来计算，不过最常用最合适的方法是直接运算顶点周围面的法线进行根据面面积的加权平均来得出来。</p>
+<p>&nbsp;</p>
+<p>Q：逐像素法线怎么算？</p>
+<p>A：对顶点法线进行插值计算，根据重心坐标来计算（即将讲到）。</p>
+<p>&nbsp;</p>
+<h1 id='实时渲染管线图形管线）'>实时渲染管线（图形管线）</h1>
+<blockquote><p>管线：从场景到最后一张图的一系列操作</p>
+</blockquote>
+<ol start='' >
+<li><strong>Input</strong>：输入空间中的各种点</li>
+<li><strong>Vertices</strong>：把各种点进行mvp变换，视口变换投影到屏幕上</li>
+<li><strong>Triangles</strong>：划分出一个个三角形</li>
+<li><strong>Fragment</strong>：光栅化，将图形打散成一个个像素——也包含Z-buffer</li>
+<li><strong>Shaded</strong>：着色——如果是Gouraud，则这一步其实可以发生在Vertices那一步，如果是Phong，那就至少三角形划分出来之后再进行，不过现代GPU支持编程化Shaded，也就是说可自定义化控制每个像素使用哪种策略进行着色，我们就把进行编程的这个动作叫<font color=red><strong>写Shader</strong></font></li>
+<li><strong>Output</strong>：输出结果</li>
+
+</ol>
+<blockquote><p>Shader中不需要写For循环</p>
+<ul>
+<li>顶点着色器：如果写的shader是对顶点进行操作</li>
+<li>像素着色器：如果写的是对像素进行操作</li>
+
+</ul>
+<p>shader语言——GLSL</p>
+</blockquote>
+<p>&nbsp;</p>
+<h1 id='纹理映射'>纹理映射</h1>
+<blockquote><p>以上讲到的都是单个物体同一个基础颜色，纹理则是用来决定一个物体多个不同颜色的——改变漫反射系数</p>
+</blockquote>
+<blockquote><p>纹理的本质就是一张图，可拉伸可伸缩到形态不同的物体上——叫做纹理映射</p>
+</blockquote>
+<p>映射的规则是默认已知的，一般由其他艺术家直接在模型上进行处理</p>
+<p><strong>UV图</strong>：模型上的纹理展开后的图（0~1）</p>
+<p>常用最多的“优秀纹理”其实就是例如木纹这样的材质图，这种类型的纹理一般能够实现纹理无缝衔接</p>
+<p>&nbsp;</p>
+<h1 id='三角形插值运算'>三角形插值运算</h1>
+<p><strong>重心坐标</strong>：(a,b)=aA+bB+cC</p>
+<p>					a+b+c=1						——点在三角形平面内，如果三者都是非负，则在三角形内</p>
+<p>面积表示法：（略）</p>
+<p>&nbsp;</p>
+<h1 id='纹理映射应用'>纹理映射应用</h1>
+<p>（u，v）图记录了每一个采样点的纹理颜色——即Kd漫反射系数</p>
+<p>屏幕上的每一个位置，可以转换成纹理坐标——三角形插值运算可计算出所有点了</p>
+<p>利用纹理坐标在（u，v）上的映射，将Kd代替进去</p>
+<p>&nbsp;</p>
+<h1 id='纹理放大'>纹理放大</h1>
+<blockquote><p>例如：高分辨率的模型（texture），墙等贴了一张低分辨率的纹理（texel）</p>
+</blockquote>
+<p><strong>四舍五入</strong>——会导致很多相同像素映射到同一块texture上，没有“丝滑”的效果</p>
+<p><strong>双线性插值</strong>（Bilinear interpolation）</p>
+<ul>
+<li><img src="https://img1.imgtp.com/2023/09/25/ONqLh6Od.png" referrerpolicy="no-referrer" alt="888.png"></li>
+
+</ul>
+<p>在计算texture中，却并不完全对应在texel上的点时（例如此红点），对其进行双线性插值计算出实际纹理颜色。</p>
+<p>实际操作是（例）计算出u00到u10，以及u01到u11的线性插值，得出红点的两个水平插值，然后再对两个水平插值进行插值计算算出红点的插值，这就是双线性插值的名字由来</p>
+<p><strong>Bicubic</strong>——取周围16个点来插值，计算量更大，但图像更准确</p>
+<ul>
+<li><img src="https://img1.imgtp.com/2023/09/25/xrUIqGcc.png" referrerpolicy="no-referrer" alt="55.png"></li>
+
+</ul>
+<p>&nbsp;</p>
+<h1 id='纹理缩小'>纹理缩小</h1>
+<blockquote><p>小模型，纹理UV比像素多</p>
+</blockquote>
+<ul>
+<li><img src="https://img1.imgtp.com/2023/09/25/KYDCjCQW.png" referrerpolicy="no-referrer" alt="555.png"></li>
+
+</ul>
+<p>原因：屏幕上的区域，其实纹理覆盖的大小都不相同</p>
+<p>比如一块纹理覆盖到地面上，但从水平角度看，地平线方向纹理密度会非常非常大</p>
+<p>解决方法1：之前其实提到过抗锯齿的方法，在这里同样适用，比如在远处使用更多的采样点——<strong>超采样</strong></p>
+<p>解决方法2：避免采样，进行范围查询——<strong>Mipmap</strong></p>
+<p><strong>Mipmap</strong>将纹理图处理成大小不同的纹理图，存储量多了三分之一</p>
+<ul>
+<li><img src="https://img1.imgtp.com/2023/09/25/xWMWsMHe.png" referrerpolicy="no-referrer" alt="333.png"></li>
+
+</ul>
+<p>mipmap生成不同的纹理图，一般是按照倍数减少大小的，这张图做了放大处理，实际上像素面积大小都是一样的，也就是说从左往右图片面积也是越来越小的。</p>
+<p>具体要如何使用呢，在我们要渲染出的图像中，由于UV点密度在图像中不同位置不太一样，我们通过计算某采样点上面右边与自身采样点对应UV，计算出两长度大小。再根据这个长度大小来“模拟”出一个正方形，因为不同密度UV点一般情况下生成不了正方形但Mipmap的范围查询只能通过正方形查询。这个正方形大小就能代表像素点映射到纹理上的区域大小。</p>
+<p>这个时候重点来了，我们都知道像素点在屏幕上都是设定好的大小，排好队一个个显示好。但映射过后的UV图不一样，可能一个像素对应四个像素大小的UV图，也就是说大概四个像素面积的UV图要“挤”在一个像素内，这个时候所需求的采样点就会变多，不然就容易发生前面图中发生的“走样”现象，锯齿现象会严重。这个时候如果将这四个像素的内容“平均”一下，再将这个“平均”结合后的单个像素放入原来的位置，那么锯齿现象就会平滑很多。而这个“平均”从哪里找呢，其实就是Mipmap处理过后的纹理图，比如上图Level1就代表四个像素模糊到一个像素过后 的图像，如果正方形的结果是边长为2，那么就在Level1中找，如果边长为L，那么就在log2L层级上找。</p>
+<p>&nbsp;</p>
+<h1 id='三线性插值'>三线性插值</h1>
+<blockquote><p> 如果范围查询的结果是需要在1.5层级中查找，那么该如何处理呢</p>
+<p>在游戏中的设置中，经常会发现有一个叫”插值“的选项</p>
+</blockquote>
+<p>如果要在1与2层级中寻找1.5层级，那么直接在两层之间加一次插值，就被称为”三线性插值。</p>
+<blockquote><p>其实有点没太理解似乎老师没细聊</p>
+</blockquote>
+<p>&nbsp;</p>
+<h1 id='overblur'>Overblur</h1>
+<blockquote><p>三线性插值过后，远处的场景发生了模糊化</p>
+</blockquote>
+<ul>
+<li><img src="https://img1.imgtp.com/2023/09/25/feE6XnOv.png" referrerpolicy="no-referrer" alt="666.png"></li>
+
+</ul>
+<p>问题出在三线性过滤的基础都是发生在查询单位都是正方形的情况下</p>
+<p><strong>各向异性过滤</strong>——每X2，三倍开销，和性能关系不大，和显存关系大</p>
+<blockquote><p>在不同的方向上表现各不相同</p>
+</blockquote>
+<p><img src="https://img1.imgtp.com/2023/09/25/yFGQykoV.png" referrerpolicy="no-referrer" alt="000.png"></p>
+<p>首先，图中的每一个像素对应在UV图上都是一个个拉伸了的结果，如果对于正常拉伸的矩形，可以快速对矩形进行查询。</p>
+<p>还不够，也可以使用<strong>EWA过滤</strong></p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/09/19/%E5%85%89%E6%A0%85%E5%8C%96%E4%B8%8E%E6%8A%97%E9%94%AF%E9%BD%BF%E6%B5%85%E5%85%A5/" rel="prev" title="光栅化与抗锯齿浅入">
+      <i class="fa fa-chevron-left"></i> 光栅化与抗锯齿浅入
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E7%BC%93%E5%AD%98------z-buffer"><span class="nav-number">1.</span> <span class="nav-text">深度缓存——Z-buffer</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9D%80%E8%89%B2"><span class="nav-number">2.</span> <span class="nav-text">着色</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%AB%98%E5%85%89blinn--phong%E6%A8%A1%E5%9E%8B%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">高光（Blinn--Phong模型）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%85%89%E7%85%A7"><span class="nav-number">4.</span> <span class="nav-text">环境光照</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9D%80%E8%89%B2%E9%A2%91%E7%8E%87"><span class="nav-number">5.</span> <span class="nav-text">着色频率</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E5%9B%BE%E5%BD%A2%E7%AE%A1%E7%BA%BF%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">实时渲染管线（图形管线）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BA%B9%E7%90%86%E6%98%A0%E5%B0%84"><span class="nav-number">7.</span> <span class="nav-text">纹理映射</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E8%A7%92%E5%BD%A2%E6%8F%92%E5%80%BC%E8%BF%90%E7%AE%97"><span class="nav-number">8.</span> <span class="nav-text">三角形插值运算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BA%B9%E7%90%86%E6%98%A0%E5%B0%84%E5%BA%94%E7%94%A8"><span class="nav-number">9.</span> <span class="nav-text">纹理映射应用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BA%B9%E7%90%86%E6%94%BE%E5%A4%A7"><span class="nav-number">10.</span> <span class="nav-text">纹理放大</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BA%B9%E7%90%86%E7%BC%A9%E5%B0%8F"><span class="nav-number">11.</span> <span class="nav-text">纹理缩小</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E7%BA%BF%E6%80%A7%E6%8F%92%E5%80%BC"><span class="nav-number">12.</span> <span class="nav-text">三线性插值</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#overblur"><span class="nav-number">13.</span> <span class="nav-text">Overblur</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/09/25/%E6%B7%B1%E5%BA%A6%E7%BC%93%E5%AD%98%E3%80%81%E5%85%89%E7%85%A7%E4%B8%8E%E7%BA%B9%E7%90%86/" title="2023&#x2F;09&#x2F;25&#x2F;深度缓存、光照与纹理&#x2F;">深度缓存、光照与纹理</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/09/19/%E5%85%89%E6%A0%85%E5%8C%96%E4%B8%8E%E6%8A%97%E9%94%AF%E9%BD%BF%E6%B5%85%E5%85%A5/" title="2023&#x2F;09&#x2F;19&#x2F;光栅化与抗锯齿浅入&#x2F;">光栅化与抗锯齿浅入</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/26/C-%E7%B1%BB%E5%A4%9A%E6%80%81/" title="2023&#x2F;08&#x2F;26&#x2F;C-类多态&#x2F;">C++类多态</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/16/%E5%90%89%E6%AF%94%E7%89%B9%E5%8A%A8%E4%BD%9C%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E7%AC%94%E8%AE%B0/" title="2023&#x2F;08&#x2F;16&#x2F;吉比特动作游戏设计笔记&#x2F;">吉比特动作游戏设计笔记</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/15/C-%E5%88%B7%E9%A2%988-11/" title="2023&#x2F;08&#x2F;15&#x2F;C-刷题8-11&#x2F;">C++刷题8.11</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : 'd2bb9bda79bd11378af8b30db3e63d15',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
