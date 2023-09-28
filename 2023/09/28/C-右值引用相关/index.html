@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="C++右值引用相关">
+<meta property="og:url" content="http://example.com/2023/09/28/C-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8%E7%9B%B8%E5%85%B3/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img1.imgtp.com/2023/09/28/8SnS9xAC.png">
+<meta property="article:published_time" content="2023-09-28T15:16:51.000Z">
+<meta property="article:modified_time" content="2023-09-28T15:17:41.342Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img1.imgtp.com/2023/09/28/8SnS9xAC.png">
+
+<link rel="canonical" href="http://example.com/2023/09/28/C-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8%E7%9B%B8%E5%85%B3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C++右值引用相关 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/28/C-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8%E7%9B%B8%E5%85%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++右值引用相关
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-09-28 23:16:51 / 修改时间：23:17:41" itemprop="dateCreated datePublished" datetime="2023-09-28T23:16:51+08:00">2023-09-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BB%8EC%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C开始的C++</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>C++左值与右值</title>
+</head>
+<body><h1 id='c左值与右值'><strong>C++左值与右值</strong></h1>
+<p>首先普及一下学习多年C++没注意记忆的概念</p>
+<p><strong>左值</strong>：<strong>可以取地址、位于赋值符号左边</strong>的值，就记住，左值是表达式结束（不一定是赋值表达式）后依然存在的对象。左值也是一个关联了名称的内存位置，允许程序的其他部分来访问它的值。</p>
+<p>有以下特征：</p>
+<ol>
+<li>可通过取地址运算符获取其地址</li>
+<li>可修改的左值可用来赋值</li>
+<li>可以用来初始化左值引用</li>
+
+</ol>
+<p>那些是左值？</p>
+<ol>
+<li>变量名、函数名以及数据成员名</li>
+<li>返回左值引用的函数调用</li>
+<li>由赋值运算符或复合赋值运算符连接的表达式，如(a=b, a-=b等)</li>
+<li>解引用表达式*ptr</li>
+<li><strong>前置自增和自减表达式(++a, ++b)</strong></li>
+<li>成员访问（点）运算符的结果</li>
+<li>由指针访问成员（ <code>-&gt;</code> ）运算符的结果</li>
+<li>下标运算符的结果(<code>[]</code>)</li>
+<li>字符串字面值(&quot;abc&quot;)</li>
+
+</ol>
+<p>&nbsp;</p>
+<p><strong>右值</strong>：指那些可以提供数据值的表达式（不一定可以寻址，例如存储于寄存器中的数据）。右值有可能在内存中也有可能在寄存器中。一般来说就是活不过一行就会消失的值。</p>
+<p>那些是右值？</p>
+<ol>
+<li>字面值(字符串字面值除外)，例如1，&#39;a&#39;, true等</li>
+<li>返回值为非引用的函数调用或操作符重载，例如：str.substr(1, 2), str1 + str2, or it++</li>
+<li>后置自增和自减表达式(a++, a--)</li>
+<li>算术表达式（x + y;）</li>
+<li>逻辑表达式</li>
+<li>比较表达式</li>
+<li>取地址表达式</li>
+<li>lambda表达式<code>auto f = []&#123;return 5;&#125;;</code></li>
+
+</ol>
+<blockquote><p>简单讲右值不能取地址，左值能</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>纯右值与将亡值</strong>：右值的分类。非引用返回的临时变量、运算表达式产生的临时变量、原始字面量和lambda表达式等都是纯右值。而将亡值是C++11新增的、与右值引用相关的表达式，比如，将要被移动的对象、T&amp;&amp;函数返回值、std::move返回值和转换为T&amp;&amp;的类型的转换函数的返回值等。</p>
+<blockquote><p>C++11中所有的值，都是左值、纯右值、将亡值其中一种</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>具名</strong>：顾名思义就是“有名字的”，比如变量、函数、类、名字空间等。</p>
+<p>比较标准的解释就是：<mark><strong>可以确定表达式是否与另一表达式指代同一实体，例如通过比较它们所标识的对象或函数的（直接或间接获得的）地址</strong></mark></p>
+<p>其特点如下：</p>
+<ul>
+<li>标识符：每个具名实体都有独特的标识符，该标识符由字母、数字和下划线组成，以字母或下划线开头。</li>
+<li>作用域：规定了具名实体在程序中的不同部分中的可见性和访问性。</li>
+<li>类型：具名实体具有特定的类型。</li>
+<li>存储位置：一旦具名，程序会为实体分配存储空间，可以是栈、堆或者静态存储区。</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>可被移动</strong>：移动构造函数、移动赋值运算符或实现了移动语义的其他函数重载能够绑定于这个表达式。</p>
+<p>&nbsp;</p>
+<p><strong>临时对象</strong>：又称“无名对象”用于存储中间结果的实参，在求值结束后立即被销毁。一个最简单的例子——</p>
+<p><code>int result = 2 * (3 + 4);</code> </p>
+<p>2*（3+4）这个表达式的结果就是用临时对象来存储的，然后临时对象再赋值给result</p>
+<p><code>if(2*(3+4))</code>这样理解是不是更清晰一些呢，if括号内没有什么result，但还是隐式有一个什么东西储存括号内的计算结果，然后根据这个结果来判断。</p>
+<p>临时对象在任何表达式求值类中出现（其实单个int值之类也算表达式），所以说函数返回值，传入实参等都有可能出现。</p>
+<blockquote><p>由于临时对象在发挥作用后立即被销毁，所以要避免临时对象的悬空引用</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>右值引用</strong>：我们都知道左值引用，<code>int&amp; p = q;</code>就是左值引用</p>
+<p>而形如<code>T&amp;&amp; k = getVar();</code>就是右值引用（T为类型）</p>
+<p>右值引用一个最明显的表现，就是将右值的生命周期延长到和引用本身一样了。（这样就要避免导致前文提到的问题）。</p>
+<p>左值引用其实也可以接受右值，不过非常量左值引用只能接受左值。</p>
+<p><code>const A&amp; a = GetA();</code>和右值引用一样，在C++11之前也可以用于性能优化。</p>
+<p>&nbsp;</p>
+<h1 id='对象的拷贝控制'>对象的拷贝控制</h1>
+<blockquote><p>C++11之前：拷贝构造函数、拷贝赋值运算符、析构函数</p>
+<p>C++11之后+：移动构造函数、移动赋值运算符</p>
+</blockquote>
+<p><strong>拷贝构造函数</strong>：只有一个参数，就说本类的引用——最好加const，因为可以以常量对象为参数。</p>
+<p>编译器会自动生成默认复制构造函数，这个默认复制构造函数会在启用时将被拷贝对象中的所有信息都打包（涉及浅拷贝，可见本章节对象和类部分）。</p>
+<p>如果自行编写复制构造函数，默认复制构造函数会失效，这个时候起作用的复制构造函数可以做一些其他的事，比如将复制过去值+1，不过要谨慎对待因为自定义的复制构造函数只会进行自定义的语句。</p>
+<pre><code class='language-c++' lang='c++'>#include&lt;iostream&gt;
+using namespace std;
+class A &#123;
+public:
+    int a1;
+    A() &#123;&#125;;
+    A(const A&amp; a) &#123;
+        //a1 = a.a1;
+        //如果这一句被注释，那么对象b继承不了t.a1的数据，打印出来的将是一个未初始化的混乱数据，从这一点可以看出来自定义的复制构造函数只会运行自定义的语句（当然111也会被打印出来）；如果这一句没被注释，那么数据a1会追寻形式参数实际参数追到对象t，于是在类外初始化的a1被复制，打印出正常的2；如果a1的初始发生在类里面，那么复制构造函数内如果没有对a1的特殊处理语句，就会直接将类内的数据默认初始化；如果这一个复制构造函数未被写出，那么编译器生成的默认复制构造函数会将对象所有数据复制，也就是会打印出2
+        cout &lt;&lt; &quot;111&quot; &lt;&lt; endl;
+    &#125;
+&#125;;
+int main() &#123;
+    A t;
+    t.a1 = 2;//a1的初始化在类外进行
+    A b(t);//对象b初始化的时候调用复制构造函数，用t的信息复制给b
+    cout &lt;&lt; b.a1 &lt;&lt; endl;
+    return 0;
+&#125;
+</code></pre>
+<p>&nbsp;</p>
+<p><strong>复制构造函数的调用</strong>：1.当用一个对象去初始化同类的另一个对象时；2.作为形参的对象，是用复制构造函数初始化的；3.作为函数返回值的对象是用复制构造函数初始化 的</p>
+<pre><code class='language-c++' lang='c++'>A b(t);
+A b = t;//这两句等价
+
+<p>A b;<br>A t;<br>b &#x3D; t;&#x2F;&#x2F;这是直接赋值语句，和上面的不同，这一句不会调用复制构造函数，而是直接用b去给t赋值。<br></code></pre></p>
+<blockquote><p>注意复制构造函数重点有”复制“和”构造“两个</p>
+</blockquote>
+<p>&nbsp;</p>
+<pre><code class='language-c++' lang='c++'>void solve(A a)&#123;&#125;
+
+<p>int main()&#123;<br>    A a;<br>    solve(a);&#x2F;&#x2F;这个实参a传入函数时会调用复制构造函数，所以说如果复制构造函数像上文提到的那样发生了自定义改变，那么这个实参a与传进solve函数内的形参a可能值就不一样了<br>    return 0;<br>&#125;<br></code></pre></p>
+<blockquote><p>这个时候问题解决来了，如果将自定义复制构造函数的形参设置为const，那么函数内就无法对形参进行改变，任何发生改变的行为都会报错</p>
+</blockquote>
+<pre><code class='language-c++' lang='c++'>class A &#123;
+public:
+    int a1 = 1;
+    A() &#123;&#125;;
+    A(const A&amp; a) &#123;
+        a1 = Fun(a.a1);//有意思的是使用成员函数就不会报错
+        cout &lt;&lt; &quot;111&quot; &lt;&lt; endl;
+    &#125;
+    int Fun(int a1) &#123;
+        return a1 + 1;
+    &#125;
+&#125;;
+</code></pre>
+<blockquote><p>const的水还是很深啊。。</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>第三点不给例子了，毕竟有的编译器甚至会将其优化掉，所以就不追究了</p>
+<blockquote><p>参考：C语言中文网</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>拷贝赋值运算符</strong></p>
+<blockquote><p>上面提到过的用=进行初始化的操作中的=就算拷贝赋值运算符，但是注意这里所说的”拷贝赋值运算符“起作用的点不是这个，如果是用来初始化，那么=调用的是复制构造函数；如果是用来赋值，那么起作用的便是”拷贝赋值运算符“，也就是上文提到了那个”错误例子“</p>
+</blockquote>
+<pre><code class='language-c++' lang='c++'>class A &#123;
+public:
+    int a1 = 1;
+    A() &#123;&#125;;
+    A(const A&amp; a) &#123;
+        //a1 = Fun(a.a1);
+        cout &lt;&lt; &quot;111&quot; &lt;&lt; endl;
+    &#125;
+    A&amp; operator=(A&amp; a)&#123;
+        //a1 = Fun(a.a1);输出为1
+        //如果没有这个注释，那么下面的输出就是6，道理和自定义复制构造函数是一样的，这里不做赘述
+        return *this;
+    &#125;
+    int Fun(int a1) &#123;
+        return a1 + 1;
+    &#125;
+&#125;;
+int main() &#123;
+    A a;
+    a.a1 = 5;
+    A b;
+    b = a;
+    cout &lt;&lt; b.a1 &lt;&lt; endl;
+    return 0;
+&#125;
+</code></pre>
+<p>说了这么多”自定义“的拷贝与赋值，那么什么情况下比较合适”自定义“呢，那就是我们要实现深拷贝的时候。</p>
+<ol start='' >
+<li><p>在类的拷贝构造函数中进行深拷贝：</p>
+<ul>
+<li>分配新的内存空间，以保存要拷贝的对象的数据。</li>
+<li>将原始对象的数据复制到新分配的内存空间中。</li>
+<li>如果对象包含指针成员变量，还需要对指针指向的资源进行拷贝。</li>
+
+</ul>
+</li>
+<li><p>在类的赋值运算符（<code>operator=</code>）重载函数中进行深拷贝：</p>
+<ul>
+<li>首先释放目标对象（即赋值运算符左侧的对象）已有的资源，以避免内存泄漏。</li>
+<li>分配新的内存空间，以保存要拷贝的对象的数据。</li>
+<li>将原始对象的数据复制到新分配的内存空间中。</li>
+<li>如果对象包含指针成员变量，还需要对指针指向的资源进行拷贝。</li>
+
+</ul>
+</li>
+
+</ol>
+<p>需要注意的是，如果类包含动态分配的资源（如堆上的内存、文件句柄等），则必须在深拷贝过程中进行适当的资源管理，以确保在对象的生命周期结束时正确释放这些资源，避免内存泄漏。</p>
+<pre><code class='language-c++' lang='c++'>#include &lt;cstring&gt; // For memcpy
+
+<p>class MyClass &#123;<br>private:<br>    int* data;<br>    int size;</p>
+<p>public:<br>    &#x2F;&#x2F; 拷贝构造函数<br>    MyClass(const MyClass&amp; other) &#123;<br>        size &#x3D; other.size;<br>        data &#x3D; new int[size];<br>        memcpy(data, other.data, size * sizeof(int));<br>    &#125;</p>
+<pre><code>// 赋值运算符重载
+MyClass&amp;amp; operator=(const MyClass&amp;amp; other) &#123;
+    if (this != &amp;amp;other) &#123;
+        delete[] data; // 释放已有资源
+        //为什么？想想初始化拷贝与赋值的区别
+        size = other.size;
+        data = new int[size];
+        memcpy(data, other.data, size * sizeof(int));
+    &#125;
+    return *this;
+&#125;
+
+// 析构函数
+~MyClass() &#123;
+    delete[] data; // 释放资源
+&#125;
+</code></pre>
+<p>};<br></code></pre></p>
+<p>&nbsp;</p>
+<p>在介绍移动构造函数之前，先浅入一下move函数</p>
+<p><strong>move函数</strong></p>
+<p>move函数简单地讲 ，就是将左值强制转换为右值引用，这个和一个强制转换是等同的——static_cast&lt;T&amp;&amp;&gt;(lvalue)。</p>
+<p>move函数是一个“做不了实事”的函数，从结果上看它实现的”移动语义“和其他数值转移函数大差不差，只是全然用于性能优化。</p>
+<p>上面我们聊过深拷贝的实现，可以发现其实非常复杂，而且对程序的性能影响非常大。如果在一些场合下，我们可以直接将被拷贝的对象资源直接移动到目标对象上，从而避免了资源的大量浪费。</p>
+<blockquote><p>深拷贝中，我们往往需要先建立一块内存区域，然后用这块内存区域存储数据。不过大部分情况下，我们不需要原对象的内存，这个时候使用移动语义更加合适，它直接将被拷贝对象的数据包括内存直接移动给目标对象，从而避免了新内存区域的建立</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>移动构造函数</strong></p>
+<p>上面说的move实际上并不能移动任何东西，他只是强制将一个左值变为右值引用。对于对象之间的“移动”，就是由”移动构造函数“去具体实现的，而移动构造函数本身就是由右值引用而触发的，这样就形成了一个闭环，最终满足的结果就是让”对象“有了右值的性质。</p>
+<p>对于基本类型，move的意义并不大，使用后仍然会发生拷贝（因为没有移动构造函数）。</p>
+<p>下面请看这个例子</p>
+<blockquote><p>别看注释，gpt胡言乱语</p>
+</blockquote>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+using namespace std;
+
+<p>class A<br>&#123;<br>public:<br>    A() :m_ptr(new int(0)) &#123; cout &lt;&lt; &quot;construct&quot; &lt;&lt; endl; &#125;<br>    &#x2F;<em>A(const A&amp; a) :m_ptr(new int(<em>a.m_ptr)) &#x2F;&#x2F;深拷贝的拷贝构造函数<br>    &#123;<br>        cout &lt;&lt; &quot;copy construct&quot; &lt;&lt; endl;<br>    &#125;</em>&#x2F;<br>    ~A() &#123; delete m_ptr; &#125;<br>private:<br>    int</em> m_ptr;<br>&#125;;<br>A GetA()<br>&#123;<br>    return A();<br>&#125;<br>int main() &#123;<br>    A a;<br>    a &#x3D; GetA();<br>    return 0;<br>&#125;<br></code></pre></p>
+<p>运行函数时发生了一个难绷的事</p>
+<ul>
+<li><img src="https://img1.imgtp.com/2023/09/28/8SnS9xAC.png" referrerpolicy="no-referrer" alt="888.png"></li>
+
+</ul>
+<p><code>a = GetA()</code>GetA()本身是临时变量，在结束时自动销毁，调用了析构函数将指针内存释放，但由于是浅拷贝，在main函数结束的时候再次遭到释放，就发生了如此……好吧其实没发生，因为我的编译器自动优化了代码，使GetA返回值临时对象省略掉了，但读者还是最好默认会发生错误（得亏我试了好长时间想方设法让编译器出错）</p>
+<p>这是一个没做深拷贝的典型例子，如果类内含栈内存数据，那很容易会发生这样的情况。但都说过了深拷贝很费计算机，而且还会影响性能，那咋办嘛。更何况堆内存很大很大的情况（这个反而经常发生），拷贝代价会异常之大，那有什么解决办法吗？</p>
+<p>下面看这个例子</p>
+<pre><code class='language-c++' lang='c++'>class A
+&#123;
+public:
+    A() :m_ptr(new int(0))&#123;&#125;
+    A(const A&amp; a):m_ptr(new int(*a.m_ptr)) //深拷贝的拷贝构造函数
+    &#123;
+        cout &lt;&lt; &quot;copy construct&quot; &lt;&lt; endl;
+    &#125;
+    A(A&amp;&amp; a) :m_ptr(a.m_ptr)
+    &#123;
+        a.m_ptr = nullptr;
+        cout &lt;&lt; &quot;move construct&quot; &lt;&lt; endl;
+    &#125;
+    ~A()&#123; delete m_ptr;&#125;
+private:
+    int* m_ptr;
+&#125;;
+A GetA()
+&#123;
+    return A();
+&#125;
+int main()&#123;
+    A a = GetA(); 
+&#125; 
+</code></pre>
+<blockquote><p>哎不想跑了，编译器总是把代码给优化了看不到效果</p>
+</blockquote>
+<p>反正就是程序并没有调用拷贝构造函数，它利用移动语义直接将指针的所有者转移到了另外一个对象，避免了深拷贝的发生</p>
+<p>TODO：模板函数的完美转发</p>
+<p>TODO：lambda表达式</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/09/25/%E6%B7%B1%E5%BA%A6%E7%BC%93%E5%AD%98%E3%80%81%E5%85%89%E7%85%A7%E4%B8%8E%E7%BA%B9%E7%90%86/" rel="prev" title="深度缓存、光照与纹理">
+      <i class="fa fa-chevron-left"></i> 深度缓存、光照与纹理
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#c%E5%B7%A6%E5%80%BC%E4%B8%8E%E5%8F%B3%E5%80%BC"><span class="nav-number">1.</span> <span class="nav-text">C++左值与右值</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%8B%B7%E8%B4%9D%E6%8E%A7%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">对象的拷贝控制</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/09/28/C-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8%E7%9B%B8%E5%85%B3/" title="2023&#x2F;09&#x2F;28&#x2F;C-右值引用相关&#x2F;">C++右值引用相关</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/09/25/%E6%B7%B1%E5%BA%A6%E7%BC%93%E5%AD%98%E3%80%81%E5%85%89%E7%85%A7%E4%B8%8E%E7%BA%B9%E7%90%86/" title="2023&#x2F;09&#x2F;25&#x2F;深度缓存、光照与纹理&#x2F;">深度缓存、光照与纹理</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/09/19/%E5%85%89%E6%A0%85%E5%8C%96%E4%B8%8E%E6%8A%97%E9%94%AF%E9%BD%BF%E6%B5%85%E5%85%A5/" title="2023&#x2F;09&#x2F;19&#x2F;光栅化与抗锯齿浅入&#x2F;">光栅化与抗锯齿浅入</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/26/C-%E7%B1%BB%E5%A4%9A%E6%80%81/" title="2023&#x2F;08&#x2F;26&#x2F;C-类多态&#x2F;">C++类多态</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/08/16/%E5%90%89%E6%AF%94%E7%89%B9%E5%8A%A8%E4%BD%9C%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E7%AC%94%E8%AE%B0/" title="2023&#x2F;08&#x2F;16&#x2F;吉比特动作游戏设计笔记&#x2F;">吉比特动作游戏设计笔记</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '807988ce297430a0efaefe9a1bfd5c12',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
