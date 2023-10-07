@@ -20,17 +20,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="操作系统初认识">
-<meta property="og:url" content="http://example.com/2023/05/28/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%88%9D%E8%AE%A4%E8%AF%86/index.html">
+  <meta name="description" content="C++中的多线程   如果对进程线程了解尚未深刻，那么可以先查看（进程与线程 | Coding中。。。 (jiuriri.com)）并查阅一定的资料后，再一起学习C++11中多线程的新特性  C++中的多线程 std::thread C++11中新标准库多出来的东西，先介绍基础用法 thread()：默认构造函数创建线程，括号内加函数名与变量表示线程执行的内容 thread(solve,1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++中的多线程">
+<meta property="og:url" content="http://example.com/2023/10/07/C-%E4%B8%AD%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Coding中。。。">
+<meta property="og:description" content="C++中的多线程   如果对进程线程了解尚未深刻，那么可以先查看（进程与线程 | Coding中。。。 (jiuriri.com)）并查阅一定的资料后，再一起学习C++11中多线程的新特性  C++中的多线程 std::thread C++11中新标准库多出来的东西，先介绍基础用法 thread()：默认构造函数创建线程，括号内加函数名与变量表示线程执行的内容 thread(solve,1">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-05-28T13:26:19.000Z">
-<meta property="article:modified_time" content="2023-06-04T13:11:53.493Z">
+<meta property="article:published_time" content="2023-10-07T09:33:43.000Z">
+<meta property="article:modified_time" content="2023-10-07T09:34:10.885Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2023/05/28/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%88%9D%E8%AE%A4%E8%AF%86/">
+<link rel="canonical" href="http://example.com/2023/10/07/C-%E4%B8%AD%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
 
 
 <script id="page-configurations">
@@ -43,7 +45,7 @@
   };
 </script>
 
-  <title>操作系统初认识 | Coding中。。。</title>
+  <title>C++中的多线程 | Coding中。。。</title>
   
 
 
@@ -164,7 +166,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/28/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%88%9D%E8%AE%A4%E8%AF%86/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/10/07/C-%E4%B8%AD%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/333.jpg">
@@ -177,7 +179,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          操作系统初认识
+          C++中的多线程
         </h1>
 
         <div class="post-meta">
@@ -186,23 +188,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2023-05-28 21:26:19" itemprop="dateCreated datePublished" datetime="2023-05-28T21:26:19+08:00">2023-05-28</time>
+              <time title="创建时间：2023-10-07 17:33:43 / 修改时间：17:34:10" itemprop="dateCreated datePublished" datetime="2023-10-07T17:33:43+08:00">2023-10-07</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-04 21:11:53" itemprop="dateModified" datetime="2023-06-04T21:11:53+08:00">2023-06-04</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
+                  <a href="/categories/%E4%BB%8EC%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C开始的C++</span></a>
                 </span>
             </span>
 
@@ -212,14 +208,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2k</span>
+              <span>4.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -235,131 +231,163 @@
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title></title>
+<title>C++中的多线程</title>
 </head>
-<span id="more"></span>
-<body><p>Blog搭建成功后写的第一篇文章，内容是b站王道考研操作系统笔记  </p>
-<p>目标是加更多的友链（看起来好像目的是建成一个Blog快捷打开器？）  </p>
-<p>以及写一些学习过程中走过的无数弯路，所以现在的Blog还不具有任何参考意义  </p>
-<p>此篇文章中<font color=red>红色</font>代表标重内容，<mark>黄底</mark>代表记忆内容</p>
-<h1 id='操作系统概念功能目标与特征'>操作系统概念功能目标与特征  </h1>
-<p>操作系统（Operating System，OS）是指<mark>控制和管理整个计算机系统的硬件和软件资源，并合理地组织调度计算机的工作和资源的分配</mark>，以<mark>提供给用户和其他软件方便的接口和环境</mark>，它是计算机系统中<mark>最基本的系统软件</mark>。  </p>
-<blockquote><p>画黄线方便答题分点  </p>
+<body><blockquote><p> 如果对进程线程了解尚未深刻，那么可以先查看（<a target="_blank" rel="noopener" href='https://jiuriri.com/2023/05/28/进程与线程/'>进程与线程 | Coding中。。。 (jiuriri.com)</a>）并查阅一定的资料后，再一起学习C++11中多线程的新特性</p>
 </blockquote>
-<p>一些看起来似乎没什么用的名词解释。。</p>
-<hr />
-<p>命令接口：允许用户直接使用</p>
-<p>程序接口：允许用户通过程序间接使用（如dll文件，即系统调用）</p>
-<p>联机命令接口——交互式命令接口：说一句做一句（如cmd）</p>
-<p>脱机命令接口——批处理命令接口：说一堆做一堆（如bat）</p>
-<p>程序接口=系统调用=广义指令</p>
-<p>隔离:处于安全性和稳定性考虑，用户空间程序无法直接执行内核代码（例如：I/O 读写、创建新进程/线程），也无法访问内核数据，必须通过系统调用。</p>
-<p>没有任何软件支持的计算机称为“裸机”</p>
-<p>覆盖了软件的机器称为“扩充机器”或“虚拟机”  </p>
-<hr />
-<h2 id='操作系统的特征'>操作系统的特征  </h2>
+<h1 id='c中的多线程'><strong>C++中的多线程</strong></h1>
+<p><strong>std::thread</strong></p>
+<p>C++11中新标准库多出来的东西，先介绍基础用法</p>
+<p><code>thread()</code>：默认构造函数创建线程，括号内加函数名与变量表示线程执行的内容</p>
+<blockquote><p><code>thread(solve,100)</code>执行<code>solve(100)</code>函数</p>
+</blockquote>
+<p><code>join()</code>：等待线程完成并将其内存释放，进行这一语句期间会将主进程堵塞</p>
+<p><code>detach()</code>：不等待线程完成，直接将其内存释放</p>
+<p><font color=red><strong>每一个线程必须绑定join或者detach，不然引发异常</strong></font> </p>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+#include &lt;thread&gt;
+using namespace std;
+void countnumber(int id, unsigned int n) &#123;
+    for (unsigned int i = 1; i &lt;= n; i++);
+    cout &lt;&lt; &quot;Thread &quot; &lt;&lt; id &lt;&lt; &quot; finished!&quot; &lt;&lt; endl;
+&#125;
+int main() &#123;
+    thread th[10];
+    for (int i = 0; i &lt; 10; i++)
+        th[i] = thread(countnumber, i, 100000000);
+    for (int i = 0; i &lt; 10; i++)
+        th[i].join();
+    return 0;
+&#125;
+</code></pre>
+<blockquote><p>参考：<a target="_blank" rel="noopener" href='https://blog.csdn.net/sjc_0910/article/details/118861539'>C++11 多线程（std::thread）详解_c++ 线程-CSDN博客</a></p>
+</blockquote>
+<p>程序创建了十个线程，加入了<code>for (unsigned int i = 1; i &lt;= n; i++);</code>这样一个空循环，这样一个长空循环远远拉大了每一个线程的执行时间（不然结果会因为线程异步而变得十分混乱），异步操作执行时不一定会按照一定的顺序。</p>
+<p>多线程的进行必定具有多线程数据操作的效果，也就是说<code>thread</code>从结果上看是传引用而不是传参数，从源代码上看就是如此。</p>
+<p><code>template &lt;class Fn, class... Args&gt;</code></p>
+<p><code>explicit thread(Fn&amp;&amp; fn, Args&amp;&amp;... args)</code></p>
+<p>使用右值引用使得不同线程在同时操作一个数据的时候会实时更新数据，而不是纯粹对传过去的数据副本进行操作，所以说以下程序会报错：</p>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+#include &lt;thread&gt;
+using namespace std;
+template&lt;class T&gt; void changevalue(T &amp;x, T val) &#123;
+    x = val;
+&#125;
+int main() &#123;
+    thread th[100];
+    int nums[100];
+    for (int i = 0; i &lt; 100; i++)
+        th[i] = thread(changevalue&lt;int&gt;, nums[i], i+1);
+    for (int i = 0; i &lt; 100; i++) &#123;
+        th[i].join();
+        cout &lt;&lt; nums[i] &lt;&lt; endl;
+    &#125;
+    return 0;
+&#125;
+
+<p></code></pre></p>
+<p>将<code>th[i] = thread(changevalue&lt;int&gt;, nums[i], i+1);</code></p>
+<p>改为<code>th[i] = thread(changevalue&lt;int&gt;, ref(nums[i]), i+1);</code>问题解决</p>
+<p>&nbsp;</p>
+<p><strong>std::atomic和std::mutex</strong></p>
+<p>尽管用到了右值引用，但多个线程同时操作同一个数据的结果并不理想，如下：</p>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+#include &lt;thread&gt;
+using namespace std;
+int n = 0;
+void count10000() &#123;
+    for (int i = 1; i &lt;= 10000; i++)
+        n++;
+&#125;
+int main() &#123;
+    thread th[100];
+    for (thread &amp;x : th)
+        x = thread(count10000);
+    for (thread &amp;x : th)
+        x.join();
+    cout &lt;&lt; n &lt;&lt; endl;
+    return 0;
+&#125;
+</code></pre>
+<p>理想状态下，100个线程n++10000次的结果应该是1000000，但结果总是缺斤少两。</p>
+<p>具体原理并不追究，总之多线程同时进行操作总会出现一些操作丢失的问题。</p>
+<p><code>std::mutex</code>是 C++11 中最基本的互斥量，一个线程将mutex锁住时，其它的线程就不能操作mutex，直到这个线程将mutex解锁。</p>
+<pre><code class='language-c++' lang='c++'>mutex mtx;
+void count10000() &#123;
+    for (int i = 1; i &lt;= 10000; i++) &#123;
+        mtx.lock();
+        n++;
+        mtx.unlock();
+    &#125;
+&#125;
+</code></pre>
+<p>但是这样的处理方式有点慢，就好比地铁站的安检口，增加安全性的同时减缓了乘客步伐。</p>
+<p><code>std::atomic</code>在多线程重点 用法一般是将操作对象设置为atomic的操作对象，而atomic是原子操作，也就是说atomic必须被同步操作，这样的话借助原子操作可以避免反复进行上锁开锁操作，相当于安检口还是那个安检口，但这次乘客自觉安检而不需要安保人员干预，效率当然快很多</p>
+<p>&nbsp;</p>
+<p><strong>std::async</strong></p>
+<blockquote><p>定义在future头文件中</p>
+</blockquote>
+<p>是一个函数而不是类，用于更加方便地创建进程</p>
+<p><code>async(solve,100)</code>即在新的线程中运行solve(100)</p>
+<p><code>async(launch::async,solve,100)</code>表示异步启动线程，如果参数换为launch::deferred则与future::get,future::wait同步启动，如果是launch::async | launch::defereed则根据操作系统定（默认也是这个）</p>
+<p>&nbsp;</p>
+<p><strong>std::future</strong></p>
+<p>创建的线程函数有时候存在返回值，这个时候用future类将其捕获</p>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+// #include &lt;thread&gt; // 这里我们用async创建线程
+#include &lt;future&gt; // std::async std::future
+using namespace std;
+
+<p>template&lt;class … Args&gt; decltype(auto) sum(Args&amp;&amp;… args) &#123;<br>    &#x2F;&#x2F; C++17折叠表达式<br>    &#x2F;&#x2F; &quot;0 +&quot;避免空参数包错误<br>    return (0 + … + args);<br>&#125;</p>
+<p>int main() &#123;<br>    &#x2F;&#x2F; 注：这里不能只写函数名sum，必须带模板参数<br>    future&lt;int&gt; val &#x3D; async(launch::async, sum&lt;int, int, int&gt;, 1, 10, 100);<br>    &#x2F;&#x2F; future::get() 阻塞等待线程结束并获得返回值<br>    cout &lt;&lt; val.get() &lt;&lt; endl;<br>    return 0;<br>&#125;<br></code></pre></p>
 <ul>
-<li><p><strong>并发</strong>  </p>
-<blockquote><p>易混淆：并发与并行，前者<font color=red>宏观上同时发生</font>（用户看起来）微观上交替发生，后者表示多事件同时发生  </p>
-</blockquote>
-</li>
-<li><p><strong>共享</strong>:互斥共享方式（如不能同时用qq和微信的摄像头）、同时（宏观上）共享方式 </p>
-<blockquote><p>并发与共享：例子、如两程序同时使用（并发）硬盘资源（共享），所以说两者<font color=red>互为存在条件</font></p>
-<p>e.g</p>
-</blockquote>
-</li>
-<li><p><strong>虚拟</strong>：物理上的实体变为若干个逻辑上的对应物（用户感受到的）  </p>
-<blockquote><p>e.g.单核CPU同时处理多个软件（其实是微观上把时间分为多个小段分别处理）</p>
-<p>虚拟技术：空分复用技术（如虚存）、时分复用技术（如虚拟处理器）</p>
-<p>可得，没有<font color=red>并发性也没有虚拟性</font></p>
-</blockquote>
-</li>
+<li><code>get()</code>等待线程结束并获取返回值</li>
+<li><code>wait()</code>等待线程结束</li>
 
 </ul>
-<ul>
-<li><strong>异步</strong>:资源有限，并发的程序执行速度不同不可预知（同样<font color=red>需要并发性</font>）</li>
-
-</ul>
-<h1 id='操作系统发展与分类'>操作系统发展与分类</h1>
-<ol>
-<li>手工操作阶段：手工速度与机器速度的矛盾导致资源利用率低</li>
-
-</ol>
-<ol start='2' >
-<li><p>单道批处理阶段：引入“脱机输入/输出技术”，监督程序控制作业的输入、输出。矛盾略微缓解  </p>
-<p> 缺点：内存中只有一道程序运行，CPU大量时间在等待程序运行</p>
-</li>
-
-</ol>
-<ol start='3' >
-<li><p>多道批处理系统：程序并发，效率提高  </p>
-<p>缺点：没有人机交互功能</p>
-</li>
-
-</ol>
-<ol start='4' >
-<li><p>分时操作系统：以时间片为单位轮流为各个用户/作业服务。解决人机交互问题  </p>
-<p>缺点：不具有优先处理紧急问题的特性</p>
-</li>
-
-</ol>
-<ol start='5' >
-<li>实时操作系统：能优先响应一些紧急任务，要在严格的时限内处理完事件（<font color=red>及时性和可靠性</font>）</li>
-
-</ol>
-<blockquote><p>硬实时系统：导弹控制等</p>
-<p>软实时系统：火车订票等  </p>
+<p>据说哪怕返回值是void也最好使用future，因为future还可以检测线程是否已经结束、阻塞等待。</p>
+<p>从别人那偷的测定应用程序加载时间的代码</p>
+<pre><code class='language-c++' lang='c++'>// Compiler: MSVC 19.29.30038.1
+// C++ Standard: C++17
+#include &lt;iostream&gt;
+#include &lt;future&gt;
+using namespace std;
+void count_big_number() &#123;
+    // C++14标准中，可以在数字中间加上单
+    // 引号 &#39; 来分隔数字，使其可读性更强
+    for (int i = 0; i &lt;= 10&#39;0000&#39;0000; i++);
+&#125;
+int main() &#123;
+    future&lt;void&gt; fut = async(launch::async, count_big_number);
+    cout &lt;&lt; &quot;Please wait&quot; &lt;&lt; flush;
+    // 每次等待1秒
+    while (fut.wait_for(chrono::seconds(1)) != future_status::ready)
+        cout &lt;&lt; &#39;.&#39; &lt;&lt; flush;
+    cout &lt;&lt; endl &lt;&lt; &quot;Finished!&quot; &lt;&lt; endl;
+    return 0;
+&#125;
+</code></pre>
+<p>&nbsp;</p>
+<p><strong>std::promise</strong></p>
+<p>thread创造出来的线程是获取不了返回值的，甚至join()都是void类型，只能通过传递引用的方式来获取返回值。</p>
+<p>这个很像一个函数需要获取多个返回值的情况，那么就用引用或者指针。</p>
+<p>解释如下：其作用是在<strong>一个线程t1</strong>中保存一个类型<strong>typename T</strong>的值，可供相绑定的std::future对象在<strong>另一线程t2</strong>中获取。</p>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+#include &lt;future&gt;
+#include &lt;chrono&gt;
+ 
+<p>void Thread_Fun1(std::promise&lt;int&gt; &amp;p)<br>&#123;<br>    std::this_thread::sleep_for(std::chrono::seconds(5));<br>    int iVal &#x3D; 233;<br>    std::cout &lt;&lt; &quot;传入数据(int)：&quot; &lt;&lt; iVal &lt;&lt; std::endl;<br>    p.set_value(iVal);<br>&#125;</p>
+<p>void Thread_Fun2(std::future&lt;int&gt; &amp;f)<br>&#123;<br>    auto iVal &#x3D; f.get();		&#x2F;&#x2F;iVal &#x3D; 233<br>    std::cout &lt;&lt; &quot;收到数据(int)：&quot; &lt;&lt; iVal &lt;&lt; std::endl;<br>&#125;</p>
+<p>int main()<br>&#123;<br>    std::promise&lt;int&gt; pr1;<br>    std::future&lt;int&gt; fu1 &#x3D; pr1.get_future();<br>    std::thread t1(Thread_Fun1, std::ref(pr1));<br>    std::thread t2(Thread_Fun2, std::ref(fu1));<br>    t1.join();<br>    t2.join();<br>    return 1;<br>&#125;<br></code></pre></p>
+<blockquote><p>iVal在线程一中被创建并赋值，用引用的方式传入线程2内</p>
 </blockquote>
-<h1 id='操作系统的运行机制与体系结构'>操作系统的运行机制与体系结构  </h1>
-<blockquote><p>指令是处理器能识别、执行的最基础命令  </p>
-</blockquote>
-<p>两种指令：</p>
-<p>1、特权指令：不允许用户程序使用（内存清零等）</p>
-<p>2、非特权指令：***（加法指令等）</p>
-<p>处理器状态（用标志位识别）：</p>
-<p>1、用户态</p>
-<p>2、核心态（特权指令与非特权指令）</p>
-<p>两种程序：</p>
-<p>1、内核程序</p>
-<p>2、应用程序</p>
-<p>两种内核：</p>
-<p>1、大内核：高性能，代码庞大结构混乱难以维护（小体量公司）</p>
-<p>2、微内核：与大内核相反（大体量公司的管理层）  </p>
-<h1 id='中断和异常'>中断和异常  </h1>
-<p>本质：需要操作系统介入，开展管理工作  </p>
-<p>过程：发生时，CPU立即进入核心态(只有 核心态能处理管理工作，也就是需要特权指令)-&gt;发生后，当前进程暂停，由操作系统进行后续处理-&gt;不同中断不同处理  </p>
-<p><mark>中断是“用户态”到“核心态”的唯一途径</mark>  </p>
-<p>核心态到用户态只需要改变程序状态字亦可（特权指令） </p>
-<h2 id='中断分类'>中断分类  </h2>
-<figure><table>
-<thead>
-<tr><th>&nbsp;</th><th>来源</th><th>包括</th></tr></thead>
-<tbody><tr><td>内中断</td><td>CPU内部</td><td>陷阱(如系统调用)、故障(如缺页)、终止(不可恢复的致命错误，如整数÷0)</td></tr><tr><td>外中断</td><td>CPU外部</td><td>I/O中断请求、人工干预</td></tr></tbody>
-</table></figure>
-<p>外中断过程： </p>
-<p>1、检查是否有外部中断信号  </p>
-<p>2、保护被中断的CPU环境（如PSW、计数器、寄存器）</p>
-<p>3、根据中断类型处理程序</p>
-<p>4、恢复原进程CPU环境退出中断，返回原进程继续执行  </p>
-<h1 id='系统调用'>系统调用</h1>
-<p>本质：应用程序请求操作系统的服务</p>
-<p>原因：系统中的各种共享资源都由操作系统掌管，所有与资源相关操作都由操作系统代为完成（另外：与资源有关还与特权指令相关）</p>
-<p>作用：保证系统的稳定性和安全性，防止非法操作  </p>
-<p>过程：传递系统调用参数-&gt;执行陷入指令（用户态）-&gt;执行系统调用程序（核心态）-&gt;返回用户程序  </p>
-<p>1、 陷入指令在用户态执行，之后马上引发内中断，CPU进入核心态</p>
-<p>2、 发出系统调用请求发生在用户态，而对系统调用相应处理在核心态进行</p>
-<p>3、 陷入指令是<font color=red>唯一一个</font>只能在用户态执行而不可在核心态执行的执行  </p>
-<p>分类：</p>
-<ul>
-<li><strong>进程控制</strong>（process control）</li>
-<li><strong>文件管理</strong>（file manipulation）</li>
-<li><strong>设备管理</strong>（device manipulation）</li>
-<li><strong>信息维护</strong>（information maintenance）</li>
-<li><strong>通信</strong>（communication）</li>
-<li><strong>保护</strong>（protection）</li>
-
-</ul>
-<p>其实就是涉及堆系统资源的管理、对进程的控制，需要执行<font color=red>特权指令</font>才能完成，因此系统调用的相关处理需要在<font color=red>核心态</font>下进行</p>
+<p>&nbsp;</p>
+<p><strong>std::this_thread</strong></p>
+<p>一个名字空间，其中包括各种函数，用于实现对线程自己控制</p>
+<p>例如</p>
+<p><code>this_thread::get_id()</code>获取当前进程id</p>
+<p><code>this_thread::sleep_for(//时间//)</code>等待一段时间</p>
+<p>&nbsp;</p>
 </body>
 </html>
     </div>
@@ -376,13 +404,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/05/26/AVL%E6%A0%91/" rel="prev" title="AVL树">
-      <i class="fa fa-chevron-left"></i> AVL树
+    <a href="/2023/10/06/%E8%AE%A1%E7%BD%91%E8%AF%BE%E5%90%8E%E4%B8%80/" rel="prev" title="计网课后一">
+      <i class="fa fa-chevron-left"></i> 计网课后一
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/05/28/%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" rel="next" title="进程与线程">
-      进程与线程 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -442,7 +467,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E5%BF%B5%E5%8A%9F%E8%83%BD%E7%9B%AE%E6%A0%87%E4%B8%8E%E7%89%B9%E5%BE%81"><span class="nav-number">1.</span> <span class="nav-text">操作系统概念功能目标与特征  </span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%89%B9%E5%BE%81"><span class="nav-number">1.1.</span> <span class="nav-text">操作系统的特征  </span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8F%91%E5%B1%95%E4%B8%8E%E5%88%86%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">操作系统发展与分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%E4%B8%8E%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">操作系统的运行机制与体系结构  </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AD%E6%96%AD%E5%92%8C%E5%BC%82%E5%B8%B8"><span class="nav-number">4.</span> <span class="nav-text">中断和异常  </span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E6%96%AD%E5%88%86%E7%B1%BB"><span class="nav-number">4.1.</span> <span class="nav-text">中断分类  </span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">系统调用</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#c%E4%B8%AD%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">C++中的多线程</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -592,7 +617,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog-comment',
       owner       : 'mikasa1x',
       admin       : ['mikasa1x'],
-      id          : '9f0a8be84e6bae69b885ce7ad4316165',
+      id          : 'c65e856d744704e404d53b451fa276b0',
         language: '',
       distractionFreeMode: true
     });
