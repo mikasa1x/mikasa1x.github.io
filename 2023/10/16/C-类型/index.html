@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="C#类型">
+<meta property="og:url" content="http://example.com/2023/10/16/C-%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-10-16T14:25:07.000Z">
+<meta property="article:modified_time" content="2023-10-16T14:27:10.363Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/10/16/C-%E7%B1%BB%E5%9E%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C#类型 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/10/16/C-%E7%B1%BB%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C#类型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-10-16 22:25:07 / 修改时间：22:27:10" itemprop="dateCreated datePublished" datetime="2023-10-16T22:25:07+08:00">2023-10-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BB%8EC-%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C++开始的C#</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>C#出定义</title>
+</head>
+<body><h1 id='数据类型------值类型与引用类型'>数据类型——值类型与引用类型</h1>
+<blockquote><p>通过这种方式来隐含地控制指针运行</p>
+</blockquote>
+<ul>
+<li><strong>值类型</strong>表示变量本身</li>
+<li><strong>引用类型</strong>本质上是地址</li>
+<li>值类型与引用类型使用<strong>相同</strong>的语法来分配内存</li>
+<li>所有内存的释放都<strong>不需要</strong>手工进行，CLR执行一种算法来跟踪可以访问的和不可访问的引用变量，定期清除那些不能访问的对象，并将其内存返回给操作系统</li>
+<li>预定义类型除了object和string之外都为值类型</li>
+<li>自定义类型除了结构（struct）和枚举（enum）之外都为引用类型</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>值类型</strong>：</p>
+<pre><code class='language-c++' lang='c++'>	int i;//未初始化
+
+<pre><code>int j = i;//C++中允许但C#中不允许
+
+
+
+int i = 3;//或者int i = new int();相当于int i=0；调用了int的构造函数
+
+int j = i;//允许
+</code></pre>
+<p></code></pre></p>
+<p>&nbsp;</p>
+<p><strong>引用类型</strong>：</p>
+<p>预定义引用类型：string，object，string str=“abcd”；</p>
+<p>自定义引用类型：（类，接口，委托，事件……）</p>
+<pre><code class='language-c#' lang='c#'>    class rpoint // 定义了一个引用类型
+    &#123; public int i;public int j;&#125;  
+    rpoint rp1;   // 完成了定义
+    int i = rp1.i;  // 初始化之前，既不能读
+    rp1.i = 3;      // 也不能写。
+    rp1 = new rpoint();  // 初始化
+    int j = rp1.j;       // 可以读
+    rp1.j = 3;           // 可以写了。
+</code></pre>
+<p>&nbsp;</p>
+<p><strong>struct与class</strong></p>
+<p>在C#中这两者的区别和C++中略有不同</p>
+<ul>
+<li>类型：struct是值类型，class是引用类型</li>
+<li>内存分配：struct在栈上分配内存</li>
+<li>继承：struct不支持继承，而class支持继承</li>
+<li>默认构造函数：struct默认有一个无参构造函数，而class没有</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>赋值方法</strong>：</p>
+<blockquote><p>值类型拷贝一个全新的数据结构</p>
+<p>引用类型只能生成一个新的引用</p>
+</blockquote>
+<pre><code class='language-c#' lang='c#'>	rpoint rp1 = new rpoint();
+
+<pre><code>rpoint rp2 = rp1;
+
+rp1.i = 20;
+
+//rp2.i==20 第二个也变了
+
+
+
+vpoint rp1 = new vpoint();
+
+vpoint rp2 = rp1;
+
+rp1.i = 20;
+
+//rp2.i==0 第二个不变
+</code></pre>
+<p></code></pre></p>
+<p>&nbsp;</p>
+<p><strong>string</strong>:</p>
+<blockquote><p>引用类型，但表现出值类型的特性</p>
+</blockquote>
+<pre><code class='language-c++' lang='c++'>	string s1 = &quot;abcd&quot;;
+
+<pre><code>string s2 = s1;
+
+s1 = &amp;quot;efg&amp;quot;;//abcd，第二个不变
+</code></pre>
+<p></code></pre></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1 id='方法参数传递'>方法参数传递</h1>
+<p>回忆：</p>
+<p>C的函数参数传递——<strong>拷贝</strong>（传值传址）</p>
+<p>C++函数参数传递——<strong>拷贝和换名</strong></p>
+<p>&nbsp;</p>
+<p>C#中<strong>值类型</strong>是拷贝形式，<strong>引用类型</strong>是拷贝地址形式</p>
+<blockquote><p>除了string类型，任何改变字符串的企图都会导致新的字符串的创建，更像一个值类型</p>
+</blockquote>
+<pre><code class='language-c#' lang='c#'>	private GameObject solve(GameObject obj)&#123;
+        //对对象进行处理
+        return obj;
+    &#125;
+
+<pre><code>private void solve(GameObject obj)&#123;
+    //对对象进行处理
+&#125;
+</code></pre>
+<p></code></pre></p>
+<p>上者<code>GameObject</code> 处理过后效果其实是一样的，在C++中前一种方式似乎更符合直觉，但在C#中作为引用类型本身传入函数时就拷贝的就是地址，使用起来更为方便。</p>
+<p>对于值类型，经常性地会出现返回值类型远远达不到我们的目的（比如需要返回多个值类型的情况下），这个时候也可以利用<code>ref</code> 关键字来讲值类型转变成引用类型</p>
+<pre><code class='language-c#' lang='c#'>	private void g(ref vpoint p)&#123;
+        p.x = 100;
+    &#125;
+    //函数外值类型直接发生改变
+</code></pre>
+<p>&nbsp;</p>
+<p><strong>out</strong>：</p>
+<blockquote><p>如果不需要使用初始值</p>
+</blockquote>
+<pre><code class='language-c#' lang='c#'>	void f(ref int p)&#123;
+        p = 8;
+    &#125;
+    int a;
+    f(ref a);//false
+    int a;
+    a = 1;//无意义,我们适用的情况就是不需要初始值的情况
+    f(ref a);
+
+<pre><code>//改为
+void f(out int p)&#123;
+    p = 8;
+&#125;
+int a;
+  f(out a);//很不错
+
+//也可以结合定义一起使用
+f(out int a);//替换f(out a);不需要int a；这个东西了
+</code></pre>
+<p></code></pre></p>
+<blockquote><p>老师也提到C#如果没使用已经初始化的值会警告，这一点在日常使用的时候确实感受颇深，这也是比C++更为人性化的一点</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>对于引用类型，使用ref会改变<strong>整个</strong>对象指针</p>
+<pre><code class='language-c#' lang='c#'>	void f(ref rpoint p)&#123;
+        p = new rpoint();
+    &#125;
+</code></pre>
+<p>以上程例如果没有<code>ref</code>会毫无意义，因为引用类型传入函数和C++中传递指针的原理是一样的，试想如果在C++中传指针的函数内改变指针指向可行吗？很显然不行，因为传入地址，本质也是传入“地址的拷贝”，也就是指针的拷贝，改变这个指向和函数外的那个指针没任何关系。那么在C#中也是一样的，不过如果为引用类型加上<code>ref</code> 关键字，这个时候用C++的说法就变成“指针的引用”了，再去在函数内改变这个指针的指向，这个操作就变得有意义了。</p>
+<p>&nbsp;</p>
+<p><strong>总结</strong>：</p>
+<ul>
+<li>值类型拷贝值</li>
+<li>引用类型拷贝指针</li>
+<li>ref值类型拷贝指针</li>
+<li>ref引用类型拷贝指针的指针</li>
+
+</ul>
+<p>&nbsp;</p>
+<h1 id='预定义引用类型'>预定义引用类型</h1>
+<p>&nbsp;</p>
+<p><strong>Object</strong>：</p>
+<blockquote><p>所有类型都是从这个类型继承的，在程序中隐式继承</p>
+</blockquote>
+<p>相关方法（常用于各种类型重写）：</p>
+<p><code>Equals</code> ——支持对象间的比较</p>
+<p><code>Finalize</code> ——在自动回收之前进行清理操作//已删除</p>
+<p><code>GetHashCode</code> ——生成一个与对象对应的数字来支持哈希表的使用（一般用于自己重写）</p>
+<p><code>ToString</code> ——生成类实例的可读文本字符串（常用于调试）</p>
+<blockquote><p>不能妥协！要常对以上方法<code>override</code></p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>String</strong>：</p>
+<p>–使用 <a href='frlrfsystemstringclasscomparetotopic.htm'>CompareTo</a>、<a href='frlrfsystemstringclassequalstopic.htm'>Equals</a>、可进行比较。使用 <a href='frlrfsystemstringclassindexoftopic.htm'>IndexOf</a>、<a href='frlrfsystemstringclassindexofanytopic.htm'>IndexOfAny</a>、可获取字符串中子字符串或 Unicode 字符的索引。使用 <a href='frlrfsystemstringclasscopytopic.htm'>Copy</a> 和 <a href='frlrfsystemstringclasscopytotopic.htm'>CopyTo</a> 可将字符串或子字符串复制到另一个字符串或 <strong>Char</strong> 数组。</p>
+<p>–使用 <a href='frlrfsystemstringclasssubstringtopic.htm'>Substring</a> 和 <a href='frlrfsystemstringclasssplittopic.htm'>Split</a> 可通过原始字符串的组成部分创建一个或多个新字符串；使用 <a href='frlrfsystemstringclassconcattopic.htm'>Concat</a> 和 <a href='frlrfsystemstringclassjointopic.htm'>Join</a> 可通过一个或多个子字符串创建新字符串。使用 <a href='frlrfsystemstringclassinserttopic.htm'>Insert</a>、<a href='frlrfsystemstringclassreplacetopic.htm'>Replace</a>、<a href='frlrfsystemstringclassremovetopic.htm'>Remove</a>、可修改字符串的全部或部分。</p>
+<p>–使用 <a href='frlrfsystemstringclasstolowertopic.htm'>ToLower</a> 和 <a href='frlrfsystemstringclasstouppertopic.htm'>ToUpper</a> 可更改字符串中 Unicode 字符的大小写。使用 <a href='frlrfsystemstringclassformattopic.htm'>Format</a> 可将字符串中一个或多个占位符替换为一个或多个值的字符串表示形式。使用 <a href='frlrfsystemstringclasslengthtopic.htm'>Length</a> 属性可获取字符串中 <strong>Char</strong> 对象的数量；使用 <a href='frlrfsystemstringclasscharstopic.htm'>Chars</a> 属性可访问字符串中实际的 <strong>Char</strong> 对象。</p>
+<p>&nbsp;</p>
+<h1 id='用户自定义类型'>用户自定义类型</h1>
+<blockquote><p>结构（值）、枚举（值）、类（引用）、接口（引用）、委托（引用）、数组（引用）</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>数组</strong>：</p>
+<p>C#支持明确的数组类型</p>
+<p>int[] intarray;</p>
+<p>Intarray = new int[32];</p>
+<p>Intarray[3] = 5;</p>
+<p>double[,] matrix = new double[10,10];</p>
+<p>Matrix[3,4]=2;</p>
+<p>动态数组：ArrayList;</p>
+<p>&nbsp;</p>
+<p><strong>var</strong>:</p>
+<p>可变类型，可当作C#版的<code>auto</code></p>
+<ul>
+<li>代替具体类型，实现快速编程的隐式用法，常用在<code>foreach</code>遍历中，实质是语法糖。很典型的在遍历字典类型时，取代<code>KeyValuePair</code>模板</li>
+<li>和<code>new</code>一起使用，来实现一个匿名类型，用来代替需要预先创建的实体类，灵活高效</li>
+<li>不能使用<code>var</code>来定义一个全局变量（预先不可知嘛）</li>
+<li>不能用来定义函数。包括返回值、参数类型</li>
+<li>定义变量时必须先给值</li>
+<li>被定义成<code>var</code>类型之后，若已经指定类型，则不能转换为其他类型</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>匿名类型</strong>：</p>
+<blockquote><p>例：用<code>var</code>定义匿名类</p>
+</blockquote>
+<pre><code class='language-c#' lang='c#'>	var annoyCla1 = new&#123;
+        ID = 10010,
+        Name = &quot;CXY&quot;,
+        Age = 25
+    &#125;;
+        
+<pre><code>int id = annoyCla1.ID
+</code></pre>
+<p></code></pre></p>
+<p>&nbsp;</p>
+<p><strong>元组 tuple</strong></p>
+<pre><code class='language-c#' lang='c#'>	public(int , string)f()&#123;
+        return (1,&quot;DD&quot;);
+    &#125;
+    //这样就用不到一个类了
+    var a = f();
+    int i = a.Item1;
+    string s = a.Item2;
+</code></pre>
+<p>&nbsp;</p>
+<p><strong>泛型类</strong>：</p>
+<p>（欸我草走神了没听见</p>
+<p>&nbsp;</p>
+<p><strong>Params</strong>：</p>
+<p>可变长参数，用于不确定类型以及变量数量的</p>
+<p>//todo例子</p>
+<p>&nbsp;</p>
+<h1 id='类型转换'>类型转换</h1>
+<blockquote><p>隐式、显式、静态、动态</p>
+</blockquote>
+<p>回忆：</p>
+<p>C++中隐式转换只能向上转换，就算出错也是编译出错。</p>
+<p>显式向上转换是没必要的，显式向下转换是可以的。</p>
+<p>隐式的向下转换有可能数据丢失，运行时不安全，可能导致崩溃。</p>
+<p>显示向下转换可以先对类型进行识别（typeID），所以准确讲显示向下转换是安全的。</p>
+<p>尽量用显示转换或者动态保证安全性，但不要滥用动态转换因为动态转换影响性能</p>
+<p>&nbsp;</p>
+<p><strong>System.Convert</strong></p>
+<blockquote><p>基本类型转换</p>
+</blockquote>
+<pre><code class='language-c#' lang='c#'>string s=&quot;123&quot;;
+
+<p>int si&#x3D;Convert.ToInt32(s,10)&#x2F;&#x2F;si&#x3D;123;<br></code></pre></p>
+<p>&nbsp;</p>
+<h1 id='main函数'>Main函数</h1>
+<ul>
+<li>public static void main（string [ ]args)</li>
+
+</ul>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/10/07/C-%E4%B8%AD%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="prev" title="C++中的多线程">
+      <i class="fa fa-chevron-left"></i> C++中的多线程
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B------%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">数据类型——值类型与引用类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92"><span class="nav-number">2.</span> <span class="nav-text">方法参数传递</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%84%E5%AE%9A%E4%B9%89%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">预定义引用类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">用户自定义类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">5.</span> <span class="nav-text">类型转换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#main%E5%87%BD%E6%95%B0"><span class="nav-number">6.</span> <span class="nav-text">Main函数</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/16/C-%E7%B1%BB%E5%9E%8B/" title="2023&#x2F;10&#x2F;16&#x2F;C-类型&#x2F;">C#类型</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/07/C-%E4%B8%AD%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="2023&#x2F;10&#x2F;07&#x2F;C-中的多线程&#x2F;">C++中的多线程</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/06/%E8%AE%A1%E7%BD%91%E8%AF%BE%E5%90%8E%E4%B8%80/" title="2023&#x2F;10&#x2F;06&#x2F;计网课后一&#x2F;">计网课后一</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/09/30/%E5%87%A0%E4%BD%95%E5%AD%A6/" title="2023&#x2F;09&#x2F;30&#x2F;几何学&#x2F;">几何学</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/09/28/C-%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8%E7%9B%B8%E5%85%B3/" title="2023&#x2F;09&#x2F;28&#x2F;C-右值引用相关&#x2F;">C++右值引用相关</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '38e7b46dfb42f1d7fffa9dcb6e62b930',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
