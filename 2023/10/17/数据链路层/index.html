@@ -20,17 +20,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="数据链路层  数据链路层 设计目标：关注的是点到点、两个临近机器之间的高效的、可靠的关系链接算法。”像一根线又不是一根线“  成帧 错误控制 流控制 为网络层做服务   通过协议栈的方式链接到物理层上  &amp;nbsp; 基本数据交互传递原理 Q：如何向网络层提供服务？ A：非确定的面向非链接服务（LANS局域网）、确定的面向非链接的服务（常用于非可靠链接例如无线系统）、确定的面向链接的服务（">
-<meta property="og:type" content="article">
+  <meta property="og:type" content="article">
 <meta property="og:title" content="数据链路层">
 <meta property="og:url" content="http://example.com/2023/10/17/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/index.html">
 <meta property="og:site_name" content="Coding中。。。">
-<meta property="og:description" content="数据链路层  数据链路层 设计目标：关注的是点到点、两个临近机器之间的高效的、可靠的关系链接算法。”像一根线又不是一根线“  成帧 错误控制 流控制 为网络层做服务   通过协议栈的方式链接到物理层上  &amp;nbsp; 基本数据交互传递原理 Q：如何向网络层提供服务？ A：非确定的面向非链接服务（LANS局域网）、确定的面向非链接的服务（常用于非可靠链接例如无线系统）、确定的面向链接的服务（">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img1.imgtp.com/2023/09/26/JdP5n4XN.png">
 <meta property="og:image" content="https://z1.ax1x.com/2023/10/10/pPxLqyQ.png">
 <meta property="article:published_time" content="2023-10-17T11:10:37.000Z">
-<meta property="article:modified_time" content="2023-10-17T11:11:38.680Z">
+<meta property="article:modified_time" content="2023-10-18T15:47:56.096Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img1.imgtp.com/2023/09/26/JdP5n4XN.png">
@@ -191,10 +189,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-10-17 19:10:37 / 修改时间：19:11:38" itemprop="dateCreated datePublished" datetime="2023-10-17T19:10:37+08:00">2023-10-17</time>
+              <time title="创建时间：2023-10-17 19:10:37" itemprop="dateCreated datePublished" datetime="2023-10-17T19:10:37+08:00">2023-10-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-10-18 23:47:56" itemprop="dateModified" datetime="2023-10-18T23:47:56+08:00">2023-10-18</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -234,6 +238,7 @@
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
 <title>数据链路层</title>
 </head>
 <body><h1 id='数据链路层'><strong>数据链路层</strong></h1>

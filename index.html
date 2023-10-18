@@ -269,10 +269,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-10-17 19:10:37 / 修改时间：19:11:38" itemprop="dateCreated datePublished" datetime="2023-10-17T19:10:37+08:00">2023-10-17</time>
+              <time title="创建时间：2023-10-17 19:10:37" itemprop="dateCreated datePublished" datetime="2023-10-17T19:10:37+08:00">2023-10-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-10-18 23:47:56" itemprop="dateModified" datetime="2023-10-18T23:47:56+08:00">2023-10-18</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -312,236 +318,14 @@
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title>数据链路层</title>
-</head>
-<body><h1 id='数据链路层'><strong>数据链路层</strong></h1>
-<blockquote><p>设计目标：关注的是点到点、两个临近机器之间的高效的、可靠的关系链接算法。”像一根线又不是一根线“</p>
-<ul>
-<li>成帧</li>
-<li>错误控制</li>
-<li>流控制</li>
-<li>为网络层做服务</li>
-
-</ul>
-<p>通过协议栈的方式链接到物理层上</p>
-</blockquote>
-<p>&nbsp;</p>
-<h2 id='基本数据交互传递原理'><strong>基本数据交互传递原理</strong></h2>
-<p>Q：如何向网络层提供服务？</p>
-<p>A：非确定的面向非链接服务（LANS局域网）、确定的面向非链接的服务（常用于非可靠链接例如无线系统）、确定的面向链接的服务（计时器、序列号、建立的链接）</p>
-<p>&nbsp;</p>
-<h2 id='帧'><strong>帧</strong></h2>
-<blockquote><p>很容易说明出统一协议的重要性</p>
-</blockquote>
-<p>结点A与结点B通过点对点的方式链接起来，接收结点必须明确发送出的帧的<strong>bits构成</strong>、<strong>是什么</strong>、<strong>从哪里开始从哪里结束</strong></p>
-<p><strong>字节计数</strong>（DEC：DDCMP）：每一帧的帧首就是计数位，储存了发送的这一帧的大小位数</p>
-<blockquote><p>如果某一帧首发生错误，那么取址发生错误，容易对后面帧的取址造成严重影响</p>
-</blockquote>
-<p><strong>字节填充</strong>：增加一个标志来区别不同的帧，在帧首前与帧尾后增添一个flag</p>
-<p>如果传递的信息内就包含flag等，解决办法如下：</p>
-<p><img src="https://img1.imgtp.com/2023/09/26/JdP5n4XN.png" referrerpolicy="no-referrer" alt="000.png"></p>
-<p><strong>比特填充</strong>（HDLC）：起始flag使用比特填充（01111110），若信息内出现连续6个1，那么在第五个1后添加0，在接收的时候自动去除。</p>
-<blockquote><p>和字节填充比起来更加有效率</p>
-<p>但是两者也都不是完全能避免错误</p>
-</blockquote>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h2 id='差错控制'><mark><strong>差错控制</strong></mark></h2>
-<blockquote><p>确保传输到网络层的所有帧都是要在正确的顺序之上</p>
-</blockquote>
-<p><strong>方式</strong>：</p>
-<ol start='' >
-<li>向寄件人提供一些有关错误信息的反馈</li>
-<li>如果帧数据完全消失——如果帧的ADC丢失了，或者超时，向寄件人发出警告；管理计时器与帧序列，保证传输的帧是确切的那一个，不多也不少</li>
-
-</ol>
-<p>&nbsp;</p>
-<p><strong>典型错误</strong>：丢帧（传送过程丢失）——有时候由于噪音，有时候直接从队列中丢失、帧损坏（bits损坏）</p>
-<ul>
-<li>错误纠错——FEC：前向纠错</li>
-
-</ul>
-<blockquote><p>更多用于错误率较高的信道上，因为重传的信息也有高概率出错</p>
-</blockquote>
-<ul>
-<li>错误检错——Parity check：能够检测出单个bit错误、CRC、ARQ</li>
-
-</ul>
-<blockquote><p>用于高度可靠的信道上（光纤），如果发生错误重传即可</p>
-</blockquote>
-<p>&nbsp;</p>
-<h2 id='流控------缓速接收者不被高速发送者淹没'><mark><strong>流控</strong></mark>——缓速接收者不被高速发送者淹没</h2>
-<p>两种常用方式进行控制：</p>
-<p><strong>Feedback-based</strong>：接收者向发送方发送反馈信息，给与发送方许可来接收更多信息，或者至少告诉发送方接收者正在做什么</p>
-<p><strong>Rate-based</strong>：该协议的内置机制直接限制发送方的数据传输速率，无需接收方反馈</p>
-<ul>
-<li>Stop-Wait</li>
-<li>滑动窗口协议</li>
-
-</ul>
-<p>&nbsp;</p>
-<h2 id='hdlc-and-ppp'><strong>HDLC and PPP</strong></h2>
-<blockquote><p>Elementary Data Link Protocols</p>
-</blockquote>
-<p>首先，假设物理层、数据链路层和网络层都是独立的进程，它们通过来回传递消息进行通信。有助于使概念更加清晰，同时也可以 强调每一层的独立性。 </p>
-<p>许多协议公用的一些声明：</p>
-<pre><code class='language-c' lang='c'>#define MAX_PKT 1024 /*determines packet size in bytes */
-typedef enum (false, true&#125; boolean;  /* boolean type */ 
-typedef unsigned int seq_nr;/* sequence or ack numbers */
-typedef struct (unsigned char data [MAX_PKT]；&#125; packet;/* packet definition */  
-typedef enum (data, ack, nak&#125; frame_kind; /* frame_kind definition */ 
-typedef struct&#123;/* frames are transported in this layer */ 
-    frame_kind kind;  /* what kind of frame is it? */ 
-    seq_nr seq;  /* sequence number */
-    seq_nr ack; /* acknowledgement number */
-    packet info; /* the network layer packet */
-    &#125; frame;
- /* Wait for an event to happen； return its type in event. */ 
-void wait_for_event(event_type *event);
-/* Fetch a packet from the network layer for transmission on the channel. */ 
-void from_network_layer(packet *p);
-/* Deliver information from an inbound frame to the network layer. */ 
-void to_network_layer(packet *p); 
-/* Go get an inbound frame from the physical layer and copy it to r. */ 
-void from_physical_layer(frame *r);
-/* Pass the frame to the physical layer for transmission. */ 
-void to_physical_layer(frame *s);
-/* Start the clock running and enable the timeout event. */ 
-void start_timer(seq_nr k);
-/* Stop the clock and disable the timeout event. */ 
-void stop_timer(seq_nr k);
-/* Start an auxiliary timer and enable the ack_timeout event. */ void start_ack_timer(void);
-/* Stop the auxiliary timer and disable the ack_timeout event. */ void stop_ack_timer(void);
-/* Allow the network layer to cause a network_layer_ready event. */ void enable_network_layer(void); 
-/* Forbid the network layer from causing a network_layer_ready event. */ 
-void disable_network_layer(void);
-/* Macro inc is expanded in-line: increment k circularly. */ 
-#define inc(k) if (k &lt; MAX SEQ) k = k + 1； else k = 0
-</code></pre>
-<p><strong>Utopia(乌托邦式单工协议)</strong></p>
-<blockquote><p>不会出现任何错误的协议，不需要考虑任何情况，数据只能单向传输</p>
-</blockquote>
-<p>这个没道理的协议分为发送过程与接收过程。发送过程运行在源机器 的数据链路层上；接收过程运行在目标机器的数据链路层上。唯一需要处理的事件类型是<code>frama_arrival</code>（收到完好帧）</p>
-<pre><code class='language-c' lang='c'>typedef enum &#123;frame_arrival&#125; event_type;
-#include &quot;protocol.h&quot;
-void senderl(void)&#123;
-    frame s;//buffer for an outbound frame
-    packet buffer;//buffer for an outbound packer
-    while(true)&#123;
-        from_network_layer(&amp;buffer);//go get something to send
-        s.info=buffer;//copy it onto s for transmission
-        to_physical_layer(&amp;s);//send it on its way
-    &#125;
-&#125;
-              
-<p>void receiver1(void)&#123;<br>    frame r;<br>    event_type event;<br>    while(trye)&#123;<br>        wait_fot_event(&amp;event);<br>        from_physical_layer(&amp;r);&#x2F;&#x2F;go get the inbound frame<br>        to_network_layer(&amp;r.info);&#x2F;&#x2F;pass the data to the network layer<br>    &#125;<br>&#125;<br></code></pre></p>
-<p><strong>stop-and-wait(无错信道上的单工停-等式协议)</strong></p>
-<blockquote><p>解决发送方以高于接收方能处理到达帧的速度发送帧，导致 接收方被淹没的问题，但是仍然单工</p>
-</blockquote>
-<p>如果升级接收方硬件，使用更强大的接收器，具有更大的缓存与数据处理能力，但是成本较高，容易浪费资源，并只是纯粹将问题转移到网络层。</p>
-<p>就像水龙头与蓄水池，最好的解决方法就是关小水龙头。</p>
-<p>接收方给发送方提供反馈信息：等待对方确认到达后才能继续发送，这样的协议称为停-等式协议。这个模型规定了流量交替关系，只允许发送方发送一帧接收方再发送一帧，依次反复。可以说是采用半双工的物理信道即可。</p>
-<pre><code class='language-c' lang='c'>typedef enum &#123;frame_arrival&#125; event_type;
-#include &quot;protocol.h&quot;
-void sender2(void)&#123;
-    frame s;//buffer for an outbound frame
-    packet buffer;//buffer for an outbound packer
-    event_type event;/*********/
-    while(true)&#123;
-        from_network_layer(&amp;buffer);//go get something to send
-        s.info=buffer;//copy it onto s for transmission
-        to_physical_layer(&amp;s);//send it on its way
-        wait_for_event(&amp;event);/*********/
-    &#125;
-&#125;
-              
-<p>void receiver2(void)&#123;<br>    frame r,s;<br>    event_type event;<br>    while(true)&#123;<br>        wait_fot_event(&amp;event);<br>        from_physical_layer(&amp;r);&#x2F;&#x2F;go get the inbound frame<br>        to_network_layer(&amp;r.info);&#x2F;&#x2F;pass the data to the network layer<br>        to_physical_layer(&amp;s);&#x2F;&#x2F;send a dummy frame*****<br>    &#125;<br>&#125;<br></code></pre></p>
-<p><strong>ARQ或者PAR(有错信道上的单工停-等式协议)</strong></p>
-<blockquote><p>现在信道有可能出错，帧有可能损坏，也可能被丢失</p>
-</blockquote>
-<p>发送错误的帧会使得接收方能检测出来，这是这种协议最大的目的。</p>
-<p>在协议二的基础上，增加一个计时器。</p>
-<p>如果接收方受到错误帧，就将其丢弃，那么发送方就会超时，并再次进行发送。</p>
-<p>缺陷是接收方其实并不知道送过来的包是被丢失了，还是被发送了多份过来，他只管进行信息查验。</p>
-<p>试想一下确认帧完全丢失，接收方是不管确认帧的存活的，于是发送方一遍又一遍地进行包发送，接收方一次又一次接收重复的包，并认为这样子是没问题的。</p>
-<p>所以新的需求是让接收方知道收到的帧是新帧还是老帧。</p>
-<p>做法就是在帧头加一个序号，序号的格式需要着重考虑，理论上，需要位数很多，因为包会很多；需要位数很少，因为不能冗余。</p>
-<p>但实际情况发送方选择是否发送新一帧的条件是前一个帧成功完成了流程，也就是说其实帧头序号只需要一个二进制位，因为只需要和前一帧做对比即可。</p>
-<pre><code class='language-c' lang='c'>typedef enum &#123;frame_arrival&#125; event_type;
-#include &quot;protocol.h&quot;
-void sender3(void)&#123;
-    seq_nr next_frame_to_send;//帧头序号
-    frame s;//buffer for an outbound frame
-    packet buffer;//buffer for an outbound packer
-    event_type event;/*********/
-    next_frame_to_send=0;//initialize
-    from_network_layer(&amp;buffer);//go get something to send
-    while(true)&#123;
-        s.info=buffer;//copy it onto s for transmission
-        s.seq=next_frame_to_send;//帧头写入
-        to_physical_layer(&amp;s);//send it on its way
-        start_timer(s.seq);//timer
-        wait_for_event(&amp;event);/*********/
-        if(event==frame_arrival)&#123;
-            from_physical_layer(&amp;s);
-            if(s.ack==next_frame_to_send)&#123;//要是收到了
-                stop_timer(s.ack);//重置计时器
-                from_network_layer(&amp;buffer);//把下一个信息写入
-                inc(next_frame_to_send);//下一帧头信息（0变11变0）
-            &#125;
-        &#125;
-    &#125;
-&#125;
-              
-<p>void receiver3(void)&#123;<br>    seq_nr frame_expected;&#x2F;&#x2F;所期望的帧头<br>    frame r,s;<br>    event_type event;<br>    frame_expected&#x3D;0;<br>    while(true)&#123;<br>        wait_fot_event(&amp;event);<br>        from_physical_layer(&amp;r);&#x2F;&#x2F;go get the inbound frame<br>        if(r.seq&#x3D;&#x3D;frame_expected)&#123;<br>            to_network_layer(&amp;r.info);&#x2F;&#x2F;pass the data to the network layer<br>            inc(frame_expected);<br>        &#125;<br>        s.ack&#x3D;1-frame_expected;<br>        to_physical_layer(&amp;s);&#x2F;&#x2F;send a dummy frame*****<br>    &#125;<br>&#125;<br></code></pre></p>
-<p>//解析略，看不懂代码自己看书去</p>
-<p>&nbsp;</p>
-<p><strong>滑动窗口协议</strong></p>
-<blockquote><p>保证两个方向的数据传输，也就是全双工数据传输</p>
-</blockquote>
-<p>有一种方法是将前面的协议复制一份，一份用来传递数据，一份用来传递确认帧——这样就导致了带宽浪费。这是最差的情况。</p>
-<p>在正常情况下前面的协议其实可以进行双工数据传输，毕竟确认帧的存在已经证实了可以进行双工数据交流。</p>
-<p><strong>捎带确认</strong>（piggybacking）指接收方在收到包的时候，确认帧并不马上发出，而是等待下一个要逆向发出的正常包一起发出。</p>
-<p>这样的方法节省了带宽，但不保证时间，因为接收方接收到包与接收方下一个包的发出之间有一定时间，在这个时间内发送方不可能进行下一个包的传输，这样的时间浪费十分可惜。</p>
-<p>可以进行手动操控这个时间，比如设置一个计时器，如果在这段时间内下一个数据包没有到来，那么马上发送单独的确认帧。</p>
-<p>这是一种方法，不过网络传播这么大一个工程，不太可能会为了等待一个确认帧而真的停滞不前了，要知道第一个数据帧的发出是不需要确认帧的，所以有没有可能一次性发出多个数据帧，然后把这些数据帧的信息都保存起来，一个个等候确认帧呢？</p>
-<p>当然这儿的“一次性”并不是真的一次性并发出去了，而是将这一系列待发送的数据包标记，然后一个个待发送。这么一个队列称为“<strong>滑动窗口</strong>”，当然，多个包的并发使得确认帧头的01失效，必须使用更多的1234...来进行更多帧的标记。</p>
-<p><img src="https://z1.ax1x.com/2023/10/10/pPxLqyQ.png"></p>
-<p>本质上就是对这些帧进行缓存。在进行确认过后或者重发并确认过后再移动窗口。</p>
-<p>&nbsp;</p>
-<p><strong>1位滑动窗口协议</strong></p>
-<p>滑动窗口的缓冲效果是有限的，现在设想这样一个场景，在景区检票口的队列上，检票员如果检查到了有问题的票务，他并不会停下来，而是一边确认有问题的票务，一边继续检查队列后的票务，这样在问题票务解决时，已经被检查过的人员可以保证一股脑放出。但机器代码协议并不像人，普通的滑动窗口协议，这个“出问题的人”会一直将队列拥堵，就好比如果窗口下限一直未解决，且缓冲到了一定限制，那么这个检票口就会一直拥堵。</p>
-<p>这是一个夸张的例子，但是如果把出问题的人单独拉到一边形成队列，让他不堵上窗口，保证后面的正常游客能顺利出游，甚至派专人来调查问题人，也就是说把滑动窗口分裂，是不是就不会造成拥堵了呢？</p>
-<p>但是在我们似乎能进行性能优化之前，我们最好先解决1位滑动窗口协议的一些残留问题。</p>
-<p>发送方与接收方相互发送包，等待确认帧的到来再继续发送下一个包，这只是单方面为信息传递划分了界限、做出了严厉的限制。理想情况的下的发包在实验室外永远不会发生，现实情况下可以会出现以下情况：超时时间设置较短（或者说发送过程时间较长），在第一个包还在发送的过程中就不断超时，然后发送方不断发出重复包。即使没有出现错误的情况下，重复发包仍然会不断浪费宝贵的带宽。</p>
-<p>&nbsp;</p>
-<p><strong>回退N协议</strong></p>
-<blockquote><p>如果把传输路程夸张化，会发现保护机制变成了纯粹的累赘</p>
-</blockquote>
-<p>如果和月球通信，哪怕信息以光速传播，传播时间也是用分钟来计时，试想一下你玩的网络游戏下一帧要等待几分钟才能加载？</p>
-<p>放宽这个限制是必然的结局，于是我们便有了“滑动窗口”，那么如何找到一个滑动窗口的“容量”呢。从最佳效率解上看，这个容量其实也就是信道传播路程的容量，只要我们能保证信道源源不断地在进行信息传输，那么带宽利用率一定不会低。这个容量由比特/秒的带宽乘以单向传送时间决定，如果一次发送路程可以容纳BD（带宽-延迟乘积）数量的帧，那么w设置成2BD+1，+1指那个确认帧。</p>
-<p>这是最佳效率的容量，也可以说是“最大窗口尺寸”，如果w是一次性发送，或者说是成功发送的帧数，那么链路利用率=w/（1+2BD）</p>
-<p>保持多个帧同时传送的技术是<strong>管道化</strong>的一个内容，它可以保证如果在传输过程中出现了差错，比如某个帧丢失，那么他后面的那些正在路上的帧的处置方式。</p>
-<ul>
-<li>回退N：将后续所有的帧都丢失，不发出确认帧，让发送方直接重新发送。这样的话，大量的错误会=造成大量的带宽浪费。</li>
-<li>选择重传：坏帧丢弃，缓存正常的帧。如果窗口很大，那么这种方式对内存需求很大。</li>
-<li>结合使用：当接收到坏帧时，发送一个<strong>否定确认</strong>，直接让发送方进行重传，不用等待超时时间。</li>
-
-</ul>
-<p>在发送方这边，由于接收方需要将缓存的数据在坏帧重新发送成功时直接输送给网络层，释放缓存空间，所以发送方需要同时将一系列帧都“确认”，这个特性叫<strong>累计确认</strong>。</p>
-<p>&nbsp;</p>
-<p><strong>选择重传协议</strong></p>
-<p>前面已经暗示了，这个协议需要发送方与接收方各自维护一个缓存区域。</p>
-<p>//协议示例代码过长。。//</p>
-<p>按照惯例，这个协议也应该出现了一点毛病了，那就是“窗口重叠”问题。现在假设一组窗口帧全部丢失的情况，那么发送方不会理会丢失，而是直接发送下一组前序一模一样但内容不一样的帧，接收方在接收到这一组帧的时候返回确认帧，那么这一组确认帧的表现到底是“前一组丢失的帧”还是“这一组正常的帧”呢，发送方无法分辨，接收方就更得知不了了，于是协议“正确”，发送发出了一个错误的包。</p>
-<p>解决方法是限制窗口最大尺寸小于序号空间的一半，这样的话，在任何时候都只会出现一半序号空间数量的待确认的帧，这样就能避免重叠的情况发生。</p>
-<p>&nbsp;</p>
-<p><strong>PPP</strong></p>
-<blockquote><p>点到点协议</p>
-</blockquote>
-<p>PPP的帧格式酷似HDLC帧格式，区别在于PPP面向字节而不是比特</p>
-</body>
-</html>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/10/17/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
