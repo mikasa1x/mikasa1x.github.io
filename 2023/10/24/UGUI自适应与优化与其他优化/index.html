@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="UGUI自适应与优化与其他优化">
+<meta property="og:url" content="http://example.com/2023/10/24/UGUI%E8%87%AA%E9%80%82%E5%BA%94%E4%B8%8E%E4%BC%98%E5%8C%96%E4%B8%8E%E5%85%B6%E4%BB%96%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/piFo1sO.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/piF7vZD.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/piFHPzt.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/piFHVeS.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/piFHKWn.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/piFHJwF.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/piFHLfs.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/piFHXpn.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/piFvNBq.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/piFzj1g.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/pikkHWq.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/pikVSR1.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/pikViqO.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/pikVZid.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/pikVNzq.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/21/pikVyFJ.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/23/piAIQVe.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/23/piAIgMV.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/23/piAITR1.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/23/piAT5g1.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/23/piAThC9.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/23/piA77zn.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/23/piAHMQI.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/23/piAHNWj.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/24/piAzPlF.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/10/24/piAziy4.png">
+<meta property="article:published_time" content="2023-10-23T16:19:10.000Z">
+<meta property="article:modified_time" content="2023-10-23T16:19:44.987Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://z1.ax1x.com/2023/10/21/piFo1sO.png">
+
+<link rel="canonical" href="http://example.com/2023/10/24/UGUI%E8%87%AA%E9%80%82%E5%BA%94%E4%B8%8E%E4%BC%98%E5%8C%96%E4%B8%8E%E5%85%B6%E4%BB%96%E4%BC%98%E5%8C%96/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>UGUI自适应与优化与其他优化 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/10/24/UGUI%E8%87%AA%E9%80%82%E5%BA%94%E4%B8%8E%E4%BC%98%E5%8C%96%E4%B8%8E%E5%85%B6%E4%BB%96%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UGUI自适应与优化与其他优化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-10-24 00:19:10 / 修改时间：00:19:44" itemprop="dateCreated datePublished" datetime="2023-10-24T00:19:10+08:00">2023-10-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Unity%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">Unity基础概念</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>UGUI自适配与优化</title>
+</head>
+<body><h1 id='ugui自适配与优化'>UGUI自适配与优化</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2 id='recttransform'><strong>RectTransform</strong></h2>
+<p>继承自Transform，是UGUI中最重要的组件之一</p>
+<ul>
+<li>Anchored（锚点）</li>
+<li>Pivot（中心点）</li>
+<li>Rotation（旋转）</li>
+<li>Size Delta（大小）</li>
+
+</ul>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piFo1sO'><img src="https://z1.ax1x.com/2023/10/21/piFo1sO.png" referrerpolicy="no-referrer" alt="piFo1sO.png"></a></p>
+<p>&nbsp;</p>
+<p><strong>锚点</strong>	</p>
+<pre><code class='language-c#' lang='c#'>RectTransform rectTransform = GetComponent&lt;RectTransform&gt;();
+rectTransform.anchoredPosition = new Vector2(100, 100);
+</code></pre>
+<p>锚点作用于父类子节点，也就是说如果UI对象有一个子对象，那么这个子对象就会基于父节点的锚点来进行位置偏移（这个父对象往往是添加UI后默认增加的“canvas”）。如果某节点没有父节点，那么锚点预设无法设置。锚点的意思是子类的中心点（Pivot）相对父类锚点（Anchored）位置不变，这个位置可以设置XYZ，可以理解成相对偏移。</p>
+<p>面板上的田子图一样的东西，就是锚点预设，表示设置子类锚在父类上的点。你可以通过“锚点预设”来直接点击设置锚点位置与锚点大小，也可以直接在检查器内输入数字来进行设置。</p>
+<p>锚点属性是一个二维数组，这个有什么含义呢，如果我们设置锚点为一个点并将其锚在父类的左下角</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piF7vZD'><img src="https://z1.ax1x.com/2023/10/21/piF7vZD.png" referrerpolicy="no-referrer" alt="piF7vZD.png"></a></p>
+<p>那么子类（红色）的中心位置就会严格跟随这个锚点</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piFHPzt'><img src="https://z1.ax1x.com/2023/10/21/piFHPzt.png" referrerpolicy="no-referrer" alt="piFHPzt.png"></a></p>
+<blockquote><p>如图是将父类（白色）下界往上拖动</p>
+</blockquote>
+<p>再试试更改检查器中的XY，例如把他们都设置为0，0，可以看到红色中心就定在锚点上，意思就是与锚点的”偏移“为0</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piFHVeS'><img src="https://z1.ax1x.com/2023/10/21/piFHVeS.png" referrerpolicy="no-referrer" alt="piFHVeS.png"></a></p>
+<p>锚点在检查器中只限制在父类范围以内（似乎通过代码可以突破这个限制？），所以二维数组的大小在0~1以内，意思就是将父类的宽高按比例进行归一了，这里就不演示将锚点位置改变到其他位置了。</p>
+<p>二维数组中的”min“表示锚点左下角的位置，”max“表示锚点右上角的位置，也就是说其实锚点其实可以不是一个点。</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piFHKWn'><img src="https://z1.ax1x.com/2023/10/21/piFHKWn.png" referrerpolicy="no-referrer" alt="piFHKWn.png"></a></p>
+<blockquote><p>图中左下角三角形表示最小，右上角表示最大，示例显示了右上角设置为0.5，0.5</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piFHJwF'><img src="https://z1.ax1x.com/2023/10/21/piFHJwF.png" referrerpolicy="no-referrer" alt="piFHJwF.png"></a></p>
+<p>再次拖动白色右边界，发现红色的大小也随之变化，因为右上角的锚点与红色右上角（如图中右上角蓝色点）相对位置不会变化，左下角的点与锚点左下角不会相对位移。由于锚点是锚在父类对象上，<strong>大小和父类对象成比例</strong>，<strong>点相对位置和子类不变</strong>，这是锚点的基本逻辑。</p>
+<p>下面几个是更加夸张的例子：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piFHLfs'><img src="https://z1.ax1x.com/2023/10/21/piFHLfs.png" referrerpolicy="no-referrer" alt="piFHLfs.png"></a></p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piFHXpn'><img src="https://z1.ax1x.com/2023/10/21/piFHXpn.png" referrerpolicy="no-referrer" alt="piFHXpn.png"></a></p>
+<p>前者直接将白色负向拉伸了，此时锚点相对位置还是不变，后者将锚点直接定为覆盖父类白色全部，此时子类大小完全和父类变化成比例一致。</p>
+<p>&nbsp;</p>
+<p><strong>中心点/轴心</strong></p>
+<pre><code class='language-c#' lang='c#'>RectTransform rectTransform = GetComponent&lt;RectTransform&gt;();
+rectTransform.pivot = new Vector2(0.5f, 0.5f);
+</code></pre>
+<p>前面也提到过，可以经过代码设置，同样UI元素的缩放与旋转也以这个为基准</p>
+<p>&nbsp;</p>
+<p><strong>旋转</strong></p>
+<pre><code class='language-c#' lang='c#'>RectTransform rectTransform = GetComponent&lt;RectTransform&gt;();
+rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 45));
+</code></pre>
+<p>&nbsp;</p>
+<p><strong>缩放</strong></p>
+<pre><code class='language-c#' lang='c#'>RectTransform rectTransform = GetComponent&lt;RectTransform&gt;();
+rectTransform.sizeDelta = new Vector2(200, 100);
+</code></pre>
+<p>&nbsp;</p>
+<h2 id='自适应分辨率'>自适应分辨率</h2>
+<p>所以为什么UI要设置成这样呢？为什么Unity不直接将其设置成一个真正的画板，然后直接将UI组件在上面直接画？</p>
+<p>如果你经常游玩《英雄联盟》，你会注意到这样一个情况：当选择游戏全屏或无边框的时候，游戏下方的技能UI界面大小是完全不一样的。这就是自适应分辨率的一个小表现，试想一下如果使用超大屏幕玩游戏，结果UI界面按比例增大比人脑袋还大，给人的体验并不好。</p>
+<p>你试过在电脑上下载安卓模拟器玩游戏的体验吗？</p>
+<p>这个在手机上最为明显，因为不同手机由于型号不同屏幕的长宽比例也不同。我不确定你玩没玩过《原神》，但这个例子是用来解释自适应分辨率的最佳对象，因为他是难得的一款双端但是UI差异十分明显的游戏。如果你在电脑上开发原神，结果在安卓手机上游玩的时候圆形的技能图标被压缩成椭圆，或者技能图标因为手机的比例问题直接印在边界下方”被劈成两半“，这些都不是我们想看到的。</p>
+<p>你当然可以直接通过代码将所有UI元素按需一个个安排好：</p>
+<pre><code class='language-c#' lang='c#'>RectTransform rectTransform = GetComponent&lt;RectTransform&gt;();
+rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+rectTransform.anchoredPosition = Vector2.zero;
+rectTransform.sizeDelta = new Vector2(Screen.width * 0.8f, Screen.height * 0.8f);
+</code></pre>
+<p>又或者可以通过上面所说的锚点机制来分别设置各UI元素相对父类结点的相对位置，然后父类结点的对象会根据屏幕不同而变化，子节点不变，这个时候自适应分辨率就有了初步的雏形。</p>
+<p>&nbsp;</p>
+<h2 id='画布canvas）'>画布（canvas）</h2>
+<p><strong>画布 (Canvas)</strong> 组件表示进行 UI 布局和渲染的抽象空间。所有 UI 元素都必须是附加了画布组件的游戏对象的子对象。从菜单 (<strong>GameObject &gt; Create UI</strong>) 创建 UI 元素对象时，如果场景中没有画布 (Canvas) 对象，则会自动创建该对象。</p>
+<p>你当然可以将画布改名，但画布组件必须被包含。</p>
+<p>画布可以更改不同的渲染方式：</p>
+<ul>
+<li>Screen Space - Overlay——无视摄像机，所有元素都渲染在其他物体前面，并且UI会根据屏幕自适应</li>
+<li>Screen Space - Camera——UI在屏幕上的大小不会随距离而变化，这个模式下UI会随着与摄像机距离不断进行缩放来适应，缺陷是UI如果距离太远可以被物体遮挡（也有可能不是缺陷呢是吧）</li>
+<li>World Space——把UI当作物体渲染在世界中，可以制造全息效果</li>
+
+</ul>
+<p>&nbsp;</p>
+<h2 id='hdr和msaa的关闭'>HDR和MSAA的关闭</h2>
+<p>相机默认启用HDR和MSAA，是屏幕后处理的一种，调用出帧调试器会发现空项目也会执行后处理，所以在不使用HDR和MSAA的时候手动将其关闭就不会进行调用。（直接在摄像机面板上关闭）</p>
+<p>&nbsp;</p>
+<h2 id='stats统计面板'>Stats统计面板</h2>
+<ul>
+<li>Tris——三角形面数</li>
+<li>Verts——三角形点数</li>
+
+</ul>
+<blockquote><p>新建新场景，直接打开Stats面板，这个时候这两个数据就是天空盒的数据</p>
+</blockquote>
+<blockquote><p>在摄像机中取消天空盒，可以得到屏幕的数据</p>
+</blockquote>
+<blockquote><p>只会统计摄像机视野内的数据</p>
+</blockquote>
+<blockquote><p>阴影会影响这两个数值</p>
+</blockquote>
+<ul>
+<li>SetPass calls——材质调用次数</li>
+<li>Batches——批处理次数</li>
+<li>Saved by batching——批处理节省Draw call的次数</li>
+
+</ul>
+<blockquote><p>这个指标将是进行UGUI性能优化的重要指标之一</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='draw-call与批处理'>Draw Call与批处理</h2>
+<p>试想情况，将十块砖分开搬，还是将十块砖打包一次性搬，哪种会快点？</p>
+<p>Draw Call是GPU将模型呈现到屏幕上的过程的次数，其实就是“搬砖”的次数，从结果论上讲Draw Call是越少越好的。</p>
+<blockquote><p>来自知乎@<a target="_blank" rel="noopener" href='https://www.zhihu.com/people/acnestis'>acnestis</a></p>
+<p>渲染流水线的第一步是【CPU和GPU之间的通信】，有如下3个步骤：
+\1. 把数据加载到显存中：把网格和纹理等数据从硬盘加载到显存中（因为显卡对显存的访问速度更快）
+\2. 设置渲染状态：CPU根据材质球设置渲染状态，比如，使用哪个顶点着色器/片元着色器、光源属性、纹理等
+\3. 调用Draw Call：准备好上述工作后，CPU就调用一个渲染命令(Draw Call)来告诉GPU可以开始渲染啦。</p>
+<p>GPU的渲染能力是很强的，渲染200个还是2000个三角网格通常没有什么区别，渲染速度往往快于CPU提交命令的速度。如果一帧中Draw Call数量太多，CPU就会在“设置渲染状态-提交Draw Call”上花费大量时间，造成性能问题。</p>
+</blockquote>
+<p>Draw Call几乎等价于Batches，尽管他们指定的操作并不是一个，但数值上往往是一致的。</p>
+<p>批处理就是将“砖块”打包的过程，也就是将美术素材、模型等小网格组成大网格。于是Draw Call次数减少，可以大力提高程序效率。</p>
+<p><strong>静态批处理与动态批处理</strong></p>
+<blockquote><p>在projectsetting-&gt;玩家中</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piFvNBq'><img src="https://z1.ax1x.com/2023/10/21/piFvNBq.png" referrerpolicy="no-referrer" alt="piFvNBq.png"></a></p>
+<p>&nbsp;</p>
+<ul>
+<li>静态批处理</li>
+
+</ul>
+<p>首先在检查器的最右端将对象设置为静态。</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piFzj1g'><img src="https://z1.ax1x.com/2023/10/21/piFzj1g.png" referrerpolicy="no-referrer" alt="piFzj1g.png"></a></p>
+<p>标记为静态物体就好。</p>
+<p>游戏中不移动不缩放的物体就可以视为静态物体。</p>
+<p>静态批处理的对象就是这样的<strong>使用相同材质引用</strong>的<strong>静态物体</strong>。</p>
+<p>静态批处理需要额外的CPU内存来存储组合的几何图形，所以其实是一种牺牲内存来加快速度的方式。在个别场景中需要牺牲渲染性能来避免内存占用，例如大森林场景中的树木。</p>
+<p>以上，是<strong>构建时的静态批处理</strong>，unity支持<strong>运行时的静态批处理</strong>，可调用<code>StaticBatchingUtility</code>类。</p>
+<p>&nbsp;</p>
+<ul>
+<li>动态批处理</li>
+
+</ul>
+<blockquote><p>动态批处理是Unity自动使用的，不需要我们提前设置</p>
+</blockquote>
+<p>&nbsp;</p>
+<ul>
+<li>SRP（可编程渲染管线）批处理器</li>
+
+</ul>
+<blockquote><p>是SRP中特有的</p>
+</blockquote>
+<p>&nbsp;</p>
+<ul>
+<li>GPU Instancing</li>
+
+</ul>
+<blockquote><p>后续会讲到，这里已经有点偏离UGUI了</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='ugui的合批'>UGUI的合批</h2>
+<p>就是对UGUI的控件进行批处理</p>
+<p>&nbsp;</p>
+<p><strong>帧调试器</strong></p>
+<blockquote><p>窗口-&gt;分析-&gt;frame debugger</p>
+</blockquote>
+<p>打开帧调试器，启用，会将摄像机渲染的过程全部分开一一呈现在面前。</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pikkHWq'><img src="https://z1.ax1x.com/2023/10/21/pikkHWq.png" referrerpolicy="no-referrer" alt="pikkHWq.png"></a></p>
+<p>直接看UGUI那一栏，是UGUI的绘制过程</p>
+<p>Draw Mesh——绘制网络，所有的UGUI的控件在unity面前都是网络，这里点击两个Draw Mesh，发现两个Shader与贴图都不一样，因为两个操作对应的分别是图片与文字text组件。</p>
+<p>从这里就可以看出来，两者并没有合批。帧调试器会显示摄像机一步一步的绘画过程，所以说我们可以从这个组件间接得出是否合批。</p>
+<p>&nbsp;</p>
+<p><strong>Profiler-UI</strong></p>
+<blockquote><p>和帧调试器的路径是一样的</p>
+</blockquote>
+<p>似乎unity5以上的版本调试不出？这里先标记吧</p>
+<p>//更新——后来在实际测试情况中调出来了//</p>
+<p>总之无法合批的原因就是贴图不一样</p>
+<p>&nbsp;</p>
+<p><strong>实验与结果</strong></p>
+<p>首先在刚刚建立的项目中去除光照、取消天空盒、取消HDR与MSAA。</p>
+<p>还是那两个UI块，结果如下：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pikVSR1'><img src="https://z1.ax1x.com/2023/10/21/pikVSR1.png" referrerpolicy="no-referrer" alt="pikVSR1.png"></a></p>
+<blockquote><p>Batches值为2</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pikViqO'><img src="https://z1.ax1x.com/2023/10/21/pikViqO.png" referrerpolicy="no-referrer" alt="pikViqO.png"></a></p>
+<blockquote><p>帧调试器中只出现一个Draw Mesh</p>
+</blockquote>
+<p>种种现象表明，两个色块合批了。</p>
+<p>&nbsp;</p>
+<p>于是加入text组件，位置如下：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pikVZid'><img src="https://z1.ax1x.com/2023/10/21/pikVZid.png" referrerpolicy="no-referrer" alt="pikVZid.png"></a></p>
+<blockquote><p>发现Batches值为3，很显然text组件和普通图片的贴图并不一样，所以没有合批</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>移动一下Text位置：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pikVNzq'><img src="https://z1.ax1x.com/2023/10/21/pikVNzq.png" referrerpolicy="no-referrer" alt="pikVNzq.png"></a></p>
+<blockquote><p>发现Batches值变为4</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pikVyFJ'><img src="https://z1.ax1x.com/2023/10/21/pikVyFJ.png" referrerpolicy="no-referrer" alt="pikVyFJ.png"></a></p>
+<blockquote><p>Draw Mesh也变为三个</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>众所周知Unity的渲染顺序是由对象层级来决定的，在上面的会优先渲染。而Text的摆放位置似乎会影响到两个图片的合批，就好像“打断”了他们的合批一样。</p>
+<p>这个就涉及到UGUI的合批规则了。</p>
+<p>&nbsp;</p>
+<p><strong>UGUI合批规则</strong></p>
+<ul>
+<li>两个UI控件能合批的基本条件是这两个控件使用的材质球(Shader)和贴图要完全相同。</li>
+<li>合批是以Canvas为单位，不同的Canvas是另一个批</li>
+<li>计算深度</li>
+
+</ul>
+<blockquote><p>参考CSDN@<a target="_blank" rel="noopener" href='https://blog.csdn.net/sinat_25415095'>WangShade</a>的计算方法</p>
+<p>按照Hierarchy中从上往下的顺序依次遍历Canvas下所有UI元素
+对于当前的UI元素CurrentUI
+i.如果CurrentUI不渲染，则Depth = -1
+ii.如果CurrentUI要渲染，但CurrentUI下面没有其他UI元素与其相交，则Depth = 0
+iii.如果CurrentUI要渲染，下面只有一个UI元素(LowerUI)与其相交，且CurrentUI与LowerUI可以合批(材质和贴图完全相同)，则CurrentUI.Depth = LowerUI.Depth；如果两者不能合批，CurrentUI.Depth= LowerUI.Depth + 1
+iv.如果CurrentUI要渲染，下面有n个元素与其相交，则按照步骤iii，分别计算出n个Depth(Depth_1、Depth_2、Depth_3…)，然后CurrentUI.Depth取其最大值，即CurrentUI.Depth = max(Depth_1, Depth_2, Depth_3，…)
+上面步骤中的“下面”和“相交”要明确下意思，这两个概念很重要。
+CurrentUI下面的UI，指Hierarchy面板中，在CurrentUI之上的元素。
+————————————————
+版权声明：本文为CSDN博主「WangShade」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：<a href='https://blog.csdn.net/sinat_25415095/article/details/112388638' target='_blank' class='url'>https://blog.csdn.net/sinat_25415095/article/details/112388638</a></p>
+</blockquote>
+<p>这里我理解的并不是很深，详细可以看原文解释。</p>
+<blockquote><p>注意“下面”指渲染层次，也就是说在监视器中“下面”指组件“上面”的组件</p>
+</blockquote>
+<p>总而言之，合批根据Depth来列出一个List，再根据这个List来计算合批，这个时候并不是完全依靠监视器中的List顺序来进行解释。就像上面展示的，由于Text组件与其他两个组件相交，Text“下面”是其中一个图片，所以Text深度为1，这样一来Text“上面”的图片深度就为2了，所以三个组件都不为一个批次。</p>
+<p>（可以自己试一下将三个组件覆盖进行改变，可以得出不一样的结果）</p>
+<p>&nbsp;</p>
+<h1 id='优化实操'>优化实操</h1>
+<p>总结如下：</p>
+<ul>
+<li>使用图集，将多个小图打包到一个大图中来减少内存占用，合并到一个纹理。</li>
+<li>动静分离——减少更新次数</li>
+<li>优化UI结构，防止合批中断</li>
+
+</ul>
+<p>&nbsp;</p>
+<p>现在进入最近比赛的项目中尝试进行优化。</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piAIQVe'><img src="https://z1.ax1x.com/2023/10/23/piAIQVe.png" referrerpolicy="no-referrer" alt="piAIQVe.png"></a></p>
+<p>游戏还未启动，发现Batches次数已经达到惊人的22层，哪怕只是一个体量非常小的游戏。在运行时跳到30左右。</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piAIgMV'><img src="https://z1.ax1x.com/2023/10/23/piAIgMV.png" referrerpolicy="no-referrer" alt="piAIgMV.png"></a></p>
+<p>四个元素给干出9个批出来，恐怕是动态血量造的孽。//后面发现随时间会越来越多。。但是我并不确定这个与时间有没有关系</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piAITR1'><img src="https://z1.ax1x.com/2023/10/23/piAITR1.png" referrerpolicy="no-referrer" alt="piAITR1.png"></a></p>
+<p>帧调试器界面，发现瓦片地图渲染了十多次。</p>
+<p>&nbsp;</p>
+<p><strong>开始优化</strong></p>
+<p>首先将金币与生命值划为一个图集</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piAT5g1'><img src="https://z1.ax1x.com/2023/10/23/piAT5g1.png" referrerpolicy="no-referrer" alt="piAT5g1.png"></a></p>
+<p>发现PlayerUI中批次直接减少了一次</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piAThC9'><img src="https://z1.ax1x.com/2023/10/23/piAThC9.png" referrerpolicy="no-referrer" alt="piAThC9.png"></a></p>
+<p>关于血量的问题出在血量条上，这个原素材是用Package里面的，所以设置图集直接闪退炸了，另一个UI由于图片太多出于实验目的暂时不优化，与此同时可以看见帧调试器中的Draw Mesh也少了一次。</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piA77zn'><img src="https://z1.ax1x.com/2023/10/23/piA77zn.png" referrerpolicy="no-referrer" alt="piA77zn.png"></a></p>
+<p>地图划为一个图集后也显著降低了很多批次。</p>
+<blockquote><p>这里也可以直接将地图划分为静态来启用静态批处理</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piAHMQI'><img src="https://z1.ax1x.com/2023/10/23/piAHMQI.png" referrerpolicy="no-referrer" alt="piAHMQI.png"></a></p>
+<p>图中的15只是因为刚好地图中出现了怪物而对照组中未出现，所以理论上比15还要小很多。</p>
+<p>做的时候发现地图不能完全合到一个批次，怀疑是地图编辑问题导致合批中断。</p>
+<p>初步优化先到这里，虽然说小游戏还看不出优化效果，但是从面板上看还是很有成就感的。</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piAHNWj'><img src="https://z1.ax1x.com/2023/10/23/piAHNWj.png" referrerpolicy="no-referrer" alt="piAHNWj.png"></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h1 id='提高gpu-instancing'>提高：GPU Instancing</h1>
+<p>Unity5.4版本之后的新黑科技（虽然说对于现在已经不算什么新货了）</p>
+<p>对于静态批处理，需用占用系统大量内存，而对于动态批处理，有时候合批需求过多的情况下动态批处理的做法反而得不偿失，而GPU Instancing可以通过对单个实例进行渲染多个网格对象从而进行大批量相同材质和网格的对象渲染。</p>
+<p>可以理解成需要进行大批量相同物件的渲染时，进行GPU Instancing可以避免静态批处理造成的内存损耗，相对来说便减少了渲染时间。</p>
+<p>当然物件也可以显示不同属性，例如大型森林可以对树木进行缩放或者颜色改变来控制每个对象的独有性。</p>
+<p>&nbsp;</p>
+<p><strong>使用</strong></p>
+<p>新建材质/在已有材质上-&gt;在监视器中选择“启用GPU实例化”-&gt;挂载该材质到预制体上</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piAzPlF'><img src="https://z1.ax1x.com/2023/10/24/piAzPlF.png" referrerpolicy="no-referrer" alt="piAzPlF.png"></a></p>
+<p>此时在Unity3D中大量实例化该预制体</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piAziy4'><img src="https://z1.ax1x.com/2023/10/24/piAziy4.png" referrerpolicy="no-referrer" alt="piAziy4.png"></a></p>
+<blockquote><p>这里处理得有点糙，天空盒等一系列没有预处理，所以才是4</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>GPU Instancing再深入就是shader相关了，或者一些属性设置，这些留着以后做demo再说吧（如果有机会）</p>
+<p>&nbsp;</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/10/18/Booom2023%E5%A4%8D%E7%9B%98/" rel="prev" title="Booom2023复盘">
+      <i class="fa fa-chevron-left"></i> Booom2023复盘
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ugui%E8%87%AA%E9%80%82%E9%85%8D%E4%B8%8E%E4%BC%98%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">UGUI自适配与优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#recttransform"><span class="nav-number">1.1.</span> <span class="nav-text">RectTransform</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E9%80%82%E5%BA%94%E5%88%86%E8%BE%A8%E7%8E%87"><span class="nav-number">1.2.</span> <span class="nav-text">自适应分辨率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%BB%E5%B8%83canvas%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">画布（canvas）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hdr%E5%92%8Cmsaa%E7%9A%84%E5%85%B3%E9%97%AD"><span class="nav-number">1.4.</span> <span class="nav-text">HDR和MSAA的关闭</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stats%E7%BB%9F%E8%AE%A1%E9%9D%A2%E6%9D%BF"><span class="nav-number">1.5.</span> <span class="nav-text">Stats统计面板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#draw-call%E4%B8%8E%E6%89%B9%E5%A4%84%E7%90%86"><span class="nav-number">1.6.</span> <span class="nav-text">Draw Call与批处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ugui%E7%9A%84%E5%90%88%E6%89%B9"><span class="nav-number">1.7.</span> <span class="nav-text">UGUI的合批</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%AE%9E%E6%93%8D"><span class="nav-number">2.</span> <span class="nav-text">优化实操</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%90%E9%AB%98gpu-instancing"><span class="nav-number">3.</span> <span class="nav-text">提高：GPU Instancing</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/24/UGUI%E8%87%AA%E9%80%82%E5%BA%94%E4%B8%8E%E4%BC%98%E5%8C%96%E4%B8%8E%E5%85%B6%E4%BB%96%E4%BC%98%E5%8C%96/" title="2023&#x2F;10&#x2F;24&#x2F;UGUI自适应与优化与其他优化&#x2F;">UGUI自适应与优化与其他优化</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/18/Booom2023%E5%A4%8D%E7%9B%98/" title="2023&#x2F;10&#x2F;18&#x2F;Booom2023复盘&#x2F;">Booom2023复盘</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/17/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="2023&#x2F;10&#x2F;17&#x2F;数据链路层&#x2F;">数据链路层</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/16/C-%E7%B1%BB%E5%9E%8B/" title="2023&#x2F;10&#x2F;16&#x2F;C-类型&#x2F;">C#类型</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/07/C-%E4%B8%AD%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="2023&#x2F;10&#x2F;07&#x2F;C-中的多线程&#x2F;">C++中的多线程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '8a7d004621c349148943c4590b619064',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
