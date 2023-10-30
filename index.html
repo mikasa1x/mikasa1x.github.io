@@ -186,10 +186,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-10-27 21:17:22 / 修改时间：21:17:51" itemprop="dateCreated datePublished" datetime="2023-10-27T21:17:22+08:00">2023-10-27</time>
+              <time title="创建时间：2023-10-27 21:17:22" itemprop="dateCreated datePublished" datetime="2023-10-27T21:17:22+08:00">2023-10-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-10-30 10:00:26" itemprop="dateModified" datetime="2023-10-30T10:00:26+08:00">2023-10-30</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -229,277 +235,14 @@
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title>C#委托</title>
-</head>
-<body><h1 id='c委托'>C#委托</h1>
-<blockquote><p>类似与C中的函数指针</p>
-</blockquote>
-<p>&nbsp;</p>
-<h2 id='函数指针'>函数指针</h2>
-<pre><code class='language-c' lang='c'>typedef int (*FUN)(int a,int b);  // 定义函数指针类型
-int max(int x,int y)
-&#123; return x&gt;y?x:y;&#125;
-int _tmain(int argc, _TCHAR* argv[])
-&#123;	
-     FUN fun;
-    fun=(FUN)max;
-    int c=fun(3,5); // 或者c=(*fun)(3,5);通过指针调用函数
-    printf(&quot;c is %d \n&quot;,c);
-        return 0;
-&#125;
-</code></pre>
-<p>或者当作函数的参数：</p>
-<pre><code class='language-c' lang='c'>typedef int (*FUN)(int a,int b);
-int max(int x,int y)&#123; return x&gt;y?x:y;&#125;
-int min(int x,int y)&#123; return x&lt;y?x:y;&#125;
-int add(int x,int y)&#123;return x+y;&#125;
-int process(int x,int y, FUN fun)&#123; return (*fun)(x,y);&#125;
-int _tmain(int argc, _TCHAR* argv[])
-&#123;
-int c=process(3,5,max);//函数指针作为函数的参数
-printf(&quot;max is %d \n&quot;,c);
-c=process(3,5,min);
-printf(&quot;min is %d \n&quot;,c);
-c=process(3,5,add);
-printf(&quot;add is %d \n&quot;,c);
-……&#125;
-</code></pre>
-<p>函数指针是非类型安全的：</p>
-<pre><code class='language-c' lang='c'>int m(int a,int b,int r)  &#123;return r+1;&#125;
-fun=(FUN)m;  //无意义的转换
-c=fun(3,5);
-printf(“c is %d \n”,c); //c返回一个随机值
-</code></pre>
-<h2 id='委托'>委托</h2>
-<p><code>访问修饰符 delegate 返回值类型 委托名字（委托参数）</code></p>
-<p><code>public delegate int DEL(int a,int b);</code></p>
-<p>可以在名字空间下定义也可以在类中定义。</p>
-<p>定义一个委托等价于定义了一个指针类型。使用之前先实例化委托。实例化时指定此委托所代表的函数，函数可以是类的静态成员函数，或者是普通的成员函数。</p>
-<pre><code class='language-c#' lang='c#'>delegate int DEL(int a,int b);
-    class Class1
-    &#123; int max(int a,int b)
-      &#123;return a&gt;b?a:b;&#125;
-    static  int smax(int a,int b)
-        &#123;return a&gt;b?a:b;&#125;
-    [STAThread]static void Main(string[] args)
-    &#123;
-         DEL del=new DEL (new Class1().max );//实例化
-        DEL del2=new DEL (smax);//实例化
-          int c=del(3,5); //通过委托来调用函数
-        c=del2(6,8);
-        &#125;
-    &#125;
-
-<p></code></pre></p>
-<p>委托是类型安全的：</p>
-<pre><code class='language-c#' lang='c#'>delegate int TDEL (int a,int b,int c);
- Static int m(int a,int b,int c) &#123;return c+1;&#125;
- DEL del=new DEL(m); //实例化委托时,函数签名与委托签名必须匹配,
-TDEL tdel=new TDEL (m);//必须匹配才可实例化
-DEL  del=(DEL)tdel;    //编译器也会阻止不匹配的转换。
-</code></pre>
-<p>&nbsp;</p>
-<p>为什么要使用委托呢？</p>
-<p>首先大部分委托（包括接下来的事件）都是C#设计模式的一种思想，委托并不是独有一定“特定”功能，而是规范程序运行流程，或者说规范代码编写结构，可读性更强。委托能办到的事情，使用其他的基本方法都能办到，就相当于公司老板可以直接安排员工工作，也可以先“委托”小组组长来让小组组长给下级员工安排工作，这个时候老板是不管具体是安排的谁的，老板只需要知道事情被安排出去了。</p>
-<p>这种机制用一个不同类型函数参数的函数重载来举例，例如如下冒泡排序：</p>
-<pre><code class='language-c#' lang='c#'>public class Bubble
-&#123;        // 整数数组冒泡排序
-        static public void sort(int [] sortarr)
-        &#123;for(int i=0;i&lt;sortarr.Length ;i++)
-            &#123;for (int j=0;j&lt;i;j++)
-                &#123;if(sortarr[i]&lt;sortarr[j])
-                    &#123;	int temp=sortarr[i];
-                        sortarr[i]=sortarr[j];
-                        sortarr[j]=temp;&#125;	
-                &#125;&#125;&#125;
-    &#125;
-</code></pre>
-<p>这个时候会发现，这个冒泡排序只合适int类型的排序，如果这个时候想复用这个函数来进行其他类型的排序时，可以使用函数重载，也可以使用模板类和操作符重载来完成。</p>
-<p>这个时候可以直接使用委托，因为我们发现让函数可以比较多种类型，只需要更改函数的比较方式就可以。</p>
-<p>比如int用大于小于符号来比较，而字符串用compare函数来比较。</p>
-<p>我们直接<strong>用object来打包参数，用委托来打包方法</strong>。</p>
-<pre><code class='language-c#' lang='c#'>public delegate bool Compare(object rh,object lh);//
-
-<p>public class Bubble<br>    &#123;static public void sort(object[] sortarr,Compare cmp)<br>        &#123;	for(int i&#x3D;0;i&lt;sortarr.Length ;i++)<br>            &#123;	for (int j&#x3D;0;j&lt;i;j++)<br>                &#123;	if(cmp(sortarr[i],sortarr[j]))&#x2F;&#x2F;<br>                    &#123;	object temp&#x3D;sortarr[i];<br>                        sortarr[i]&#x3D;sortarr[j];<br>                 		sortarr[j]&#x3D;temp;&#125;				<br>                &#125;&#125;&#125;<br>    &#125;</p>
-<p></code></pre></p>
-<p>此时可以说sort是“小组长”了，对于sort来说它的职责已经从“接收boss指令，执行boss指令”变成“接收boss的指令，根据需求来安排不同的员工（cmp）来执行指令”。当然，这个时候其实是对象自己来决定用什么方法进行比较的。</p>
-<p>在真正要进行比较的对象中，只需要具体安排一下适合于对象自己的比较方法就行：</p>
-<pre><code class='language-c#' lang='c#'>public class employee&#123;
-    private float salary;
-    public employee(float sal)&#123;salary=sal;&#125;
-    public static bool RhLessThanLh(object lh,object rh)
-    &#123;return (((employee)lh).salary&lt;((employee)rh).salary)
-             ?true:false;&#125;//定义一个与委托兼容的函数
- 
-<pre><code>public static Compare empcmp=new Compare (RhLessThanLh); //定义一个静态的委托实例，以类的静态函数去初始化它。
-    &#125;
-</code></pre>
-<p></code></pre></p>
-<p>在main函数中：</p>
-<pre><code class='language-c#' lang='c#'>employee[] employees=
-     &#123;new employee (100),
-        new employee (80),
-        new employee (120)&#125;;
-Bubble.sort(employees,employee.empcmp );&#125;
-</code></pre>
-<p>&nbsp;</p>
-<h2 id='多重委托'>多重委托</h2>
-<p>委托也可以同时包含多个方法。</p>
-<pre><code class='language-c#' lang='c#'>delegate void DEL(int a,int b);
-    class Class1
-    &#123;	static void max(int a,int b)  &#123;Console.WriteLine (a&gt;b?a:b);&#125;
-        static void min(int a,int b)  &#123;Console.WriteLine (a&lt;b?a:b);&#125;
-        [STAThread]	static void Main(string[] args)
-        &#123;	DEL maxdel=new DEL (max);
-            DEL mindel=new DEL (min);
-            DEL dels=new DEL (max);
-            dels+=mindel;dels(3,5);
-//顺序调用max和min函数，如果函数有返回值,则只得到最后一个函数的返回值.
-            dels-=maxdel;
-            dels(3,5); //只调用min函数.
-        &#125;
-    &#125;		
-</code></pre>
-<p>&nbsp;</p>
-<h1 id='c事件'>C#事件</h1>
-<blockquote><p>GUI应用程序的机制——事件驱动</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piAuGlj'><img src="https://z1.ax1x.com/2023/10/23/piAuGlj.md.png" referrerpolicy="no-referrer" alt="piAuGlj.md.png"></a></p>
-<p>消息传播伪代码：</p>
-<pre><code class='language-c#' lang='c#'>typedef struct tagMSG &#123; 
-HWND hwnd;            // 消息要发送到的窗口的句柄。
-UINT message;        //消息的唯一标识，在windows头文件中定义，以WM_为前缀
-WPARAM wParam; // 32位的消息参数，确切意义取决于消息本身
-LPARAM lParam;   //32位的消息参数，确切意义取决于消息本身
-DWORD time;        //消息放入队列的时间，windows使用其来保持消息的顺序
-POINT pt;      // 消息放入消息队列时的鼠标坐标。
-&#125; MSG, *PMSG;
-
-<p>LRESULT CALLBACK WndProc(<br>HWND hWnd,           &#x2F;&#x2F; 窗口句柄<br>UINT message,        &#x2F;&#x2F; 消息标识符<br>WPARAM wParam, &#x2F;&#x2F; 消息参数1<br>LPARAM lParam)    &#x2F;&#x2F; 消息参数2<br></code></pre></p>
-<blockquote><p>从窗口句柄中可以得到消息的发送目的地。</p>
-<p>从消息参数中可以提取消息的发送主体。</p>
-</blockquote>
-<p>可以直接让编译器来生成代码框架，而不是手动用SDK来一点点搭建GUI.</p>
-<p>vs.net -&gt;C++ windows</p>
-<p>&nbsp;</p>
-<p><strong>相关的GUI模型</strong></p>
-<ul>
-<li>MFC（MVC）</li>
-<li>VCL</li>
-
-</ul>
-<p>&nbsp;</p>
-<p>C#将以上事件（消息循环）进行面向对象封装，C#对象可以<strong>发布（publish）</strong>一组事件供其他类<strong>订阅（subscribe）</strong>。</p>
-<p>例如用鼠标点击图形化界面的某个按钮，这就是事件之一，不过事件不仅仅用于图形化界面，事件定义为“对象发送某种事情向类客户提供通知的一种方法”。</p>
-<p>&nbsp;</p>
-<h2 id='事件参数类'>事件参数类</h2>
-<p><code>EventArgs</code>是包含事件数据类的基类——不包含事件数据</p>
-<blockquote><ul>
-<li>如果需要储存状态信息，则需要从此类派生出类来保存数据</li>
-<li>事件参数类是对Windows消息的封装与推广</li>
-
-</ul>
-</blockquote>
-<p>&nbsp;</p>
-<h2 id='事件处理器'>事件处理器</h2>
-<blockquote><p>处理事件的函数</p>
-</blockquote>
-<p>n事件发生后，处理该事件的函数称为事件处理器（event handler）。.net 规定这个函数具有如下形式：</p>
-<p><code>void SecondChangeHandler(object sender, TimeInfoEventArgs fe);</code>//事件的发送者，任何对象都派生于object。//事件参数</p>
-<p>事件处理器具有如上的原型，因此可以使用delegate来定义之：</p>
-<p><code>public delegate void SecondChangeHandler (object clock,    TimeInfoEventArgs timeInformation);</code></p>
-<p>事件处理器类比于窗口过程。（Windows Procedure）</p>
-<p>&nbsp;</p>
-<p><strong>event关键字</strong></p>
-<p>发布事件的类以event关键字来表名此类有一个处理某种事件的处理器函数，即某delegate的实例。</p>
-<p><code>event SecondChangeHandler OnSecondChange;</code></p>
-<p>&nbsp;</p>
-<h2 id='发布事件类'>发布事件类</h2>
-<pre><code class='language-c#' lang='c#'>public class Clock
-  &#123; private int hour;
-    private int minute;
-    private int second;
-     // 定义一个委托
-    public delegate void SecondChangeHandler
-      (object clock,TimeInfoEventArgs timeInformation);
-    // 定义一个事件,即以上委托的实例,由订阅者添加内容.
-    public event SecondChangeHandler OnSecondChange;
-  &#125;
-public void Run()
-&#123;for(;;) //无限循环
-    &#123;Thread.Sleep(10); // sleep 10 milliseconds
-         System.DateTime dt = System.DateTime.Now;
-         if (dt.Second != second) //秒改变，通知订阅者
-             &#123;TimeInfoEventArgs timeInformation = new   
-             TimeInfoEventArgs( dt.Hour,dt.Minute,dt.Second);
-             if (OnSecondChange != null)
-             OnSecondChange( this,timeInformation); 
-                //通知订阅者。
-             this.second = dt.Second;
-             this.minute = dt.Minute;
-             this.hour = dt.Hour; 
-          &#125;
-      &#125;
-  &#125;
-
-<p></code></pre></p>
-<h2 id='订阅事件类'>订阅事件类</h2>
-<blockquote><p>决定事件到达后如何处理（事件处理器），必须与对应的delegate保持一致</p>
-</blockquote>
-<p><code>public void TimeHasChanged(object theClock, TimeInfoEventArgs ti)</code></p>
-<p>其次，订阅事件类必须通过某种途径告知发布事件类，自己对发布事件类感兴趣,而且将对事件的到来采取何种动作：</p>
-<pre><code class='language-c#' lang='c#'>public void Subscribe(Clock theClock)
-&#123;      theClock.OnSecondChange +=
-       new  Clock.SecondChangeHandler(TimeHasChanged);
-         //订阅事件类的其他方法
-       //新建一个发布事件类所定义的委托，初始化为自己的处理器，并赋值给发布事件类的事件。
-        //事件类的事件中可能存放有不同的订阅类的处理器,这是一个多重委托,事件发生时会按照订阅次序逐个通知他们.
- &#125;
-
-<p></code></pre></p>
-<p>卢老师给的示例：</p>
-<pre><code class='language-c#' lang='c#'>public class DisplayClock
-  &#123;public void Subscribe(Clock theClock)
-    &#123;      theClock.OnSecondChange +=
-    new Clock.SecondChangeHandler(TimeHasChanged);
-    &#125;  //也可以在订阅类的构造函数中实现。
-public void TimeHasChanged(
-      object theClock, TimeInfoEventArgs ti)
-    &#123;   Console.WriteLine(&quot;Current Time: &#123;0&#125;:&#123;1&#125;:&#123;2&#125;&quot;,
-        ti.hour.ToString(), 
-        ti.minute.ToString(), 
-        ti.second.ToString());
-    &#125;
-  &#125;
-</code></pre>
-<pre><code class='language-c#' lang='c#'>public class LogCurrentTime
-  &#123;    public void Subscribe(Clock theClock)
-    &#123;   theClock.OnSecondChange +=
-        new Clock.SecondChangeHandler(WriteLogEntry);
-    &#125;
-public void WriteLogEntry(
-      object theClock, TimeInfoEventArgs ti)
-    &#123;   Console.WriteLine(&quot;Logging to file: &#123;0&#125;:&#123;1&#125;:&#123;2&#125;&quot;,
-        ti.hour.ToString(), 
-        ti.minute.ToString(), 
-        ti.second.ToString());
-    &#125;
-  &#125;
-
-<p></code></pre></p>
-<pre><code class='language-c#' lang='c#'>public class Test
-   &#123;      public static void Main()
-      &#123;   Clock theClock = new Clock(); //发布事件类
-          DisplayClock dc = new DisplayClock();//订阅类
-         dc.Subscribe( theClock );//订阅
-          LogCurrentTime lct = new LogCurrentTime(); //另一订阅类
-         lct.Subscribe( theClock );//订阅
-         theClock.Run();
-      &#125;
-   &#125;
-</code></pre>
-</body>
-</html>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/10/27/C-%E5%A7%94%E6%89%98%E4%B8%8E%E4%BA%8B%E4%BB%B6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
