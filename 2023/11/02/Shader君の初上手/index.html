@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="Unity Shader君の初上手">
+<meta property="og:url" content="http://example.com/2023/11/02/Shader%E5%90%9B%E3%81%AE%E5%88%9D%E4%B8%8A%E6%89%8B/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/01/pinxSde.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/01/pinxPJA.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/01/piui4UK.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/01/piuioCD.md.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/01/piui7gH.md.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/01/piuiObt.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/02/piujGxx.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/02/piujReS.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/02/piuxZHU.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/02/piKIydI.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/02/piKIgFP.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/02/piKIbF0.png">
+<meta property="article:published_time" content="2023-11-02T13:51:22.000Z">
+<meta property="article:modified_time" content="2023-11-02T13:54:49.162Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://z1.ax1x.com/2023/11/01/pinxSde.png">
+
+<link rel="canonical" href="http://example.com/2023/11/02/Shader%E5%90%9B%E3%81%AE%E5%88%9D%E4%B8%8A%E6%89%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Unity Shader君の初上手 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/02/Shader%E5%90%9B%E3%81%AE%E5%88%9D%E4%B8%8A%E6%89%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Unity Shader君の初上手
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-02 21:51:22 / 修改时间：21:54:49" itemprop="dateCreated datePublished" datetime="2023-11-02T21:51:22+08:00">2023-11-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Unity%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">Unity基础概念</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>Shader</title>
+</head>
+<body><h1 id='unity------shader入门'>Unity——Shader入门</h1>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pinxSde'><img src="https://z1.ax1x.com/2023/11/01/pinxSde.png" referrerpolicy="no-referrer" alt="pinxSde.png"></a></p>
+<p>新建Shader并使用VS+ShaderLabVS进行编译，默认的Shader代码是这样的：</p>
+<pre><code class='language-csharp' lang='csharp'>Shader &quot;Unlit/MyShader&quot;
+&#123;
+    Properties
+    &#123;
+        _MainTex (&quot;Texture&quot;, 2D) = &quot;white&quot; &#123;&#125;
+    &#125;
+    SubShader
+    &#123;
+        Tags &#123; &quot;RenderType&quot;=&quot;Opaque&quot; &#125;
+        LOD 100
+
+<pre><code>    Pass
+    &#123;
+        CGPROGRAM
+        #pragma vertex vert
+        #pragma fragment frag
+        // make fog work
+        #pragma multi_compile_fog
+
+        #include &amp;quot;UnityCG.cginc&amp;quot;
+
+        struct appdata
+        &#123;
+            float4 vertex : POSITION;
+            float2 uv : TEXCOORD0;
+        &#125;;
+
+        struct v2f
+        &#123;
+            float2 uv : TEXCOORD0;
+            UNITY_FOG_COORDS(1)
+            float4 vertex : SV_POSITION;
+        &#125;;
+
+        sampler2D _MainTex;
+        float4 _MainTex_ST;
+
+        v2f vert (appdata v)
+        &#123;
+            v2f o;
+            o.vertex = UnityObjectToClipPos(v.vertex);
+            o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+            UNITY_TRANSFER_FOG(o,o.vertex);
+            return o;
+        &#125;
+
+        fixed4 frag (v2f i) : SV_Target
+        &#123;
+            // sample the texture
+            fixed4 col = tex2D(_MainTex, i.uv);
+            // apply fog
+            UNITY_APPLY_FOG(i.fogCoord, col);
+            return col;
+        &#125;
+        ENDCG
+    &#125;
+&#125;
+</code></pre>
+<p>}<br></code></pre></p>
+<hr />
+<pre><code class='language-c#' lang='c#'>Shader &quot;Unlit/MyShader&quot;
+</code></pre>
+<p>可以设置新建Shader的路径</p>
+<p>&nbsp;</p>
+<p><strong>属性</strong></p>
+<pre><code class='language-c#' lang='c#'>Properties
+&#123;
+    _MainTex (&quot;Texture&quot;, 2D) = &quot;white&quot; &#123;&#125;
+&#125;
+</code></pre>
+<p>用来向监视器里面展示可控数据的代码段</p>
+<p><strong>属性名(&quot;在材质球(*Material*)上展示的名称&quot;,属性类型) = 默认值</strong></p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pinxPJA'><img src="https://z1.ax1x.com/2023/11/01/pinxPJA.png" referrerpolicy="no-referrer" alt="pinxPJA.png"></a></p>
+<p>&nbsp;</p>
+<p><strong>子着色器（SubShader）</strong></p>
+<blockquote><p>SubShader用于将 Shader 对象分成多个部分，分别兼容不同的硬件、渲染管线和运行时(Runtime)设置</p>
+</blockquote>
+<p>有点像条件编译，就是Unity会自动遍历所有的SubShader直到找到第一个能用到的着色器，如果找不到，</p>
+<p>一个子着色器包含以下内容：</p>
+<ul>
+<li>与其他设备设置兼容信息</li>
+<li>Tags——提供有关SubShader相关信息的键值对</li>
+<li>Pass——通道</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>通道</strong></p>
+<blockquote><p>Shader的基本元素，一个Shader至少包含一个通道</p>
+</blockquote>
+<pre><code class='language-c#' lang='c#'>        Pass
+        &#123;
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            // make fog work
+            #pragma multi_compile_fog
+        #include &quot;UnityCG.cginc&quot;
+**********************************************************
+        struct appdata
+        &#123;
+            float4 vertex : POSITION;
+            float2 uv : TEXCOORD0;
+        &#125;;
+**********************************************************
+**********************************************************
+        struct v2f
+        &#123;
+            float2 uv : TEXCOORD0;
+            UNITY_FOG_COORDS(1)
+            float4 vertex : SV_POSITION;
+        &#125;;
+**********************************************************
+        sampler2D _MainTex;
+        float4 _MainTex_ST;
+**********************************************************
+        v2f vert (appdata v)
+        &#123;
+            v2f o;
+            o.vertex = UnityObjectToClipPos(v.vertex);
+            o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+            UNITY_TRANSFER_FOG(o,o.vertex);
+            return o;
+        &#125;
+**********************************************************
+**********************************************************
+        fixed4 frag (v2f i) : SV_Target
+        &#123;
+            // sample the texture
+            fixed4 col = tex2D(_MainTex, i.uv);
+            // apply fog
+            UNITY_APPLY_FOG(i.fogCoord, col);
+            return col;
+        &#125;
+**********************************************************
+        ENDCG
+    &#125;
+</code></pre>
+<ul>
+<li>appdata指CPU向Shader提供的模型数据</li>
+<li>v2f是自定义的数据结构体，是顶点着色器输出的数据也是片元着色器输入的数据</li>
+<li>vert是顶点着色器处理函数</li>
+<li>frag是片元着色器处理函数</li>
+
+</ul>
+<blockquote><p>Shader的处理流程和渲染管线是相像的</p>
+</blockquote>
+<p><strong>语义解释</strong>：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piui4UK'><img src="https://z1.ax1x.com/2023/11/01/piui4UK.png" referrerpolicy="no-referrer" alt="piui4UK.png"></a></p>
+<blockquote><p>CPU-&gt;顶点着色器</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piuioCD'><img src="https://z1.ax1x.com/2023/11/01/piuioCD.md.png" referrerpolicy="no-referrer" alt="piuioCD.md.png"></a></p>
+<blockquote><p>顶点着色器-&gt;片元着色器</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piui7gH'><img src="https://z1.ax1x.com/2023/11/01/piui7gH.md.png" referrerpolicy="no-referrer" alt="piui7gH.md.png"></a></p>
+<blockquote><p>片元着色器-&gt;外界</p>
+</blockquote>
+<p>&nbsp;</p>
+<h1 id='实验手动建立标准光照shader'>实验：手动建立标准光照Shader</h1>
+<p>&nbsp;</p>
+<p>建立默认Shader与默认材质，挂载到物体上就是一个普通的白球（默认无光照）</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piuiObt'><img src="https://z1.ax1x.com/2023/11/01/piuiObt.png" referrerpolicy="no-referrer" alt="piuiObt.png"></a></p>
+<p>尝试利用Blinn-Phong光照模型为其增加检测光照的效果（图中已经添加环境光与直线光）</p>
+<blockquote><p>也就是将这个unity默认的无光照着色器手动编译成标准着色器</p>
+</blockquote>
+<p>从之前学到的知识，Blinn-Phong模型的最终结果就是<strong>环境光+漫反射+高光</strong></p>
+<p>环境光在unity中设置</p>
+<p>漫反射与高光是由片元着色器处理，于是我们聚焦到frag上</p>
+<p>可以看到frag的实现非常简单，从_MainTex中获取颜色，利用i.uv提供的坐标，再将颜色坐标信息返回给col。（那个什么FOG是利用untiy的api启用雾效）</p>
+<pre><code class='language-c#' lang='c#'>	fixed4 frag (v2f i) : SV_Target
+        &#123;
+            // sample the texture
+            fixed4 col = tex2D(_MainTex, i.uv);
+            // apply fog
+            UNITY_APPLY_FOG(i.fogCoord, col);
+            return col;
+        &#125;
+</code></pre>
+<p>要加上环境光+漫反射+高光，也就是最终返回的结果最好是“final=col×(_Diffuse×diffuse+pow(specular,__Intensity)+ambient)&quot;</p>
+<p>其中diffuse为漫反射，specular为高光，ambient为环境光——为了区分把公式特征也写进去了，实际编写过程取决于编写者。</p>
+<p>&nbsp;</p>
+<p><strong>漫反射</strong>：</p>
+<pre><code class='language-c#' lang='c#'>fixed3 worldNormal = normalize(i.normal);
+fixed3 worldPos = i.worldPos;
+fixed3 lightDir = normalize(_WorldSpaceLightPos0 - worldPos);
+float diffuse = max(0, dot(worldNormal, lightDir));
+</code></pre>
+<p>&nbsp;</p>
+<p><strong>高光</strong>：</p>
+<pre><code>fixed3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));
+fixed3 lightDir = normalize(_WorldSpaceLightPos0 - worldPos);
+fixed3 halfDir = normalize(lightDir + viewDir);
+float specular = max(0, dot(worldNormal, halfDir));
+specular = pow(specular, _Intensity);
+</code></pre>
+<p>&nbsp;</p>
+<p>将这两个值的最终结果结合一下返回给finalColor：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piujGxx'><img src="https://z1.ax1x.com/2023/11/02/piujGxx.png" referrerpolicy="no-referrer" alt="piujGxx.png"></a></p>
+<p>有了能接受光照的雏形，漫反射也能通过光照方向改变而改变光亮和高光方向，但是模拟光照的技术瓶颈还是取决于硬件支持，也就是说漫反射只能反反射单一光线，而不能反射其他物体反射出的光线，所以看起来并不真实。</p>
+<p>一般这种”二手光“直接用统一的环境光来代替</p>
+<pre><code>fixed4 ambient = (UNITY_LIGHTMODEL_AMBIENT.xyz,1);
+</code></pre>
+<p>&nbsp;</p>
+<p>但是加上环境光却出现了问题：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piujReS'><img src="https://z1.ax1x.com/2023/11/02/piujReS.png" referrerpolicy="no-referrer" alt="piujReS.png"></a></p>
+<p>物体光线又回到了最初的起点，就好像环境光将光线都扰乱了一样。</p>
+<p>&nbsp;</p>
+<p>最后尝试了很多种方式，发现竟然只是代码的语法错误</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piuxZHU'><img src="https://z1.ax1x.com/2023/11/02/piuxZHU.png" referrerpolicy="no-referrer" alt="piuxZHU.png"></a></p>
+<pre><code class='language-c#' lang='c#'>float3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
+fixed4 finalColor = col * (_Diffuse * diffuse + specular ) + fixed4(ambient, 1);
+</code></pre>
+<p>如上，直接通过在fixed3后面加上标量1的方式是错误的，必须新建以<code>fixed4(ambient,1)</code>的格式新建fixed类型的向量——最终还是因为我没有正式安装CG代码的编译环境，所以并没有报错。。。</p>
+<p>&nbsp;</p>
+<p>但是新的问题又出现了，那就是这个环境光只相应纯色类型的环境光，而不能相应天空盒类型环境光。</p>
+<p><a target="_blank" rel="noopener" href='https://forum.unity.com/threads/get-ambient-color-in-custom-shader.994786/'>在自定义着色器中获取环境颜色 - Unity Forum</a></p>
+<p>在Unity社区中寻找到有人在讨论这个问题，最终把代码改成</p>
+<pre><code class='language-c#' lang='c#'>half3 ambient = half3(unity_SHAr.w, unity_SHAg.w, unity_SHAb.w);
+fixed4 finalColor = col * (_Diffuse * diffuse + specular ) + fixed4(ambient, 1);
+</code></pre>
+<p>最终形成天空盒也能充当环境光的效果。</p>
+<p>&nbsp;</p>
+<p><strong>优化</strong>：</p>
+<p>最终很遗憾地发现最终效果仍然很奇怪，因为最后才发现所使用的unity的光照是太阳光而不是点光源（太阳光默认直线平行，而点光源有距离缩减且角度都不同）</p>
+<p>所以更改代码逻辑如下：</p>
+<pre><code class='language-c#' lang='c#'>Shader &quot;Unlit/NewUnlitShader&quot;
+&#123;
+    Properties
+    &#123;
+        _MainTex (&quot;Texture&quot;, 2D) = &quot;white&quot; &#123;&#125;
+        _Diffuse(&quot;Diffuse&quot;,Range(0,1)) = 1
+        _Intensity(&quot;Intensity&quot;,float) = 1
+
+<pre><code>    _IntensityHigh(&amp;quot;IntensityHigh&amp;quot;,float) = 1
+    _Specluar(&amp;quot;Specular&amp;quot;,Color) = (1,1,1,1) 
+&#125;
+SubShader
+&#123;
+    Tags &#123; &amp;quot;RenderType&amp;quot;=&amp;quot;Opaque&amp;quot; &#125;
+    Tags &#123;&amp;quot;LightMode&amp;quot; = &amp;quot;ForwardBase&amp;quot;&#125;
+    LOD 100
+
+    Pass
+    &#123;
+        CGPROGRAM
+        #pragma vertex vert
+        #pragma fragment frag
+        // make fog work
+        #pragma multi_compile_fog
+        #include &amp;quot;Lighting.cginc&amp;quot;
+        #include &amp;quot;UnityCG.cginc&amp;quot;
+
+        struct appdata
+        &#123;
+            float4 vertex : POSITION;
+            float2 uv : TEXCOORD0;
+            float3 normal : NORMAL;
+        &#125;;
+
+        struct v2f
+        &#123;
+            float2 uv : TEXCOORD0;
+            UNITY_FOG_COORDS(1)
+            float4 vertex : SV_POSITION;
+            float3 worldPos : TEXCOORD1; 
+            float3 normal : TEXCOORD2;
+        &#125;;
+
+
+        sampler2D _MainTex;
+        float4 _MainTex_ST;
+        v2f vert(appdata v)
+        &#123;
+            v2f o;
+            o.vertex = UnityObjectToClipPos(v.vertex);
+            o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+            UNITY_TRANSFER_FOG(o, o.vertex);
+
+            o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+            o.normal = UnityObjectToWorldNormal(v.normal);
+
+            return o;
+        &#125;
+        float _Intensity;
+        float _IntensityHigh;
+        float _Diffuse;
+        fixed4 frag(v2f i) : SV_Target
+        &#123;
+            // Sample the texture
+            fixed4 col = tex2D(_MainTex, i.uv);
+
+            // Calculate the lighting
+            fixed3 worldNormal = normalize(i.normal);
+            fixed3 worldPos = i.worldPos;
+            fixed3 viewDir = normalize(UnityWorldSpaceViewDir(worldPos));
+
+            fixed3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
+            fixed3 halfDir = normalize(lightDir + viewDir);
+            fixed4 lightColor = _LightColor0;
+
+            float diffuse = _Intensity*max(0, dot(worldNormal, lightDir));
+            float specular = max(0, dot(worldNormal, halfDir));
+            specular = pow(specular, _IntensityHigh);
+
+            half3 ambient = half3(unity_SHAr.w, unity_SHAg.w, unity_SHAb.w);
+            fixed4 finalColor = col * _Diffuse *( diffuse +specular ) + fixed4(ambient, 1);
+
+            // Apply fog
+            UNITY_APPLY_FOG(i.fogCoord, finalColor);
+
+            return finalColor;
+        &#125;
+        ENDCG
+    &#125;
+&#125;
+</code></pre>
+<p>}<br></code></pre></p>
+<blockquote><p>高光反射的p值比我想象中的大很多，突然想起闫令祺老师说过一般要达到128才能接近现实的效果。。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piKIydI'><img src="https://z1.ax1x.com/2023/11/02/piKIydI.png" referrerpolicy="no-referrer" alt="piKIydI.png"></a></p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piKIgFP'><img src="https://z1.ax1x.com/2023/11/02/piKIgFP.png" referrerpolicy="no-referrer" alt="piKIgFP.png"></a></p>
+<p>与官方的标准光照着色器对比——你可以猜一下哪个是我写的</p>
+<p>&nbsp;</p>
+<p><strong>后记</strong>：</p>
+<p>从别人的博客上看见使用<strong>半兰伯特(Half Lambert)模型</strong>来优化漫反射。</p>
+<p>就是单纯变更一下diffuse：</p>
+<p><code>float diffuse = 0.5*_Intensity*max(0, dot(worldNormal, lightDir))+0.5;</code></p>
+<p>这样可以去掉环境光也能形成很好的效果：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piKIbF0'><img src="https://z1.ax1x.com/2023/11/02/piKIbF0.png" referrerpolicy="no-referrer" alt="piKIbF0.png"></a></p>
+<p>但是我其实觉得这是一种投机取巧的做法——虽然看起来确实像摸像样了一点，但不能跟踪天空盒，而且和其他反射严重割裂。</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/10/31/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/" rel="prev" title="面向对象设计原则">
+      <i class="fa fa-chevron-left"></i> 面向对象设计原则
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#unity------shader%E5%85%A5%E9%97%A8"><span class="nav-number">1.</span> <span class="nav-text">Unity——Shader入门</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%89%8B%E5%8A%A8%E5%BB%BA%E7%AB%8B%E6%A0%87%E5%87%86%E5%85%89%E7%85%A7shader"><span class="nav-number">2.</span> <span class="nav-text">实验：手动建立标准光照Shader</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/3333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/02/Shader%E5%90%9B%E3%81%AE%E5%88%9D%E4%B8%8A%E6%89%8B/" title="2023&#x2F;11&#x2F;02&#x2F;Shader君の初上手&#x2F;">Unity Shader君の初上手</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/31/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/" title="2023&#x2F;10&#x2F;31&#x2F;面向对象设计原则&#x2F;">面向对象设计原则</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/27/C-%E5%A7%94%E6%89%98%E4%B8%8E%E4%BA%8B%E4%BB%B6/" title="2023&#x2F;10&#x2F;27&#x2F;C-委托与事件&#x2F;">C#委托与事件</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/26/Unity%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="2023&#x2F;10&#x2F;26&#x2F;Unity游戏设计模式&#x2F;">Unity游戏设计模式</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/24/UGUI%E8%87%AA%E9%80%82%E5%BA%94%E4%B8%8E%E4%BC%98%E5%8C%96%E4%B8%8E%E5%85%B6%E4%BB%96%E4%BC%98%E5%8C%96/" title="2023&#x2F;10&#x2F;24&#x2F;UGUI自适应与优化与其他优化&#x2F;">UGUI自适应与优化与其他优化</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/18/Booom2023%E5%A4%8D%E7%9B%98/" title="2023&#x2F;10&#x2F;18&#x2F;Booom2023复盘&#x2F;">Booom2023复盘</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/17/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="2023&#x2F;10&#x2F;17&#x2F;数据链路层&#x2F;">数据链路层</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/16/C-%E7%B1%BB%E5%9E%8B/" title="2023&#x2F;10&#x2F;16&#x2F;C-类型&#x2F;">C#类型</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/07/C-%E4%B8%AD%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="2023&#x2F;10&#x2F;07&#x2F;C-中的多线程&#x2F;">C++中的多线程</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/06/%E8%AE%A1%E7%BD%91%E8%AF%BE%E5%90%8E%E4%B8%80/" title="2023&#x2F;10&#x2F;06&#x2F;计网课后一&#x2F;">计网课后一</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : 'b506824638e063aab5935bb2829d46de',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
