@@ -21,16 +21,16 @@
   </script>
 
   <meta property="og:type" content="article">
-<meta property="og:title" content="C++基础唐题学习8.10">
-<meta property="og:url" content="http://example.com/2023/08/10/C-%E5%9F%BA%E7%A1%80%E5%94%90%E9%A2%98%E5%AD%A6%E4%B9%A08-10/index.html">
+<meta property="og:title" content="C#操作符重载">
+<meta property="og:url" content="http://example.com/2023/11/06/C-%E6%93%8D%E4%BD%9C%E7%AC%A6%E9%87%8D%E8%BD%BD/index.html">
 <meta property="og:site_name" content="Coding中。。。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-08-10T11:26:35.000Z">
-<meta property="article:modified_time" content="2023-08-10T11:27:55.427Z">
+<meta property="article:published_time" content="2023-11-06T02:38:20.000Z">
+<meta property="article:modified_time" content="2023-11-06T02:39:04.230Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2023/08/10/C-%E5%9F%BA%E7%A1%80%E5%94%90%E9%A2%98%E5%AD%A6%E4%B9%A08-10/">
+<link rel="canonical" href="http://example.com/2023/11/06/C-%E6%93%8D%E4%BD%9C%E7%AC%A6%E9%87%8D%E8%BD%BD/">
 
 
 <script id="page-configurations">
@@ -43,7 +43,7 @@
   };
 </script>
 
-  <title>C++基础唐题学习8.10 | Coding中。。。</title>
+  <title>C#操作符重载 | Coding中。。。</title>
   
 
 
@@ -164,7 +164,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/10/C-%E5%9F%BA%E7%A1%80%E5%94%90%E9%A2%98%E5%AD%A6%E4%B9%A08-10/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/06/C-%E6%93%8D%E4%BD%9C%E7%AC%A6%E9%87%8D%E8%BD%BD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/3333.jpg">
@@ -177,7 +177,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          C++基础唐题学习8.10
+          C#操作符重载
         </h1>
 
         <div class="post-meta">
@@ -188,7 +188,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-08-10 19:26:35 / 修改时间：19:27:55" itemprop="dateCreated datePublished" datetime="2023-08-10T19:26:35+08:00">2023-08-10</time>
+              <time title="创建时间：2023-11-06 10:38:20 / 修改时间：10:39:04" itemprop="dateCreated datePublished" datetime="2023-11-06T10:38:20+08:00">2023-11-06</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -196,7 +196,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">做题笔记</span></a>
+                  <a href="/categories/%E4%BB%8EC-%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C++开始的C#</span></a>
                 </span>
             </span>
 
@@ -206,14 +206,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>792</span>
+              <span>2.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -230,75 +230,80 @@
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 <span id="more"></span>
-<title>C++唐题学习（8.10）</title>
+<title>C#运算符重载</title>
 </head>
-<body><h1 id='c处理异常机制'>C++处理异常机制</h1>
-<blockquote><p>检查、抛出和捕获（try，throw，catch）</p>
-</blockquote>
-<p>该函数参数为1时返回值为（）</p>
-<pre><code class='language-c++' lang='c++'>int GetResult(int a)&#123;
-  int b = 0;
-      __try&#123;
-          if ( a != 0 )&#123;
-             b++;
-          &#125;
-          return b;
-      &#125;
-    __finally&#123;
-        --b;
-        &#125;
-    return b;
+<body><h1 id='运算符重载'>运算符重载</h1>
+<p>C#也是支持运算符重载的</p>
+<p>&nbsp;</p>
+<h2 id='c与c'>C++与C#</h2>
+<p>C++中：</p>
+<pre><code class='language-c#' lang='c#'>public  Complex operator + (Complex a)
+        &#123; 
+    return new Complex (real+a.real ,imaginary +a.imaginary );
 &#125;
 </code></pre>
-<p>在函数体_ try内，return语句将变量b的值暂存，然后跳转到_ finally块，_ finally块中若无return，则再返回到_ try块中返回暂存值；</p>
-<p>&nbsp;</p>
-<h1 id='不同类型计算'>不同类型计算</h1>
-<pre><code class='language-c++' lang='c++'>int main() &#123;
-    int m = 7, n = 4;
-    float a = 38.4, b = 6.4, x;
-    x = m/2 + n*a/b + 1/2;
-    printf(&quot;%f\n&quot;, x);  
-    return 0;
+<p>C#中：</p>
+<pre><code class='language-c#' lang='c#'>public static Complex operator + (Complex a)
+    &#123; 
+    return new Complex (real+a.real ,imaginary +a.imaginary );
 &#125;
 </code></pre>
-<details>
-    <summary>答案</summary>
-    27.000000
-</details>
-<blockquote><p>先是以各自类型进行计算，然后转为float</p>
-</blockquote>
+<p>只能使用public static</p>
 <p>&nbsp;</p>
-<h1 id='模板类'>模板类</h1>
-<blockquote><ul>
-<li>可用来创建动态增长和减小的数据结构</li>
-<li>它是类型无关的，因此具有很高的可复用性。 </li>
-<li>它在编译时而不是运行时检查数据类型，保证了类型安全</li>
-<li>它是平台无关的，可移植性 </li>
-<li>可用于基本数据类型</li>
+<h2 id='相等'>相等</h2>
+<blockquote><p>1.值相等——北京的山和上海的山都是山</p>
+<p>2.地址相对——北京的山是北京的山，上海的山是上海的山</p>
+<p>地址相对，肯定值相对；值相等，地址不一定相对</p>
+</blockquote>
+<p>引用类型代表地址，值类型代表遍历本身。</p>
+<p>C#中的指针已经不热衷于使用它了，所以在考虑地址相关的时候要让操作人员更加清晰。</p>
+<p><strong>C#中的相等</strong>：</p>
+<ul>
+<li><code>==</code>有的类型定义了，有的类型没有定义，程序员可以重载</li>
+<li><code>Equals</code>是<code>object</code>类的虚函数，被所有类继承</li>
 
 </ul>
-</blockquote>
+<pre><code class='language-c#' lang='c#'>public class C
+    &#123;
+        public int i;
+        public C(int pi)
+        &#123; this.i = pi; &#125;
+    &#125; 
+
+<p>public struct S<br>    &#123;<br>        public int i;<br>        public S(int pi)<br>        &#123; this.i &#x3D; pi; &#125;<br>    &#125; </p>
+<p>int i &#x3D; 1;<br>int j &#x3D; 1;<br>bool f &#x3D; (i &#x3D;&#x3D; j);&#x2F;&#x2F;true<br>f &#x3D; (i.Equals(j));&#x2F;&#x2F;ture<br>string m &#x3D; &quot;hello&quot;;<br>string n &#x3D; &quot;hello&quot;;<br>f &#x3D; (m &#x3D;&#x3D; n);&#x2F;&#x2F;true<br>f &#x3D; (m.Equals(n));&#x2F;&#x2F;true<br>object g &#x3D; m;<br>object h &#x3D; n;<br>f&#x3D;(g &#x3D;&#x3D; h);&#x2F;&#x2F;true<br>f&#x3D;(g.Equals(h));&#x2F;&#x2F;true<br>S s1&#x3D;new S(1);<br>S s2&#x3D;new S(1);<br>f&#x3D;(s1&#x3D;&#x3D;s2);&#x2F;&#x2F;不支持&#x3D;&#x3D;需要手工重载<br>f&#x3D;(s1.Equals(s2));&#x2F;&#x2F;true,值比较<br>C c1 &#x3D; new C(1);<br>C c2 &#x3D; new C(1);<br>f&#x3D;(c1&#x3D;&#x3D;c2);&#x2F;&#x2F;false，地址不同<br>f&#x3D;(c1.Equals(c2));&#x2F;&#x2F;false，默认用的object的Equals也是比较地址</p>
+<hr>
+<p>public static bool operator&#x3D;&#x3D;(S s1,S s2)&#123;<br>    return s1.i&#x3D;&#x3D;s2.i;<br>&#125;<br>public static bool operator!&#x3D;(S s1,S s2)&#123;<br>    return s1.i!&#x3D;s2.i;<br>&#125;&#x2F;&#x2F;编译器要求同时重载!&#x3D;</p>
+<p>public override bool Equals(object?obj)&#123;<br>    if(object.ReferenceEquals(this,obj))&#x2F;&#x2F;使用object的静态函数判断地址是否相同<br>        return true;<br>    else&#123;&#x2F;&#x2F;如果不同则比较值<br>        if(other&#x3D;&#x3D;null) return false;<br>        C?other&#x3D;obj as C;&#x2F;&#x2F;将obj类型变量转换成C类型<br>        if(other.i&#x3D;&#x3D;this.i) return true;<br>        else return false;<br>    &#125;<br>&#125;</p>
+<p>&#x2F;&#x2F;对于S，编译器会要求进行<br></code></pre></p>
 <p>&nbsp;</p>
-<h1 id='指针与数组与指针'>指针与数组与指针</h1>
-<blockquote><p>哪家企业这么写代码的？我避个雷</p>
+<p><strong>summary</strong></p>
+<ul>
+<li><code>==</code>对于值类型比较值，对于引用类型比较是否是用一个对象的引用</li>
+<li><code>Equals</code>总是比较值</li>
+<li><code>string</code>是引用类型，但是与值类型类似</li>
+
+</ul>
+<p>&nbsp;</p>
+<p>对于自定义class，按理说需要和C#默认的设置相同，但是可以通过这种方式将其改写。（需要同时改写==与!==）</p>
+<blockquote><p>出现警告CS0661——需要重写GetHashCode()函数</p>
+<p>是有关GetHashCode()</p>
+<p>一般情况下，哈希代码可以被所有对象获取，就是用过虚GetHashCode方法</p>
+<p>如果两个类型相同的对象表示相同的值，则哈希函数必须为两个对象返回相同的常数值，这样的话，hash值相同，对象不一定相等</p>
+<p>直接重写相等运算符，容易发生哈希冲突</p>
+<p>哈希冲突会导致寻找新地址，从而导致运行速度会变慢，性能降低</p>
+<p>如果能自己重写GetHashCode会更好</p>
 </blockquote>
-<p>下述程序的输出是<strong>__</strong>。</p>
-<pre><code class='language-c++' lang='c++'>#include&lt;stdio.h&gt;
-int main()&#123;
-    static char *s[] = &#123;&quot;black&quot;, &quot;white&quot;, &quot;pink&quot;, &quot;violet&quot;&#125;;
-    char **ptr[] = &#123;s+3, s+2, s+1, s&#125;, ***p;
-    p = ptr;
-    ++p;  
-    printf(&quot;%s&quot;, **p+1);
-    return 0;
-&#125;
+<pre><code class='language-c#' lang='c#'> public override int GetHashCode()
+            &#123;
+                return this.real.GetHashCode();
+            &#125;
 </code></pre>
-<p>你自己猜一下答案吧。</p>
-<p>&nbsp;</p>
+<blockquote><p>讲太快课件版本又不一样这里突然给我干懵逼了😓</p>
+</blockquote>
 <p>&nbsp;</p>
 </body>
 </html>
-
     </div>
 
     
@@ -313,13 +318,10 @@ int main()&#123;
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/08/10/C-%E5%9F%BA%E7%A1%80%E5%94%90%E9%A2%98%E5%AD%A6%E4%B9%A08-9/" rel="prev" title="C++基础唐题学习8.9">
-      <i class="fa fa-chevron-left"></i> C++基础唐题学习8.9
+    <a href="/2023/11/04/%E5%87%A0%E4%BD%95%E5%AD%A6%E5%85%B6%E4%BA%8C/" rel="prev" title="几何学其二">
+      <i class="fa fa-chevron-left"></i> 几何学其二
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/08/10/C-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" rel="next" title="C++异常处理">
-      C++异常处理 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -379,7 +381,7 @@ int main()&#123;
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#c%E5%A4%84%E7%90%86%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">C++处理异常机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%9E%8B%E8%AE%A1%E7%AE%97"><span class="nav-number">2.</span> <span class="nav-text">不同类型计算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">模板类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84%E4%B8%8E%E6%8C%87%E9%92%88"><span class="nav-number">4.</span> <span class="nav-text">指针与数组与指针</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD"><span class="nav-number">1.</span> <span class="nav-text">运算符重载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#c%E4%B8%8Ec"><span class="nav-number">1.1.</span> <span class="nav-text">C++与C#</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E7%AD%89"><span class="nav-number">1.2.</span> <span class="nav-text">相等</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -548,7 +550,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog-comment',
       owner       : 'mikasa1x',
       admin       : ['mikasa1x'],
-      id          : 'c3fd528fb4c579903e06d7a90890e228',
+      id          : 'faf3ec10e6d4319187dde01093c66130',
         language: '',
       distractionFreeMode: true
     });
