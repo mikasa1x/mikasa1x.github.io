@@ -21,16 +21,16 @@
   </script>
 
   <meta property="og:type" content="article">
-<meta property="og:title" content="腾讯课堂——游戏设计本质与技巧">
-<meta property="og:url" content="http://example.com/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9C%AC%E8%B4%A8%E4%B8%8E%E6%8A%80%E5%B7%A7/index.html">
+<meta property="og:title" content="C++智能指针">
+<meta property="og:url" content="http://example.com/2023/11/07/C-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/index.html">
 <meta property="og:site_name" content="Coding中。。。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-08-07T17:08:23.000Z">
-<meta property="article:modified_time" content="2023-08-07T17:11:02.526Z">
+<meta property="article:published_time" content="2023-11-07T14:06:37.000Z">
+<meta property="article:modified_time" content="2023-11-07T14:07:10.382Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9C%AC%E8%B4%A8%E4%B8%8E%E6%8A%80%E5%B7%A7/">
+<link rel="canonical" href="http://example.com/2023/11/07/C-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">
 
 
 <script id="page-configurations">
@@ -43,7 +43,7 @@
   };
 </script>
 
-  <title>腾讯课堂——游戏设计本质与技巧 | Coding中。。。</title>
+  <title>C++智能指针 | Coding中。。。</title>
   
 
 
@@ -164,7 +164,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9C%AC%E8%B4%A8%E4%B8%8E%E6%8A%80%E5%B7%A7/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/07/C-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/3333.jpg">
@@ -177,7 +177,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          腾讯课堂——游戏设计本质与技巧
+          C++智能指针
         </h1>
 
         <div class="post-meta">
@@ -188,7 +188,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-08-08 01:08:23 / 修改时间：01:11:02" itemprop="dateCreated datePublished" datetime="2023-08-08T01:08:23+08:00">2023-08-08</time>
+              <time title="创建时间：2023-11-07 22:06:37 / 修改时间：22:07:10" itemprop="dateCreated datePublished" datetime="2023-11-07T22:06:37+08:00">2023-11-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -196,7 +196,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9D%82%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">游戏设计杂谈</span></a>
+                  <a href="/categories/%E4%BB%8EC-%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C++开始的C#</span></a>
                 </span>
             </span>
 
@@ -206,14 +206,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
+              <span>2.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -230,92 +230,127 @@
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 <span id="more"></span>
-<title>游戏本质玩法设计</title>
+<title>C++智能指针</title>
 </head>
-<body><h1 id='游戏本质玩法设计'>游戏本质玩法设计</h1>
-<p><strong>游戏玩法定义</strong>：</p>
-<p>是一种基于物质满足之上的，在一组特点时间、空间范围内<mark>遵循某种<strong>特定规则</strong>的，<strong>追求精神富足</strong>的行为活动</mark></p>
-<p><strong>游戏规则定义</strong>：</p>
-<p>游戏是规则的集合，在电脑介入之后，规则在规模大幅扩展的同时获得了丰富的传达方式，使玩家能够进入更复杂的游戏</p>
-<blockquote><p>个人想法：认为电脑的介入之后给游戏最大的利好，处理主导游戏规则运行计算以外，给予了游戏丰富的随机性，不确定的前进方向使玩家产生了更大的兴趣</p>
+<body><h1 id='raii'>RAII</h1>
+<blockquote><p>资源获取初始化——利用对象的生命周期来管理资源</p>
 </blockquote>
-<p><strong>游戏设计师是观察者，发现者，探索者</strong></p>
-<blockquote><p>Jonathan Blow：<mark>游戏设计可以不是一种发明创造，而是一种发现</mark>；游戏设计可以不是某个才华横溢的设计师在用代码贯彻他脑中惊世骇俗的点子，而是一个善于倾听的设计师通过代码向宇宙发问，再将饱含宇宙真相自身之美感的回答精心呈现给玩家。宇宙才是一切的创造者，设计师只不过比普通人更擅长发现有意思的事物</p>
-</blockquote>
+<p>在对象构造时获取资源，在对象析构时释放资源，这样可以确保资源的正确获取和释放，避免资源泄漏的问题。</p>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1 id='叙事与玩法的关系'>叙事与玩法的关系</h1>
-<p>游戏美学赋予给gameplay之后能给予游戏质的提升，尽管产品大差不差，但游戏美学素养的提升能给用户一个完全不同的体验，<mark>所以说<strong>叙事和玩法式紧密结合的，不可分割的</strong></mark></p>
+<p>智能指针的实现，就是RAII概念的典型，关键词：</p>
 <ul>
-<li>德式桌游VS美式桌游</li>
+<li>引用计数</li>
+<li>所有权转移</li>
+<li>析构函数</li>
+<li>自定义删除器</li>
 
 </ul>
-<blockquote><p>前者注重机制游玩，后者注重剧情代入</p>
-</blockquote>
+<p>&nbsp;</p>
+<p>RAII的其他应用场景：</p>
 <ul>
-<li>一切源于创意</li>
+<li>文件句柄</li>
+<li>数据库连接</li>
+<li>...</li>
 
 </ul>
-<blockquote><p>从机制到故事</p>
+<p>&nbsp;</p>
+<h1 id='现代c智能指针'>现代<strong>C++智能指针</strong></h1>
+<blockquote><p>实现方式是类模板——定义在<memory>头文件中</p>
 </blockquote>
-<p><strong>创造玩家故事五要素</strong>：身份、动机、挑战、权衡、结果</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1 id='设计方法'>设计方法</h1>
-<p><strong>游戏设计理论介绍与索引</strong></p>
+<blockquote><p>你就问呗</p>
+</blockquote>
+<p>智能指针提供了自动的内存管理和资源释放机制，可以避免手动释放内存或资源的错误和遗漏。通过将原始指针传递给智能指针，我们可以确保在智能指针超出作用域时，它会负责自动释放内存或释放资源。</p>
 <p>&nbsp;</p>
 <ul>
-<li>KRS设计方法</li>
+<li><strong>std::unique_ptr</strong></li>
 
 </ul>
-<p><strong>Know-ledge概念</strong>：游戏内的一些基本概念、游戏中出现的特定要素、核心体验相关信息</p>
-<p><strong>Rule规则</strong>：游戏世界运行的基本规则、模式/胜负条件、3C（角色镜头和控制）/关键手段规则</p>
-<p><strong>Skill技巧</strong>：物理技巧（玩技术）、心智技巧（玩脑子）</p>
+<p><code>std::unique_ptr&lt;int&gt; uptr = std::make_unique&lt;int&gt;(200);</code></p>
+<p>这样子定义出来的指针uptr，当程序运行离开其作用域时会自动释放内存。</p>
 <p>&nbsp;</p>
-<ul>
-<li>MDA设计理论</li>
+<p>std::unique_ptr 类型的对象只能通过移动语义进行转移，而不能进行复制操作。</p>
+<p>例如：</p>
+<pre><code class='language-c++' lang='c++'>    std::unique_ptr&lt;int&gt; uptr = std::make_unique&lt;int&gt;(200);
+    std::unique_ptr&lt;int&gt; uptr1 = uptr; //false
 
-</ul>
-<p><strong>Mechanics</strong>：机制，游戏基础规则</p>
-<p><strong>Dynamics</strong>：动态，游戏运行时会根据玩家输入而改变的状态</p>
-<p><strong>Aesthetics</strong>：审美，游戏带来的整体感官上的体验，不只是美术</p>
-<blockquote><p><strong>Designer</strong>--Mechanics-&gt;Dynamics-&gt;Aesthetics--<strong>Player</strong></p>
-<p><strong>Player</strong>--Aesthetics-&gt;Dynamics-&gt;Mechanics--<strong>Designer</strong></p>
+<pre><code>std::unique_ptr&amp;lt;int&amp;gt; uptr2 = std::move(uptr);
+</code></pre>
+<p></code></pre></p>
+<blockquote><p>std::unique_ptr是独占所有权的，也就是说同一时间内不允许其他std::unique_ptr来指向同一目标</p>
 </blockquote>
 <p>&nbsp;</p>
+<p><strong>std::shared_ptr</strong></p>
+<p><code>std::shared_ptr&lt;int&gt; sptr = std::make_shared&lt;int&gt;(200);</code></p>
+<p>对资源做引用计数，例如现在的情况就是1</p>
+<p><code>sptr.use_count()==1</code></p>
+<p>再例如：</p>
+<p><code>std::shared_ptr&lt;int&gt; sptr2 = sptr1;</code></p>
+<p>此时：</p>
+<p><code>sptr.use_count()==2</code></p>
+<p>当引用计数为0时，内存被自动释放——开销比unique_ptr大</p>
+<p>&nbsp;</p>
+<p><strong>控制块</strong></p>
+<p>控制块用于储存引用计数等信息，与对象分开存储，但是也是动态分配的，所以和对象一样存储在堆区。所以shared_ptr的指针有两个，一个指向对象，一个指向控制块，控制块再含有指向对象的指针。</p>
+<p>这样的结构使得实现了以下功能：</p>
 <ul>
-<li>OODA理论介绍</li>
+<li>共享拥有</li>
+<li>控制块访问——比如 deleter 是保存在控制信息（控制块）中的</li>
 
 </ul>
-<p>loop:<strong>行动ACT--观察OBSERVE--确认ORIENT--决策DECIDE--行动ACT</strong></p>
-<blockquote><p>例如PUBG游戏观察敌人然后决策循环</p>
+<blockquote><p>虽然控制块实际上和对象是分开的，但实际理解中最好和对象联系在一起，比如说引用计数，实际上就是对象“被引用”的计数，虽然是指针创建的但其实是针对对象来说的，这样子理解可能更好一点</p>
 </blockquote>
 <p>&nbsp;</p>
-<ul>
-<li>SCAMPER创意方法</li>
-
-</ul>
-<blockquote><ul>
-<li>S=substitute=替代</li>
-<li>C=combine=组合</li>
-<li>A=adapt=改进</li>
-<li>M=modify=修正/扩大</li>
-<li>P=put to other users=用于其他方面</li>
-<li>E=eliminate=减少/消除</li>
-<li>R=reverse=逆转/重新整理</li>
-
-</ul>
+<p><strong>std::weak_ptr</strong></p>
+<blockquote><p>shared_ptr的观察者，与其一起使用</p>
 </blockquote>
-<p>e.g.马里奥网球，例如在打球的基础上增加角色技能等</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1 id='其他'>其他</h1>
-<ul>
-<li>游戏完成度通过迭代提升，并不是一诞生就是一个完整游戏</li>
-<li>游戏策划、游戏设计师并不一定是十分高尚的职业，有很多新的创意就是由mod社区诞生或者就是由类mod产生形式而来，例如一种射击游戏沿用的爆破模式做底，然后进行“类mod”创新</li>
-<li>第三部分就是老师的《龙焰酒馆》创造历程与设计方法分析</li>
+<p>首先试想一下这样的情况：</p>
+<pre><code class='language-c++' lang='c++'>class ObjectB;
 
-</ul>
+<p>class ObjectA &#123;<br>public:<br>    std::shared_ptr&lt;ObjectB&gt; bPtr;<br>&#125;;</p>
+<p>class ObjectB &#123;<br>public:<br>    std::shared_ptr&lt;ObjectA&gt; aPtr;<br>&#125;;</p>
+<p>int main() &#123;<br>    std::shared_ptr&lt;ObjectA&gt; a &#x3D; std::make_shared&lt;ObjectA&gt;();<br>    std::shared_ptr&lt;ObjectB&gt; b &#x3D; std::make_shared&lt;ObjectB&gt;();</p>
+<pre><code>a-&amp;gt;bPtr = b;
+b-&amp;gt;aPtr = a;
+
+return 0;
+</code></pre>
+<p>}<br></code></pre></p>
+<p>所示，每个对象一直持有对方类型的 <code>std::shared_ptr</code></p>
+<p>在main函数中，初始化指针a和b并指向初始化的对象A和对象B，此时分别引用计数为1，后来分别调用两者的成员指针指向对方，这个时候A和B已经被两个shared_ptr指上了，所以计数为2；return 0退出作业域，指针a和指针b的析构函数触发，（注意这个时候析构函数做的两件事——1.销毁自己2.销毁引用计数为0的对象），此时a和b销毁所有引用计数都减一，但A和B自身还相互被对象指着，所以不会被销毁。</p>
+<blockquote><p>永动机出现了？</p>
+</blockquote>
+<p>这种情况发生时，我们只能强行手动将指针指向拨开，但是太麻烦了，所以。。。</p>
+<p><code>weak_ptr</code>正是这么一个解决这样的情况的指针，作为<strong>弱引用</strong>，他的指向不会使得对象引用计数加一：</p>
+<pre><code class='language-c++' lang='c++'>class ObjectA &#123;
+public:
+    std::weak_ptr&lt;ObjectB&gt; bPtr;
+&#125;;
+</code></pre>
+<p>这样的化，对象B的引用计数不会增加到2，于是析构的时候正常销毁，连带着A也销毁了。</p>
+<p>&nbsp;</p>
+<p>当然这只是weak_ptr的一种功能，weak_ptr的本质功能是当对象的“观察者”。</p>
+<p>weak_ptr本身不会对对象造成什么影响，但在需要的时候会转换为“shared_ptr”来实现对对象的操控，这样也算行了作为指针的“本分”。</p>
+<blockquote><p>expired() 判断所指向的原生指针是否被释放，如果被释放了返回 true，否则返回 false；</p>
+<p>lock() 返回 shared_ptr，如果原生指针没有被释放，则返回一个非空的 shared_ptr，否则返回一个空的 shared_ptr</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>智能指针工厂函数</strong></p>
+<p><code>std::make_shared</code>——等价于</p>
+<p>auto son_ = new Son(); </p>
+<p>shared_ptr<Son> son(son_); </p>
+<p>为什么不要用new来创建？比如shared_ptr<Son> son = new Son();</p>
+<p>因为new会动态分配一次内存，shared_ptr又会动态分配一次内存用于保存控制块等信息，分开两次影响性能，此外使用new还会不由自主地使用delete（？），这个时候两次删除同一块内存是很危险的。换句话说人家两对就是配套用的，别拆散。</p>
+<p>类似的有<code>std::make_unique</code>、<code>std::allocate_shared</code></p>
+<p>这样可以延申出，<strong>智能指针只能管理堆对象，不能管理栈对象</strong></p>
+<p>其他的别人的博客里说了很多，但我感觉其实只要理解智能指针会自动释放内存这一点就可以了，可以从这一点延申出很多使用的技巧。</p>
+<p>&nbsp;</p>
+<h1 id='附加多线程与智能指针'>附加：多线程与智能指针</h1>
+<p>试想一下多线程过程中子线程引用外部对象，结果外部对象销毁的时候，子对象还在使用外部对象的野指针。这个时候用shared_ptr来管理这个外部对象，用weak_ptr将对象传给子进程，这样当对象消失的时候，weak_ptr自动置空，而不是变成一个野指针指向一块未知的内存。</p>
+<p>&nbsp;</p>
+<p>//todo：源码剖析——额别期待了我自己都不信我以后会补</p>
+<p>&nbsp;</p>
+<p><a target="_blank" rel="noopener" href='https://aijishu.com/a/1060000000286819#item-2-2'>C++ 智能指针最佳实践&amp;源码分析 - 极术社区 - 连接开发者与智能计算生态 (aijishu.com)</a></p>
+<p>&nbsp;</p>
 </body>
 </html>
     </div>
@@ -332,13 +367,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B5%85%E8%BF%B0%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92/" rel="prev" title="腾讯课堂——浅述游戏策划">
-      <i class="fa fa-chevron-left"></i> 腾讯课堂——浅述游戏策划
+    <a href="/2023/11/06/C-%E9%9B%86%E5%90%88%E4%B8%8E%E6%B3%9B%E5%9E%8B/" rel="prev" title="C#集合与泛型">
+      <i class="fa fa-chevron-left"></i> C#集合与泛型
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/08/09/KMP%E7%AE%97%E6%B3%95/" rel="next" title="KMP算法">
-      KMP算法 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -398,7 +430,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E6%9C%AC%E8%B4%A8%E7%8E%A9%E6%B3%95%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.</span> <span class="nav-text">游戏本质玩法设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%99%E4%BA%8B%E4%B8%8E%E7%8E%A9%E6%B3%95%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">2.</span> <span class="nav-text">叙事与玩法的关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">设计方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#raii"><span class="nav-number">1.</span> <span class="nav-text">RAII</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%B0%E4%BB%A3c%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="nav-number">2.</span> <span class="nav-text">现代C++智能指针</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%84%E5%8A%A0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8E%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="nav-number">3.</span> <span class="nav-text">附加：多线程与智能指针</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -567,7 +599,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog-comment',
       owner       : 'mikasa1x',
       admin       : ['mikasa1x'],
-      id          : '9d288a5ad1a39c7b9d7d579cf9573c02',
+      id          : 'cb4141804cd8d3baabcb3390c520c8a5',
         language: '',
       distractionFreeMode: true
     });
