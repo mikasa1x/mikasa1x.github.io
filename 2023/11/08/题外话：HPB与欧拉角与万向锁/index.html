@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="题外话：HPB与欧拉角与万向锁">
+<meta property="og:url" content="http://example.com/2023/11/08/%E9%A2%98%E5%A4%96%E8%AF%9D%EF%BC%9AHPB%E4%B8%8E%E6%AC%A7%E6%8B%89%E8%A7%92%E4%B8%8E%E4%B8%87%E5%90%91%E9%94%81/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/08/pi1q1w8.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/08/pi1LmAU.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/08/pi1LQ39.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/08/pi1LlcR.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/08/pi1LQ39.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/08/pi1Lf3j.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/08/pi1OnqP.jpg">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/08/pi1OnqP.jpg">
+<meta property="article:published_time" content="2023-11-08T15:58:20.000Z">
+<meta property="article:modified_time" content="2023-11-08T15:58:50.752Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://z1.ax1x.com/2023/11/08/pi1q1w8.png">
+
+<link rel="canonical" href="http://example.com/2023/11/08/%E9%A2%98%E5%A4%96%E8%AF%9D%EF%BC%9AHPB%E4%B8%8E%E6%AC%A7%E6%8B%89%E8%A7%92%E4%B8%8E%E4%B8%87%E5%90%91%E9%94%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>题外话：HPB与欧拉角与万向锁 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/08/%E9%A2%98%E5%A4%96%E8%AF%9D%EF%BC%9AHPB%E4%B8%8E%E6%AC%A7%E6%8B%89%E8%A7%92%E4%B8%8E%E4%B8%87%E5%90%91%E9%94%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          题外话：HPB与欧拉角与万向锁
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-08 23:58:20 / 修改时间：23:58:50" itemprop="dateCreated datePublished" datetime="2023-11-08T23:58:20+08:00">2023-11-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">计算机图形学</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>题外话：HPB与欧拉角与万向锁</title>
+</head>
+<body><h1 id='题外话hpb与欧拉角与万向锁'>题外话：HPB与欧拉角与万向锁</h1>
+<blockquote><p>如果让你去定义一个物体在世界中的朝向信息，你会如何去定义？</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='邮点问题'>邮点问题</h2>
+<p>万向锁本质并不难，难的是如何解释他，特别是现在众多博客，描述重点并不清晰，亦或者是过于书面化、抽象化，导致读者理解起来十分困难。</p>
+<p>很多人在听到这个名词的时候可能还没有遇到和万向锁相关的旋转问题，那么我们先从以下场景开始入手：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pi1q1w8'><img src="https://z1.ax1x.com/2023/11/08/pi1q1w8.png" referrerpolicy="no-referrer" alt="pi1q1w8.png"></a></p>
+<p>打开unity添加长条物体，并保证初始的xyz轴角度都为0，现在的视角特地调整到比较好理解的角度：<strong>红色为x轴，绿色为y轴，蓝色为z轴</strong>——于此同时这个“物体坐标轴”是和世界坐标轴是相对应的。</p>
+<p>我们先初始定义两个概念</p>
+<ul>
+<li>静态坐标系——可以对应上世界坐标系，也就是物体的改变影响坐标系本身，物体的变换严格遵守这个坐标系的参照。</li>
+<li>动态坐标系——坐标系与物体牢牢“焊死”，方向随着物体同步改变。</li>
+
+</ul>
+<p>欧拉角描述的就是动态坐标系的旋转。</p>
+<blockquote><p>欧拉角：用于计算空间中刚体的旋转位置，目的是改变刚体的朝向。<font color=red><strong>欧拉角的大小描述的是结果而不是过程</strong></font>——这句话非常重要，在之后的理解中帮助很大</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pi1LmAU'><img src="https://z1.ax1x.com/2023/11/08/pi1LmAU.png" referrerpolicy="no-referrer" alt="pi1LmAU.png"></a></p>
+<p>这个神奇的“旋转”属性乍一看似乎很容易理解——”不就是绕xyz轴旋转“</p>
+<p>但只要读者看过我前文的两个概念，就难免会产生一个新的疑问——“这个属性到底是描述的静态坐标系，还是动态坐标系？”</p>
+<p>我们试着先将x改为90度，发现物体正常绕x轴旋转了90度，从这里看似乎还分辨不出坐标系：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pi1LQ39'><img src="https://z1.ax1x.com/2023/11/08/pi1LQ39.png" referrerpolicy="no-referrer" alt="pi1LQ39.png"></a></p>
+<p>然后再将y改为90度，红色的坐标轴（x轴）对准了屏幕：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pi1LlcR'><img src="https://z1.ax1x.com/2023/11/08/pi1LlcR.png" referrerpolicy="no-referrer" alt="pi1LlcR.png"></a></p>
+<p>对于物体身上的静态坐标轴，物体是绕着“z轴”转的，也就是说这个旋转似乎是以世界坐标轴为依据。</p>
+<p>然后我们又将z改为90，匪夷所思的事情发生了，物体按照原来改变y的值的路径重新转了回去。</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pi1LQ39'><img src="https://z1.ax1x.com/2023/11/08/pi1LQ39.png" referrerpolicy="no-referrer" alt="pi1LQ39.png"></a></p>
+<blockquote><p>虽然图是复制过来的但事实就是如此，不信读者可以自行上号unity验证</p>
+</blockquote>
+<p>看来事情远远不止这么简单，，，，，，</p>
+<p>&nbsp;</p>
+<hr />
+<p><strong>half-time</strong></p>
+<p>Q：既然属性的机制如此复杂麻烦，那为何不直接使用静态坐标系来当旋转基准呢？</p>
+<p>A：可以从最肤浅的角度来理解，直接使用世界坐标系确实是一个简单的方法，在unity的实际操作中确实有很多直接运用世界坐标系对物体直接进行旋转的手法，但设想一下，假如我们要使用角度来描述飞机运动，那么此时此刻的角度描述是否直接通过自身坐标系会更好呢？——其实不是，我口嗨的</p>
+<hr />
+<p>&nbsp;</p>
+<h2 id='邮点思考'>邮点思考</h2>
+<p>首先我们可以确定的是，这个<strong>xyz轴属性本身只是一个物体在空间中的信息，它并不代表物体的实际旋转，或者说没有直接关联</strong>。</p>
+<p>比如在场景中直接启用旋转工具，手动控制物体旋转，会发现偶尔会出现调整一条坐标轴却三个属性都变换的情况。</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pi1Lf3j'><img src="https://z1.ax1x.com/2023/11/08/pi1Lf3j.png" referrerpolicy="no-referrer" alt="pi1Lf3j.png"></a></p>
+<p>&nbsp;</p>
+<p>读者应该对这样一个东西很熟悉：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pi1OnqP'><img src="https://z1.ax1x.com/2023/11/08/pi1OnqP.jpg" referrerpolicy="no-referrer" alt="pi1OnqP.jpg"></a></p>
+<blockquote><p>万向地球仪</p>
+</blockquote>
+<p>unity的Transform中的旋转的具体值，其实就是欧拉角的值，如果你还是对欧拉角感到陌生，那么可以直接将它理解成这样一个地球仪。</p>
+<p>这样的地球仪有一个很大的特点，就是旋转轴是<strong>一层套一层</strong>的，可以看见在旋转最外层的旋转轴时，里面所有的结构都会随之旋转。</p>
+<p>这个时候应该对欧拉角有一个初始的印象了，unity中的欧拉角轴，就是按照这种形式来旋转的，而且<strong>y轴在最外层，x轴其次，z轴在最里层</strong>。</p>
+<p>为什么要这样设置呢，其实笔者在各大网站上寻找观点的时候，并没有找到符合笔者心理预期的“答案”。</p>
+<p>于是笔者索性简单地猜测了一下：<strong>这样的设置缘由，应该只是为了响应计算机对于图形旋转的处理</strong>。</p>
+<p>这句话也比较抽象，如果读者对计算机图形学还没有了解，那可以先看：</p>
+<p><a target="_blank" rel="noopener" href='https://jiuriri.com/2023/08/09/空间变换/'>空间变换 | Coding中。。。 (jiuriri.com)</a></p>
+<p><a target="_blank" rel="noopener" href='https://jiuriri.com/2023/09/19/光栅化与抗锯齿浅入/'>光栅化与抗锯齿浅入 | Coding中。。。 (jiuriri.com)</a></p>
+<p>以unity为例，计算机在处理物体旋转的时候，都是通过将物体上的某点的位置信息做成矩阵，然后再通过这个矩阵与其他旋转矩阵<strong>相乘</strong>，最后得出的新矩阵作为旋转后信息。</p>
+<p>从<a target="_blank" rel="noopener" href='https://www.bilibili.com/video/BV1X7411F744/?spm_id_from=333.337.search-card.all.click&amp;vd_source=1ba889c71907764c98feb73f3127500a'>GAMES101-现代计算机图形学入门-闫令琪<em>哔哩哔哩</em>bilibili</a>得知，计算机在进行实际计算时，旋转矩阵是理解成三个轴分别进行旋转矩阵相乘，再组合成一个旋转矩阵来进行最终相乘。</p>
+<p>写在原文章中的：</p>
+<p>Rxyz(a,b,c) = Rx(a)Ry(b)Rz(c)</p>
+<blockquote><p>但是不用在乎这个式子的顺序，其实只是相表达旋转矩阵是由三个轴的旋转矩阵一步一步相乘得来的</p>
+</blockquote>
+<p>我们还可以从中得知<strong>静态坐标系各个变换顺序的旋转矩阵是左乘的，动态坐标系各个变换顺序的旋转矩阵是右乘的</strong>。</p>
+<blockquote><p>这里就不详细讲了</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>然后我们再试想这样一种情况：早上八点早起下床，那么下床这个动作可以用两种方法来实现。</p>
+<ul>
+<li>一种是先坐起来，然后”向左转“下床——x轴-90度，z轴-90度</li>
+<li>一种是先”向左翻“，然后身体侧着坐起来下床——y轴-90度，z轴-90度</li>
+
+</ul>
+<blockquote><p>试想以头向上为y轴，面朝向为负z轴的左手坐标系</p>
+</blockquote>
+<p>最终得出的结果都是一样的，但过程其实不一样。</p>
+<p>&nbsp;</p>
+<p>从上我们可以得出什么信息呢？</p>
+<ul>
+<li>计算机需要一步一步进行计算</li>
+<li>计算机每一步进行计算后，整个坐标系都会根据计算结果发生改变</li>
+
+</ul>
+<p>这是什么东西？没错，就是他：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pi1OnqP'><img src="https://z1.ax1x.com/2023/11/08/pi1OnqP.jpg" referrerpolicy="no-referrer" alt="pi1OnqP.jpg"></a></p>
+<p>&nbsp;</p>
+<hr />
+<p><strong>half-time</strong></p>
+<p>Q：为什么三个轴不一起旋转呢？</p>
+<p>A：有两个原因：1、这个已经解释过了，计算机的计算是一步一步来的；2、这个也许更接近本质，我们都知道物体旋转的时候轴会发生变动，那么同时旋转轴最终旋转的结果就不是我们设想的那样了——如果有模拟飞行游戏，你可以试试命令飞机一直“向右下飞”，最终的结果是飞机在天上螺旋式旋转！</p>
+<hr />
+<p>&nbsp;</p>
+<h2 id='邮点启发'>邮点启发</h2>
+<p>假设绕y轴旋转为heading，绕x轴旋转为pitch，绕z轴旋转为bank（有点类似<a target="_blank" rel="noopener" href='https://jiuriri.com/2023/08/09/空间变换/'>空间变换 | Coding中。。。 (jiuriri.com)</a>中飞机旋转模型），则先heading45°再pitch90°等价于先pitch90°再bank45°。</p>
+<p>再联想我们之前说过的重点</p>
+<blockquote><p>欧拉角的大小描述的是结果而不是过程</p>
+</blockquote>
+<p>经过一次又一次的强调，你是不是已经初步开始忽视欧拉角的值了呢，没错，欧拉角只是用来描述图形旋转完成后的终极朝向，而不是在描述一个图形按照什么什么方式进行旋转。简单地说，<strong>一种旋转情况可能能解出两组甚至多组欧拉角解</strong>。</p>
+<p>而万向锁是什么，想象一下上面那个地球仪，其实图片所示的情况就是万向锁的情况，如果我们将地球仪沿最外层旋转，和将最内层的地球进行旋转，那么得出的结果都是”水平地旋转地球“。</p>
+<p>在unity中将一个默认的物体x轴欧拉角旋转90度，那么调整y轴欧拉角和调整z轴欧拉角得出的结果将是一样的，这就是万向锁——他将一个方向的维度给丢失了。</p>
+<blockquote><p>为了保证任意方位都只有独一无二的表示，Unity引擎限制了角度范围，即沿x轴旋转限制在 -90 ~ 90 之间，沿 y 与 z 轴旋转限制在 0 ~ 360 之间。</p>
+</blockquote>
+<p>欧拉角带给我们什么？它可以只使用三个数，就能够表示物体在空间中的旋转情况。缺点是什么呢，我们在旋转的过程中，再次进行欧拉角的调整往往不会向着我们预想的情况进行，更何况还有<strong>万向锁</strong>的情况发生。</p>
+<p>&nbsp;</p>
+<p><strong>欧拉角的工程应用</strong>：飞行器姿态控制、量子力学、刚体坐标系等......</p>
+<p>&nbsp;</p>
+<h2 id='邮点结论'>邮点结论</h2>
+<p>看来我们要放弃通过直接变动这个属性来实现物体旋转的想法了😦！</p>
+<p>比如说，如果要在代码中描述物体旋转，我们也许使用以下的方式更好些：</p>
+<ul>
+<li>使用四元数——可见<a target="_blank" rel="noopener" href='https://blog.csdn.net/xiaoyaoACi/article/details/126744414?spm=1001.2101.3001.6650.1&amp;utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-1-126744414-blog-115901638.235^v38^pc_relevant_yljh&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-1-126744414-blog-115901638.235^v38^pc_relevant_yljh&amp;utm_relevant_index=2'>【精选】【Unity】Unity 欧拉角、四元数、万向节死锁、四元数转轴角-CSDN博客</a></li>
+
+</ul>
+<ul>
+<li>使用旋转矩阵——可见<a target="_blank" rel="noopener" href='https://jiuriri.com/2023/08/09/空间变换/'>空间变换 | Coding中。。。 (jiuriri.com)</a></li>
+
+</ul>
+<p>如果要避免万向锁，我们也可以尝试这样：</p>
+<ul>
+<li>限制旋转角度——这个unity默认做到了</li>
+<li>改变旋转顺序</li>
+
+</ul>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/11/07/C-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" rel="prev" title="C++智能指针">
+      <i class="fa fa-chevron-left"></i> C++智能指针
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A2%98%E5%A4%96%E8%AF%9Dhpb%E4%B8%8E%E6%AC%A7%E6%8B%89%E8%A7%92%E4%B8%8E%E4%B8%87%E5%90%91%E9%94%81"><span class="nav-number">1.</span> <span class="nav-text">题外话：HPB与欧拉角与万向锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%82%AE%E7%82%B9%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">邮点问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%82%AE%E7%82%B9%E6%80%9D%E8%80%83"><span class="nav-number">1.2.</span> <span class="nav-text">邮点思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%82%AE%E7%82%B9%E5%90%AF%E5%8F%91"><span class="nav-number">1.3.</span> <span class="nav-text">邮点启发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%82%AE%E7%82%B9%E7%BB%93%E8%AE%BA"><span class="nav-number">1.4.</span> <span class="nav-text">邮点结论</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/3333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/08/%E9%A2%98%E5%A4%96%E8%AF%9D%EF%BC%9AHPB%E4%B8%8E%E6%AC%A7%E6%8B%89%E8%A7%92%E4%B8%8E%E4%B8%87%E5%90%91%E9%94%81/" title="2023&#x2F;11&#x2F;08&#x2F;题外话：HPB与欧拉角与万向锁&#x2F;">题外话：HPB与欧拉角与万向锁</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/07/C-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/" title="2023&#x2F;11&#x2F;07&#x2F;C-智能指针&#x2F;">C++智能指针</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/06/C-%E9%9B%86%E5%90%88%E4%B8%8E%E6%B3%9B%E5%9E%8B/" title="2023&#x2F;11&#x2F;06&#x2F;C-集合与泛型&#x2F;">C#集合与泛型</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/06/C-%E6%93%8D%E4%BD%9C%E7%AC%A6%E9%87%8D%E8%BD%BD/" title="2023&#x2F;11&#x2F;06&#x2F;C-操作符重载&#x2F;">C#操作符重载</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/04/%E5%87%A0%E4%BD%95%E5%AD%A6%E5%85%B6%E4%BA%8C/" title="2023&#x2F;11&#x2F;04&#x2F;几何学其二&#x2F;">几何学其二</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/02/Shader%E5%90%9B%E3%81%AE%E5%88%9D%E4%B8%8A%E6%89%8B/" title="2023&#x2F;11&#x2F;02&#x2F;Shader君の初上手&#x2F;">Unity Shader君の初上手</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/31/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/" title="2023&#x2F;10&#x2F;31&#x2F;面向对象设计原则&#x2F;">面向对象设计原则</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/27/C-%E5%A7%94%E6%89%98%E4%B8%8E%E4%BA%8B%E4%BB%B6/" title="2023&#x2F;10&#x2F;27&#x2F;C-委托与事件&#x2F;">C#委托与事件</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/26/Unity%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="2023&#x2F;10&#x2F;26&#x2F;Unity游戏设计模式&#x2F;">Unity游戏设计模式</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/10/24/UGUI%E8%87%AA%E9%80%82%E5%BA%94%E4%B8%8E%E4%BC%98%E5%8C%96%E4%B8%8E%E5%85%B6%E4%BB%96%E4%BC%98%E5%8C%96/" title="2023&#x2F;10&#x2F;24&#x2F;UGUI自适应与优化与其他优化&#x2F;">UGUI自适应与优化与其他优化</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : 'ac49c5b20214c8dd9c9191ceb4401874',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
