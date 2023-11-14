@@ -20,18 +20,16 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="介质访问控制子层  介质访问控制子层 确定多路访问信道下一个使用者的协议，属于数据链路层底部  &amp;nbsp; 静态信道分配 这种方法其实就是多路复用技术（FDM），试想一下多个电话用户，但只有一条通话信道，那么FDM的做法就是将其频谱直接平均分为N份（N为用户数量）。当然这是一个很理想的状态，比如说实时通话的人远远少于N，带宽的浪费是难以想象的。 &amp;nbsp; 动态信道分配假设 关键假设">
-<meta property="og:type" content="article">
+  <meta property="og:type" content="article">
 <meta property="og:title" content="介质访问控制子层">
 <meta property="og:url" content="http://example.com/2023/11/14/%E4%BB%8B%E8%B4%A8%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%AD%90%E5%B1%82/index.html">
 <meta property="og:site_name" content="Coding中。。。">
-<meta property="og:description" content="介质访问控制子层  介质访问控制子层 确定多路访问信道下一个使用者的协议，属于数据链路层底部  &amp;nbsp; 静态信道分配 这种方法其实就是多路复用技术（FDM），试想一下多个电话用户，但只有一条通话信道，那么FDM的做法就是将其频谱直接平均分为N份（N为用户数量）。当然这是一个很理想的状态，比如说实时通话的人远远少于N，带宽的浪费是难以想象的。 &amp;nbsp; 动态信道分配假设 关键假设">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://z1.ax1x.com/2023/11/13/piJlCLQ.png">
 <meta property="og:image" content="https://z1.ax1x.com/2023/11/13/piJltSK.png">
 <meta property="og:image" content="https://z1.ax1x.com/2023/11/14/piJDstf.png">
 <meta property="article:published_time" content="2023-11-14T04:27:18.000Z">
-<meta property="article:modified_time" content="2023-11-14T04:27:38.451Z">
+<meta property="article:modified_time" content="2023-11-14T16:44:39.805Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://z1.ax1x.com/2023/11/13/piJlCLQ.png">
@@ -192,10 +190,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-11-14 12:27:18 / 修改时间：12:27:38" itemprop="dateCreated datePublished" datetime="2023-11-14T12:27:18+08:00">2023-11-14</time>
+              <time title="创建时间：2023-11-14 12:27:18" itemprop="dateCreated datePublished" datetime="2023-11-14T12:27:18+08:00">2023-11-14</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-11-15 00:44:39" itemprop="dateModified" datetime="2023-11-15T00:44:39+08:00">2023-11-15</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -235,6 +239,7 @@
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
 <title>介质访问控制子层</title>
 </head>
 <body><h1 id='介质访问控制子层'>介质访问控制子层</h1>
@@ -405,7 +410,10 @@
     <a href="/2023/11/10/%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA%E5%85%B6%E4%B8%80/" rel="prev" title="光线追踪其一">
       <i class="fa fa-chevron-left"></i> 光线追踪其一
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/11/15/DOTween%E6%8F%92%E4%BB%B6%E5%85%A5%E9%97%A8/" rel="next" title="DOTween插件入门">
+      DOTween插件入门 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -481,7 +489,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-count">53</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -512,6 +520,9 @@
     </div>
     <ul class="links-of-recent-posts-list">
         <li class="links-of-recent-posts-item">
+          <a href="/2023/11/15/DOTween%E6%8F%92%E4%BB%B6%E5%85%A5%E9%97%A8/" title="2023&#x2F;11&#x2F;15&#x2F;DOTween插件入门&#x2F;">DOTween插件入门</a>
+        </li>
+        <li class="links-of-recent-posts-item">
           <a href="/2023/11/14/%E4%BB%8B%E8%B4%A8%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%AD%90%E5%B1%82/" title="2023&#x2F;11&#x2F;14&#x2F;介质访问控制子层&#x2F;">介质访问控制子层</a>
         </li>
         <li class="links-of-recent-posts-item">
@@ -537,9 +548,6 @@
         </li>
         <li class="links-of-recent-posts-item">
           <a href="/2023/11/04/%E5%87%A0%E4%BD%95%E5%AD%A6%E5%85%B6%E4%BA%8C/" title="2023&#x2F;11&#x2F;04&#x2F;几何学其二&#x2F;">几何学其二</a>
-        </li>
-        <li class="links-of-recent-posts-item">
-          <a href="/2023/11/02/Shader%E5%90%9B%E3%81%AE%E5%88%9D%E4%B8%8A%E6%89%8B/" title="2023&#x2F;11&#x2F;02&#x2F;Shader君の初上手&#x2F;">Unity Shader君の初上手</a>
         </li>
     </ul>
   </div>
