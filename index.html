@@ -163,6 +163,188 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/15/%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA%E5%85%B6%E4%BA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/15/%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA%E5%85%B6%E4%BA%8C/" class="post-title-link" itemprop="url">光线追踪其二</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-15 22:36:33 / 修改时间：22:36:47" itemprop="dateCreated datePublished" datetime="2023-11-15T22:36:33+08:00">2023-11-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">计算机图形学</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>光线追踪其二</title>
+</head>
+<body><p>。。。继光线打中包围盒之后</p>
+<h1 id='光线追踪其二'>光线追踪其二</h1>
+<blockquote><p>需要更细节的算法来优化包围盒内的光线追踪！</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='统一空间分区grid网格）'>统一空间分区（grid网格）</h2>
+<p>1.找到包围盒</p>
+<p>2.划分网格</p>
+<p>3.预处理——将每一个找到的对象都存在格子里面（把格子染色）</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piGoNW9'><img src="https://z1.ax1x.com/2023/11/12/piGoNW9.png" referrerpolicy="no-referrer" alt="piGoNW9.png"></a></p>
+<p>4.遍历光线经过的“小格子”，若遍历到某些小盒子内含有物体，则在深入检测这个格子内的光线情况</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piGowsx'><img src="https://z1.ax1x.com/2023/11/12/piGowsx.png" referrerpolicy="no-referrer" alt="piGowsx.png"></a></p>
+<blockquote><p>最简单的遍历方法是按照光线方向来进行格子遍历，从而不需要找每一个格子</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>比较有意思的研究方向是可以算出来这种方式对算法的”加速情况“怎么样</p>
+<p>考虑两个极端情况——<strong>只有一个格子</strong>与<strong>全是格子</strong></p>
+<p>只有一个格子——没有加速</p>
+<p>全是格子——遍历格子反而导致算法减速</p>
+<p>所以肯定是在中间有个特殊值可以让算法最优</p>
+<p><strong>cell=C*objs</strong></p>
+<p>C约等于<strong>27</strong></p>
+<blockquote><p>物体分布严重不匀的情况不使用于这个方法——足球场中的茶壶很难找到</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='空间划分'>空间划分</h2>
+<blockquote><p>比如如上物体严重不均的情况下，可以使用空间划分来使物体分布不均的地方格子密度也不一样</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>八叉树</strong></p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piGT36I'><img src="https://z1.ax1x.com/2023/11/12/piGT36I.png" referrerpolicy="no-referrer" alt="piGT36I.png"></a></p>
+<p>由于在空间当中，所以每一次都是将空间切分为八块，形如二叉树，物体分布越多的地区分的越多——如果格子内的物体小于一定程度，则停止迭代。</p>
+<p>&nbsp;</p>
+<p><strong>KD树</strong></p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piGTatg'><img src="https://z1.ax1x.com/2023/11/12/piGTatg.png" referrerpolicy="no-referrer" alt="piGTatg.png"></a></p>
+<p>形如八叉树，但是切分规则不同，特点是每一次迭代只<strong>砍一刀</strong>，而且每一次的”刀口“都不规则。</p>
+<p>&nbsp;</p>
+<p><strong>BSP树</strong></p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piGT0pj'><img src="https://z1.ax1x.com/2023/11/12/piGT0pj.png" referrerpolicy="no-referrer" alt="piGT0pj.png"></a></p>
+<p>和KD树比起来方向也不一样，缺点是与KD树比起来方向不一样所以根本不方便计算，所以常用的而且研究价值高的是KD树</p>
+<p>&nbsp;</p>
+<p><strong>KD树的数据结构</strong></p>
+<ul>
+<li>划分的方向——x轴还是y轴还是z轴</li>
+<li>划分的位置——在这个轴上划分的地方</li>
+<li>子结点——两个子节点</li>
+<li><strong>实际的三角形只存在叶子结点上而不是中间结点上</strong>——类似B+树</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>光线与KD树</strong></p>
+<p>本质上就是”只和光线相交的叶子结点“进行”不对中间结点进行操作“的二叉树查找</p>
+<blockquote><p>会发现沿着光线查找的现象和沿着二叉树进行查找的动作是一致的</p>
+</blockquote>
+<blockquote><p>难以解决的事：很难判定KD树的”刀口“是否与物体真的有交集，或者说”刀口“导致格子直接被物体包含</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='object-partitions--bounding-volume-hierarchy对象分区域边界卷层次结构）------bvh'>Object Partitions &amp; Bounding Volume Hierarchy（对象分区域边界卷层次结构）——BVH</h2>
+<blockquote><p>划分物体而不是空间</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piG7gKI'><img src="https://z1.ax1x.com/2023/11/12/piG7gKI.png" referrerpolicy="no-referrer" alt="piG7gKI.png"></a></p>
+<p>核心是：<strong>递归地把物体分为几堆，重新计算包围盒</strong></p>
+<p>从代码层面上，每一个物体是不可能出现在不同的包围盒内——不用判定三角形与包围盒求交了</p>
+<p>&nbsp;</p>
+<p><strong>建立BVH的方法</strong></p>
+<ul>
+<li>选择划分的尺寸</li>
+<li>要求一：选择最长的那个轴</li>
+<li>要求二：划分点在物体”中间“的位置——指数量上能平衡的点（涉及到快速选择算法）</li>
+
+</ul>
+<p>与光线的算法和KD树差不多，不在赘述</p>
+<p>用自己的话说一遍：检测光线射入第一次相交的结点，如果不相交，则直接退出，如果结点本身就是叶子结点，则让光线与该结点的所有物体求交，求出第一次接触的点并退出递归；如果不是叶子结点，算法返回第一次接触的结点，并递归前述过程。</p>
+<p>&nbsp;</p>
+<h1 id='辐射度量学'>辐射度量学</h1>
+<blockquote><p>与光照强度相关的学问</p>
+</blockquote>
+<p>在前面的学习过程中，例如布林冯模型，光照强度只看作一个简单的常数，现在就开始解析这个数的含义</p>
+<p><strong>Radiant flux</strong>（辐射流）</p>
+<p><strong>intensity</strong>（强度）</p>
+<blockquote><p>Radiant Intensity——光源发出的光线强度</p>
+</blockquote>
+<p><strong>irradiance</strong>（辐射）——光线汇聚到一个点上的强度</p>
+<p><strong>radiance</strong>（光芒）——单个光线传播中能量的度量</p>
+<blockquote><p> 建议直接看英文</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href='https://blog.csdn.net/woodengm/article/details/121257032'>辐射度量学(Radiometry)的基础知识<em>辐亮度</em>拂面清风三点水的博客-CSDN博客</a></p>
+<p>立体角定义：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piYTntU'><img src="https://z1.ax1x.com/2023/11/15/piYTntU.png" referrerpolicy="no-referrer" alt="piYTntU.png"></a></p>
+<blockquote><p>面积除以距离平方，也可以得出一个球总的立体角为4🥧</p>
+</blockquote>
+<p>立体角公式：<a target="_blank" rel="noopener" href='https://imgse.com/i/piYTW9g'><img src="https://z1.ax1x.com/2023/11/15/piYTW9g.png" referrerpolicy="no-referrer" alt="piYTW9g.png"></a></p>
+<p>如果一个点光源均匀地朝四面八方射出光线，那么从任何一个方向对应的intensity=总power/4🥧</p>
+<p>&nbsp;</p>
+</body>
+</html>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/15/DOTween%E6%8F%92%E4%BB%B6%E5%85%A5%E9%97%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -533,98 +715,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/09/%E5%87%A0%E4%BD%95%E5%AD%A6%E5%85%B6%E4%B8%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/3333.jpg">
-      <meta itemprop="name" content="九日">
-      <meta itemprop="description" content="饥冻虽切，违己交病">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Coding中。。。">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/11/09/%E5%87%A0%E4%BD%95%E5%AD%A6%E5%85%B6%E4%B8%89/" class="post-title-link" itemprop="url">几何学其三</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-11-09 00:32:47 / 修改时间：00:33:07" itemprop="dateCreated datePublished" datetime="2023-11-09T00:32:47+08:00">2023-11-09</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">计算机图形学</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>967</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <!doctype html>
-<html>
-<head>
-<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/11/09/%E5%87%A0%E4%BD%95%E5%AD%A6%E5%85%B6%E4%B8%89/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -696,7 +786,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -727,6 +817,9 @@
     </div>
     <ul class="links-of-recent-posts-list">
         <li class="links-of-recent-posts-item">
+          <a href="/2023/11/15/%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA%E5%85%B6%E4%BA%8C/" title="2023&#x2F;11&#x2F;15&#x2F;光线追踪其二&#x2F;">光线追踪其二</a>
+        </li>
+        <li class="links-of-recent-posts-item">
           <a href="/2023/11/15/DOTween%E6%8F%92%E4%BB%B6%E5%85%A5%E9%97%A8/" title="2023&#x2F;11&#x2F;15&#x2F;DOTween插件入门&#x2F;">DOTween插件入门</a>
         </li>
         <li class="links-of-recent-posts-item">
@@ -752,9 +845,6 @@
         </li>
         <li class="links-of-recent-posts-item">
           <a href="/2023/11/06/C-%E6%93%8D%E4%BD%9C%E7%AC%A6%E9%87%8D%E8%BD%BD/" title="2023&#x2F;11&#x2F;06&#x2F;C-操作符重载&#x2F;">C#操作符重载</a>
-        </li>
-        <li class="links-of-recent-posts-item">
-          <a href="/2023/11/04/%E5%87%A0%E4%BD%95%E5%AD%A6%E5%85%B6%E4%BA%8C/" title="2023&#x2F;11&#x2F;04&#x2F;几何学其二&#x2F;">几何学其二</a>
         </li>
     </ul>
   </div>

@@ -20,17 +20,28 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="Unity游戏设计模式">
-<meta property="og:url" content="http://example.com/2023/10/26/Unity%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
+  <meta name="description" content="光线追踪其二  。。。继光线打中包围盒之后 光线追踪其二 需要更细节的算法来优化包围盒内的光线追踪！  &amp;nbsp; 统一空间分区（grid网格） 1.找到包围盒 2.划分网格 3.预处理——将每一个找到的对象都存在格子里面（把格子染色）  4.遍历光线经过的“小格子”，若遍历到某些小盒子内含有物体，则在深入检测这个格子内的光线情况  最简单的遍历方法是按照光线方向来进行格子遍历，从而不需">
+<meta property="og:type" content="article">
+<meta property="og:title" content="光线追踪其二">
+<meta property="og:url" content="http://example.com/2023/11/15/%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA%E5%85%B6%E4%BA%8C/index.html">
 <meta property="og:site_name" content="Coding中。。。">
+<meta property="og:description" content="光线追踪其二  。。。继光线打中包围盒之后 光线追踪其二 需要更细节的算法来优化包围盒内的光线追踪！  &amp;nbsp; 统一空间分区（grid网格） 1.找到包围盒 2.划分网格 3.预处理——将每一个找到的对象都存在格子里面（把格子染色）  4.遍历光线经过的“小格子”，若遍历到某些小盒子内含有物体，则在深入检测这个格子内的光线情况  最简单的遍历方法是按照光线方向来进行格子遍历，从而不需">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-10-26T11:53:54.000Z">
-<meta property="article:modified_time" content="2023-10-26T11:54:35.342Z">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/12/piGoNW9.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/12/piGowsx.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/12/piGT36I.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/12/piGTatg.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/12/piGT0pj.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/12/piG7gKI.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/15/piYTntU.png">
+<meta property="og:image" content="https://z1.ax1x.com/2023/11/15/piYTW9g.png">
+<meta property="article:published_time" content="2023-11-15T14:36:33.000Z">
+<meta property="article:modified_time" content="2023-11-15T14:36:47.891Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://z1.ax1x.com/2023/11/12/piGoNW9.png">
 
-<link rel="canonical" href="http://example.com/2023/10/26/Unity%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+<link rel="canonical" href="http://example.com/2023/11/15/%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA%E5%85%B6%E4%BA%8C/">
 
 
 <script id="page-configurations">
@@ -43,7 +54,7 @@
   };
 </script>
 
-  <title>Unity游戏设计模式 | Coding中。。。</title>
+  <title>光线追踪其二 | Coding中。。。</title>
   
 
 
@@ -164,7 +175,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/10/26/Unity%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/15/%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA%E5%85%B6%E4%BA%8C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/3333.jpg">
@@ -177,7 +188,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Unity游戏设计模式
+          光线追踪其二
         </h1>
 
         <div class="post-meta">
@@ -188,7 +199,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-10-26 19:53:54 / 修改时间：19:54:35" itemprop="dateCreated datePublished" datetime="2023-10-26T19:53:54+08:00">2023-10-26</time>
+              <time title="创建时间：2023-11-15 22:36:33 / 修改时间：22:36:47" itemprop="dateCreated datePublished" datetime="2023-11-15T22:36:33+08:00">2023-11-15</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -196,7 +207,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Unity%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" itemprop="url" rel="index"><span itemprop="name">Unity基础概念</span></a>
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">计算机图形学</span></a>
                 </span>
             </span>
 
@@ -206,14 +217,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.8k</span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -229,247 +240,101 @@
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<span id="more"></span>
-<title>10.25目标</title>
+<title>光线追踪其二</title>
 </head>
-<body><h1 id='单例模式'><strong>单例模式</strong></h1>
-<p>懒汉式与饿汉式</p>
-<p>Unity中一般也就懒汉式，因为本来就是单程，很难出现线程不安全</p>
-<p>原理：</p>
-<ul>
-<li>static静态属性——不会被GC，存在类型对象中而不是实例化出来的对象中</li>
-<li>私有构造函数、私有静态对象、公有静态函数或属性——方便其他对象获取</li>
-
-</ul>
-<p>&nbsp;</p>
-<p>不过我在写这篇文章前写的倒是并不像这样规范</p>
-<pre><code class='language-c#' lang='c#'>public class Singleton : MonoBehaviour
-&#123;
-    public static Singleton instance;
-    private void Awake()
-    &#123;
-        instance = this;
-    &#125;
-&#125;
-</code></pre>
-<blockquote><p>这个单例继承于MonoBehaviour，是挂载在对象上的，在对象初始化的时候便<code>instance=this</code>，意味着这个单例的初始化是挂载到unity的生命周期上的。</p>
+<body><p>。。。继光线打中包围盒之后</p>
+<h1 id='光线追踪其二'>光线追踪其二</h1>
+<blockquote><p>需要更细节的算法来优化包围盒内的光线追踪！</p>
 </blockquote>
 <p>&nbsp;</p>
-<p><strong>比较规范化的饿汉式单例模式</strong></p>
-<pre><code class='language-c#' lang='c#'>public class Singleton
-&#123;
-    private Singleton() &#123; &#125;
-    private static Singleton instance;
-    public static Singleton Instance 
-    &#123;
-        get
-        &#123;
-            if (instance == null)
-            &#123;
-                instance = new Singleton();
-            &#125;
-            return instance;
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-<blockquote><p>为什么说是饿汉式，因为没有继承于MonoBehaviour，需要被继承过MonoBehaviour的对象调用过之后才算真正创建了，如果需要线程安全，那就在公有对象的地方加锁，但是其实unity没啥必要。</p>
-</blockquote>
-<p>常在Get区域<code>DontDestroyOnLoad(obj)</code>避免单例被场景变换而销毁</p>
-<p>&nbsp;</p>
-<p><strong>通用单例类</strong></p>
-<blockquote><p>实际运用过程中其实会用到非常非常多单例类，什么对象池什么商店类什么玩家类，可以把单例操作简化到一个类中来避免重复编写——但其实也没啥必要，看起来更好看罢了</p>
-</blockquote>
-<pre><code class='language-c#' lang='c#'>namespace Common
-&#123;
-public class Singleton&lt;T&gt; where T : class, new()
-&#123;
-    private static T _instance;
-    private static readonly object syslock = new object();
-
-<pre><code>public static T Instance
-&#123;
-    get
-    &#123;
-        if (_instance == null)
-        &#123;
-            lock (syslock)
-            &#123;
-                if (_instance == null)
-                &#123;
-                    _instance = new T();
-                &#125;
-            &#125;
-        &#125;
-        return _instance;
-    &#125;
-&#125;
-</code></pre>
-<p>}<br>}<br></code></pre></p>
-<pre><code class='language-c#' lang='c#'>public class UseSingleton : Singleton&lt;UseSingleton&gt;
-&#123;
-    public string Name;
-    public int Age;
-&#125;
-</code></pre>
-<h1 id='缓冲池优化留存）'><strong>缓冲池优化（留存？）</strong></h1>
-<p>&nbsp;</p>
-<h1 id='事件中心'><strong>事件中心</strong></h1>
-<blockquote><p>观察者模式、事件发布-订阅模式、Unity自带的UnityEvent</p>
-</blockquote>
-<p>游戏游玩过程中会触发非常多的事件，这些事件往往关联非常多的游戏对象与游戏系统，单独其设置逻辑会造成代码的高耦合，例如“让对象A触碰到对象B“会发生一些小事件，这个时候”对象A“与”对象B“与”事件对象“就会形成一个比较尴尬的局面——相互引用。如果两个对象只是单例那可能还算清晰，但更多情况下游戏的事件要么是”击杀n个敌人“这种带有多个实例化对象的事件、要么是”玩家死亡“这种比较单纯的事件等等。。事件错综繁杂而难以理清，暴力地相互引用必然是不正当的做法，这个时候我们需要布置一些”特殊的岗位“来特定地办这一系列事。</p>
-<p>最典型的能描述代码中事件中心的就是游戏的<strong>成就系统</strong>或者<strong>图鉴系统</strong></p>
-<p>&nbsp;</p>
-<p><strong>观察者模式</strong></p>
-<p>在进入正题之前，我们最好先看准我们的需求，然后从需求中一点点迭代到代码规格当中。</p>
-<p>我们首先最需要的，就是实现</p>
-<ul>
-<li>当<strong>对象发生一些”事件“的时候，不需要去管理自己与其他对象需要做什么</strong>。</li>
-
-</ul>
-<p>就像玩手机一样，我们身体发出了”肚子饿“的指令，那么我们不需要去特地做饭，而是打开手机点外卖；当我们想要找人聊天的时候，我们不需要特地去朋友家中，而是直接打开聊天软件。。。明明是两者截然不同的的事件，发生的对象也不一样，但我们只需要使用手机（事件系统）就能解决。</p>
-<p>于是从上面的例子我们渐渐有了灵感</p>
-<ul>
-<li>当<strong>对象发生一些”事件“的时候，只需要向外界发出信息就行</strong>。</li>
-
-</ul>
-<p>这样的”信息“在C#中，就像生活中各自事件一样，是完全不一样的类型的，我们需要将这些信息，或者说发出信息的对象归并到一个列表当中——Subject，也可以叫做”抽象被观察者“。对应的，Observer就是”抽象观察者“。”对象发出事件让观察者接收“这个事情，完全可以统一归一为“抽象被观察者发出信息让抽象观察者来订阅”。</p>
-<ul>
-<li>当<strong>观察者接收到信息的时候，需要知道信息的来源</strong></li>
-
-</ul>
-<p>“抽象被观察者”需要<strong>持有抽象观察者的列表</strong>，这样一来就可以让“被观察者”来决定消息发布给谁。而消息要如何发布呢？我们其实完全可以将这个“列表”直接定义为一个接口，然后让程序自己来决定将消息发布给谁，就像面向对象中的多态一样——毕竟一个个定义列表这件事是极其荒谬的。同样，被观察者也需要拥有统一接口——<strong>添加观察者，移除观察者，以及通知观察者</strong>。</p>
-<ul>
-<li>当<strong>观察者接收到信息的时候，进行一些事件实现</strong>。</li>
-
-</ul>
-<p>按照上面的例子，我们可以将“抽象观察者”定义为一个总的接口，然后具体实现由其他观察者来实现，可以理解成面向对象中的“多态”，在具体运行过程中，由程序来决定运行哪一个实现。</p>
-<p>&nbsp;</p>
-<p>这样一来，对象A（抽象被观察者）就不需要进行纷乱繁杂的引用，它直接持有一个抽象观察者列表，并在发起通知时直接遍历抽象者列表中的Update。</p>
-<pre><code class='language-c#' lang='c#'>public class Player : ISubject&#123;
-    private List&lt;IObeserver&gt; observers=new List&lt;IObeserver&gt;();
-    ...
-&#125;
-</code></pre>
-<p>其实做到现在还是抽象太多了，哪怕是我自己，在刚得知这种设计模式时仍然会感到疑惑——这种看起来更麻烦复杂的方式为什么就能解耦呢。</p>
-<p>让我们回到之前的需求中来，我们会发现至少作为一个对象，消息处理机制已经得到了规范——也就是说实现了“发生事件时提供消息”以及“消息到来时调用的方法和对象本身没有关系“</p>
-<p>&nbsp;</p>
-<p><strong>发布-订阅模式</strong></p>
-<p>想要将观察者与被观察者完全解耦，那就必须要设置一个调度中心来统一对”观察者、被观察者、消息“进行管理。</p>
-<p>和之前的玩手机一样的原理：如果你点外卖，那么理论上你和店家是不存在交互关系的，因为你只和外卖平台在进行交互，而店家也只是在处理外卖平台提供的订单通知而已。</p>
-<p>观察者接口：</p>
-<pre><code class='language-c#' lang='c#'>public interface IObserver 
-&#123;
-    public void ResponseToNotify();
-&#125;
-</code></pre>
-<p>“调度中心”：</p>
-<pre><code class='language-c#' lang='c#'>public class GameManager 
-&#123;
-    //单例模式应用
-    private static GameManager instance;
-    public static GameManager Instance
-    &#123;
-        get
-        &#123;
-            if (instance == null)
-                instance = new GameManager();
-            return instance;
-        &#125;
-    &#125;
-    private List&lt;IObserver&gt; observers = new List&lt;IObserver&gt;();
-    //添加观察者
-    public void AddObserver(IObserver observer)
-    &#123;
-        observers.Add(observer);
-    &#125;
-    //移除观察者
-    public void RemoveObserver(IObserver observer)
-    &#123;
-        observers.Remove(observer);
-    &#125;
-    //发送通知给观察者
-    public void Notify()
-    &#123;
-        for (int i = 0; i &lt; observers.Count; i++)
-        &#123;
-            observers[i]?.ResponseToNotify();
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-<p>玩家死亡的时候：</p>
-<pre><code class='language-c#' lang='c#'>public class NewPlayer : MonoBehaviour
-&#123;
-    void Update()
-    &#123;
-        if (Input.GetKeyDown(KeyCode.J))
-        &#123;
-            GameManager.Instance.Notify(); //触发玩家死亡通知
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-<p>敌人接收事件消息：</p>
-<pre><code class='language-c#' lang='c#'>public class NewEnemy :MonoBehaviour, IObserver
-&#123;
-    private void Start()
-    &#123;
-        GameManager.Instance.AddObserver(this);
-    &#125;
-    private void OnDestroy()
-    &#123;
-        GameManager.Instance.RemoveObserver(this);
-    &#125;
-    public void ResponseToNotify()
-    &#123;
-        print($&quot;&#123;gameObject.name&#125;停止移动&quot;);
-    &#125;
-&#125;
-</code></pre>
-<p>UI接收消息：</p>
-<pre><code class='language-c#' lang='c#'>public class NewGameOverUI : MonoBehaviour,IObserver
-&#123;
-    public void ResponseToNotify()
-    &#123;
-        print(&quot;游戏结束&quot;);
-    &#125;
-    void Start()
-    &#123;
-        GameManager.Instance.AddObserver(this);
-    &#125;
-    private void OnDestroy()
-    &#123;
-        GameManager.Instance.RemoveObserver(this);
-    &#125;
-&#125;
-</code></pre>
-<p>我们会惊喜地发现这种模式确确实实实现了对象只需要发布消息就能得到回馈的功能，而且对象间不需要进行引用，只需要对调度中心进行交互即可，哪怕是不用的观察者也是一样的。</p>
-<blockquote><p>代码借鉴于<a target="_blank" rel="noopener" href='https://blog.csdn.net/qq_46044366/article/details/122677111'>观察者模式（结合C#，Unity)_unity 观察者模式-CSDN博客</a></p>
+<h2 id='统一空间分区grid网格）'>统一空间分区（grid网格）</h2>
+<p>1.找到包围盒</p>
+<p>2.划分网格</p>
+<p>3.预处理——将每一个找到的对象都存在格子里面（把格子染色）</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piGoNW9'><img src="https://z1.ax1x.com/2023/11/12/piGoNW9.png" referrerpolicy="no-referrer" alt="piGoNW9.png"></a></p>
+<p>4.遍历光线经过的“小格子”，若遍历到某些小盒子内含有物体，则在深入检测这个格子内的光线情况</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piGowsx'><img src="https://z1.ax1x.com/2023/11/12/piGowsx.png" referrerpolicy="no-referrer" alt="piGowsx.png"></a></p>
+<blockquote><p>最简单的遍历方法是按照光线方向来进行格子遍历，从而不需要找每一个格子</p>
 </blockquote>
 <p>&nbsp;</p>
-<p><strong>观察者的生命周期</strong></p>
-<p>在上面的例子中，观察者定义了事件发生后的事情，但这个条件是由调度中心全权来操作的。</p>
-<p>按照我们以往的编码流程，“自己的事情自己做”就是理所应当的，所以函数的条件与实现都会放在一起。</p>
-<p>在这个模式中我们将他分开了，那么就有可能会产生一个严重的后果——调度中心尝试操作一个未知状态的观察者。</p>
-<p>毕竟上面流程的代码是没有添加任何安全锁，对于调度中心来说，为了解耦，它甚至不用理会观察者到底是上面，因为他只是不停地在遍历接口列表而已。</p>
-<p>于是我们设想一个很诡异的场景：观察者因为场景变化或者其他因素消失了，但调度中心列表中仍然存在该观察者的接口，于是调度中心一次又一次地按下那个“虚空”操作按钮。。。</p>
-<p>所以最好的解决方案就是<strong>将观察者的控制权与其生命周期相匹配</strong>——也就是当观察者销毁的时候及时将其移出观察者列表。</p>
+<p>比较有意思的研究方向是可以算出来这种方式对算法的”加速情况“怎么样</p>
+<p>考虑两个极端情况——<strong>只有一个格子</strong>与<strong>全是格子</strong></p>
+<p>只有一个格子——没有加速</p>
+<p>全是格子——遍历格子反而导致算法减速</p>
+<p>所以肯定是在中间有个特殊值可以让算法最优</p>
+<p><strong>cell=C*objs</strong></p>
+<p>C约等于<strong>27</strong></p>
+<blockquote><p>物体分布严重不匀的情况不使用于这个方法——足球场中的茶壶很难找到</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='空间划分'>空间划分</h2>
+<blockquote><p>比如如上物体严重不均的情况下，可以使用空间划分来使物体分布不均的地方格子密度也不一样</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>八叉树</strong></p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piGT36I'><img src="https://z1.ax1x.com/2023/11/12/piGT36I.png" referrerpolicy="no-referrer" alt="piGT36I.png"></a></p>
+<p>由于在空间当中，所以每一次都是将空间切分为八块，形如二叉树，物体分布越多的地区分的越多——如果格子内的物体小于一定程度，则停止迭代。</p>
+<p>&nbsp;</p>
+<p><strong>KD树</strong></p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piGTatg'><img src="https://z1.ax1x.com/2023/11/12/piGTatg.png" referrerpolicy="no-referrer" alt="piGTatg.png"></a></p>
+<p>形如八叉树，但是切分规则不同，特点是每一次迭代只<strong>砍一刀</strong>，而且每一次的”刀口“都不规则。</p>
+<p>&nbsp;</p>
+<p><strong>BSP树</strong></p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piGT0pj'><img src="https://z1.ax1x.com/2023/11/12/piGT0pj.png" referrerpolicy="no-referrer" alt="piGT0pj.png"></a></p>
+<p>和KD树比起来方向也不一样，缺点是与KD树比起来方向不一样所以根本不方便计算，所以常用的而且研究价值高的是KD树</p>
+<p>&nbsp;</p>
+<p><strong>KD树的数据结构</strong></p>
 <ul>
-<li>在 Awake/Start 方法中把观察者添加到列表中，在 OnDestroy 方法中把观察者从列表中移除。</li>
-<li>在 OnEnable 方法中把观察者添加到列表中，在 OnDisable 方法中把观察者从列表中移除。</li>
+<li>划分的方向——x轴还是y轴还是z轴</li>
+<li>划分的位置——在这个轴上划分的地方</li>
+<li>子结点——两个子节点</li>
+<li><strong>实际的三角形只存在叶子结点上而不是中间结点上</strong>——类似B+树</li>
 
 </ul>
 <p>&nbsp;</p>
-<p><strong>UIManage</strong></p>
+<p><strong>光线与KD树</strong></p>
+<p>本质上就是”只和光线相交的叶子结点“进行”不对中间结点进行操作“的二叉树查找</p>
+<blockquote><p>会发现沿着光线查找的现象和沿着二叉树进行查找的动作是一致的</p>
+</blockquote>
+<blockquote><p>难以解决的事：很难判定KD树的”刀口“是否与物体真的有交集，或者说”刀口“导致格子直接被物体包含</p>
+</blockquote>
 <p>&nbsp;</p>
-<p><strong>DOTween</strong></p>
+<h2 id='object-partitions--bounding-volume-hierarchy对象分区域边界卷层次结构）------bvh'>Object Partitions &amp; Bounding Volume Hierarchy（对象分区域边界卷层次结构）——BVH</h2>
+<blockquote><p>划分物体而不是空间</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piG7gKI'><img src="https://z1.ax1x.com/2023/11/12/piG7gKI.png" referrerpolicy="no-referrer" alt="piG7gKI.png"></a></p>
+<p>核心是：<strong>递归地把物体分为几堆，重新计算包围盒</strong></p>
+<p>从代码层面上，每一个物体是不可能出现在不同的包围盒内——不用判定三角形与包围盒求交了</p>
 <p>&nbsp;</p>
+<p><strong>建立BVH的方法</strong></p>
+<ul>
+<li>选择划分的尺寸</li>
+<li>要求一：选择最长的那个轴</li>
+<li>要求二：划分点在物体”中间“的位置——指数量上能平衡的点（涉及到快速选择算法）</li>
+
+</ul>
+<p>与光线的算法和KD树差不多，不在赘述</p>
+<p>用自己的话说一遍：检测光线射入第一次相交的结点，如果不相交，则直接退出，如果结点本身就是叶子结点，则让光线与该结点的所有物体求交，求出第一次接触的点并退出递归；如果不是叶子结点，算法返回第一次接触的结点，并递归前述过程。</p>
 <p>&nbsp;</p>
-<p><strong>UI的状态栈</strong></p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p><strong>面向对象设计原则</strong></p>
+<h1 id='辐射度量学'>辐射度量学</h1>
+<blockquote><p>与光照强度相关的学问</p>
+</blockquote>
+<p>在前面的学习过程中，例如布林冯模型，光照强度只看作一个简单的常数，现在就开始解析这个数的含义</p>
+<p><strong>Radiant flux</strong>（辐射流）</p>
+<p><strong>intensity</strong>（强度）</p>
+<blockquote><p>Radiant Intensity——光源发出的光线强度</p>
+</blockquote>
+<p><strong>irradiance</strong>（辐射）——光线汇聚到一个点上的强度</p>
+<p><strong>radiance</strong>（光芒）——单个光线传播中能量的度量</p>
+<blockquote><p> 建议直接看英文</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href='https://blog.csdn.net/woodengm/article/details/121257032'>辐射度量学(Radiometry)的基础知识<em>辐亮度</em>拂面清风三点水的博客-CSDN博客</a></p>
+<p>立体角定义：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piYTntU'><img src="https://z1.ax1x.com/2023/11/15/piYTntU.png" referrerpolicy="no-referrer" alt="piYTntU.png"></a></p>
+<blockquote><p>面积除以距离平方，也可以得出一个球总的立体角为4🥧</p>
+</blockquote>
+<p>立体角公式：<a target="_blank" rel="noopener" href='https://imgse.com/i/piYTW9g'><img src="https://z1.ax1x.com/2023/11/15/piYTW9g.png" referrerpolicy="no-referrer" alt="piYTW9g.png"></a></p>
+<p>如果一个点光源均匀地朝四面八方射出光线，那么从任何一个方向对应的intensity=总power/4🥧</p>
 <p>&nbsp;</p>
 </body>
 </html>
@@ -487,13 +352,10 @@ public class Singleton&lt;T&gt; where T : class, new()
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/10/24/UGUI%E8%87%AA%E9%80%82%E5%BA%94%E4%B8%8E%E4%BC%98%E5%8C%96%E4%B8%8E%E5%85%B6%E4%BB%96%E4%BC%98%E5%8C%96/" rel="prev" title="UGUI自适应与优化与其他优化">
-      <i class="fa fa-chevron-left"></i> UGUI自适应与优化与其他优化
+    <a href="/2023/11/15/DOTween%E6%8F%92%E4%BB%B6%E5%85%A5%E9%97%A8/" rel="prev" title="DOTween插件入门">
+      <i class="fa fa-chevron-left"></i> DOTween插件入门
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/10/27/C-%E5%A7%94%E6%89%98%E4%B8%8E%E4%BA%8B%E4%BB%B6/" rel="next" title="C#委托与事件">
-      C#委托与事件 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -553,7 +415,7 @@ public class Singleton&lt;T&gt; where T : class, new()
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%93%E5%86%B2%E6%B1%A0%E4%BC%98%E5%8C%96%E7%95%99%E5%AD%98%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">缓冲池优化（留存？）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E4%B8%AD%E5%BF%83"><span class="nav-number">3.</span> <span class="nav-text">事件中心</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA%E5%85%B6%E4%BA%8C"><span class="nav-number">1.</span> <span class="nav-text">光线追踪其二</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9F%E4%B8%80%E7%A9%BA%E9%97%B4%E5%88%86%E5%8C%BAgrid%E7%BD%91%E6%A0%BC%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">统一空间分区（grid网格）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E5%88%92%E5%88%86"><span class="nav-number">1.2.</span> <span class="nav-text">空间划分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#object-partitions--bounding-volume-hierarchy%E5%AF%B9%E8%B1%A1%E5%88%86%E5%8C%BA%E5%9F%9F%E8%BE%B9%E7%95%8C%E5%8D%B7%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84%EF%BC%89------bvh"><span class="nav-number">1.3.</span> <span class="nav-text">Object Partitions &amp; Bounding Volume Hierarchy（对象分区域边界卷层次结构）——BVH</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BE%90%E5%B0%84%E5%BA%A6%E9%87%8F%E5%AD%A6"><span class="nav-number">2.</span> <span class="nav-text">辐射度量学</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -722,7 +584,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog-comment',
       owner       : 'mikasa1x',
       admin       : ['mikasa1x'],
-      id          : '85d68d2b60bd19d6ff819b4649f97dd8',
+      id          : '3a05288ec4ec274694b987b37f940fd3',
         language: '',
       distractionFreeMode: true
     });
