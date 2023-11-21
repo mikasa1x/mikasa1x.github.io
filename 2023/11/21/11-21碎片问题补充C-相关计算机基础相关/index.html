@@ -21,16 +21,16 @@
   </script>
 
   <meta property="og:type" content="article">
-<meta property="og:title" content="C#理论基础">
-<meta property="og:url" content="http://example.com/2023/06/09/C-%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:title" content="11.21碎片问题补充C++相关计算机基础相关">
+<meta property="og:url" content="http://example.com/2023/11/21/11-21%E7%A2%8E%E7%89%87%E9%97%AE%E9%A2%98%E8%A1%A5%E5%85%85C-%E7%9B%B8%E5%85%B3%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9B%B8%E5%85%B3/index.html">
 <meta property="og:site_name" content="Coding中。。。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-06-09T07:32:39.000Z">
-<meta property="article:modified_time" content="2023-06-09T07:35:35.684Z">
+<meta property="article:published_time" content="2023-11-21T14:45:37.000Z">
+<meta property="article:modified_time" content="2023-11-21T14:46:29.899Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2023/06/09/C-%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/">
+<link rel="canonical" href="http://example.com/2023/11/21/11-21%E7%A2%8E%E7%89%87%E9%97%AE%E9%A2%98%E8%A1%A5%E5%85%85C-%E7%9B%B8%E5%85%B3%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9B%B8%E5%85%B3/">
 
 
 <script id="page-configurations">
@@ -43,7 +43,7 @@
   };
 </script>
 
-  <title>C#理论基础 | Coding中。。。</title>
+  <title>11.21碎片问题补充C++相关计算机基础相关 | Coding中。。。</title>
   
 
 
@@ -164,7 +164,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/06/09/C-%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/11/21/11-21%E7%A2%8E%E7%89%87%E9%97%AE%E9%A2%98%E8%A1%A5%E5%85%85C-%E7%9B%B8%E5%85%B3%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9B%B8%E5%85%B3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/3333.jpg">
@@ -177,7 +177,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          C#理论基础
+          11.21碎片问题补充C++相关计算机基础相关
         </h1>
 
         <div class="post-meta">
@@ -188,7 +188,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-06-09 15:32:39 / 修改时间：15:35:35" itemprop="dateCreated datePublished" datetime="2023-06-09T15:32:39+08:00">2023-06-09</time>
+              <time title="创建时间：2023-11-21 22:45:37 / 修改时间：22:46:29" itemprop="dateCreated datePublished" datetime="2023-11-21T22:45:37+08:00">2023-11-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -196,7 +196,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BB%8EC-%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C++开始的C#</span></a>
+                  <a href="/categories/%E5%81%9A%E9%A2%98%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">做题笔记</span></a>
                 </span>
             </span>
 
@@ -206,7 +206,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.1k</span>
+              <span>2.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -229,156 +229,96 @@
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title></title>
-</head>
 <span id="more"></span>
-<body><h1 id='c简介'>C#简介</h1>
-<p>C#（See Sharp）是一种完全面向对象的语言，需要自己定义类型以及行为  </p>
-<p>可以从与C++的区别入手：</p>
+<title>11.21碎片问题</title>
+</head>
+<body><h1 id='1121碎片问题'>11.21碎片问题</h1>
+<p>&nbsp;</p>
+<h2 id='使用c创建单例模式'>使用C++创建单例模式</h2>
+<blockquote><p>之前用多了C#轮椅以为自己就是单例模式懂哥了，结果却抛弃了C++原有的底层知识</p>
+</blockquote>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+
+<p>class Singleton &#123;<br>public:<br>    &#x2F;&#x2F; 获取单例实例的静态方法<br>    static Singleton&amp; getInstance() &#123;<br>        &#x2F;&#x2F; 使用局部静态变量确保线程安全的初始化<br>        static Singleton instance;<br>        return instance;<br>    &#125;</p>
+<pre><code>// 删除拷贝构造函数和赋值运算符重载，确保单例不会被复制
+Singleton(const Singleton&amp;amp;) = delete;
+void operator=(const Singleton&amp;amp;) = delete;
+
+void doSomething() &#123;
+    std::cout &amp;lt;&amp;lt; &amp;quot;Singleton is doing something.&amp;quot; &amp;lt;&amp;lt; std::endl;
+&#125;
+</code></pre>
+<p>private:<br>    &#x2F;&#x2F; 私有构造函数，确保外部无法直接实例化<br>    Singleton() {<br>        &#x2F;&#x2F; 进行初始化工作<br>    }<br>};</p>
+<p>int main() {<br>    &#x2F;&#x2F; 获取单例实例<br>    Singleton&amp; singleton &#x3D; Singleton::getInstance();<br>    &#x2F;&#x2F; 使用单例实例<br>    singleton.doSomething();</p>
+<pre><code>return 0;
+</code></pre>
+<p>}<br></code></pre></p>
+<p>&nbsp;</p>
+<h2 id='delete-this'><code>delete this</code></h2>
+<p>什么情况下要用到呢</p>
 <ol>
-<li>作为C++的后续版，C#能做到的C++都能做到，但C++更为复杂，C#主打的就是一个效率</li>
-<li>C#被研发初就是用来编写.NET平台，.NET是一个十分模糊的概念，它是一个跨平台开源开发人员平台，可用于构建多种应用程序。.NET包含一类库和CLR虚执行系统，过多的不赘述，总之C#所编写的源代码会被编译为符合CLI规范的中间语言IL，IL会在C#程序执行时被CLR编译为本机指令。当然对于C#本身这种涉及的内容太多，略微了解即可，有点类似于C++编译的一系列操作</li>
-<li>C++不允许在一个构造函数中调用另外一个构造函数，而C#允许</li>
-<li>上述只是用于初步了解的部分特点，当然最重要的是C#是完全面向对象的语言，更注重实际应用</li>
+<li><strong>对象自毁</strong>：在对象的成员函数中，如果确定对象在某个条件下需要自毁，可以使用 <code>delete this</code>。但是需要确保在 <code>delete this</code> 之后不再访问对象的任何成员。</li>
+<li><strong>对象池</strong>：在一些特殊的对象池设计中，当对象不再需要时，可以通过调用自身的成员函数来删除自己。</li>
+<li><strong>异步操作</strong>：在一些异步操作中，可能需要在回调函数中删除对象自身。</li>
 
 </ol>
-<h1 id='net主要功能'>.NET主要功能</h1>
-<ul>
-<li><p><strong>垃圾回收</strong>（自动内存管理）</p>
-<p>为应用程序管理内存的分配和释放，意味着对开发人员来说，不必编写执行内存管理任务的代码，可以不用考虑内存管理的经典问题，例如忘记释放对象并导致内存泄漏，或尝试访问已释放对象的内存</p>
-</li>
-
-</ul>
-<ul>
-<li><p>代码质量分析</p>
-<p>和visual studio中错误分析类型的东西</p>
-</li>
-
-</ul>
-<p>...(待补充)</p>
-<h1 id='hello-world'>Hello world</h1>
-<pre><code class='language-c#' lang='c#'>using System;
-
-<p>class Hello<br>&#123;<br>    static void Main()<br>    &#123;<br>        Console.WriteLine(&quot;Hello, World&quot;);<br>    &#125;<br>&#125;<br></code></pre></p>
-<p>using System引用System命名空间，提供了一种用于组织C#程序和库的分层方法。命名空间包含类型和其他命名空间，如System（Console类和IO、Collections命名空间）</p>
-<blockquote><p>看起来像是C++中using与include的归类版</p>
-</blockquote>
-<p>声明Hello类，其中的成员main用static修饰符进行声明，按约定<mark>Main静态函数是C#程序的入口点</mark></p>
-<p>Console类中的WriteLine函数用于输出，由标准类库提供，默认情况下编译器会自动引用标准类库。</p>
-<p>由于System命名空间的引用，<code>System.Console.WriteLine</code>可直接写为<code>Console.WriteLine</code></p>
-<h1 id='类型和变量'>类型和变量</h1>
-<h2 id='类型'>类型</h2>
-<p>两种类型：值类型和引用类型</p>
-<p>值类型变量包含数据</p>
-<p>引用类型的变量存储对数据/对象的引用</p>
-<ul>
-<li>两个变量可以引用同一个对象</li>
-<li>对一个变量执行的运算可能会影响另一个变量引用的对象</li>
-
-</ul>
-<p><strong>标识符</strong>是变量名称，如果前缀为@，则可能是C#保留字</p>
-<blockquote><p>一些文档内容：</p>
-<ul>
-<li><p>值类型</p>
-<ul>
-<li><p>简单类型</p>
-<ul>
-<li><a target="_blank" rel="noopener" href='https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/integral-numeric-types'>有符号整型</a>：<code>sbyte</code>、<code>short</code>、<code>int</code>、<code>long</code></li>
-<li><a target="_blank" rel="noopener" href='https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/integral-numeric-types'>无符号整型</a>：<code>byte</code>、<code>ushort</code>、<code>uint</code>、<code>ulong</code></li>
-<li><a target="_blank" rel="noopener" href='https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/character-encoding-introduction'>Unicode 字符</a>：<code>char</code>，表示 UTF-16 代码单元</li>
-<li><a target="_blank" rel="noopener" href='https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/floating-point-numeric-types'>IEEE 二进制浮点</a>：<code>float</code>、<code>double</code></li>
-<li><a target="_blank" rel="noopener" href='https://learn.microsoft.com/zh-cn/dotnet/csharp/language-reference/builtin-types/floating-point-numeric-types'>高精度十进制浮点数</a>：<code>decimal</code></li>
-<li>布尔值：<code>bool</code>，表示布尔值（<code>true</code> 或 <code>false</code>）</li>
-
-</ul>
-</li>
-<li><p>枚举类型</p>
-<ul>
-<li><code>enum E &#123;...&#125;</code> 格式的用户定义类型。 <code>enum</code> 类型是一种包含已命名常量的独特类型。 每个 <code>enum</code> 类型都有一个基础类型（必须是八种整型类型之一）。 <code>enum</code> 类型的值集与基础类型的值集相同。</li>
-
-</ul>
-</li>
-<li><p>结构类型</p>
-<ul>
-<li>格式为 <code>struct S &#123;...&#125;</code> 的用户定义类型</li>
-
-</ul>
-</li>
-<li><p>可以为 null 的值类型</p>
-<ul>
-<li>值为 <code>null</code> 的其他所有值类型的扩展</li>
-
-</ul>
-</li>
-<li><p>元组值类型</p>
-<ul>
-<li>格式为 <code>(T1, T2, ...)</code> 的用户定义类型</li>
-
-</ul>
-</li>
-
-</ul>
-</li>
-<li><p>引用类型</p>
-<ul>
-<li><p>类类型</p>
-<ul>
-<li>其他所有类型的最终基类：<code>object</code></li>
-<li><a target="_blank" rel="noopener" href='https://learn.microsoft.com/zh-cn/dotnet/standard/base-types/character-encoding-introduction'>Unicode 字符串</a>：<code>string</code>，表示 UTF-16 代码单元序列</li>
-<li>格式为 <code>class C &#123;...&#125;</code> 的用户定义类型</li>
-
-</ul>
-</li>
-<li><p>接口类型</p>
-<ul>
-<li>格式为 <code>interface I &#123;...&#125;</code> 的用户定义类型</li>
-
-</ul>
-</li>
-<li><p>数组类型</p>
-<ul>
-<li>一维、多维和交错。 例如：<code>int[]</code>、<code>int[,]</code> 和 <code>int[][]</code></li>
-
-</ul>
-</li>
-<li><p>委托类型</p>
-<ul>
-<li>格式为 <code>delegate int D(...)</code> 的用户定义类型</li>
-
-</ul>
-</li>
-
-</ul>
-</li>
-
-</ul>
-</blockquote>
-<h2 id='类型声明'>类型声明</h2>
-<ul>
-<li><code>class</code>类型定义包含数据成员（字段）和函数成员的数据结构。支持单元继承和多态</li>
-<li><code>struct</code>类型定义包含数据成员和函数成员的结构（类似于class）</li>
-
-</ul>
-<blockquote><p>区别如下：</p>
-<p>struct为值类型，class为对象类型</p>
-<p>struct不能被继承，class能被继承</p>
-<p>struct 默认的访问权限是public,而class 默认的访问权限是private</p>
-<p>......</p>
-<p>值类型适合存储供 C#应用程序操作的数据</p>
-<p>引用类型应该用于定义应用程序的行为</p>
-</blockquote>
-<ul>
-<li><code>interface</code>类型定义为一组已命名的公共成员。 实现 <code>interface</code> 的 <code>class</code> 或 <code>struct</code> 必须提供接口成员的实现代码。 <code>interface</code> 可以继承自多个基接口，<code>class</code> 和 <code>struct</code> 可以实现多个接口。</li>
-<li><code>delegate</code> 类型表示引用包含特定参数列表和返回类型的方法。</li>
-
-</ul>
-<p>C# 采用统一的类型系统，因此任意类型的值都可视为 <code>object</code>。 每种 C# 类型都直接或间接地派生自 <code>object</code> 类类型，而 <code>object</code> 是所有类型的最终基类。 只需将值视为类型 <code>object</code>，即可将引用类型的值视为对象。 通过执行<em>装箱</em>和<em>取消装箱操作</em>，可以将值类型的值视为对象。 在以下示例中，<code>int</code> 值被转换成 <code>object</code>，然后又恢复成 <code>int</code>。</p>
-<pre><code class='language-c#' lang='c#'>int i = 123;
-object o = i;    // Boxing
-int j = (int)o;  // Unboxing
-</code></pre>
 <p>&nbsp;</p>
+<h2 id='operator-new与placement-new'><code>operator new</code>与<code>placement new</code></h2>
+<p>operator new就是常见的new用法，在堆上分配内存空间并利用对象的构造函数来创建对象，如：</p>
+<p><code>MyClass* obj = new MyClass;</code></p>
+<p>placement new是一个特殊的new，区别时在已经有的空间上创建对象，如</p>
+<p><code>MyClass* obj = new(ptr) MyClass;</code> </p>
+<p>就是在ptr指定的内存段上创建对象，不会分配新的内存空间</p>
 <p>&nbsp;</p>
+<h2 id='static关键字的全面解析extern关键字的全面解析'><code>static</code>关键字的全面解析，<code>extern</code>关键字的全面解析</h2>
+<p>&nbsp;</p>
+<p><strong>static</strong></p>
+<p>对于C、C++、C#中的static的含义其实是大部分一致的，不同的地方取决与语言自身功能性的不同，比如纯C语言不带有的成员函数，那么static在这一方面就不存在意义。</p>
+<p><strong>局部变量</strong></p>
+<p>普通的局部变量生命周期和其作用域一致，但加上static关键字后该局部变量由栈内存转移到静态存储区，在整个程序的生命周期中都存在，但是对于其他函数来说是<strong>不可见</strong>的。</p>
+<p><strong>全局变量</strong></p>
+<p>定义在函数体外部的全局变量整个工程都可见，其他文件使用extern后可直接使用。所以说两个文件不能定义同名的全局变量，除非使用static。</p>
+<p>增加static后，该全局变量的作用域就会限制在该文件之内。</p>
+<p><strong>函数</strong></p>
+<p>在同一个工程中的不同文件中的函数可以直接相互调用，因为在链接的时候会被统一编译链接。对于static则和全局变量一样，使用static的函数只能在定义其的文件中可见。</p>
+<p><strong>数据成员</strong></p>
+<p>静态数据成员不隶属于任何对象，所有的对象都拥有同一份静态成员，在没用类对象的时候也可以进行操作，也遵顼public等访问规则。</p>
+<p>在访问静态数据成员时，访问方式如：</p>
+<p><code>obj.a=1</code>或者<code>MyClass::a=1</code></p>
+<blockquote><p>obj为对象，MyClass为类类型</p>
+</blockquote>
+<p>相对于全局变量来说，静态成员不存在于其他全局名字冲突的可能性（显然类名已经做了区分）；同时，静态成员变量可以用private隐藏，而全局变量不能。</p>
+<p><strong>成员函数</strong></p>
+<p>静态成员函数同样不隶属于对象而是隶属于类，其特性是没有this指针（想想就明白了）</p>
+<p><strong>C#中的新static</strong></p>
+<p>C#中类也可以static，但是静态类的所有成员都必须也是静态的。</p>
+<p>&nbsp;</p>
+<p><strong>extern</strong></p>
+<p>如上，如果两个文件（同一工程）想互通全局变量，那么访问文件的使用全局变量需要加上extern关键字。</p>
+<p>有一个推荐的方法是文件A正常定义全局变量，然后在文件A中的h文件里加上extern该全局变量的声明，于是其他文件想使用就直接include就可以了——要知道include就是将代码“备份”进去。</p>
+<p><strong>extern “C”</strong></p>
+<p>它告诉编译器C++按照C方法进行函数名的处理，主要是因为C++支持函数重载而C不支持。</p>
+<p>例如C++中</p>
+<p><code>void A(int a);</code></p>
+<p><code>void A(int a,int b);</code></p>
+<p>这两个函数名相同，但在C++编译器中编译后函数名其实会变化，用来区分两个参数列表不同的重载函数。但C语言中没有这个机制，也就是说在处理这方面两种编译器的措施是不同的，所以在C++中使用C文件函数时要用extern{}来声明:</p>
+<p>extern{void A(int a);}</p>
+<blockquote><p>假如A没有重载</p>
+</blockquote>
+<p>确保链接的时候不会发生错误。</p>
+<p>&nbsp;</p>
+<h2 id='纯c语言实现面向对象'>纯C语言实现面向对象</h2>
+<p>纯C函数没有类说法，也没有对象说法，但其实也可以通过一些手段来模拟实现。</p>
+<ul>
+<li>结构体--&gt;模拟类。</li>
+<li>函数指针--&gt;在结构体中声明函数指针模拟类方法。</li>
+<li>封装--&gt;前两者实现封装，也就是数据和相关操作绑定在一起。</li>
+<li>继承--&gt;结构体中包含指向父类结构体的指针。</li>
+<li>多态--&gt;函数指针动态绑定来实现（在使用时变化函数指针的指向）。</li>
+
+</ul>
+<blockquote><p>看起来太笨拙了不是吗？但你就说是不是面向对象嘛</p>
+</blockquote>
 </body>
 </html>
     </div>
@@ -395,13 +335,10 @@ int j = (int)o;  // Unboxing
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/06/04/%E5%86%85%E5%AD%98%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" rel="prev" title="内存基本概念">
-      <i class="fa fa-chevron-left"></i> 内存基本概念
+    <a href="/2023/11/21/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%BB%8F%E5%85%B8%E9%81%8D%E5%8E%86/" rel="prev" title="二叉树经典遍历">
+      <i class="fa fa-chevron-left"></i> 二叉树经典遍历
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/06/09/C-%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%83%A8%E5%88%86/" rel="next" title="C++程序设计阅读笔记面向对象部分">
-      C++程序设计阅读笔记面向对象部分 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -461,7 +398,7 @@ int j = (int)o;  // Unboxing
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#c%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">C#简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#net%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD"><span class="nav-number">2.</span> <span class="nav-text">.NET主要功能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hello-world"><span class="nav-number">3.</span> <span class="nav-text">Hello world</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%8F%98%E9%87%8F"><span class="nav-number">4.</span> <span class="nav-text">类型和变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.1.</span> <span class="nav-text">类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E5%A3%B0%E6%98%8E"><span class="nav-number">4.2.</span> <span class="nav-text">类型声明</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1121%E7%A2%8E%E7%89%87%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">11.21碎片问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8c%E5%88%9B%E5%BB%BA%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">使用C++创建单例模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#delete-this"><span class="nav-number">1.2.</span> <span class="nav-text">delete this</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#operator-new%E4%B8%8Eplacement-new"><span class="nav-number">1.3.</span> <span class="nav-text">operator new与placement new</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#static%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90extern%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E5%85%A8%E9%9D%A2%E8%A7%A3%E6%9E%90"><span class="nav-number">1.4.</span> <span class="nav-text">static关键字的全面解析，extern关键字的全面解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%AFc%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.5.</span> <span class="nav-text">纯C语言实现面向对象</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -630,7 +567,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog-comment',
       owner       : 'mikasa1x',
       admin       : ['mikasa1x'],
-      id          : 'fd1de49642fc5ff809a010e6fe7a3ecf',
+      id          : '9d356fff29b047f201b623108883b771',
         language: '',
       distractionFreeMode: true
     });
