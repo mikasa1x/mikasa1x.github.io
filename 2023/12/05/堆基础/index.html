@@ -20,17 +20,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="string类方法">
-<meta property="og:url" content="http://example.com/2023/08/01/string%E7%B1%BB%E6%96%B9%E6%B3%95/index.html">
+  <meta name="description" content="堆  &#x2F;&#x2F;很好奇为什么一年前学过数据结构的我为什么对堆没有一点概念">
+<meta property="og:type" content="article">
+<meta property="og:title" content="堆基础">
+<meta property="og:url" content="http://example.com/2023/12/05/%E5%A0%86%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="Coding中。。。">
+<meta property="og:description" content="堆  &#x2F;&#x2F;很好奇为什么一年前学过数据结构的我为什么对堆没有一点概念">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-07-31T17:04:16.000Z">
-<meta property="article:modified_time" content="2023-08-02T11:30:37.586Z">
+<meta property="article:published_time" content="2023-12-04T16:10:57.000Z">
+<meta property="article:modified_time" content="2023-12-04T16:12:43.282Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2023/08/01/string%E7%B1%BB%E6%96%B9%E6%B3%95/">
+<link rel="canonical" href="http://example.com/2023/12/05/%E5%A0%86%E5%9F%BA%E7%A1%80/">
 
 
 <script id="page-configurations">
@@ -43,7 +45,7 @@
   };
 </script>
 
-  <title>string类方法 | Coding中。。。</title>
+  <title>堆基础 | Coding中。。。</title>
   
 
 
@@ -164,7 +166,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/01/string%E7%B1%BB%E6%96%B9%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/05/%E5%A0%86%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/3333.jpg">
@@ -177,7 +179,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          string类方法
+          堆基础
         </h1>
 
         <div class="post-meta">
@@ -186,23 +188,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2023-08-01 01:04:16" itemprop="dateCreated datePublished" datetime="2023-08-01T01:04:16+08:00">2023-08-01</time>
+              <time title="创建时间：2023-12-05 00:10:57 / 修改时间：00:12:43" itemprop="dateCreated datePublished" datetime="2023-12-05T00:10:57+08:00">2023-12-05</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-08-02 19:30:37" itemprop="dateModified" datetime="2023-08-02T19:30:37+08:00">2023-08-02</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BB%8EC%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C开始的C++</span></a>
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
                 </span>
             </span>
 
@@ -212,14 +208,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.4k</span>
+              <span>3.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -235,138 +231,126 @@
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<span id="more"></span>
-<title>从C字符串到C++的string类（in</title>
+<title>堆</title>
 </head>
-<body><h1 id='从c字符串到c的string类'>从C字符串到C++的string类</h1>
-<p><strong>C字符串</strong>以空终结符（‘\0’）结尾，使用时底层逻辑是暴露的，一般用于代码人员了解字符储存机制而使用。而<strong>string类</strong>则隐藏了字符串的底层储存，代码人员不需要去了解细节。</p>
-<p><strong>string类</strong>很好的体现了类的性质，在使用string类时，能更好的理解类、面向对象思想的应用</p>
-<p>例如：</p>
-<p><code>string s = &quot;welcome to C++&quot;</code></p>
-<p>这句形似C字符串的字符创建方式其实略微浪费了计算机系统资源，因为他是先是利用&quot;welcome to C++&quot;建立字符串对象，然后再将这个对象拷贝给s，其实是两个步骤</p>
-<blockquote><p>后面给gpt检查的时候说这个思想不一定正确，因为编译器的返回值优化策略会避免这个问题，不过也不用在乎这个了</p>
-</blockquote>
-<p>一下方式是更符合类的行为逻辑的：</p>
+<body><p>//很好奇为什么一年前学过数据结构的我为什么对堆没有一点概念</p>
+<span id="more"></span>
+<p>&nbsp;</p>
+<h1 id='大根堆与小根堆'>大根堆与小根堆</h1>
+<p>堆的本质就是以二叉树的顺序存储方式来存元素，从逻辑上看就是一颗二叉树，从结果上看是一颗完全二叉树。堆具有完全二叉树的所有性质，在次基础上规定了一系列新的规则，所以说堆就是一颗特殊的完全二叉树，但是在实际储存是通过动态数组来实现而不是类似二叉树的结点实现。</p>
+<pre><code class='language-c++' lang='c++'>// 最大堆的结构体定义
+typedef struct &#123;
+    int* heapArray;  // 存储堆元素的数组
+    int capacity;    // 堆的容量
+    int size;        // 堆中当前元素的个数
+&#125; MaxHeap;
+
+<p>&#x2F;&#x2F; 二叉树节点的结构体定义<br>typedef struct TreeNode &#123;<br>    int value;                 &#x2F;&#x2F; 节点的值<br>    struct TreeNode* left;     &#x2F;&#x2F; 左子节点指针<br>    struct TreeNode* right;    &#x2F;&#x2F; 右子节点指针<br>&#125; TreeNode;<br></code></pre></p>
+<p>&nbsp;</p>
+<p>新的规则：</p>
+<p>大堆指所有子节点都<strong>小于</strong>他的父节点；小堆指所有子节点都<strong>大于</strong>他的父节点。</p>
+<p>&nbsp;</p>
+<p>再进入代码层面之前，先回忆/预习一下相关堆性质的知识，比如大堆小堆的意义何在？大堆/小堆在每次进行数据变动的时候都会保持这么一个特性，这个特性在找到某个序列中的前某几个最大值或者最小值中起到了很好的作用，也就是<strong>堆排序</strong>。</p>
+<p>&nbsp;</p>
+<h1 id='堆排序'>堆排序</h1>
+<p>前面说过最大堆的性质就是一直能维护最大数到堆顶，将这个最大的数“剔出”并存起来，在代码层面就是将堆首与堆尾数值交换然后将这个最大值固定，之后再将剩下所有数再次进行堆维护，于是再次将剩下的数中的最大数也就是第二大的数与倒数第二位交换，重复此过程，最终能形成一个顺序数组。</p>
+<p>能这样操作的一个重要前提条件就是堆的实质物理存储其实是可变数组，只是逻辑上是二叉树，所以堆排序重点在于对目标结点的索引，毕竟没有了二叉树结点的指针。</p>
+<p>堆排序看起来很复杂，优势在哪呢？仔细看单个操作流程其实会发现很简单：</p>
+<p>固定最大值——堆首值与左右子结点比较</p>
+<p>固定最大值不用说，这个“比较”仔细一看其实很方便，因为堆的特性，只需要将这个值看作新插入的值，然后一直迭代向下比较就可，时间复杂度和二叉树同理，是O(树高)。</p>
+<p>单次排序是O(树高)，那么n次排序就是O(树高*n)，算上建立堆的时间，总时间复杂度为O(nlogn)。</p>
+<p>由于堆排序可能会导致相等元素改变相对位置，所以这种排序算法是<strong>不稳定</strong>的。</p>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+<p>void heapify(std::vector&lt;int&gt;&amp; arr, int n, int i) &#123;<br>    int largest &#x3D; i;<br>    int left &#x3D; 2 * i + 1;<br>    int right &#x3D; 2 * i + 2;</p>
+<pre><code>if (left &amp;lt; n &amp;amp;&amp;amp; arr[left] &amp;gt; arr[largest])
+    largest = left;
+
+if (right &amp;lt; n &amp;amp;&amp;amp; arr[right] &amp;gt; arr[largest])
+    largest = right;
+
+if (largest != i) &#123;
+    std::swap(arr[i], arr[largest]);
+    heapify(arr, n, largest);
+&#125;
+</code></pre>
+<p>}</p>
+<p>void heapSort(std::vector&lt;int&gt;&amp; arr) {<br>    int n &#x3D; arr.size();</p>
+<pre><code>// Build heap (rearrange array)
+for (int i = n / 2 - 1; i &amp;gt;= 0; i--)
+    heapify(arr, n, i);
+
+// Extract elements from heap one by one
+for (int i = n - 1; i &amp;gt; 0; i--) &#123;
+    std::swap(arr[0], arr[i]);
+    heapify(arr, i, 0);
+&#125;
+</code></pre>
+<p>}<br></code></pre></p>
+<p>&nbsp;</p>
+<h2 id='堆化与建堆'>堆化与建堆</h2>
 <ul>
-<li><code>string s(&quot;Welcome to C++&quot;)</code>括号显然是利用类的构造函数</li>
-<li><code>string s</code>这里使用了无参构造函数，建立空字符串s</li>
-<li><code>string s(s1)</code>是第一种的变体，s1是C字符串，而s是字符串对象</li>
+<li>堆化：指在已经是一个堆的基础上，对某个结点进行调整，使之能够达到堆的性质标准，分为向上堆化（上浮）和向下堆化（下沉）操作。堆化操作经常出现在堆结点增加或删除的过程中，其时间复杂度为O(logn)——堆高度</li>
+<li>建堆：将一个无序数组或者其他数据结构转化为一个堆，是一个整体的过程，时间复杂度为O(n)</li>
 
 </ul>
 <p>&nbsp;</p>
-<h1 id='string类操作'>string类操作</h1>
-<p><strong>追加</strong>：</p>
-<ul>
-<li><code>s1.append(&quot;1234&quot;)</code> s1后追加1234</li>
-<li><code>s2.append(&quot;1234&quot;,0,2)</code> s2后追加12（从0个字符开始）</li>
-<li><code>s3.append(&quot;1234&quot;,2)</code> s3后追加12</li>
-<li><code>s4.append(2,&#39;1&#39;)</code> s4后追加11（注意这里是单个字符，和下面的赋值一样）</li>
+<h2 id='堆操作'>堆操作</h2>
+<p>堆在进行数据添加与数据删除的过程中，需要时刻保持堆的性质。</p>
+<p>比较简单的操作是堆增加结点，规定直接在堆尾添加，并对其进行<strong>向上调整</strong>的堆化：</p>
+<pre><code class='language-c++' lang='c++'>void heap_insert(vector&lt;int&gt;&amp; heap, int value) &#123;
+    heap.push_back(value);  // 将新元素添加到堆的末尾
+    int index = heap.size() - 1;  // 新元素的索引
 
-</ul>
-<p><strong>赋值</strong>：</p>
-<ul>
-<li><code>s1.assign(&quot;1234&quot;)</code> s1变成1234</li>
-<li><code>s2.assign(&quot;1234&quot;,0,2)</code> s2变成12（从0个字符开始）</li>
-<li><code>s3.assign(&quot;1234&quot;,2)</code> s3变成12</li>
-<li><code>s4.assign(2,&#39;1&#39;)</code> s4变成11</li>
-
-</ul>
-<p><strong>处理</strong>：</p>
-<ul>
-<li><code>s1.at(1)</code> 返回s1字符串下标1的单个字符char</li>
-<li><code>s2.erase(1,2)</code> 删除s2从下标1开始的两个字符</li>
-<li><code>s3.clear()</code> s3被清空</li>
-<li><code>s4.empty()</code> 以bool格式返回，检查s4是否为空</li>
-<li><code>s5.c_str()</code> s5以C字符串char[]的形式返回</li>
-
-</ul>
-<p><strong>查看</strong>：</p>
-<ul>
-<li><code>s1.size()</code>和<code>s1.length()</code> 都是返回s1长度int值</li>
-<li><code>s2.capacity()</code> 返回分配的存储空间大小</li>
-
-</ul>
-<blockquote><p>系统为string分配的存储空间字节大小大于本身大小，初始会设置一个阈值，若建立的字符串表面量大小小于这个阈值，则会在<font color=red>栈</font>中直接分配这个阈值大小的存储空间，叫做<strong>小型字符串优化</strong>；若大于这个阈值，string对象内部会隐式new操作在<font color=red>堆</font>中根据字符串大小分配内存。</p>
-<p>这个阈值和编译器相关，常用的Visual C++是15</p>
-<p>当使用push_back操作扩容时，若超出初始分配的大小，则会对堆内存进行扩容</p>
-</blockquote>
-<p><strong>比较</strong>：</p>
-<ul>
-<li><code>s1.compare(s2)</code> s1与s2进行ASCII码比较，返回正数、0、负数</li>
-
-</ul>
-<p><strong>获取子串</strong>：</p>
-<p><code>string s1(&quot;1234&quot;)</code></p>
-<ul>
-<li><code>s1.substr(0,1)</code> 返回1</li>
-<li><code>s1.substr(1)</code> 返回234</li>
-
-</ul>
-<p><strong>搜索</strong>：</p>
-<p><code>string s1(&quot;12341&quot;)</code></p>
-<ul>
-<li><code>s1.find(&quot;23&quot;)</code> 返回下标1</li>
-<li><code>s1.find(&quot;23&quot;,3)</code> 返回string::npos（从下标3开始找，没找着）</li>
-<li><code>s1.find(&quot;1&quot;,3)</code> 返回下标4</li>
-
-</ul>
-<p><strong>插入与替换</strong>：</p>
-<p><code>string s1(&quot;1234&quot;)</code></p>
-<ul>
-<li><code>s1.insert(2,&quot;66&quot;)</code> s1变为123664</li>
-<li><code>s1.insert(2,2,&quot;66&quot;)</code> s1变为12366664</li>
-<li><code>s1.replace(1,2,&quot;8&quot;)</code> s1变为184</li>
-
-</ul>
-<blockquote><p>string对象在使用append、assign、erase、replace、insert之后，这些方法本身也会返回为结果字符串，例如以上s1.insert()=s1</p>
-</blockquote>
-<p><strong>迭代器</strong>：</p>
-<ul>
-<li><code>begin()</code>：指向容器第一个元素的位置（可读可写）</li>
-<li><code>rbegin()</code>：指向容器最后一个元素的位置（可读可写）</li>
-<li><code>cbegin()</code>：指向容器第一个元素的位置（只读）</li>
-<li><code>crbegin()</code>：指向容器最后一个元素的位置（只读）</li>
-<li><code>end()</code>：指向容器最后一个元素的下一个位置（可读可写）</li>
-<li><code>rend()</code>：指向容器第一个元素前面的位置（可读可写）</li>
-<li><code>cend()</code>：指向容器最后一个元素的下一个位置（只读）</li>
-<li><code>crend()</code>：指向容器第一个元素前面的位置（只读）</li>
-
-</ul>
-<blockquote><p>迭代器失效：当容器扩容缩容时容易导致迭代器指向的对象错位，需要及时更新</p>
-</blockquote>
-<p><strong>数字、浮点数与字符串之间的变化</strong></p>
-<ul>
-<li>C字符串中的<code>atoi</code>与<code>atof</code> 方法同样适用</li>
-<li>更方便的方法是使用<code>&lt;sstream&gt;</code>头文件中的stringstream类</li>
-
-</ul>
-<p>示例：</p>
-<pre><code class='language-c++' lang='c++'>stringstream ss;
-ss&lt;&lt;1.255;
-string s == ss.str();
-</code></pre>
-<p>上面是官方书给的示例代码，不过我更喜欢这样用：</p>
-<pre><code class='language-c++' lang='c++'>stringstream ss;
-string s;
-ss&lt;&lt;1.255;
-ss&gt;&gt;s;
-</code></pre>
-<p><code>&lt;sstream&gt;</code>类会利用C++的类型系统和运算符重载来处理不同类型的数据，更加安全</p>
-<blockquote><p>stringstream类特有的输入输出流特点还方便了字符串抽取单词，因为这个方法会自动分割空格，将单词一个个存入输入流中</p>
-</blockquote>
-<pre><code class='language-c++' lang='c++'>string text(&quot;abcd abc ab&quot;);
-stringstream ss(text);
-string word;
-while(!ss.eof())&#123;
-    ss &gt;&gt; word;
-    cout &lt;&lt; word &lt;&lt; endl;
+<pre><code>while (index &amp;gt; 0) &#123;
+    int parent_index = (index - 1) / 2;  // 父节点的索引
+    if (heap[parent_index] &amp;lt; heap[index]) &#123;
+        swap(heap[parent_index], heap[index]);  // 交换父节点和新元素
+        index = parent_index;  // 更新索引为父节点的索引
+    &#125; else &#123;
+        break;
+    &#125;
 &#125;
 </code></pre>
-<p>输出：</p>
-<pre><code class='language-c++' lang='c++'>abcd
-abc
-ab
+<p>}<br></code></pre></p>
+<p>堆的删除一般指删除堆顶元素，因为堆的目的就是维护一个优先队列，无论是大根堆还是小根堆，只有堆顶的元素是确定最大/最小的，所以实际运用情况一般都是删除堆顶元素，然后将堆尾元素放到堆顶，再对其进行<strong>向下调整</strong>堆化。</p>
+<pre><code class='language-c++' lang='c++'>int heap_delete(vector&lt;int&gt;&amp; heap) &#123;
+    if (heap.empty()) &#123;
+        return -1;  // 堆为空，返回一个错误值
+    &#125;
+
+<pre><code>int root = heap[0];  // 堆顶元素
+heap[0] = heap.back();  // 将堆的最后一个元素放到堆顶
+heap.pop_back();  // 删除堆的最后一个元素
+int index = 0;  // 当前节点的索引
+int size = heap.size();
+
+while (true) &#123;
+    int left_child_index = 2 * index + 1;  // 左子节点的索引
+    int right_child_index = 2 * index + 2;  // 右子节点的索引
+    int largest_index = index;  // 最大值的索引
+
+    if (left_child_index &amp;lt; size &amp;amp;&amp;amp; heap[left_child_index] &amp;gt; heap[largest_index]) &#123;
+        largest_index = left_child_index;
+    &#125;
+
+    if (right_child_index &amp;lt; size &amp;amp;&amp;amp; heap[right_child_index] &amp;gt; heap[largest_index]) &#123;
+        largest_index = right_child_index;
+    &#125;
+
+    if (largest_index != index) &#123;
+        swap(heap[largest_index], heap[index]);  // 交换当前节点和最大值节点
+        index = largest_index;
+    &#125; else &#123;
+        break;
+    &#125;
+&#125;
+
+return root;
 </code></pre>
+<p>}<br></code></pre></p>
+<p>//最后有空希望能再总结一下所有常用的排序算法的性质、时间复杂度、实现方法、稳定性等</p>
 </body>
 </html>
     </div>
@@ -383,13 +367,10 @@ ab
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/07/31/Untiy%E7%9B%B8%E5%85%B3C-%E5%B8%B8%E7%94%A8API/" rel="prev" title="Untiy相关C#常用API">
-      <i class="fa fa-chevron-left"></i> Untiy相关C#常用API
+    <a href="/2023/11/21/11-21%E7%A2%8E%E7%89%87%E9%97%AE%E9%A2%98%E8%A1%A5%E5%85%85C-%E7%9B%B8%E5%85%B3%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9B%B8%E5%85%B3/" rel="prev" title="11.21碎片问题补充C++相关计算机基础相关">
+      <i class="fa fa-chevron-left"></i> 11.21碎片问题补充C++相关计算机基础相关
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/08/07/C-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" rel="next" title="C++内存管理">
-      C++内存管理 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -449,7 +430,7 @@ ab
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8Ec%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%88%B0c%E7%9A%84string%E7%B1%BB"><span class="nav-number">1.</span> <span class="nav-text">从C字符串到C++的string类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#string%E7%B1%BB%E6%93%8D%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">string类操作</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%A7%E6%A0%B9%E5%A0%86%E4%B8%8E%E5%B0%8F%E6%A0%B9%E5%A0%86"><span class="nav-number">1.</span> <span class="nav-text">大根堆与小根堆</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="nav-number">2.</span> <span class="nav-text">堆排序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86%E5%8C%96%E4%B8%8E%E5%BB%BA%E5%A0%86"><span class="nav-number">2.1.</span> <span class="nav-text">堆化与建堆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A0%86%E6%93%8D%E4%BD%9C"><span class="nav-number">2.2.</span> <span class="nav-text">堆操作</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -618,7 +599,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog-comment',
       owner       : 'mikasa1x',
       admin       : ['mikasa1x'],
-      id          : '216f6cf52ca4bbcd801d433ebcfd69f4',
+      id          : 'd72224472deb2a55c7e7ddcc0fe1f1a3',
         language: '',
       distractionFreeMode: true
     });
