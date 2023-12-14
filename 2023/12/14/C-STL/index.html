@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="C++STL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++STL">
+<meta property="og:url" content="http://example.com/2023/12/14/C-STL/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:description" content="C++STL">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s11.ax1x.com/2023/12/13/piffLjJ.md.jpg">
+<meta property="article:published_time" content="2023-12-14T15:52:49.000Z">
+<meta property="article:modified_time" content="2023-12-14T15:53:35.589Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s11.ax1x.com/2023/12/13/piffLjJ.md.jpg">
+
+<link rel="canonical" href="http://example.com/2023/12/14/C-STL/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C++STL | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/14/C-STL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++STL
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-12-14 23:52:49 / 修改时间：23:53:35" itemprop="dateCreated datePublished" datetime="2023-12-14T23:52:49+08:00">2023-12-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BB%8EC%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C开始的C++</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>C++STL</title>
+</head>
+<span id="more"></span>
+<body><p>之前初见C++的时候总结的string就是C++STL（标准模板库）中的一种容器，现在在有从string的基础上继续深入了解其他STL。</p>
+<p>STL的六大组件：<strong>容器、算法、迭代器、仿函数、适配器、空间配置器</strong></p>
+<p>&nbsp;</p>
+<h1 id='容器'>容器</h1>
+<p>基础数据结构：<strong>数组</strong>(array) , <strong>链表</strong>(list), <strong>树</strong>(tree)，<strong>栈</strong>(stack), <strong>队列</strong>(queue), <strong>集合</strong>(set),<strong>映射表</strong>(map)</p>
+<p>延申数据结构：<strong>字符串</strong>(string)，<strong>向量</strong>(vector)，<strong>可重复集合</strong>(multiset)，<strong>可重复映射表</strong>(multiset)、<strong>非自动排列集合</strong>(unordered_set)、<strong>非自动排列映射表</strong>(unordered_map)……</p>
+<p>也可以按这样分类：序列式容器、关联式容器、无序关联式容器、容器适配器</p>
+<p>&nbsp;</p>
+<h2 id='序列式容器'>序列式容器</h2>
+<p>指按照元素插入的顺序进行存储和访问，可以保持元素的插入顺序并按照顺序进行迭代访问</p>
+<blockquote><p>注意这个和迭代器没有关系，array、vector、deque都是使用随机访问迭代器，可以实现随机访问，而list是使用双向迭代器，forward_list是使用单向迭代器</p>
+</blockquote>
+<p>&nbsp;</p>
+<h3 id='array'>array</h3>
+<p>其实就是C++的普通数组，不过添加了一些成员函数和全局函数，比普通数组更安全</p>
+<p>对于array的操作，可以沿用C中数组的操作</p>
+<p><code>std::array&lt;double,10&gt; value &#123;0.5,1.0,1.5,2.0&#125;;</code></p>
+<blockquote><p>C中常规数组初始化，剩下的元素为0，可见array元素在初始化的时候已经固定了（官话：元素中未初始化的值不确定）</p>
+</blockquote>
+<p>当然也可以</p>
+<p><code>std::array&lt;double,10&gt; values &#123;&#125;</code></p>
+<blockquote><p>所有元素初始化为0或者和默认元素类型等效的值</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>array和一般的STL一样配备了一系列迭代器与成员函数，其中<code>at(n)</code>成员函数返回函数元素值引用，n是下值，此外会检查是否在有效返回内，错误抛出异常，所以说array比普通数组更安全。</p>
+<p>一些操作：</p>
+<p><code>max_size()</code>返回容器可容纳的元素最大值，在array中一般和<code>size()</code>一致，不过在vector中会变成一个非常大的值</p>
+<p><code>front()</code>返回第一个值引用</p>
+<p><code>back()</code>返回最后一个值引用</p>
+<p><code>data()</code>返回一个指向容器的指针</p>
+<p><code>fill(val)</code>让容器每个值都变成val</p>
+<p>&nbsp;</p>
+<h3 id='vector'>vector</h3>
+<p>可以理解成大小可变的数组，数组的变化采用特定的成员函数</p>
+<ul>
+<li><p>vector<T> v1	v1 是一个元素类型为 T 的空 vector
+vector<T> v2(v1)	使用 v2 中所有元素初始化 v1
+vector<T> v2 = v1	同上
+vector<T> v3(n, val)	v3 中包含了 n 个值为 val 的元素
+vector<T> v4(n)	v3 中包含了 n 个默认值初始化的元素
+vector<T> v5{a, b, c...}	使用 a, b, c... 初始化 v5
+vector<T> v1	同上
+vector&lt;vector<int>&gt; matrix(M,vector<int>(N));</p>
+<p>&nbsp;</p>
+<p><code>v.push_back(val)</code>往尾端添加val</p>
+<p><code>v.emplace_back(val)</code>往尾端添加val</p>
+<blockquote><p>使用大型对象或者代价较高的构造函数时使用<code>emplace_back()</code>因为这个函数不需要拷贝临时对象，他是直接借助参数的值，在容器中直接创建新对象</p>
+</blockquote>
+<p><code>v.pop_back()</code>删除尾部元素</p>
+<blockquote><p>常用以迭代器方式插入、替换、删除类似string</p>
+</blockquote>
+<p><code>v.sort()</code>以升序排序</p>
+<blockquote><p>sort(v.begin(),v.end())</p>
+</blockquote>
+<p><code>unique()</code>将容器相邻的重复元素消除并返回不重复值范围末尾的迭代器</p>
+<blockquote><p>unique(v.begin(),v.end())不会改变原容器大小，消除之后尾部多出来空间不会被删除，所以要手动删除</p>
+</blockquote>
+</li>
+
+</ul>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+ 
+<p>int main(void)<br>&#123;<br>    vector&lt;int&gt; a&#123;2, 0, 2, 2, 0, 3, 0, 9&#125;;<br>    sort(a.begin(), a.end());  &#x2F;&#x2F; 先排序<br>    for(int i:a)   cout &lt;&lt; i &lt;&lt; &quot; &quot;; &#x2F;&#x2F; 输出<br>    cout &lt;&lt; endl;<br>    auto end_unique &#x3D; unique(a.begin(), a.end());  &#x2F;&#x2F;将输入序列相邻的重复项“消除”，返回一个指向不重复值范围末尾的迭代器<br>    a.erase(end_unique, a.end()); &#x2F;&#x2F; 删除末尾元素<br>    for(int i:a)   cout &lt;&lt; i &lt;&lt; &quot; &quot;; &#x2F;&#x2F; 输出<br>    return 0;<br>&#125;<br>&#x2F;&#x2F; 运行结果 &#x2F;&#x2F;<br>0 0 0 2 2 2 3 9<br>0 2 3 9<br></code></pre></p>
+<blockquote><p>来自CSDN@地球被支点撬走啦</p>
+</blockquote>
+<ul>
+<li><code>resize(n,t)</code>改变容器大小并赋值为t（新添加）</li>
+
+</ul>
+<p><strong>Vector的扩容</strong></p>
+<ol start='' >
+<li>完全放弃原有的容器空间</li>
+<li>创建新的更大的容器空间</li>
+<li>将原有空间中的数据迁移到新空间</li>
+<li>将旧空间释放</li>
+
+</ol>
+<p>一般会扩容capasity&gt;=size，在vs中为1.5倍，在linux中为2倍。</p>
+<p>空间大小有什么讲究呢？首先不能太大，可能造成空间浪费，也不能太小，太小会导致扩容频繁。</p>
+<p>总而言之扩容总是不好的，容易造成运行效率低下，所以避免扩容的方式就是在构造的时候直接进行预估个数大小，或者在插入之前直接进行reserve。</p>
+<p>Q1：<strong>为什么成倍数扩容？</strong></p>
+<p>A1：指定大小扩容时间复杂度为O(n)，倍数大小扩容时间复杂度近似O(1)。例如大小10扩容到100，如果指定每次扩容10大小，那么要扩容9次；如果以2倍倍数扩容，则第一次扩容扩到20，第二次扩到40，也就是说扩容之后的算法是以指数形式增长的。</p>
+<p>Q2：<strong>为什么要是1.5倍？</strong></p>
+<p>A2：为了每次扩容的时候能用上原本被释放的空间。vector每次扩容时的机制是找到新的符合要求的内存，还会将原本的空间释放，这个时候如果在多次扩容的时候能用上原本的空间是最好的。例如1空间进行多次扩容，那么会找1.5的新空间，第二次会找2.25的新空间，第三次会找3.375新空间，第四次是5.0625，这个时候会已经释放的空间加起来有4.75，于是再进行几次扩容就可以重复利用之前的空间。如果是两倍则永远都用不上。</p>
+<p>&nbsp;</p>
+<h3 id='listforwardlist为单向链表）'>list（forward_list为单向链表）</h3>
+<blockquote><p>与我们常用的手写链表不同，这是一个双向链表容器</p>
+</blockquote>
+<p>用法和vector差不太多，但底层实现逻辑是双向链表而不是数组</p>
+<p>区别和C语言中的链表数组区别差不太多：</p>
+<ol start='' >
+<li><p>存储空间连续与不连续</p>
+</li>
+<li><p>查找方便与不方便（支不支持随机访问）</p>
+</li>
+<li><p>添加删除方便与不方便</p>
+</li>
+<li><p>（额外）可以说vector扩容的时候会拷贝数据，而list不会。</p>
+<p>&nbsp;</p>
+</li>
+
+</ol>
+<h3 id='deque'>deque</h3>
+<blockquote><p>双端队列，基础创建方式仍然和vector类似，顺序性容器</p>
+</blockquote>
+<p>在首部与尾部增添或者删除元素，可以根据需要修改自身的容量和大小，但是<strong>不能保证所有的元素都存储在连续的内存空间中</strong>。</p>
+<p>deque与vector一样支持随机访问，但与vector不同的是存储的内存是分块的，每次新增内存会新增内存块，同样维护了指向这些内存块的指针（第一个和最后一个与当前活跃的）。</p>
+<ul>
+<li>list与deque新增<code>push_front()</code></li>
+
+</ul>
+<p><strong>deque的扩容</strong></p>
+<p>deque的底层包含map映射区与数据区，首先数据区就是要存数据的数组，其次这个map和后面要说的”关联式容器map“并不是一个东西，虽然名字都是映射。</p>
+<p>数据区和vector中的数据区虽然是一个东西，但不一样的是deque中的数据区一般固定为512个字节，这一块”初始“数据区的地址就映射在映射区上，如果需要扩容，就会直接new/malloc新的数据区出来，然后在map上增加地址数据。</p>
+<p>deque中含有<code>pfront</code>和<code>ptail</code>两个指针分别指向头和尾，而在初始阶段这两个指针默认指向数据区中心，然后向两边移动。</p>
+<p>除此之外，map映射区也得遵循这样的规定，毕竟双端队列deque虽然存储空间有可能不连续，但寻址逻辑一定要是连续的，大致是这样的：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piffLjJ'><img src="https://s11.ax1x.com/2023/12/13/piffLjJ.md.jpg" referrerpolicy="no-referrer" alt="piffLjJ.md.jpg"></a></p>
+<p>如图map就相当于寻址的”地图“，把不连续的内存段连起来。</p>
+<p>那么具体的扩容是怎样扩容的呢？首先deque的扩容不仅是数据段的扩容，还包括map的扩容。</p>
+<ul>
+<li>当两个指针达到他们当前数据段的极限时，比如pfront到达还要往前第0位，那么就触发扩容，这个时候新增一段数据区是必然的。</li>
+<li>然后再看map映射区，会先检查映射区里面有没有空间存数据区的地址，比如如果当然数据区地址再映射区是第1位，那么往前就是存进第0位。</li>
+<li>如果往前没有找到，那么pfront会直接跳到map的尾部，也就是1以及之后的区寻找有没有空间。如果找到了空间，<strong>那么整个数据区存在map区的地址就会整体往后移动一个映射区单位</strong>，这样第0区就空出来了。这一点对于ptail也是一样的，如果尾部没有就会往前找，总之会先<strong>优先寻找已有的空间</strong>。</li>
+<li>如果往前往后都找不到空的map坑位了，这个时候就会触发map映射区的扩容，这个时候map区的扩容是<strong>以2倍数扩容</strong>的，扩容后01变成0123，并且地址会往中心移动，也就是说现在变成了12位存有地址。</li>
+
+</ul>
+<p>&nbsp;</p>
+<h2 id='关联式容器'>关联式容器</h2>
+<p>指带有键值的容器，底层由<strong>黑红树</strong>实现，会根据键值来自动按照某种规矩排序，不能由程序员来改变。</p>
+<p>如果说vector封装了数组，list封装了链表，那么关联式容器里运用最广泛的set和map就是封装了二叉树。</p>
+<p>Q：为什么说关联式容器插入删除效率比用其他序列容器高？</p>
+<p>A：因为关联容器只涉及指针变动，不涉及内存拷贝或者内存移动；此外黑红树的查找效率非常高，这点比顺序性容器中的list优势很多。</p>
+<p>Q：关联性容器的数据增添效率问题？</p>
+<p>A：这个考虑黑红树树高就能想到了。</p>
+<p><a target="_blank" rel="noopener" href='https://jiuriri.com/2023/06/01/初识黑红树/'>初识黑红树 | Coding中。。。 (jiuriri.com)</a></p>
+<p>&nbsp;</p>
+<h3 id='set'>set</h3>
+<blockquote><p>即集合，常见关联式容器中不带Value值的</p>
+</blockquote>
+<p>元素插入时不可重复插入，即集合互异性，并默认按照升序排序。</p>
+<p>set的设计目的是唯一性和有序性，其键值不能修改，因为黑红树根据键来排序，如果可以随意更改，那么该元素在黑红树中的位置就会不稳定。</p>
+<p>常见的做法是先删除，再添加。</p>
+<p>&nbsp;</p>
+<h3 id='mutliset'>mutliset</h3>
+<blockquote><p>多重集合，可以存储相同的集合数据，并且相同的数据数量做Value值</p>
+</blockquote>
+<p>除了可以重复插入，其他性质和set一致。</p>
+<p>此外还有<code>unordered_set</code>做无序的集合</p>
+<p>&nbsp;</p>
+<h3 id='unorderedmap'>unordered_map</h3>
+<blockquote><p>无序映射，也就是哈希表的一种实现方式，在算法中常用（也就是说有序映射就是是map，排序规则和set一样）</p>
+</blockquote>
+<p><code>unordered_map</code>一次性存两个值，一个是key，一个是value，可以通过key来以O(1)的速度查询value，原理是用把key当作哈希函数参数，然后计算出来的地址就是要找的地址，如果发生哈希冲突，则可以通过<strong>链地址法</strong>或者<strong>开放地址法</strong>来找新的地址。当然，各种寻找新地址的算法也是一门学问。从效果上看，相当于将普通数组中的（1、2、3...）替换成key值。</p>
+<p>另外，使用迭代器时，<code>it-&gt;first</code>表示<code>key</code>，<code>it-&gt;secend</code>表示<code>value</code></p>
+<p>可以使用<code>std::pair</code>来进行键值插入，也可以使用C++11新引入的花括号进行插入，不过我最常用的还是直接使用下标进行插入。</p>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+#include &lt;map&gt;
+int main() &#123;
+    std::map&lt;int, std::string&gt; myMap;
+    // 使用 std::pair 插入元素
+    myMap.insert(std::pair&lt;int, std::string&gt;(1, &quot;one&quot;));
+    // 使用花括号初始化列表插入元素
+    myMap.insert(&#123;2, &quot;two&quot;&#125;);
+    //下标插入
+    myMap[3]=&quot;three&quot;;
+    // 打印 map 中的元素
+    for (const auto&amp; elem : myMap) &#123;
+        std::cout &lt;&lt; elem.first &lt;&lt; &quot;: &quot; &lt;&lt; elem.second &lt;&lt; std::endl;
+    &#125;
+    //C++17中的结构化绑定
+    for (auto [x,y] : myMap) &#123;
+        std::cout &lt;&lt; x &lt;&lt; &quot;: &quot; &lt;&lt; y &lt;&lt; std::endl;
+    &#125;
+    return 0;
+&#125;
+</code></pre>
+<blockquote><p>注意multimap由于可以多重关键字，所以不允许用下标访问</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='容器适配器'>容器适配器</h2>
+<p>对底层容器进行封装，以完成一些特定的需要的功能，比如常见的堆栈队列。</p>
+<ul>
+<li>stack——栈（底层可以是任何迭代器，但默认是deque）</li>
+
+</ul>
+<blockquote><p>stack&lt;string, vector&gt;这样子就变成vector了</p>
+</blockquote>
+<ul>
+<li>queue——队列（底层默认也为deque）</li>
+<li>pirority_queue——堆（优先队列，底层默认为vector）</li>
+
+</ul>
+<p><a target="_blank" rel="noopener" href='https://jiuriri.com/2023/12/05/堆基础/#more'>堆基础 | Coding中。。。 (jiuriri.com)</a></p>
+<p>由于使用的实在太多，就不进行详细介绍了，接下来进行知识补充。</p>
+<p>&nbsp;</p>
+<p><strong>队列和双端队列</strong></p>
+<p>众所周知队列和栈都是不能遍历的，但双端队列却可以用迭代器遍历，虽然效率很低。</p>
+<p>我的理解是队列和栈作为容器适配器是一种规定，如果要遍历，就不要使用他们，或者直接一个个将所有元素pop再重新push进去。而双端队列偏底层，所以一般的操作都是可以的。</p>
+<p>&nbsp;</p>
+<p><strong>迭代器失效问题</strong></p>
+<p>除了容器适配器，其他容器都是配置了迭代器的，例如顺序性容器除list之外都是随机访问迭代器，而list本身和关联性容器是双向迭代器。如果在迭代过程中发生了结构变化，那么也就是说这个迭代器过期了，这个迭代器只适用于旧容器。过期的迭代器有可能发生迭代器失效，这样很容易访问到不确定的内容。</p>
+<p>迭代器失效的问题大致可以分为以下几类：</p>
+<ul>
+<li>插入导致失效</li>
+<li>删除导致失效</li>
+<li>容器重新分配内存导致失效</li>
+<li>容器的修改导致失效</li>
+
+</ul>
+<p>所以可以推断在vector中，如果对某结点erase，则当前结点以及之后结点的迭代器失效，因为vector容器位置是相邻的，删除一个元素后面的会挤上来。push_back一个元素，首先end()失效，然后如果没有进行空间分配，则push之前的元素迭代器还有效，如果进行了空间分配，则所有的迭代器都失效。</p>
+<p><code>insert</code>和<code>erase</code>的返回值可以返回下一个迭代器，所以返回给迭代器就行。</p>
+<pre><code class='language-c++' lang='c++'>vector&lt;int&gt; cont;
+for (auto iter = cont.begin(); iter != cont.end();)
+&#123;
+   (*it)-&gt;doSomething();
+   if (shouldDelete(*iter))
+      iter = cont.erase(iter);  //erase删除元素，返回下一个迭代器
+   else
+      ++iter;
+&#125;
+</code></pre>
+<p>deque迭代器首位之外的位置进行插入删除操作就会导致所有迭代器失效，而在首尾进行操作则只会使这两个地方的迭代器失效。</p>
+<p>list这种容器只会使被删除的迭代器失效，不会影响其他迭代器，解决方法同样是返回有效迭代器就行。</p>
+<p>关联式容器的迭代器原理和list一样，但是区别是erase只会返回void，所以要使用erase(it++)进行迭代，或者直接记录要被删除的结点，在删除之前将迭代器自然迭代在将其删除。</p>
+<p>&nbsp;</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/12/06/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/" rel="prev" title="工厂模式详解">
+      <i class="fa fa-chevron-left"></i> 工厂模式详解
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">容器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E5%BC%8F%E5%AE%B9%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">序列式容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#array"><span class="nav-number">1.1.1.</span> <span class="nav-text">array</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vector"><span class="nav-number">1.1.2.</span> <span class="nav-text">vector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#listforwardlist%E4%B8%BA%E5%8D%95%E5%90%91%E9%93%BE%E8%A1%A8%EF%BC%89"><span class="nav-number">1.1.3.</span> <span class="nav-text">list（forward_list为单向链表）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deque"><span class="nav-number">1.1.4.</span> <span class="nav-text">deque</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E5%BC%8F%E5%AE%B9%E5%99%A8"><span class="nav-number">1.2.</span> <span class="nav-text">关联式容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#set"><span class="nav-number">1.2.1.</span> <span class="nav-text">set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mutliset"><span class="nav-number">1.2.2.</span> <span class="nav-text">mutliset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unorderedmap"><span class="nav-number">1.2.3.</span> <span class="nav-text">unordered_map</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E9%80%82%E9%85%8D%E5%99%A8"><span class="nav-number">1.3.</span> <span class="nav-text">容器适配器</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/3333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/14/C-STL/" title="2023&#x2F;12&#x2F;14&#x2F;C-STL&#x2F;">C++STL</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/06/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/" title="2023&#x2F;12&#x2F;06&#x2F;工厂模式详解&#x2F;">工厂模式详解</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/05/%E5%A0%86%E5%9F%BA%E7%A1%80/" title="2023&#x2F;12&#x2F;05&#x2F;堆基础&#x2F;">堆基础</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/21/11-21%E7%A2%8E%E7%89%87%E9%97%AE%E9%A2%98%E8%A1%A5%E5%85%85C-%E7%9B%B8%E5%85%B3%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9B%B8%E5%85%B3/" title="2023&#x2F;11&#x2F;21&#x2F;11-21碎片问题补充C-相关计算机基础相关&#x2F;">11.21碎片问题补充C++相关计算机基础相关</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/21/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%BB%8F%E5%85%B8%E9%81%8D%E5%8E%86/" title="2023&#x2F;11&#x2F;21&#x2F;二叉树经典遍历&#x2F;">二叉树经典遍历</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/15/%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA%E5%85%B6%E4%BA%8C/" title="2023&#x2F;11&#x2F;15&#x2F;光线追踪其二&#x2F;">光线追踪其二</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/15/DOTween%E6%8F%92%E4%BB%B6%E5%85%A5%E9%97%A8/" title="2023&#x2F;11&#x2F;15&#x2F;DOTween插件入门&#x2F;">DOTween插件入门</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/14/%E4%BB%8B%E8%B4%A8%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%AD%90%E5%B1%82/" title="2023&#x2F;11&#x2F;14&#x2F;介质访问控制子层&#x2F;">介质访问控制子层</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/10/%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA%E5%85%B6%E4%B8%80/" title="2023&#x2F;11&#x2F;10&#x2F;光线追踪其一&#x2F;">光线追踪其一</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/10/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%88%86%E6%9E%90%E8%AE%BE%E8%AE%A1%E5%AF%BC%E8%AE%BA%E5%89%8D%E5%8D%8A/" title="2023&#x2F;11&#x2F;10&#x2F;面向对象分析设计导论前半&#x2F;">面向对象分析设计导论前半</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : 'f076f15ab1b15f8f0b138f9e121d8d84',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
