@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="传输层">
+<meta property="og:url" content="http://example.com/2023/12/29/%E4%BC%A0%E8%BE%93%E5%B1%82/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s11.ax1x.com/2023/12/28/piqtwc9.png">
+<meta property="og:image" content="https://s11.ax1x.com/2023/12/28/piqtd1J.png">
+<meta property="og:image" content="https://s11.ax1x.com/2023/12/28/piqOXR0.jpg">
+<meta property="og:image" content="https://s11.ax1x.com/2023/12/28/piqXKdH.png">
+<meta property="article:published_time" content="2023-12-28T16:44:34.000Z">
+<meta property="article:modified_time" content="2023-12-28T16:45:52.218Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s11.ax1x.com/2023/12/28/piqtwc9.png">
+
+<link rel="canonical" href="http://example.com/2023/12/29/%E4%BC%A0%E8%BE%93%E5%B1%82/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>传输层 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/29/%E4%BC%A0%E8%BE%93%E5%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          传输层
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-12-29 00:44:34 / 修改时间：00:45:52" itemprop="dateCreated datePublished" datetime="2023-12-29T00:44:34+08:00">2023-12-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>传输层</title>
+</head>
+<body><h1 id='传输层'>传输层</h1>
+<blockquote><p>向它的用户（应用层的进程）提供高效的、可靠的和成本有效的数据传输服务</p>
+</blockquote>
+<p>相对于网络层而言，传输层更加注重可靠的传输服务。</p>
+<p>网络层也有定义“负责网络包的传输”，但网络层更加关注的是不同网络之间的包传输，比如分组算法和路由选择最佳路径、寻址等。</p>
+<p>所以说传输层更像是“专注的”用于研究传输的过程的层级，在传输层中往往理解为传输的实体都是“固定的”，传输路径也是“固定的”。在这一章节当中，将会揭示传输层使用什么方式保证可靠连接，以及用途与做法。</p>
+<p>&nbsp;</p>
+<figure><table>
+<thead>
+<tr><th>原语</th><th>发出的包</th><th>含义</th></tr></thead>
+<tbody><tr><td>LISTEN</td><td>无</td><td>阻塞，直到某个进程试图与之连接</td></tr><tr><td>CONNECT</td><td>CONNECTION REQ</td><td>主动尝试建立一个连接</td></tr><tr><td>SEND</td><td>DATA</td><td>发送信息</td></tr><tr><td>RECEIVE</td><td>无</td><td>阻塞，直到到达一个DATA包</td></tr><tr><td>DISCONNECT</td><td>DISCONNECTION REQ</td><td>请求释放连接</td></tr></tbody>
+</table></figure>
+<blockquote><p>一个简单的传输服务原语</p>
+</blockquote>
+<p>&nbsp;</p>
+<figure><table>
+<thead>
+<tr><th>原语</th><th>含义</th></tr></thead>
+<tbody><tr><td>SOCKET</td><td>创建一个新通信端点</td></tr><tr><td>BIND</td><td>将套接字与一个本地地址关联</td></tr><tr><td>LISTEN</td><td>声明愿意接受连接；给出队列长度</td></tr><tr><td>ACCEPT</td><td>被动创建一个入境连接</td></tr><tr><td>CONNECT</td><td>主动创建一个连接</td></tr><tr><td>SEND</td><td>通过连接发送一些数据</td></tr><tr><td>RECEIVE</td><td>从连接上接收一些数据</td></tr><tr><td>CLOSE</td><td>释放连接</td></tr></tbody>
+</table></figure>
+<blockquote><p>TCP套接字原语</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='寻址'>寻址</h2>
+<p>计算机A上的应用程序a想访问计算机B上的应用程序b，那么他在发出CONNECT请求的时候，必须要知道程序b关联在计算机B上的<strong>端口</strong>，也叫做<strong>TSAP（传输服务访问点）</strong>，并将自己与计算机A上某个端口关联。</p>
+<p>找到b在B上的TSAP号，就是寻址的过程。</p>
+<p><strong>端口映射器</strong>存储了应用程序与端口的对应关系，程序a想要知道程序b的端口，那么先于端口映射器建立连接，返回到b的端口的时候再重新建立连接。</p>
+<ul>
+<li>新的服务（应用程序）创建时需要向端口映射器注册</li>
+<li>端口映射器的TSAP必须是广为人知的</li>
+
+</ul>
+<p>&nbsp;</p>
+<h2 id='可靠性连接断开'>可靠性连接/断开</h2>
+<p>某些情况下网络必须做到完全可靠，例如银行汇款、短信传输等，就算并不完全可靠，包可能发生丢失，也需要至少在发生错误的时候进行警告。</p>
+<p>&nbsp;</p>
+<p><strong>三次握手</strong></p>
+<ul>
+<li>同步初始序列号</li>
+<li>避免打开历史连接请求</li>
+
+</ul>
+<p>过程：</p>
+<p>客户端发送<strong>SYN j</strong></p>
+<p>服务端回应<strong>SYN k,ACK j+1</strong></p>
+<p>客户端回应<strong>ACK k+1</strong></p>
+<blockquote><p>什么叫“同步初始序列号呢”，首先序列号是按照字节流/数据包排列的，比如第一个发送出去的数据包为1，第二个就是2，接收端知道这样的规律之后就可以分辨认出是否发生错误，在发生错误之后再根据ACK机制回应发送方错误发生了。三次握手就保证经过一次交流之后双方都知道了必须的序列号规律</p>
+</blockquote>
+<p>传输的时候有可能发生丢包现象，也有可能发生延迟现象，想象一下如果第一次握手发出的数据包延迟到达，触发了客户端的重传，此时服务端会接收两个时间不同的数据包。三次握手规定服务端需要接收客户端的回复才开启服务，所以对他来说这两次并无所谓。但试想如果服务端直接开启服务，但开启的这一份服务对客户端来说已经是无效的，客户端一直在等待第二次连接的回应，那么服务端就一直像忘记关闭的电灯泡一样销毁资源。此外，如果服务端一收到SYN就开启服务，那么他接收到这两次重传的SYN之后可以会直接建立两个连接，其中一个永远也接收不到消息，这样就造成了资源浪费。</p>
+<p><strong>总而言之三次握手遵循的就是“在得到对方已经接收到我的信息之前不会开启服务”这样一个谨慎了对策</strong>。</p>
+<p>&nbsp;</p>
+<p><strong>四次挥手</strong></p>
+<blockquote><p>《计算机网络》一书举了一个很巧妙的例子，设想有俩军交战，蓝军从南方和北方将白军包围，现在的设定是白军可以战胜任何一边的蓝军，但两边蓝军同时进攻能战胜白军。</p>
+<p>在可靠连接建立之前消息发送都是不可靠的，也就是说南北方蓝军派出的传信兵随时都可能被白军捕获，试想南边的部队成功发出“明天进攻”的消息，但北方的部队的回应传信兵被白军捕获，这个时候南边部队是不能随意出动的，因为“消息是否成功到达”这个消息对南边部队来说是未知的。</p>
+</blockquote>
+<p>这个例子理论上是没有解决方案的，因为就算我们拥有三次握手协议，甚至四次五次六次无限次，最后一个消息发出方始终是不知道自己发出的消息是否被转达到位，于是始终会犹豫行动（现在终于知道抗战时期电报的重要性了）。</p>
+<p>连接建立的时候只需要三次握手，因为三次握手之后，尽管第三次的消息的传达对于客户端来说是未知的，但其实对于传输的影响不大。试想一下客户端开启服务开始传输数据，而此时服务端由于未接收到第三次握手所以无法开启服务，自然也不会对客户端回应，此时客户端超时，自然也就了解到连接建立失败了，所以连接阶段只要保证服务端不会无限等待下去就行。</p>
+<blockquote><p>服务端真的会无限等待吗？其实TCP设立了<strong>保活计时器</strong>来避免这样的意外情况发生，比如连接已经建立之后服务端却突然故障。保活计时器会对服务端接收到的消息计时，如果一定时间内（一遍为两小时）没接收新信息则会强制断开。</p>
+</blockquote>
+<p>而断开连接的时候比连接建立时要多想一层，因为断开连接时需要保证所有数据都传输到位，而不会因为某一方贸然断开连接而产生大量数据丢失。</p>
+<p>过程：</p>
+<p>客户端在发送完最后一个数据后接着发送一个释放请求，并停止发送数组<strong>FIN = 1，seq = u</strong></p>
+<p>服务端收到请求后立马发送一个确认<strong>ACK = 1，seq = v，ack = u + 1</strong></p>
+<p>服务端等待自己发送完所有数据，在最后一个数据尾接上释放请求<strong>FIN = 1，ACK = 1，seq = w，ack = u + 1</strong></p>
+<p>客户端接收到请求，发送确认消息<strong>ACK = 1，ack = w + 1</strong>，于是服务端释放，客户端在等待<strong><font color=red>2 MSL（Maximum Segment Lifetime，最大报文存活时间）</font></strong>后也释放资源。</p>
+<blockquote><p>客户端总是比服务端晚释放，等待2MSL的原因是客户端需要确保服务端成功接收到ACK，并等待服务端有可能的重传，如果这段时间客户端收到了重传信息，客户端会重置2MSL的时间；其次，2MSL时间为了考虑最坏情况的发生，既服务端的超时时长</p>
+</blockquote>
+<p>其实三次握手本身就是四次握手，只不过“累积确认”机制使确认帧和序列号帧同时传出，所以合为一次握手。此外四次握手将确认帧和请求帧分开，其实就是保证自己的数据也完全传出，这个时候如果服务端本身就完成了所有数据的传出，那么确认帧和请求帧就可以合并为一次挥手。</p>
+<p>&nbsp;</p>
+<h2 id='可靠性传输'>可靠性传输</h2>
+<blockquote><p>不错（无比特差错）、不丢（不丢包）、不乱（包按顺序到达）</p>
+</blockquote>
+<p>总览：</p>
+<ul>
+<li>流量控制</li>
+<li>拥塞控制</li>
+<li>差错控制</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>滑动窗口</strong></p>
+<p>数据链路层中的滑动窗口和传输层中的滑动窗口很像，只不过传输层传输的是报文段或数据包，而数据链路层中传输的是帧。</p>
+<p>滑动窗口协议建立在接收方与发送方各自维护的缓冲区上，缓冲区最初是针对等停协议来建立的，因为数据传输的时候完全等待确认帧到来之后再发送下一个帧是完全不现实的。</p>
+<p>那么就来详细规定一下滑动窗口：</p>
+<ul>
+<li>接收方维护一个缓冲区，窗口值等于可以继续接收字节流的大小，维护一系列数据包基序号，检查缓冲区中的数据包序号是否与基序号相匹配。</li>
+<li>发送方维护一个缓冲区，窗口值等于可以继续发送字节流的大小，维护一系列已发送但未收到确认的包列表。</li>
+<li>窗口大小通常以数据包的数量或以字节数来表示。较大的窗口大小可以提高传输效率，但也会增加缓冲区的需求和延迟。较小的窗口大小可以减少缓冲区的需求和延迟，但会降低传输效率。</li>
+<li>两个缓冲区的作用使得字节流根据区域分成了四类：</li>
+
+</ul>
+<figure><table>
+<thead>
+<tr><th style='text-align:left;' >状态</th><th style='text-align:left;' >描述</th></tr></thead>
+<tbody><tr><td style='text-align:left;' >4</td><td style='text-align:left;' >发送方尚未发送数据包，接收方未做好准备来接收数据</td></tr><tr><td style='text-align:left;' >3</td><td style='text-align:left;' >发送方尚未发送数据包，接收方已做好准备来接收数据</td></tr><tr><td style='text-align:left;' >2</td><td style='text-align:left;' >发送方已发送数据包，但尚未收到接收方的确认</td></tr><tr><td style='text-align:left;' >1</td><td style='text-align:left;' >发送方已发送数据包，并已收到接收方的确认</td></tr></tbody>
+</table></figure>
+<p>如果运行正常，字节流的状态会由2变为1，由3变为2，看起来就好像在向上滑动。</p>
+<blockquote><p>滑动窗口允许同时发送多个包，<strong>提高了利用率</strong>，控制滑动窗口的大小以<strong>控制数据传输的拥塞情况</strong>，也可以通过滑动窗口实现包的<strong>选择性重传</strong>，这些就是滑动窗口协议的优势</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>流量控制</strong></p>
+<p>流量控制的目的主要是防止发送方速率过快使接收方过载，有停止-等待和滑动窗口控制两者方式，通过控制滑动窗口大小，就能方便地进行流量控制。</p>
+<p>接收窗口会时不时向发送方通知自己还剩多少空间够缓存，这段空间就叫做“通知窗口”，通知窗口为0的时候会发送零窗口通告，直到非0为止。同样，为了防止非零窗口通告丢失，发送方会维护一个定时器用于在等待期间时不时主动查询通知窗口大小。</p>
+<p>此外，还有Clark算法（设置每次非零通告发出的最小等待时间）与Nagle算法（空间存到一定量再发送非零通告）也有助于流量控制。</p>
+<p>&nbsp;</p>
+<p><strong>拥塞控制</strong></p>
+<blockquote><p>流量控制注重于点对点局部控制，拥塞控制注重于网络报文全局控制</p>
+</blockquote>
+<p>拥塞就是指比如发送方发送速率过快导致网络资源（带宽、缓冲区）无法容纳流量数据的现象，容易导致据包的丢失、延迟增加和网络性能下降。主要控制发送方速率来实现。</p>
+<p>拥塞窗口是发送方缓冲区中的一个<strong>参数</strong>，拥塞控制基本上就是通过调整这样一个参数来实现的。思路可以从两个方面来进行，那就是拥塞避免与拥塞恢复，分别对应拥塞控制的<strong>慢开始</strong>与<strong>快重传</strong>。</p>
+<ul>
+<li>慢开始——设置拥塞窗口为一个较小的值——指数增长——到达阈值时线性增长（拥塞避免）——出现超时（发生拥堵），设置阈值为超时窗口的一半——重新慢开始</li>
+<li>快重传：基于慢开始的算法，试想若接收窗口接收到一系列包中存在丢失情况，此时由于等待包更新导致接收窗口一直拥塞。快重传就是当遇到这种情况时立即发送多个冗余确认，使得发送方不需要等待计数器就立马发送丢失的包。报文丢失的情况下很容易发送拥塞，所以在快重传的基础上将拥塞窗口设置为收到三个冗余重传时拥塞窗口的一半，此时的拥塞窗口成为新的慢开始阈值。</li>
+
+</ul>
+<blockquote><p>比如M1、M2、M4，此时接收方收到M4的时候还是会重传M2的ACK，包括M5、M6冗余重传3次，这就是冗余重传</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piqtwc9'><img src="https://s11.ax1x.com/2023/12/28/piqtwc9.png" referrerpolicy="no-referrer" alt="piqtwc9.png"></a>
+<a target="_blank" rel="noopener" href='https://imgse.com/i/piqtd1J'><img src="https://s11.ax1x.com/2023/12/28/piqtd1J.png" referrerpolicy="no-referrer" alt="piqtd1J.png"></a></p>
+<p><strong>差错控制</strong></p>
+<p>分为检错重发法、前向纠错法、反馈校验法</p>
+<p>&nbsp;</p>
+<h1 id='tcp'>TCP</h1>
+<blockquote><p>TCP（Transmission Control Protocol 传输控制协议）是一种面向连接的、可靠的、有序的、基于字节流的传输层通信协议。</p>
+</blockquote>
+<p>比如连接时需要三次握手，释放时需要三次挥手，这个前文都介绍过。</p>
+<p>TCP是面向字节流的传输协议，即1比特为一组传输数据。其段（一分组）结构如下所示：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piqOXR0'><img src="https://s11.ax1x.com/2023/12/28/piqOXR0.jpg" referrerpolicy="no-referrer" alt="piqOXR0.jpg"></a></p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/piqXKdH'><img src="https://s11.ax1x.com/2023/12/28/piqXKdH.png" referrerpolicy="no-referrer" alt="piqXKdH.png"></a></p>
+<ul>
+<li><p>端口：寻址到发送/接收端口的应用进程</p>
+</li>
+<li><p>序号：即序列号，本帧数据数列号</p>
+</li>
+<li><p>确认号：即ACK确认机制接收方期望接收到的序列号</p>
+</li>
+<li><p>TCP头长度：即用来直观显示TCP头长度的（20~40字节），占四位，会随着选项长度改变</p>
+</li>
+<li><p>标志：</p>
+<ul>
+<li>CWR：为1时即告诉发送方拥塞了，需要减少拥塞窗口</li>
+<li>ECE：为1说明发送方可以进行显式拥塞通知机制</li>
+
+</ul>
+<ul>
+<li>URG：需要发送紧急数据是为1，与紧急指针配合使用</li>
+<li><strong>ACK</strong>：为1说明确认号合法，为0说明无确认信息</li>
+<li>PSH：为1时说明本段不需要等待缓冲区填满，尽快发出</li>
+<li><strong>SYN</strong>：为1时申请建立连接，可以说建立连接时发送一个SYN请求</li>
+<li><strong>FIN</strong>：为1时申请释放连接，即发送方没有数据发送了</li>
+
+</ul>
+</li>
+<li><p>接收窗口：用于存储接收方缓存的大小量，即还能存多少数据，方便告诉发送方进行流量控制</p>
+</li>
+<li><p>校验和：与差错检测相关，比如汉明码</p>
+</li>
+<li><p>紧急指针：指向一个报文段紧急数据位置（偏移量）</p>
+</li>
+<li><p>选项长度：TPC传输过程中有一些用于功能或者性能优化的选项（选择确认、时间戳等），选项长度就是用来指明选项选择情况的长度（可变）</p>
+</li>
+<li><p>填充：末尾添加额外字节，用于整个报文段达到一定长度或者对其需求，也可能为了安全性处理。</p>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<blockquote><p>UDP报文结构较为简单，可以参考<a target="_blank" rel="noopener" href='https://blog.csdn.net/m0_54489492/article/details/121138763'>UDP协议报文结构_udp报文结构-CSDN博客</a></p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='tcp中的计时器'>TCP中的计时器</h2>
+<blockquote><p>重传计时器、持续计时器、保活计时器</p>
+</blockquote>
+<p><strong>重传计时器</strong></p>
+<p>很常提起的一个计时器，比如发出一个段的时候就会立即启用，被确认的时候就会停止计时，超时的时候就会重发，这就是典型的超时重传。</p>
+<p><strong>持续计时器</strong></p>
+<p>上文提到过接收窗口为0的情况，如果零窗口通告丢失的，则发送方和接收方就会发生死锁。那里提到的计时器就是持续计时器，当发送方接收到零窗口通告时会设定一个计数器，比如等待60s进行一次窗口探测。</p>
+<p><strong>保活计时器</strong></p>
+<p>也提到过，就是若某一方发生致命错误崩溃，那么另一方就长时间接收不到消息但仍然处于活跃状态。保活计时器就是通过及时检测长时间收不到消息就会启用调查，若发现另一方不回应则主动直接关闭连接。</p>
+<p>&nbsp;</p>
+<h1 id='总结'>总结</h1>
+<ul>
+<li><strong>回退N</strong>和<strong>选择重传</strong>协议属于差错恢复的两个基本方法，即滑动窗口协议、</li>
+<li>TCP实现可靠性传输的方式有：<strong>序列号和确认应答</strong>、<strong>超时重传</strong>、<strong>滑动窗口</strong>、<strong>拥塞控制</strong>，UDP想实现可靠性传输就往这方面靠</li>
+<li>传输层面向的是不同主机之间不同进程（应用程序）之间的传输，网络层面向不同主机提供通信服务（选择网络路径）</li>
+<li>UDP特点：面向无连接、尽最大可能交付， 面向报文， 没有拥塞控制， 支持单播、多播、广播的交互通信。</li>
+<li>TCP特点：面向连接 的，提供可靠交付，有 流量控制，拥塞控制，提供 全双工通信，面向 字节流，每一条 TCP 连接只能是 点对点 的（一对一）的传输层通信协议。</li>
+
+</ul>
+<ul>
+<li>自动重传协议除了滑动窗口的两个基本方法，还包括停等式协议</li>
+
+</ul>
+<p>&nbsp;</p>
+<blockquote><p>图片来自网络侵删</p>
+</blockquote>
+<p>&nbsp;</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/12/24/%E4%B8%80%E4%B8%AA%E9%BA%BB%E6%9C%A8%E7%9A%84%E5%A4%9C%E6%99%9A/" rel="prev" title="一个麻木的夜晚">
+      <i class="fa fa-chevron-left"></i> 一个麻木的夜晚
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="nav-number">1.</span> <span class="nav-text">传输层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BB%E5%9D%80"><span class="nav-number">1.1.</span> <span class="nav-text">寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E9%9D%A0%E6%80%A7%E8%BF%9E%E6%8E%A5%E6%96%AD%E5%BC%80"><span class="nav-number">1.2.</span> <span class="nav-text">可靠性连接&#x2F;断开</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E9%9D%A0%E6%80%A7%E4%BC%A0%E8%BE%93"><span class="nav-number">1.3.</span> <span class="nav-text">可靠性传输</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tcp"><span class="nav-number">2.</span> <span class="nav-text">TCP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tcp%E4%B8%AD%E7%9A%84%E8%AE%A1%E6%97%B6%E5%99%A8"><span class="nav-number">2.1.</span> <span class="nav-text">TCP中的计时器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/3333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/29/%E4%BC%A0%E8%BE%93%E5%B1%82/" title="2023&#x2F;12&#x2F;29&#x2F;传输层&#x2F;">传输层</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/24/%E4%B8%80%E4%B8%AA%E9%BA%BB%E6%9C%A8%E7%9A%84%E5%A4%9C%E6%99%9A/" title="2023&#x2F;12&#x2F;24&#x2F;一个麻木的夜晚&#x2F;">一个麻木的夜晚</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/14/C-STL/" title="2023&#x2F;12&#x2F;14&#x2F;C-STL&#x2F;">C++STL</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/06/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/" title="2023&#x2F;12&#x2F;06&#x2F;工厂模式详解&#x2F;">工厂模式详解</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/05/%E5%A0%86%E5%9F%BA%E7%A1%80/" title="2023&#x2F;12&#x2F;05&#x2F;堆基础&#x2F;">堆基础</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/21/11-21%E7%A2%8E%E7%89%87%E9%97%AE%E9%A2%98%E8%A1%A5%E5%85%85C-%E7%9B%B8%E5%85%B3%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9B%B8%E5%85%B3/" title="2023&#x2F;11&#x2F;21&#x2F;11-21碎片问题补充C-相关计算机基础相关&#x2F;">11.21碎片问题补充C++相关计算机基础相关</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/21/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%BB%8F%E5%85%B8%E9%81%8D%E5%8E%86/" title="2023&#x2F;11&#x2F;21&#x2F;二叉树经典遍历&#x2F;">二叉树经典遍历</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/15/%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA%E5%85%B6%E4%BA%8C/" title="2023&#x2F;11&#x2F;15&#x2F;光线追踪其二&#x2F;">光线追踪其二</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/15/DOTween%E6%8F%92%E4%BB%B6%E5%85%A5%E9%97%A8/" title="2023&#x2F;11&#x2F;15&#x2F;DOTween插件入门&#x2F;">DOTween插件入门</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/14/%E4%BB%8B%E8%B4%A8%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%AD%90%E5%B1%82/" title="2023&#x2F;11&#x2F;14&#x2F;介质访问控制子层&#x2F;">介质访问控制子层</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '5487065606c70961228e9de0f39a74d2',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
