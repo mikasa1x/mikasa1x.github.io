@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="C++元编程">
+<meta property="og:url" content="http://example.com/2024/01/18/C-%E5%85%83%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s11.ax1x.com/2024/01/15/pFiWWyq.png">
+<meta property="og:image" content="https://s11.ax1x.com/2024/01/15/pFif4gA.png">
+<meta property="og:image" content="https://s11.ax1x.com/2024/01/15/pFihWZV.png">
+<meta property="article:published_time" content="2024-01-18T11:47:32.000Z">
+<meta property="article:modified_time" content="2024-01-18T11:48:18.392Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s11.ax1x.com/2024/01/15/pFiWWyq.png">
+
+<link rel="canonical" href="http://example.com/2024/01/18/C-%E5%85%83%E7%BC%96%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C++元编程 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/01/18/C-%E5%85%83%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++元编程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-01-18 19:47:32 / 修改时间：19:48:18" itemprop="dateCreated datePublished" datetime="2024-01-18T19:47:32+08:00">2024-01-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BB%8EC%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C开始的C++</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>C++模板元编程</title>
+</head>
+<body><h1 id='c模板元编程反射'>C++模板、元编程、反射</h1>
+<p>我喜欢把这一篇叫做——C++与UE的缝合线</p>
+<p>&nbsp;</p>
+<h2 id='c模板c11之后）'>C++模板（C++11之后）</h2>
+<p>即允许将“类型”作为变量传递</p>
+<pre><code class='language-c++' lang='c++'>int solve(int a)&#123;
+    return a*2;
+&#125;
+
+<p>float solve(float a)&#123;<br>    return a*2;<br>&#125;</p>
+<p>double solve(double a)&#123;<br>    return a*2;<br>&#125;</p>
+<p>int main()&#123;<br>    int a&#x3D;1;<br>    float b&#x3D;1.1f;<br>    double c&#x3D;1.111;<br>    cout&lt;&lt;solve(a)&lt;&lt;endl;<br>    cout&lt;&lt;solve(b)&lt;&lt;endl;<br>    cout&lt;&lt;solve(c)&lt;&lt;endl;<br>&#125;<br></code></pre></p>
+<p>不同参数列表或者返回值的函数使用函数重载函数进行定义，十分麻烦。</p>
+<pre><code class='language-c++' lang='c++'>template&lt;class T&gt;//也可以template&lt;typename T&gt;
+T solve
+T solve(T a)&#123;
+    return a*2;
+&#125;
+
+<p>int main()&#123;<br>    int a&#x3D;1;<br>    cout&lt;&lt;solve(a)&lt;&lt;endl;<br>    return 0;<br>&#125;<br></code></pre></p>
+<p>模板T可以自动判断参数类型来推导出自己是什么类型。</p>
+<p>&nbsp;</p>
+<p>放在C++98或者之前（也许？的版本中，泛型编程的形式是这样的：</p>
+<pre><code class='language-c++' lang='c++'>#define solve(T) _SOLVE_##T
+#define SOLVE(T) (T a)     \
+T _SOLVE_##T(T a)&#123;         \
+    return a*2;			   \
+&#125;						   
+
+<p>SOLVE(int);<br>SOLVE(float);</p>
+<p>int main()&#123;<br>    solve(int)(1);<br>    solve(float)(1.0f);<br>&#125;<br></code></pre></p>
+<p>最大的特点就是还没看呢，就被乱七八糟的符号糊脸。</p>
+<p>其中宏定义中的T在预处理阶段就被替换，##表示连接两边的标识符，因为<code>_SOLVE_</code>和<code>T</code>本身就属于需要替换的标志。</p>
+<p>无论是定义阶段还是使用阶段都需要直接进行宏替换，这样明显不安全，没法调试，可读性差，而且本身就不省力。</p>
+<p>&nbsp;</p>
+<pre><code class='language-c++' lang='c++'>template&lt;class T&gt;
+</code></pre>
+<p>然后就是这个神奇的模板关键字，本质上只是单纯“通知”编译器要进行模板编程了，不要报错。</p>
+<p>&nbsp;</p>
+<p><strong>SFINAE</strong></p>
+<p>在编译时，当编译器遇到一个实例化的模板时，比如上面的<code>solve(a)</code>，会将a的类型进行推导，然后将得到的类型于可能的模板集中进行一个一个匹配，若匹配成功会将模板定义中的T类型替换为a的数据类型，若遇到第二个示例，则为为其单独生成一份针对a类型的模板代码。</p>
+<p>所以理论上模板的缺点就是有可能导致代码膨胀冗余，也就是和内联函数一个道理，占用代码段内存过多，不过模板的优点倒是远远大于这些潜在问题。</p>
+<p>单个匹配失败的情况下为Failure</p>
+<p>所有匹配失败的情况下为Error——报错</p>
+<p>&nbsp;</p>
+<p><strong>模板特例</strong></p>
+<p>编译器在编译的时候偏向于调用普通函数而不是模板函数，所以有需要的情况下要把优先级高的类型单独写出，比如：</p>
+<pre><code class='language-c++' lang='c++'>string solve(string a)&#123;
+    return a+a;
+&#125;//string类型只能+
+</code></pre>
+<p><strong>显式调用</strong></p>
+<pre><code>solve&lt;int&gt;(1);
+</code></pre>
+<p><strong>整数参数</strong></p>
+<blockquote><p>这个还是C#lbj老师随口提到的一点，我摆出天际了还给我89分，点赞</p>
+</blockquote>
+<p>比如<code>template &lt;typename T, int Size&gt;</code></p>
+<p>其实就是定义了一个<strong>常数</strong>，用于模板中常数使用。</p>
+<p>总所周知模板匹配是在编译时完成的，所以模板中的任何内容都不能和运行时相关，而运行时相关编程形式作为学生思维的我们一般会直接联想到虚函数，但其实运行时的用户操作也属于很大一环。。。</p>
+<p>比如<code>int data[Size]</code></p>
+<p>&nbsp;</p>
+<p><strong>模板约束</strong></p>
+<p>在C++20之前使用SFINAE（替换失败不是错误）技术</p>
+<pre><code class='language-c++' lang='c++'>template &lt;typename T&gt;
+typename std::enable_if&lt;std::is_integral&lt;T&gt;::value, void&gt;::type
+myFunction(T value) &#123;
+    // 函数实现
+&#125;
+</code></pre>
+<p>看着就怕。</p>
+<p>C++20之后使用require或者consepts。</p>
+<pre><code class='language-c++' lang='c++'>template &lt;typename T&gt;
+requires std::is_integral_v&lt;T&gt;
+void myFunction(T value) &#123;
+    // 函数实现
+&#125;
+</code></pre>
+<pre><code class='language-c++' lang='c++'>template &lt;typename T&gt;
+concept Integral = std::is_integral_v&lt;T&gt;;
+
+<p>template &lt;Integral T&gt;<br>void myFunction(T value) &#123;<br>    &#x2F;&#x2F; 函数实现<br>&#125;<br></code></pre></p>
+<p><strong>模板的惰性</strong></p>
+<p>就像上面所说的，编译器在处理模板函数的时候是编译阶段处理实例的时候再进行模板定义的实例化（说人话就是模板函数本身在编译时不会直接进行编译，而是等编译到main调用的时候再进行编译）。那么问题来了，如果模板定义和示例分文件进行编写，比如.h与.cpp文件，那么cpp文件中的调用会找不到h中的库模板（因为h中的代码还没有被编译，h模板中的内容还不知道是什么），于是出现报错。</p>
+<p>&nbsp;</p>
+<p><strong>模板编程典型例子</strong></p>
+<p>模板编程最典型的例子就是求阶乘。</p>
+<p>阶乘<code>n!</code>正常思路就是<code>n(n-1)(n-2)...1</code>，也就是说写一个递归函数，维护一个结果值，每递归一次都拿n-1的值去乘以它。</p>
+<pre><code class='language-c++' lang='c++'>int factorialRecursive(int n) &#123;
+    if (n == 0 || n == 1) &#123;
+        return 1;
+    &#125; else &#123;
+        return n * factorialRecursive(n - 1);
+    &#125;
+&#125;
+</code></pre>
+<p>总所周知递归调用涉及栈帧创建销毁，还会涉及内存占用等运行时开销。</p>
+<p>最简单粗暴的方法便是提前知道n的值，然后手动一个一个在函数内写出来。</p>
+<p>比如：</p>
+<pre><code class='language-c++' lang='c++'>int factorialRecursive() &#123;
+        return 5 * 4 * 3 * 2 * 1;
+&#125;//假如已知n为5
+</code></pre>
+<p>可以说这段代码对于用户来说是毫无意义的。。。（省略了函数调用，你就说快不快嘛）</p>
+<p>所以有没有一种方法让程序自动生成形如<code>n(n-1)(n-2)...1</code>的代码段呢？</p>
+<p>我们可以让模板递归直接为我们生成出来</p>
+<pre><code class='language-c++' lang='c++'>// 模板递归方式计算阶乘
+template &lt;int N&gt;
+struct Factorial &#123;
+    static const int value = N * Factorial&lt;N - 1&gt;::value;
+&#125;;
+
+<p>&#x2F;&#x2F; 模板特化，定义0的阶乘为1<br>template &lt;&gt;<br>struct Factorial&lt;0&gt; &#123;<br>    static const int value &#x3D; 1;<br>&#125;;<br></code></pre></p>
+<p>最后展开大概是这个样子（假如n为5）：</p>
+<pre><code class='language-c++' lang='c++'>// 展开 Factorial&lt;5&gt;
+struct Factorial_5 &#123;
+    static const int value = 5 * Factorial_4::value;
+&#125;;
+
+<p>&#x2F;&#x2F; 展开 Factorial&lt;4&gt;<br>struct Factorial_4 &#123;<br>    static const int value &#x3D; 4 * Factorial_3::value;<br>&#125;;</p>
+<p>&#x2F;&#x2F; 展开 Factorial&lt;3&gt;<br>struct Factorial_3 &#123;<br>    static const int value &#x3D; 3 * Factorial_2::value;<br>&#125;;</p>
+<p>&#x2F;&#x2F; 展开 Factorial&lt;2&gt;<br>struct Factorial_2 &#123;<br>    static const int value &#x3D; 2 * Factorial_1::value;<br>&#125;;</p>
+<p>&#x2F;&#x2F; 展开 Factorial&lt;1&gt;<br>struct Factorial_1 &#123;<br>    static const int value &#x3D; 1 * Factorial_0::value;<br>&#125;;</p>
+<p>&#x2F;&#x2F; 模板特化 Factorial&lt;0&gt;<br>struct Factorial_0 &#123;<br>    static const int value &#x3D; 1;<br>&#125;;</p>
+<p>int main() &#123;<br>    &#x2F;&#x2F; 使用展开后的值<br>    std::cout &lt;&lt; &quot;Factorial of 5: &quot; &lt;&lt; Factorial_5::value &lt;&lt; std::endl;<br>    return 0;<br>&#125;<br></code></pre></p>
+<p>&nbsp;</p>
+<h2 id='元编程'>元编程</h2>
+<p>元编程，即生成代码的代码。</p>
+<p>和多态相似，元编程分为<strong>编译时元编程</strong>（静态多态），<strong>运行时元编程</strong>（动态多态）。</p>
+<p>上文中说到的模板生成代码和宏生成代码，其实就是属于编译时元编程，我们聊元编程也许大多是聊编译时的元编程，因为只有编译时的元编程才充分展现了它自身的意义（<strong>为了性能</strong>）。</p>
+<p>运行时元编程可能一般不会用“元编程”这个title去称呼它，而是直接说他自身的特点名字，比如“反射”、“动态加载库”等。当然，数据库编程经常用到的字符串形式代码生成也可以叫运行时元编程，除此以外用其他类型代码生成代码也属于运行时元编程，比如常用的python生成C++，lua生成C++。</p>
+<p>&nbsp;</p>
+<h2 id='反射'>反射</h2>
+<blockquote><p>反射是一种在运行时获取和操作程序结构信息的机制，例如类的成员、方法、属性等。</p>
+</blockquote>
+<p>得知这个定义时我的第一反应一直是visual studio中的debugger：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pFiWWyq'><img src="https://s11.ax1x.com/2024/01/15/pFiWWyq.png" referrerpolicy="no-referrer" alt="pFiWWyq.png"></a></p>
+<p><font color=red><strong>其实不是！！！</strong></font></p>
+<p>虽然debugger同时满足了“运行时”和“获取信息”两个条件，但其实他和反射几乎搭不上边。调试器的主要作用是允许程序员在程序运行时逐行执行代码，观察变量的值，检查调用堆栈，设置断点等。虽然调试器提供了一些运行时的信息，但它通常不提供对类型结构的直接访问和操作，这与反射的目标有所不同。</p>
+<p><strong>反射的目标往往能够在程序运行时直接进行更改</strong>，也就是“变量的获取”，比如这样：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pFif4gA'><img src="https://s11.ax1x.com/2024/01/15/pFif4gA.png" referrerpolicy="no-referrer" alt="pFif4gA.png"></a></p>
+<p>或者说（也可以说本文的最终目的）这样：</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pFihWZV'><img src="https://s11.ax1x.com/2024/01/15/pFihWZV.png" referrerpolicy="no-referrer" alt="pFihWZV.png"></a></p>
+<p>拿细节面板出来举例的原因主要是这个东西对于初学者来说（比如我）是最明显能体现反射功能的，当你第一次打开UE引擎，创建某个Actor对象或某个蓝图时，它的细节面板能够显示对象所有属性。当这个细节面板被打开的那一瞬间其实就已经在不知不觉中放肆地在运用UE中的反射功能了，只是大多数初学者可能意识不到（比如我），毕竟“反射”这个词其实挺云里雾里的。</p>
+<p>除了<strong>细节面板</strong>，UE反射机制还广泛运用在以下方面：</p>
+<ul>
+<li><strong>序列化</strong>：反射可以帮助保存和加载游戏状态，包括游戏进度、配置设置等。</li>
+<li><strong>垃圾回收</strong>：UE的垃圾回收系统可以通过反射来跟踪哪些对象正在被使用，哪些对象可以安全地删除。</li>
+<li><strong>网络复制</strong>：在网络游戏中，反射被用来同步不同玩家的游戏状态。</li>
+<li><strong>蓝图/C++通信和相互调用</strong>：反射允许蓝图（UE的视觉脚本系统）和C++代码相互通信和调用。</li>
+
+</ul>
+<p>&nbsp;</p>
+<p>“反射”功能具体是如何实现的呢，这个和UE使用的一个叫“UE4 Reflection System”的系统相关，使用<code>UCLASS</code>、<code>UFUNCTION</code>、<code>UPROPERTY</code>等宏标记对需要进行反射的数据进行标记，被标记了的数据才会被反射系统“注意”到，然后系统会将其暴露给蓝图系统或者其他功能。</p>
+<p>&nbsp;</p>
+<p>上述所说的宏标记，就包含相应的元数据，这些元数据用于实现反射功能，允许在运行时动态对类信息进行获取。-----------待续</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/12/29/%E4%BC%A0%E8%BE%93%E5%B1%82/" rel="prev" title="传输层">
+      <i class="fa fa-chevron-left"></i> 传输层
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#c%E6%A8%A1%E6%9D%BF%E5%85%83%E7%BC%96%E7%A8%8B%E5%8F%8D%E5%B0%84"><span class="nav-number">1.</span> <span class="nav-text">C++模板、元编程、反射</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#c%E6%A8%A1%E6%9D%BFc11%E4%B9%8B%E5%90%8E%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">C++模板（C++11之后）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%83%E7%BC%96%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">元编程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84"><span class="nav-number">1.3.</span> <span class="nav-text">反射</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/3333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/01/18/C-%E5%85%83%E7%BC%96%E7%A8%8B/" title="2024&#x2F;01&#x2F;18&#x2F;C-元编程&#x2F;">C++元编程</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/29/%E4%BC%A0%E8%BE%93%E5%B1%82/" title="2023&#x2F;12&#x2F;29&#x2F;传输层&#x2F;">传输层</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/24/%E4%B8%80%E4%B8%AA%E9%BA%BB%E6%9C%A8%E7%9A%84%E5%A4%9C%E6%99%9A/" title="2023&#x2F;12&#x2F;24&#x2F;一个麻木的夜晚&#x2F;">一个麻木的夜晚</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/14/C-STL/" title="2023&#x2F;12&#x2F;14&#x2F;C-STL&#x2F;">C++STL</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/06/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/" title="2023&#x2F;12&#x2F;06&#x2F;工厂模式详解&#x2F;">工厂模式详解</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/05/%E5%A0%86%E5%9F%BA%E7%A1%80/" title="2023&#x2F;12&#x2F;05&#x2F;堆基础&#x2F;">堆基础</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/21/11-21%E7%A2%8E%E7%89%87%E9%97%AE%E9%A2%98%E8%A1%A5%E5%85%85C-%E7%9B%B8%E5%85%B3%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9B%B8%E5%85%B3/" title="2023&#x2F;11&#x2F;21&#x2F;11-21碎片问题补充C-相关计算机基础相关&#x2F;">11.21碎片问题补充C++相关计算机基础相关</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/21/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%BB%8F%E5%85%B8%E9%81%8D%E5%8E%86/" title="2023&#x2F;11&#x2F;21&#x2F;二叉树经典遍历&#x2F;">二叉树经典遍历</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/15/%E5%85%89%E7%BA%BF%E8%BF%BD%E8%B8%AA%E5%85%B6%E4%BA%8C/" title="2023&#x2F;11&#x2F;15&#x2F;光线追踪其二&#x2F;">光线追踪其二</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/15/DOTween%E6%8F%92%E4%BB%B6%E5%85%A5%E9%97%A8/" title="2023&#x2F;11&#x2F;15&#x2F;DOTween插件入门&#x2F;">DOTween插件入门</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '0697b90cf50883662f91da9a0da0e3cb',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
