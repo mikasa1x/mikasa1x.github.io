@@ -20,17 +20,17 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="饥冻虽切，违己交病">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Coding中。。。">
-<meta property="og:url" content="http://example.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="lua快速入门">
+<meta property="og:url" content="http://example.com/2024/02/25/lua%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/index.html">
 <meta property="og:site_name" content="Coding中。。。">
-<meta property="og:description" content="饥冻虽切，违己交病">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-02-24T17:43:42.000Z">
+<meta property="article:modified_time" content="2024-02-24T17:44:50.168Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+<link rel="canonical" href="http://example.com/2024/02/25/lua%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">
 
 
 <script id="page-configurations">
@@ -38,12 +38,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>分类: 计算机网络 | Coding中。。。</title>
+  <title>lua快速入门 | Coding中。。。</title>
   
 
 
@@ -157,117 +157,245 @@
         <div class="content-wrap">
           
 
-          <div class="content category">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">计算机网络
-          <small>分类</small>
-        </h2>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/02/25/lua%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          lua快速入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-02-25 01:43:42 / 修改时间：01:44:50" itemprop="dateCreated datePublished" datetime="2024-02-25T01:43:42+08:00">2024-02-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/lua%E7%9B%B8%E5%85%B3/" itemprop="url" rel="index"><span itemprop="name">lua相关</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2023</span>
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>Lua快速入门</title>
+</head>
+<body><h1 id='lua快速入门'>Lua快速入门</h1>
+<p><strong>变量</strong></p>
+<p>lua中声明变量不需要事先声明，只需要直接赋值一个变量</p>
+<pre><code class='language-lua' lang='lua'>a=1
+b=2
+a,b=1,2
+</code></pre>
+<p>这两个变量默认全局变量，除非</p>
+<pre><code class='language-lua' lang='lua'>local a=1
+</code></pre>
+<p>这样，在别的文件中就不能使用了——变为局部变量</p>
+<p>&nbsp;</p>
+<p><strong>nil</strong></p>
+<p>指没有被声明过的变量，类型为nil，如：</p>
+<pre><code class='language-lua' lang='lua'>print(c)
+</code></pre>
+<p>其实c并没有被声明，则输出打印为nil</p>
+<p>&nbsp;</p>
+<p><strong>number</strong></p>
+<p>类型c中的int，float等等，在lua中统一为number类型（支持16进展、科学计数法。。。）</p>
+<p>&nbsp;</p>
+<p><strong>运算符</strong></p>
+<p>+、-、*、/、^、左移右移等</p>
+<p>&nbsp;</p>
+<p><strong>字符串</strong></p>
+<p>使用“”或者‘’都视为字符串,支持转义字符</p>
+<pre><code class='language-lua' lang='lua'>a=&quot;123&quot;
+b=&#39;123&#39;
+</code></pre>
+<p>另外，使用双中括号保证字符串原始值</p>
+<pre><code class='language-lua' lang='lua'>c=[[123/n123]]
+</code></pre>
+<p>字符串链接使用两个点</p>
+<pre><code class='language-lua' lang='lua'>c=a..b
+</code></pre>
+<p>转换(失败输出nil)</p>
+<pre><code class='language-lua' lang='lua'>c=tostring(10)
+n=tonumber(&quot;abc&quot;)
+</code></pre>
+<p>字符串加井号输出长度</p>
+<pre><code class='language-lua' lang='lua'>print(#a)
+</code></pre>
+<p>&nbsp;</p>
+<p><strong>函数</strong></p>
+<pre><code class='language-lua' lang='lua'>function function_name(函数参数)
+    --body
+end
+
+<p>–或者</p>
+<p>f &#x3D; function(函数参数)<br>    –body<br>end<br></code></pre></p>
+<p>返回值默认为nil,支持一次性返回多个值</p>
+<pre><code class='language-lua' lang='lua'>function f(a,b,c)
+    return a,b
+end
+local i,j = f(1,2)
+print(i)
+print(j)
+</code></pre>
+<p>&nbsp;</p>
+<p><strong>table</strong></p>
+<pre><code class='language-lua' lang='lua'>a=&#123;1,&quot;ac&quot;,&#123;&#125;,function() end&#125; --类似c中的数组，但不一样的是第一个下标为1
+a[5] = 123 --赋值第五个元素，否则第五个元素为nil
+print(#a) --打印table下表
+table.insert(a,&quot;d&quot;) --插入
+table.insert(a,2,&quot;d&quot;) --从第二个位置插入，后面的往后移一位
+table.remove(a,2) --移除特定位置元素且返回
+</code></pre>
+<p>字符串下标table</p>
+<pre><code class='language-lua' lang='lua'>a=&#123;
+    a=1,
+    b=&quot;1234&quot;,
+    c=function()
+        end,
+    [&quot;,;&quot;]=123
+&#125;
+print(a[&quot;,;&quot;]) --读出a与[&quot;,;&quot;]的值
+a[&quot;abc&quot;]=&quot;abcd&quot; --声明特定下标
+</code></pre>
+<p>&nbsp;</p>
+<p><strong>全局表</strong></p>
+<blockquote><p>特殊的table</p>
+</blockquote>
+<p>称为_G，用于存储所有全局变量</p>
+<pre><code class='language-lua' lang='lua'>a=1
+print(_G[&quot;a&quot;])
+
+<p>print(_G[&quot;table&quot;][&quot;insert&quot;]) –打印出全局变量table中的函数insert（table类型也就是table）<br></code></pre></p>
+<p>&nbsp;</p>
+<p><strong>布尔</strong></p>
+<blockquote><p>C中!=在lua中为~=</p>
+</blockquote>
+<pre><code class='language-lua' lang='lua'>a=true
+b=false
+
+<p>print(a and b) –false<br>print(a or b) –true<br>print(not a) –false</p>
+<h2 id="–lua中只有nil与false代表假，其他都代表真，包括数字0"><a href="#–lua中只有nil与false代表假，其他都代表真，包括数字0" class="headerlink" title="–lua中只有nil与false代表假，其他都代表真，包括数字0"></a>–lua中只有nil与false代表假，其他都代表真，包括数字0</h2><p>a&#x3D;nil –为假<br>b&#x3D;0 –为真<br>print(a and b) –nil(返回a值) –若a为false，则返回a，否则b<br>print(a or b) –0（返回b值） –若a为true，则返回a，否则b<br>print(b&gt;10 and &quot;yes&quot; or &quot;no&quot;) –no<br></code></pre></p>
+<p>&nbsp;</p>
+<p><strong>if</strong></p>
+<pre><code class='language-lua' lang='lua'>if 1&gt;10 then
+    print(&quot;1&gt;10&quot;)
+elseif 1&lt;10 then
+    print(&quot;1&lt;10&quot;)
+else
+    print(&quot;no&quot;)
+end
+</code></pre>
+<blockquote><p>end代表代码块</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>循环</strong></p>
+<ul>
+<li>for</li>
+<li>while</li>
+<li>repeat（同while）</li>
+
+</ul>
+<pre><code class='language-lua' lang='lua'>for i=1,10 do
+    print(i) --1,2,3,4,5,6,7,8,9,10
+end
+
+<p>for i&#x3D;1,10,2 do<br>    print(i) –1,3,5,7,9<br>end</p>
+<p>for i&#x3D;1,10 do<br>    print(i) –1,2,3,4,5,6,7,8,9,10<br>    i&#x3D;1 –不能对循环值进行更改，在lua中默认新声明一个local i<br>end</p>
+<p>for i&#x3D;1,10 do<br>    print(i) –1,2,3,4,5<br>    if i&#x3D;5 then break end<br>end<br></code></pre></p>
+<pre><code class='language-lua' lang='lua'>local n=10
+while n&gt;1 do
+    print(n)
+    n=n-1 --lua不支持n--、n-=1等自减
+end
+</code></pre>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-12-29T00:44:34+08:00"
-              content="2023-12-29">
-          12-29
-        </time>
-      </div>
+      <footer class="post-footer">
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/12/29/%E4%BC%A0%E8%BE%93%E5%B1%82/" itemprop="url">
-            <span itemprop="name">传输层</span>
-          </a>
-      </div>
+        
 
-    </header>
-  </article>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-11-14T12:27:18+08:00"
-              content="2023-11-14">
-          11-14
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/11/14/%E4%BB%8B%E8%B4%A8%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%AD%90%E5%B1%82/" itemprop="url">
-            <span itemprop="name">介质访问控制子层</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-10-17T19:10:37+08:00"
-              content="2023-10-17">
-          10-17
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/10/17/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" itemprop="url">
-            <span itemprop="name">数据链路层</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2023-10-06T23:57:29+08:00"
-              content="2023-10-06">
-          10-06
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2023/10/06/%E8%AE%A1%E7%BD%91%E8%AF%BE%E5%90%8E%E4%B8%80/" itemprop="url">
-            <span itemprop="name">计网课后一</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/01/18/C-%E5%85%83%E7%BC%96%E7%A8%8B/" rel="prev" title="C++元编程">
+      <i class="fa fa-chevron-left"></i> C++元编程
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-  </div>
+      </footer>
+    
+  </article>
   
   
-  
-
   
 
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -314,6 +442,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#lua%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8"><span class="nav-number">1.</span> <span class="nav-text">Lua快速入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%93lua%E4%B8%AD%E5%8F%AA%E6%9C%89nil%E4%B8%8Efalse%E4%BB%A3%E8%A1%A8%E5%81%87%EF%BC%8C%E5%85%B6%E4%BB%96%E9%83%BD%E4%BB%A3%E8%A1%A8%E7%9C%9F%EF%BC%8C%E5%8C%85%E6%8B%AC%E6%95%B0%E5%AD%970"><span class="nav-number">1.1.</span> <span class="nav-text">–lua中只有nil与false代表假，其他都代表真，包括数字0</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -471,6 +600,25 @@
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : 'f1c807024af20600dc591542d1b6da63',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
