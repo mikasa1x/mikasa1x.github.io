@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="网络游戏万事通（基本概念+引擎技术栈+底层原理）">
+<meta property="og:url" content="http://example.com/2024/09/18/%E7%BD%91%E7%BB%9C%E6%B8%B8%E6%88%8F%E4%B8%87%E4%BA%8B%E9%80%9A%EF%BC%88%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-%E5%BC%95%E6%93%8E%E6%8A%80%E6%9C%AF%E6%A0%88-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%EF%BC%89/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s21.ax1x.com/2024/09/07/pAeYKK0.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/09/07/pAeYwqK.md.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/09/07/pAet5Ox.md.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/09/07/pAetT0K.md.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/09/07/pAeUNxs.md.png">
+<meta property="og:image" content="https://s21.ax1x.com/2024/09/09/pAeOeHA.md.png">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-6566c8aae77e3c46230b68932c6a790d_1440w.webp">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-489d364d675db9f013052cf7a9aae9b0_1440w.webp">
+<meta property="article:published_time" content="2024-09-17T17:06:31.000Z">
+<meta property="article:modified_time" content="2024-09-17T17:07:57.749Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s21.ax1x.com/2024/09/07/pAeYKK0.png">
+
+<link rel="canonical" href="http://example.com/2024/09/18/%E7%BD%91%E7%BB%9C%E6%B8%B8%E6%88%8F%E4%B8%87%E4%BA%8B%E9%80%9A%EF%BC%88%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-%E5%BC%95%E6%93%8E%E6%8A%80%E6%9C%AF%E6%A0%88-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>网络游戏万事通（基本概念+引擎技术栈+底层原理） | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/18/%E7%BD%91%E7%BB%9C%E6%B8%B8%E6%88%8F%E4%B8%87%E4%BA%8B%E9%80%9A%EF%BC%88%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-%E5%BC%95%E6%93%8E%E6%8A%80%E6%9C%AF%E6%A0%88-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网络游戏万事通（基本概念+引擎技术栈+底层原理）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-09-18 01:06:31 / 修改时间：01:07:57" itemprop="dateCreated datePublished" datetime="2024-09-18T01:06:31+08:00">2024-09-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>网络游戏编程万事通11</title>
+</head>
+<body><h1 id='网络游戏编程万事通'>网络游戏编程万事通</h1>
+<p>网络编程对于游戏客户端来说就像是附加题一样的模块，绝大多数游戏开发玩家在一开始接触编程的时候都会不约而同地避开网络编程，因为他对于游戏开发来说是如此重要，又是如此可有可无——对于向往单机主机大作白月光的同学们。</p>
+<p>我认为造成这样的原因大抵是因为网络编程一直是程序面的。游戏客户端的其他模块，例如游戏动画，他是绝对的占领表现层制高点的一个模块。我愿称之为一种<strong>熵减</strong>，游戏动画做的好，他的表现永远都是正面的，例如考虑极端条件下，只使用2D立绘，其实也不影响游戏主流程，而如果这个立绘变成了live2D，那么一定能会收到正面的赞扬。而网络编程，它似乎永远都在和延迟对抗，必须要做到一个极端好的情况，或者玩家根本体会不到延迟带来的负面效果，这样才刚好能摸到“还算正常”的门槛。</p>
+<p>网络编程、对抗延迟一直是只有程序员关注的，玩家可能会对游戏玩法提出各种建议，或者对某角色形象感到不满，但玩家不可能说出“<em>我建议游戏改成帧同步这样我的体验才会好点</em>”这种话。所有涉及网络编程相关的知识一直都特别专业化，对于游戏客户端来说它反而是知识壁垒最高的一个模块，和游戏的其他组成部分脱耦合性高。</p>
+<p>所以这篇文章以这个背景，简要介绍网络游戏编程原理，以及主流引擎网络同步方案。</p>
+<p>&nbsp;</p>
+<h1 id='构建印象'>构建印象</h1>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pAeYKK0'><img src="https://s21.ax1x.com/2024/09/07/pAeYKK0.png" referrerpolicy="no-referrer" alt="pAeYKK0.png"></a></p>
+<p>首先需要达成共识的是，如果要实现“多人控制不同角色在不同的客户端进行游戏”这种需求，那么每个客户端其实会生成所有的玩家实例，也就是说如果一个游戏类似图中两个人的对线系统，那么其实会有四个角色实例，也就是同样的一对石头人和一对瑞文同时在两台电脑上运行。</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pAeYwqK'><img src="https://s21.ax1x.com/2024/09/07/pAeYwqK.md.png" referrerpolicy="no-referrer" alt="pAeYwqK.md.png"></a></p>
+<p>这种形式其实可以自行理解成“镜像“、”复制“等等都行，也就是说从玩家层面看起来都在进行同一场游戏，但其实是两场一模一样的游戏实例。</p>
+<p>在一个客户端中，玩家通过控制器实现对自己的角色控制，而其他角色则通过服务端控制，而服务端上角色的运作来源本质也是其他客户端的控制，这就是我们常说的“<strong>同步</strong>”——也就是讲服务器上的内容同步到每一个客户端，或者将客户端的内容同步到服务端。</p>
+<p>&nbsp;</p>
+<h1 id='基础知识'>基础知识</h1>
+<p>&nbsp;</p>
+<h2 id='状态同步帧同步'>状态同步帧同步</h2>
+<p>有的服务器上存在一个游戏实例，有的没有。服务器上的实例运行游戏逻辑，例如向对方打一圈对方掉血，“是否命中”的判断逻辑发生在服务端上，然后再将回调事件同步给所有客户端，这种就是常说的“<strong>状态同步</strong>”或者说“CS同步”。</p>
+<p>例如“万人同屏”的传奇游戏，或者多人mmo，都必须使用状态同步，因为人太多必然会发生非常多的逻辑判断，这些逻辑跑在玩家的机子上是耐受不住的，务必需要服务器来统一处理。又例如“吃鸡”类超大地图多人游戏，发生在地图另一边的巷战我连枪声都听不到，那种信息就没必要浪费客户端算法来进行演算了。</p>
+<p>另一种“<strong>帧同步</strong>（Lockstep）”就是服务器上没跑逻辑，服务器只负责进行信息转发。帧同步往往采用在需要“及时反馈性质”需求较高的游戏中，例如竞技性强的moba类游戏，因为帧同步只需要做一次转发，而不需要同步在服务器上。</p>
+<p>有一种说法是帧同步是采用固定时间间隔或者固定帧数间隔进行同步，而状态同步是只依靠状态事件来触发同步。这也许是名称由来，但实际上帧同步状态同步只是两种极端情况的汇总，就像UDP和TCP（也是接下来要说的），现实开发过程中这两种同步方式都是根据一些需求来混用的，例如帧同步可能也会用到服务器逻辑，但服务器逻辑不直接同步在客户端上，客户端照常通过转发的消息进行直接反馈，服务端的逻辑结果仅作为一种“<strong>验证</strong>”。</p>
+<blockquote><p>还有一种完全以服务端为权威的同步方式——快照同步，这种方式将所有逻辑（几乎）所有逻辑处理都放置在服务端上，然后以一个标准的时间戳进行广播，而客户端甚至只进行画面渲染。这类游戏主打的就是帧同步状态同步坏处都有但是属于弱客户端类型，比如可以做成小游戏或者云游戏</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='网络拓扑结构'>网络拓扑结构</h2>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pAet5Ox'><img src="https://s21.ax1x.com/2024/09/07/pAet5Ox.md.png" referrerpolicy="no-referrer" alt="pAet5Ox.md.png"></a></p>
+<blockquote><p>P2P结构</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pAetT0K'><img src="https://s21.ax1x.com/2024/09/07/pAetT0K.md.png" referrerpolicy="no-referrer" alt="pAetT0K.md.png"></a></p>
+<blockquote><p>CS结构</p>
+</blockquote>
+<p>虽然这两种结构可以和帧同步状态同步对应上，但需要注意的是他们是两种截然不同的概念。</p>
+<p>P2P×状态同步：<strong>每一个客户端只对自己操作的角色有权威，只发送自己角色的状态</strong></p>
+<p>P2P×帧同步：<strong>每一个客户端广播玩家的操作</strong></p>
+<p>CS×状态同步：<strong>客户端将操作发送到服务器上，服务器进行逻辑处理后进行广播</strong></p>
+<p>CS×帧同步：<strong>客户端将操作发送到服务器上，服务器对操作进行广播</strong></p>
+<p>当然p2p已经是一种过时的结构了，只不过将他拧出来可以对状态同步和帧同步有一个更深的了解。</p>
+<p>现代所说的C/S架构一般指一台主机做服务端的同时也做客户端，DS则指主机只做服务端，因为往往服务端主机不需要进行渲染或部分游戏逻辑。</p>
+<blockquote><p>要小心问起“CS架构有多少种”，这样的问题提问的是“广义“上的CS，也就是说网络拓扑结构有多少种，可以直接答DS、CS（LS）、P2P等</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='状态同步与帧同步历史渊源'>状态同步与帧同步历史渊源</h2>
+<p>正如前文所言，死磕状态同步帧同步差别是没意义的，两者早就在历史的长河中被改造地体无完肤。现代游戏对网络同步模型的实际应用，也是经过一系列特化改造后的结果。我们常对两大同步模型的解释，其实更适合初学者学习交流与深入理解。</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pAeUNxs'><img src="https://s21.ax1x.com/2024/09/07/pAeUNxs.md.png" referrerpolicy="no-referrer" alt="pAeUNxs.md.png"></a></p>
+<blockquote><p>其实这几个概念引起争端的时间点就在不久之前</p>
+</blockquote>
+<p>最早的帧同步概念的出现在Doom中，也就是那个最早的FPS。它采用的是所有玩家每一定时间间隔广播、缓存所有玩家操作信息，在经过<strong>等停协议</strong>处理后再进行下一帧。</p>
+<p>雷神之锤（Quake）则采用的是另一种完全相违背的方案，那就是使用专门的服务器，收集玩家的操作信息，在服务器经过逻辑处理后直接将要渲染的结果信息发送给所有的客户端，也就是上文所提到的”快照同步“。</p>
+<p>这个帧同步放在现代游戏中那就会暴露出非常多的问题（当然<em>科学是踩在前人肩膀上才能发展起来的</em>），例如等停，如果有一个玩家发送的信息许久没被广播到位，那么其他人是不是得一直等他呢？例如浮点数，不同平台对浮点数的包容度是不同的。例如作弊，没有服务器权威，甚至都不知道某个客户端是否开挂了。</p>
+<p>现代网络游戏同步模型分类，可以考虑参考gdc2017 overwatch上的分享：</p>
+<p>&nbsp;</p>
+<ul>
+<li><strong>Deterministic LockStep</strong></li>
+
+</ul>
+<p>（理想）要求：给定相同的初始状态，给定一系列相同的输入，计算出完全相同的结果。</p>
+<ul>
+<li><strong>Snapshot Interpolation</strong></li>
+
+</ul>
+<p>要求：服务端定期将世界的瞬时快照发送给所有的客户端，客户端只做展示，可以用插值的方式来让表现更平滑。</p>
+<ul>
+<li><strong>State Synchronization</strong></li>
+
+</ul>
+<p>要求：服务端运行世界，也允许客户端运行世界，但是要以服务端作为权威，定位对客户端进行纠正。</p>
+<p>&nbsp;</p>
+<p>很明显可以看出这三者就对应国内常说的”帧同步、快照同步和状态同步“，但要是从细节上纠察，又会发现差异的地方也是非常多的。对于同步方案的描述当然是百家之言，所以各位同学在面试的时候其实会发现面试官往往不会直白地提问”状态同步和帧同步“，而是就着项目或者场景题来让候选人分析，从而间接考验候选人对网络同步的见解。</p>
+<p>&nbsp;</p>
+<p>就比如Deterministic LockStep所言结果是完全一致的，但如果你对”帧同步“稍有了解，便会发现其实帧同步反而“同步不了”，因为缺乏纠察验证，谁知道同步过程中会发生什么。所以说Deterministic LockStep中提到的要求我加了“理想”二字，其实就象征了这是古今中外计算机科学家的同步的一种理想目标。</p>
+<p>之所以会产生差异，是因为Deterministic LockStep和帧同步对于网络的需求也不一致。Deterministic LockStep其实也完全可以实现这种理想化需求，就比如说TCP，完全确定性，拿他来传输文件不产生任何差异也是没有问题的。但游戏需求的是高即时性，低流量，Deterministic LockStep对网络的要求非常之高，而且也会浪费更多的带宽。帧同步则可以说是加了层层算法后的Deterministic LockStep，例如“帧锁定、乐观帧锁定、lockstep、bucket同步等”，这些手段最终都会导致一定的缺陷，例如乐观帧容纳了外挂的发生，这些都之后再聊。</p>
+<blockquote><p>在<a target="_blank" rel="noopener" href='https://zhuanlan.zhihu.com/p/130702310'>细谈网络同步在游戏历史中的发展变化（上） - 知乎 (zhihu.com)</a>中有提到过LockStep在没有服务器权威的情况下的防外挂方式——为发出的数据进行哈希加密，并在解密上一帧数据到来的时候再发送下一帧明文数据。现代一般直接只对关键数据进行哈希加密。</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='udp与tcp'>UDP与TCP</h2>
+<p>分别对应传输层方案的两者极限情况。</p>
+<p>TCP可靠，需要提前连接，字节流传输，常用于可靠性需求强的<strong>文件流下载</strong>等。但是开销高，延迟高。</p>
+<p>UDP不可靠，无连接，头部开销小，传输效率高，常用于实时性强的<strong>音视频</strong>等。但是不可靠。</p>
+<blockquote><p><strong>TCP可靠性</strong></p>
+<p>TCP通过校验和、序列号、确认应答、重传控制、连接管理以及流量控制等机制实现可靠性传输。</p>
+<ul>
+<li>校验和：二进制字节流<strong>相加后取反</strong>获得的一个字段，这个字段在接收端被重新计算后进行前后比对。</li>
+<li>序列号：TCP的每一个字节发送会带一个序列号，接收端和发送端会约定好字节流顺序，序列号和校验和能直观说明哪些字段出现问题。</li>
+<li>确认应答：既<strong>ACK回包</strong>，回包中包含下一次准备接收的序列号。</li>
+<li>重传控制：除了之前包发生错误并回包后触发的重传，TCP还会设置各种计时器来记录传输时间，若超时也会发生重传。</li>
+<li>连接管理：<strong>三次握手四次挥手</strong>。</li>
+<li>流量控制：涉及滑动窗口、拥塞控制、慢开始拥塞避免快重传快恢复等一系列手段。</li>
+
+</ul>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='三次握手四次挥手'><strong>三次握手四次挥手</strong></h2>
+<p><strong>粗略版</strong></p>
+<p>第一次握手为了证明<strong>发送端发送</strong>能力正常</p>
+<p>第二次握手为了证明<strong>接收端接收、发送</strong>能力正常</p>
+<p>第三次握手为了证明<strong>发送端接收</strong>能力正常</p>
+<p>&nbsp;</p>
+<p>第一次挥手为了表述<strong>发送端决定断开连接</strong></p>
+<p>第二次挥手为了表述<strong>接收端收到断开连接的请求</strong></p>
+<p>第三次挥手为了表述<strong>接收端也准备好断开请求</strong>了</p>
+<p>第四次挥手为了表述<strong>发送端收到断开请求的许可</strong>了</p>
+<p>&nbsp;</p>
+<blockquote><p>因为网上三握四挥的详细介绍太多了所以粗略总结了一个精简版，不过还是整理一下完整版</p>
+</blockquote>
+<p><strong>细节版</strong></p>
+<p>1、<strong>发送方发出</strong>第一个连接请求，这个请求中的包的SYN字段为1，说明“请求连接”，并带有第一个序列号seq=x。</p>
+<p>2、<strong>接收方收到请求后进行回包</strong>，确认包中SYN=1，ACK=1，说明是回包，确认号ack=x+1，说明下一个预计要接收包的序列号应该就是x+1。同时自己也要独立初始化序列号，seq=y。</p>
+<p>3、<strong>发送方接收到回包</strong>，也向接收方发送回包ACK=1，seq=x+1，ack=y+1.</p>
+<p>建立连接整个流程会涉及到很多资源调用，所以三次握手就是让发送方和接收方都做好资源调用的准备。</p>
+<p>假如发送方无视握手直接开始建立连接，如果接收方本身没有做好连接准备，这个时候可能产生“服务器未响应”，不得不中断连接造成资源浪费。</p>
+<p>包传输本身是不可靠的，如果发送方服务器未响应，也有可能触发发送方的再次重传，这个时候接收方可能一次性收到两个连接请求，这个时候就轮到接收方产生资源浪费了。</p>
+<p>&nbsp;</p>
+<p>1、<strong>发送方发出</strong>第一个断开请求FIN=1，表示“请求断开”，序列号为seq=u。<strong>此时发送方不在传输新数据</strong>。</p>
+<p>2、<strong>接收方收到并回包</strong>，ACK=1，ack=u+1，并且带上自己的序列号seq=v。<strong>此时接收方知道之后不会再接收到包了，但是自己还有剩余的包需要传</strong>。</p>
+<p>3、<strong>接收方发出</strong>请求断开。<strong>此时接收方已经发送完所有包了</strong></p>
+<p>4、<strong>发送方收到并回包</strong>，ACK=1，ack=w+1，而自己的序列号是seq=u+1，等待<strong>2MSL</strong>后正式断开连接。</p>
+<p>5、接收方收到最终回包后也断开连接。</p>
+<p>其实本质和三次握手是一样的，区别是挥手过程中可能会产生另一方还没发送完所有剩余包的情况，所以中间会加一次挥手等待接收方发出最终包。</p>
+<p>最终发送方会等待<strong>2MSL</strong>，因为此时接收方并不知道发送方是否真正接收到最后的ACK，必须等待发送方的ACK才断开（因为可能会发生丢包重传等情况）。对于发送方来说它同样也不知道自己的最终ACK回包是否正常收到，然而最终回包不会有回包了，所以直接等待2MSL时间，若期间不再接收到接收方的重传，则说明一切正常，可以断开了。</p>
+<blockquote><p>MSL指一次包传输的最大时间，2MSL就是一个来回了</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='以kcp为例'>以KCP为例</h2>
+<p>游戏开发中一般既不会完全用TCP，也不会完全用UDP。</p>
+<p>两边都太极端了。</p>
+<p>除了早年回合制或者等停帧同步采用的是TCP（毕竟能直接现套成熟框架），现在的游戏讲究高实时性，所以肯定会以UDP为基础打造网络框架。</p>
+<p>UDP本身并不可靠，这一点又和“同步”这个概念相违背，所以网络游戏开发一般会进行UDP的个性化改造，方向大概如下：</p>
+<ul>
+<li>可靠UDP</li>
+<li>应用层实现可靠UDP</li>
+
+</ul>
+<p>可靠UDP指在传输层或者协议级别进行UDP扩展，这样的改造UDP运用起来和TCP本身差不多了，应用层直接调用即可。</p>
+<p>应用层实现UDP的可靠指在应用层纯算法实现TCP的一些机制，例如超时重传等。</p>
+<p>相比起来后者明显更加灵活，但使用起来可能会麻烦一点，不过恰巧契合了网络游戏开发这样高迭代性的应用。</p>
+<p>Unity中最有名的网络插件<strong>Mirror</strong>，就是自己应用层实现了一套可靠UDP，称作<strong>KCP</strong>。</p>
+<blockquote><p>KCP是一个快速可靠协议，能以比 TCP浪费10%-20%的带宽的代价，换取平均延迟降低 30%-40%，且最大延迟降低三倍的传输效果。纯算法实现，并不负责底层协议（如UDP）的收发，需要使用者自己定义下层数据的发送方式，以 callback的方式提供给 KCP。连时钟都需要外部传递进来，内部不会有任何一次系统调用。
+TCP是为流量设计的（每秒内可以传输多少KB的数据），讲究的是充分利用带宽。而 KCP是为流速设计的（单个数据从一端发送到一端需要多少时间），以10%-20%带宽浪费的代价换取了比 TCP快30%-40%的传输速度。</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='http'>HTTP</h2>
+<p>&nbsp;</p>
+<h1 id='解决方案'>解决方案</h1>
+<p>&nbsp;</p>
+<h2 id='以史为镜'>以史为镜</h2>
+<p><strong>帧同步——《王者荣耀》</strong></p>
+<p>理由：</p>
+<p>1、开发效率——和写单机很像</p>
+<p>2、打击感强</p>
+<p>3、流量消耗稳定</p>
+<p><a target="_blank" rel="noopener" href='https://blog.csdn.net/qq_42672770/article/details/112599117'>帧同步与状态同步：王者荣耀的帧同步方案_王者荣耀是帧同步还是状态同步-CSDN博客</a></p>
+<p>&nbsp;</p>
+<p><strong>状态同步——《Overwatch》</strong></p>
+<p>理由：</p>
+<p>1、避免偶现的不确定性</p>
+<p>2、支持中途加入游戏*（帧同步需要重新模拟，这个和回放系统相关，也会后面讲）</p>
+<p>3、实现阵亡镜头快照</p>
+<p><a target="_blank" rel="noopener" href='https://juejin.cn/post/6844903635864780813'>《守望先锋》架构设计与网络同步在GDC2017【Overwatch Gameplay Architecture andN - 掘金 (juejin.cn)</a></p>
+<blockquote><p>强烈推荐</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>当然由于水平问题我的文章只会介绍一些概念上的皮毛</p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pAeOeHA'><img src="https://s21.ax1x.com/2024/09/09/pAeOeHA.md.png" referrerpolicy="no-referrer" alt="pAeOeHA.md.png"></a></p>
+<h2 id='预测回滚gas）'>预测回滚（GAS）</h2>
+<p>CS架构中客户端需要等待服务端的同步信息，服务端广播之前又要等待客户端发来的同步请求，所以状态同步相对帧同步来说延迟更高。为了保证及时反馈，客户端往往会对input信息先执行逻辑，根据回包情况来进行适当回滚操作。</p>
+<p>最典型的就是早期网络环境不好的时候，吃鸡游戏舔物资需要角色播放好几次拾取动画，跑步也经常会出现“回溯”现象，这些都是客户端对角色本身逻辑优先做了预测运行的结果。</p>
+<p>&nbsp;</p>
+<h2 id='插值方案'>插值方案</h2>
+<p>如果客户端与服务端发送过来的实时消息有不同步的情况，客户端会对这个消息值与现存的消息值做插值处理，优化视觉体验。</p>
+<p>我在我的项目中习惯性使用一个虚拟轴与一个表现轴，虚拟轴不显示但绝对遵循服务端，表现轴负责计算与虚拟轴的信息差距（坐标、刚体速度等），如果差距超出预期则会以插值的形式缓慢对齐过去。input可以直接在客户端作用于表现轴，也可以直接将输入发送给服务器，这个就取决于是否使用预测回滚方案了。</p>
+<p>&nbsp;</p>
+<h2 id='延迟补偿'>延迟补偿</h2>
+<p>FPS游戏重灾区，玩家开枪，但事件到达服务器时已经延后了好几帧，这个时间点敌人早就跑远了，所以服务器需要保存前几帧的数据<strong>快照</strong>，待收到事件的时候在服务器对应的帧进行碰撞判断，然后再将结果返回给服务器进行广播。这个时候客户端也可以考虑进行预测，直接表现击中反馈，待几帧之后再返回实际击中结果。</p>
+<blockquote><p>所以经常会看见做射线检测的游戏却会发生”拼枪同时死亡“的情况</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='重连与回放'>重连与回放</h2>
+<p>如果时状态同步，那么在重连的时候只需要同步服务端当前的状态就可以了。但如果是帧同步，服务端只会发送一系列操作帧，所以需要客户端进行本地重演，直到表现帧追上逻辑帧。</p>
+<p>反过来会发现帧同步更方便开发回放功能，因为帧同步的操作序列占用内存小，非常适合制作本地回放，只需要将所有序列帧原封不动保存下来就可以了。但状态同步就没这么幸运了，保存每一个对象的每一个属性状态都意味着大量的内存占用。</p>
+<p>对于守望先锋而言，他们做了两个并行ECS来分别代表本体游戏事件与回放游戏时间，然后在需要回放的时候对世界进行切换，将信息直接映射在玩家屏幕上。</p>
+<blockquote><p>为了防止状态同步造成的大量带宽浪费，需要做很多额外的处理来进行优化。</p>
+<ul>
+<li>同步状态是肯定的，除了位置、还需要同步物体的速度与角速度或者其他数据。</li>
+<li>只同步需要同步的状态，所以可以先做一些简单的处理，例如不发送绝对变化为0的对象。</li>
+<li>ow在服务器上维护了一个脏数据集合，收集每一次发包的数据，发出后清除。</li>
+<li><strong>增量编码</strong>，维护客户端收到数据的历史纪录，这样就能只对变化的数据进行更新了。</li>
+<li>当检测到带宽容纳量不足的时候，脏数据不会丢失，而是放在下一个包进行发出。</li>
+<li>脏数据是会不断更新的，也就是说如果数据包一直未发出，他还是只会更新最新包。</li>
+
+</ul>
+</blockquote>
+<p>以上是ow对状态同步应用层的一些特殊处理，现在回到重连部分，可以发现状态同步的重连可以通过这一套“脏数据”集合来实现了。</p>
+<p>服务器上的“脏数据”还存有另一套<strong>全量</strong>的数据，也就是脏数据不会更新，而是每一种变化都保存下来，用于之后的回放系统。</p>
+<p>对于重连系统，不能直接使用当前的增量包，因为增量包肯定是不全的；同时也不能直接使用全量包，因为直接用全量包和直接更新所以状态差距不大，同样导致带宽浪费。还记得增量包是怎么来的吗，可以做一个“假想”的回放，一步步将全量包从头更新一遍，这样就能直接得出一个“全量的增量包”，直接用这个重连就行了。</p>
+<p>ow的死亡回放是实时的，可以直接使用全量包来直接进行渲染，虽然因为数据太大会发生可能的卡顿，但好在玩家禁止了玩家操作让玩家注意不到。</p>
+<p>ow忽略了大部分细节上的处理，例如UDP可靠的处理等一系列，这里我单独找了一篇可以适当补充下。[<a target="_blank" rel="noopener" href='https://blog.csdn.net/u013716859/article/details/123317761#:~:text=尽管我认为上面的结果可能已经足够好了，但从这一点上看，还是有可能大大改善同步性的。例如，支持一个有更大物体或更多物体被交互的世界。因此，让我们通过这些技术，把这个技术推到它所能达到的极限。'>Unity Mirror] State Synchronization（状态同步）_unity 状态同步-CSDN博客</a></p>
+<p>&nbsp;</p>
+<h2 id='确定性帧同步'>确定性帧同步</h2>
+<p>客户端方面有较多独有的数据不统一的可能性。</p>
+<ul>
+<li>平台不同的浮点数计算——使用定点数或者直接用分子分母代表，三角函数查表</li>
+<li>随机数不一致——使用随机数种子</li>
+<li>稳定性排序——不使用不确定是排序算法</li>
+<li>之前提到过的关键数据hash加密</li>
+
+</ul>
+<blockquote><p>再补充下hash加密。现在可以统一口径了，如果人多，可以直接<strong>客户端自验证</strong>，如果有一个hash与别人不一致就说明666他开挂了；如果人少就需要引入校验服。</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='表现层与逻辑层处理方案'>表现层与逻辑层处理方案</h2>
+<p>逻辑与表现分离，这是一个和客户端预测很像的概念。个人理解如下：</p>
+<p>关键点在于，表现层虽然被逻辑层控制，但是<strong>其运行逻辑是完全独立与逻辑层之外的</strong>，例如音效播放或者特效播放，这些和网络同步是完全没关系的客户端独立事件。客户端预测更像是将服务器要管辖的要素提前表现，例如控制角色移动，这些虽然最终还是作用在表现层上，但是我们可以在客户端上提前进行预演而不需要等待回包，这个叫客户端预测。</p>
+<p>&nbsp;</p>
+<h1 id='unity与ue技术栈'>Unity与UE技术栈</h1>
+<p>在直接研究具体的技术框架方案之前先提一嘴框架概念，我的印象中无论是Unity还是UE还是其他引擎的网络架构，这一些概念都是业内最为常用的比较认可的。在后面我会讲一些应用层的基础方案。</p>
+<p>&nbsp;</p>
+<h2 id='rpc调用'>RPC调用</h2>
+<p>RPC指一系列的一整套数据传输方案，这一套在游戏开发中一般会依赖外部插件支持。</p>
+<p>总所周知实现一系列的网络传输流程需要单独将数据进行序列化处理，还要负责装包拆包，最蛋疼的是还得写Socket。这些强数据化的工作已经和游戏客户端开发渐行渐远了，但偏偏就是网络游戏中不可缺失的一部分。在实际工业级开发中会专门让服务端的同学来处理一些更数据化的工作，比如使用机器学习流量压缩等更加高级的技术；对于客户端同学来说，对他们的福报就是能将网络同步的一些处理尽量简化（计网70分的有难了</p>
+<p>PRC调用就是这样一个东西，他的全称叫做“R远程过程调用”，意思就是<strong>客户端远程调用服务器</strong>的函数，这个函数一口气把数据传输等一系列的活全办完，让网络编程就像客户端编程一样方便。RPC不是一套固定的方案，我的理解他只是一个概念，既能直接暴露给客户端一个函数，而他的底层实现可以是多种方案的，TCP、UDP甚至HTTP，也可以是可靠的也可以是不可靠的。</p>
+<p>RPC可以理解为他的一个流程就是一整套的函数调用，也就是“<strong>一次性的</strong>”，不受任何生命周期影响。意味着如果RPC是不可靠的，那么他丢失了恐怕就真的丢失了。</p>
+<p>&nbsp;</p>
+<h2 id='属性同步'>属性同步</h2>
+<p>属性同步是一种上层特性，以对象为单位，和时间周期相关。</p>
+<p>也就是直接同步对象的“属性”，以一定的周期，服务端向客户端同步所有要同步的属性（不存在客户端向服务端的属性同步）。</p>
+<p>和RPC比起来，虽然属性肯定<strong>是可靠的</strong>（就算丢失了下一帧也会传达），但是属性不是事件化的，也就是说客户端的属性在同步之前就被覆盖掉了，那么还是会产生一些可能的数据丢失：</p>
+<ul>
+<li>如果数据包丢失，发生同步延迟，这段时间内属性再次发生改变，那么就会直接同步新的值。</li>
+<li>如果数据在客户端快速变化，属性同步不会同步每一个变化而是根据周期来同步最新值，也就是说可能在客户端上一个看起来表现很好的一个插值直接同步在其他客户端上就会卡顿。</li>
+
+</ul>
+<p>&nbsp;</p>
+<h2 id='mirror'>Mirror</h2>
+<blockquote><p>Mirror是Unity运用最广泛的一个民间插件，todo..（KCP）</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2 id='ue网络架构'>UE网络架构</h2>
+<blockquote><p>UE常用官方给出的架构（UDPSocket）</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>NetDriver</strong></p>
+<p>相当于网络总管理类。</p>
+<p>——初始化网络连接</p>
+<p>——处理RPC函数</p>
+<p>——管理Connection信息</p>
+<p>——接收数据包</p>
+<p>一个世界对应一个NetDriver</p>
+<p>&nbsp;</p>
+<p><strong>Connection</strong></p>
+<p>connection本身代表一个网络连接，对于客户端来说，到来的服务端连接叫ServerConnection；对于服务端来说，客户端的连接叫ClientConnection。</p>
+<p>&nbsp;</p>
+<p><strong>PlayerController</strong></p>
+<p>玩家控制器，对应一个<strong>LocalPlayer</strong>（地图变化时不发生改变），也对应一个<strong>Connection</strong>。</p>
+<p>在不连接时，客户端上的PlayerController仅作占位符，可以理解为临时Controller。</p>
+<blockquote><p>客户端连接过程：</p>
+<ul>
+<li>客户端发送请求</li>
+<li>服务器调用PreLogin，确定是否连接，如果允许连接，则发送地图信息</li>
+<li>客户端加载地图，成功后回包一个join</li>
+<li>服务端调用Login来创建PlayerController，这个Controller用来同步给其他客户端或者新加入的客户端</li>
+<li>服务器BeginPlay被调用，完成后调用PostLogin允许PlayerController调用RPC</li>
+
+</ul>
+</blockquote>
+<p>客户端存有一个PlayerController，但是像之前说的这个Controller只是一个临时的，真正的完成连接相关的逻辑是依靠服务器生成并同步过来的Controller来完成的（包含相关NetDriver，Connection以及Session信息），一般这种就叫”带连接的“。</p>
+<p>Actor中含有<strong>owner</strong>属性，如果Actor中的owner是一个有连接的PlayerController，或者owner的owner是一个有连接的PlayerController，那么就说明Actor是有连接的Actor。</p>
+<blockquote><p>更具体的是Actor的子类Pawn，Pawn本身就拥有Controller属性，所以有可能Pawn的owner属性为空。</p>
+</blockquote>
+<p>Actor是UE进行属性同步与RPC调用的基础对象。</p>
+<p>&nbsp;</p>
+<p><strong>Channel</strong></p>
+<p>数据通道，一般分为不同的通道，特定类型的数据在不同通道中进行传输。</p>
+<p>在UE中表现为某些对象绑定特定的Channel，接收传输信息时非本Channel会被筛除。</p>
+<p>一个connection中可以包含多个channel，每一个channel都隶属于一个特殊的connection，需要传输信息时，connection会找到特殊的channel来进行信息处理。</p>
+<p>Channel一般会根据功能来进行划分，例如：</p>
+<p>ControlChannel：只初始化一个，传输客户端服务端之间控制信息</p>
+<p>VoiceChannel：只初始化一个，传输语音信息</p>
+<p>ActorChannel：Actor本身的信息同步，子组件同步，属性同步，RPC调用，每一个Actor都对于一个ActorChannel实例。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-6566c8aae77e3c46230b68932c6a790d_1440w.webp" referrerpolicy="no-referrer" alt="img"></p>
+<p><img src="https://pic3.zhimg.com/80/v2-489d364d675db9f013052cf7a9aae9b0_1440w.webp" referrerpolicy="no-referrer" alt="img"></p>
+<blockquote><p>图片来源知乎@<a target="_blank" rel="noopener" href='https://www.zhihu.com/people/chang-xiao-qi-86'>Jerish</a></p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>Bunch</strong>：是UE中进行数据传输、进行服务器客户端同步的基本单位。和UDP中的Packet不冲突，UE使用UDP作为底层协议，传输的就是Packet，而Packet内就包含大量Bunch。Bunch被包装成Packet进行传输，到达后拆解分到不同的Channel中进行处理。</p>
+<p>&nbsp;</p>
+<p><strong>ObjectReplicator</strong></p>
+<p>负责对象层的网络同步，将游戏对象从<strong>服务端同步至客户端</strong>。</p>
+<p>保存了一份对象的属性快照，在每一次服务端更新时查找哪些属性发生变化（需要同步的属性），再将这些属性同步到客户端中。</p>
+<p>Replicator主要做的就是Bunch的打包与解析，也会处理RPC的发送和接收。</p>
+<p>Channel中含有多个Replicator实例，会在需要的时候调用他们的方法，例如发送Bunch或者获取接收到的Bunch。</p>
+<p>&nbsp;</p>
+<p><strong>UE服务端网络模块初始化</strong></p>
+<p>创建GameInstance开始，首先创建NetDriver来驱动网络初始化，进而根据平台创建对应的Socket，之后在World里面监听客户端的消息。</p>
+<p>&nbsp;</p>
+<p><strong>UE客户端网络模块初始化</strong></p>
+<p>创建GameInstance开始，首先创建NetDriver来驱动网络初始化，进而根据平台创建对应的Socket，创建连接到服务器的ServerConnection。</p>
+<p>&nbsp;</p>
+<p><strong>Actor同步</strong></p>
+<p>[《Exploring in UE4》网络同步原理深入（上）<a target="_blank" rel="noopener" href='https://zhuanlan.zhihu.com/p/34723199'>原理分析] - 知乎 (zhihu.com)</a></p>
+<p>在服务器中的TickFlush，对针对Actor对其进行一些同步相关内容。</p>
+<ul>
+<li><p>初始化</p>
+<ul>
+<li>获取所有ClientConnections</li>
+<li>找到要同步的Actor（只有在World.NetworkActors里的Actor才会被同步）</li>
+<li>找到ViewTarget（和摄像机绑定），利用这个位置信息决定是否同步</li>
+<li>休眠的Actor不会同步</li>
+
+</ul>
+</li>
+<li><p>优化同步</p>
+<ul>
+<li>如果没有Channel，且不在场景或者在场景但是距离很远，不同步</li>
+<li>如果需要同步但没有Channel则给他创建一个</li>
+<li>优先级排序——是否有controller、距离等</li>
+
+</ul>
+</li>
+<li><p>执行同步</p>
+<ul>
+<li>执行UActorChannel::ReplicateActor，将序列化后的Actor以及子Actor、属性等封装到OutBunch中发给客户端</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>组件同步</strong></p>
+<p>静态组件随Actor一起序列化同步。</p>
+<p>动态组件需要设置Replicate来同步。</p>
+<p>&nbsp;</p>
+<p><strong>属性同步</strong></p>
+<ul>
+<li><p>切入点——某属性被标记为Replicates，通过反射系统将他保存到ClassReps列表中。</p>
+<ul>
+<li>FRepLayout——同步属性列表，记录类中哪些属性需要同步。NetDiver存有一个大对照表，叫RepLayoutMap。</li>
+<li>FResState——上一次同步的缓存数据，叫做Staticbuff。</li>
+<li>FRepChangelistState——检测到发生改变的属性序号列表，会延伸为所有变化的历史记录。</li>
+<li>FObjectReplicator——数据控制执行，随ActorChannel创建。</li>
+
+</ul>
+</li>
+
+</ul>
+<ul>
+<li>FObjectReplicator:: ReplicateProperties开始执行（函数执行栈就懒得翻了。。）。在设置通道的时候为FObjectReplicator设置了一个指针指向Object，也就是从客户端同步过来的对象，这个对象会不停和Staticbuff这个对象做比较，Staticbuff会不断做更新，也会将变化点记录下来。</li>
+<li>客户端当中也有FRepLayout这一套，不过Staticbuff比对后不是发送不同的属性值，而是调用发生变化的回调函数。</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>UE中PRC调用流程</strong></p>
+<ol start='' >
+<li>服务端调用，客户端执行。UFUNCTION中添加Client修饰符。命名规则以Client为前缀。</li>
+<li>客户端调用，服务端执行。UFUNCTION中添加Server修饰符。命名规则以Server为前缀。</li>
+<li>在服务端调用，服务端和连接上的所有客户端执行。UFUNCTION中添加NetMulticast修饰符。命名规则以Multicast为前缀。（多播）</li>
+
+</ol>
+<p>由于RPC是异步的，他的调用和执行在不同的端上，所有不能立即返回一个返回值，所以<strong>RPC调用一定是void的</strong>。</p>
+<blockquote><p>添加Reliable关键字来确定是否需要可靠性</p>
+</blockquote>
+<p>函数也和Actor一样有RepLayOut对照表，可以通过反射系统查看某函数是否为RPC，使用的时候定义的RPC和反射系统调用的RPC是不一样的，调用的RPC需要带_Implementation后缀（这个函数就是程序员需要具体实现的逻辑函数）。</p>
+<pre><code class='language-c++' lang='c++'>UFUNCTION(Server, Reliable)
+void ServerDoSomething();
+</code></pre>
+<pre><code class='language-c++' lang='c++'>void AMyActor::ServerDoSomething_Implementation() &#123;
+// 这里是服务器执行的逻辑
+&#125;
+</code></pre>
+<p>RPC调用时，直接将产生的Bunch放到Sendbuffer中，按照UE4的Tick直接发送，RPC数据会比属性同步要早放进buffer中，所有会出现可能的同步问题。</p>
+<p>&nbsp;</p>
+<p><strong>RPC发送与接收</strong></p>
+<p>PRC函数在UE中实际起作用运行的时候，是通过反射调用自动生成的RPC函数。</p>
+<p>这个函数生成了很多新的代码，例如查找上下文，发现这个RPC由Server标记，则说明要在服务器进行逻辑，直接将RPC请求打包，而不是在客户端进行逻辑。发现由WithValidation标记，则说明需要增加验证，需要请求运行_Validation后缀函数。</p>
+<p>验证函数中需要自行规定，一般用来设置天花板，例如客户端传过来的伤害不可能大于100，那就再_Validation中设定大于100（是一个bool返回值函数）。</p>
+<p>打包的流程涉及数据的序列化过程，接收的时候将数据进行反序列化。</p>
+<p>接收过后会先查看是否带WithValidation，带的话就运行验证函数_Validation，通过后再通过反射调用到 __Implementation函数。</p>
+<p>&nbsp;</p>
+<p><strong>可靠数据</strong></p>
+<p>参考TCP的ack重传机制，不过UE中重传序列化的基本单位是Bunch。</p>
+<p>&nbsp;</p>
+<p><strong>属性可靠</strong></p>
+<p>处理初始化外会重传，正常情况下的属性同步是不可靠的，也就是不会进行直接重传机制。</p>
+<p>属性同步是依靠对象的Tick来执行的，所以他会将接收到的ACK做汇总记录，将需要重传的bunch与下一帧要传的bunch混一起传出去。</p>
+<p>&nbsp;</p>
+<h1 id='数据传输'>数据传输</h1>
+<p>//protobuf：：todo</p>
+<p>&nbsp;</p>
+<h1 id='防挂🐕特别栏目'>防挂🐕特别栏目</h1>
+<p>//todo</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/09/14/C-%E9%9D%A2%E8%AF%95/" rel="prev" title="C++面试">
+      <i class="fa fa-chevron-left"></i> C++面试
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%B8%B8%E6%88%8F%E7%BC%96%E7%A8%8B%E4%B8%87%E4%BA%8B%E9%80%9A"><span class="nav-number">1.</span> <span class="nav-text">网络游戏编程万事通</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E5%8D%B0%E8%B1%A1"><span class="nav-number">2.</span> <span class="nav-text">构建印象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">3.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E5%90%8C%E6%AD%A5%E5%B8%A7%E5%90%8C%E6%AD%A5"><span class="nav-number">3.1.</span> <span class="nav-text">状态同步帧同步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91%E7%BB%93%E6%9E%84"><span class="nav-number">3.2.</span> <span class="nav-text">网络拓扑结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%B8%A7%E5%90%8C%E6%AD%A5%E5%8E%86%E5%8F%B2%E6%B8%8A%E6%BA%90"><span class="nav-number">3.3.</span> <span class="nav-text">状态同步与帧同步历史渊源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#udp%E4%B8%8Etcp"><span class="nav-number">3.4.</span> <span class="nav-text">UDP与TCP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="nav-number">3.5.</span> <span class="nav-text">三次握手四次挥手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A5kcp%E4%B8%BA%E4%BE%8B"><span class="nav-number">3.6.</span> <span class="nav-text">以KCP为例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http"><span class="nav-number">3.7.</span> <span class="nav-text">HTTP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">4.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A5%E5%8F%B2%E4%B8%BA%E9%95%9C"><span class="nav-number">4.1.</span> <span class="nav-text">以史为镜</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B%E5%9B%9E%E6%BB%9Agas%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">预测回滚（GAS）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E5%80%BC%E6%96%B9%E6%A1%88"><span class="nav-number">4.3.</span> <span class="nav-text">插值方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%B6%E8%BF%9F%E8%A1%A5%E5%81%BF"><span class="nav-number">4.4.</span> <span class="nav-text">延迟补偿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E8%BF%9E%E4%B8%8E%E5%9B%9E%E6%94%BE"><span class="nav-number">4.5.</span> <span class="nav-text">重连与回放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E6%80%A7%E5%B8%A7%E5%90%8C%E6%AD%A5"><span class="nav-number">4.6.</span> <span class="nav-text">确定性帧同步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A8%E7%8E%B0%E5%B1%82%E4%B8%8E%E9%80%BB%E8%BE%91%E5%B1%82%E5%A4%84%E7%90%86%E6%96%B9%E6%A1%88"><span class="nav-number">4.7.</span> <span class="nav-text">表现层与逻辑层处理方案</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#unity%E4%B8%8Eue%E6%8A%80%E6%9C%AF%E6%A0%88"><span class="nav-number">5.</span> <span class="nav-text">Unity与UE技术栈</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#rpc%E8%B0%83%E7%94%A8"><span class="nav-number">5.1.</span> <span class="nav-text">RPC调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E5%90%8C%E6%AD%A5"><span class="nav-number">5.2.</span> <span class="nav-text">属性同步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mirror"><span class="nav-number">5.3.</span> <span class="nav-text">Mirror</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ue%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84"><span class="nav-number">5.4.</span> <span class="nav-text">UE网络架构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93"><span class="nav-number">6.</span> <span class="nav-text">数据传输</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%B2%E6%8C%82%F0%9F%90%95%E7%89%B9%E5%88%AB%E6%A0%8F%E7%9B%AE"><span class="nav-number">7.</span> <span class="nav-text">防挂🐕特别栏目</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/3333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/09/18/%E7%BD%91%E7%BB%9C%E6%B8%B8%E6%88%8F%E4%B8%87%E4%BA%8B%E9%80%9A%EF%BC%88%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-%E5%BC%95%E6%93%8E%E6%8A%80%E6%9C%AF%E6%A0%88-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%EF%BC%89/" title="2024&#x2F;09&#x2F;18&#x2F;网络游戏万事通（基本概念-引擎技术栈-底层原理）&#x2F;">网络游戏万事通（基本概念+引擎技术栈+底层原理）</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/09/14/C-%E9%9D%A2%E8%AF%95/" title="2024&#x2F;09&#x2F;14&#x2F;C-面试&#x2F;">C++面试</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/02/25/lua%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="2024&#x2F;02&#x2F;25&#x2F;lua快速入门&#x2F;">lua快速入门</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/01/18/C-%E5%85%83%E7%BC%96%E7%A8%8B/" title="2024&#x2F;01&#x2F;18&#x2F;C-元编程&#x2F;">C++元编程</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/29/%E4%BC%A0%E8%BE%93%E5%B1%82/" title="2023&#x2F;12&#x2F;29&#x2F;传输层&#x2F;">传输层</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/24/%E4%B8%80%E4%B8%AA%E9%BA%BB%E6%9C%A8%E7%9A%84%E5%A4%9C%E6%99%9A/" title="2023&#x2F;12&#x2F;24&#x2F;一个麻木的夜晚&#x2F;">一个麻木的夜晚</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/14/C-STL/" title="2023&#x2F;12&#x2F;14&#x2F;C-STL&#x2F;">C++STL</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/06/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3/" title="2023&#x2F;12&#x2F;06&#x2F;工厂模式详解&#x2F;">工厂模式详解</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/12/05/%E5%A0%86%E5%9F%BA%E7%A1%80/" title="2023&#x2F;12&#x2F;05&#x2F;堆基础&#x2F;">堆基础</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2023/11/21/11-21%E7%A2%8E%E7%89%87%E9%97%AE%E9%A2%98%E8%A1%A5%E5%85%85C-%E7%9B%B8%E5%85%B3%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80%E7%9B%B8%E5%85%B3/" title="2023&#x2F;11&#x2F;21&#x2F;11-21碎片问题补充C-相关计算机基础相关&#x2F;">11.21碎片问题补充C++相关计算机基础相关</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '19a93a099b7e07c48cbf1c1cc9b002e4',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
