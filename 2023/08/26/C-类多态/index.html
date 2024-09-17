@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2023/08/16/pPQcGmd.png">
 <meta property="og:image" content="https://s1.ax1x.com/2023/08/16/pPQcNkt.png">
 <meta property="article:published_time" content="2023-08-26T06:45:52.000Z">
-<meta property="article:modified_time" content="2023-12-05T14:13:14.881Z">
+<meta property="article:modified_time" content="2024-09-17T08:50:59.107Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://s1.ax1x.com/2023/08/16/pPQcGmd.png">
@@ -197,7 +197,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-12-05 22:13:14" itemprop="dateModified" datetime="2023-12-05T22:13:14+08:00">2023-12-05</time>
+                <time title="修改时间：2024-09-17 16:50:59" itemprop="dateModified" datetime="2024-09-17T16:50:59+08:00">2024-09-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -215,14 +215,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>9.8k</span>
+              <span>11k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
+              <span>10 分钟</span>
             </span>
 
         </div>
@@ -592,6 +592,40 @@ public:
 </ul>
 <p>如果在深入复习，那么就涉及到虚表指针静态绑定动态绑定的过程了，读者可以往上翻翻看，这里就先缓一缓继续探讨面向对象了。</p>
 <p>&nbsp;</p>
+<hr />
+<p><strong>2024/9/17更新</strong></p>
+<p><strong>虚函数表的内存分布</strong></p>
+<p>虚函数表存放位置，data段、数据段、常量区。</p>
+<p>由于虚函数表是编译期间决定的，而堆栈区都是运行期间被分配的。而虚函数表本身内容是一个数据，不能把他当作代码，所以也不会放在代码段。这样从结果开始分析就发现放在<strong>只读</strong>常量段最好。</p>
+<p>虚函数表中存什么，存的是虚函数地址，由虚表指针来指向虚函数表。</p>
+<p>虚表指针和类的成员变量一样放在类中，也就是说他的存放地址随对象分配，可能是堆区也可能是栈区。这里要注意虚表指针是放在<strong>类初始地址</strong>上的，由于是指针占<strong>四个字节</strong>，所以可以理解成占类的初始四地址。</p>
+<p>&nbsp;</p>
+<p><strong>类的多继承</strong></p>
+<p>一个类继承多个父类，继承了多少个类就有多少个虚表，也就有多少个虚表指针。</p>
+<p>类本身额外多写的虚函数和第一个继承的父类的虚函数混在一起记在第一个虚表中，按照继承的顺序来存放，父类函数放在子类前面。</p>
+<p>后面继承的类虚函数依照父类不同，分来一个个单独的虚函数表中。</p>
+<p>重写的虚函数同样会重写地址，这个不影响地址分布。</p>
+<p>&nbsp;</p>
+<p><strong>菱形继承</strong></p>
+<p>容易出现二义性和内存浪费的现象，因为孙子类中留有两份基类对象。</p>
+<p>虚继承的原理就是同样是派生类对象拥有虚表指针，虚继承类同样拥有虚表，不过这个虚表内保存的是基类地址偏移量（指针），也就是无论多少个派生类他都是指向同一个基类。</p>
+<p>含虚继承的派生类，在构造时需要将基类与虚基类都构造一遍。因为虚继承关系中只有最终派生类会负责虚基类的构造（程序运行时会忽略其他派生类对虚基类的构造）。这个是编译器规定的，因为虚继承当中只保留一份虚基类实例，这样就导致了其直接派生类可能产生的二义现象，所以直接让间接派生类负责对其的构造。</p>
+<p>引入虚继承会导致额外的<strong>性能开销</strong>（指针的额外查询）、<strong>空间开销</strong>（虚继承表）。</p>
+<p>其内存空间布局同样可以递推，比如虚表空间布局、虚类指针空间布局等。不过虚基类表中存储的是从派生类对象的起始地址到虚基类子对象中的<strong>偏移量</strong>，如果有多个则是依照顺序的多个虚继承。而虚基类表指针这个和虚表指针就一致了，他们都是直接指向表的，由程序在动态运行时经过虚基类表指针找到表，在找到对应偏移值。</p>
+<p>需要注意的是<strong>虚基类表指针总是在虚函数表指针之后</strong>。</p>
+<blockquote><p><strong>虚继承后，派生类都会生成它自己的虚函数表和虚表指针，并不完全准确，准确来讲，当虚基类有成员变量时，派生类会生成它自己的虚函数表和虚表指针，当派生类没有成员变量时，并不会重新生成派生类自己的虚函数表和虚表指针。</strong></p>
+</blockquote>
+<p>有一种问法是这样写会如何继承。</p>
+<pre><code class='language-c++' lang='c++'>class A &#123;
+public:
+    int data;
+&#125;;
+
+<p>class B : virtual public A &#123;  &#x2F;&#x2F; B 使用虚继承<br>&#125;;</p>
+<p>class C : public A &#123;  &#x2F;&#x2F; C 不使用虚继承<br>&#125;;</p>
+<p>class D : public B, public C &#123;  &#x2F;&#x2F; D 继承 B 和 C<br>&#125;;</p>
+<p></code></pre></p>
+<p>这样会导致D中存有A的实例又会存有A的偏移量。</p>
 </body>
 </html>
     </div>
