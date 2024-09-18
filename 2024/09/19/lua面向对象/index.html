@@ -21,16 +21,16 @@
   </script>
 
   <meta property="og:type" content="article">
-<meta property="og:title" content="腾讯课堂——浅述游戏策划">
-<meta property="og:url" content="http://example.com/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B5%85%E8%BF%B0%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92/index.html">
+<meta property="og:title" content="lua面向对象">
+<meta property="og:url" content="http://example.com/2024/09/19/lua%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/index.html">
 <meta property="og:site_name" content="Coding中。。。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-08-07T17:08:01.000Z">
-<meta property="article:modified_time" content="2023-08-07T17:11:24.656Z">
+<meta property="article:published_time" content="2024-09-18T18:00:32.000Z">
+<meta property="article:modified_time" content="2024-09-18T18:01:37.966Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B5%85%E8%BF%B0%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92/">
+<link rel="canonical" href="http://example.com/2024/09/19/lua%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">
 
 
 <script id="page-configurations">
@@ -43,7 +43,7 @@
   };
 </script>
 
-  <title>腾讯课堂——浅述游戏策划 | Coding中。。。</title>
+  <title>lua面向对象 | Coding中。。。</title>
   
 
 
@@ -164,7 +164,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B5%85%E8%BF%B0%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/19/lua%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/3333.jpg">
@@ -177,7 +177,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          腾讯课堂——浅述游戏策划
+          lua面向对象
         </h1>
 
         <div class="post-meta">
@@ -188,7 +188,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-08-08 01:08:01 / 修改时间：01:11:24" itemprop="dateCreated datePublished" datetime="2023-08-08T01:08:01+08:00">2023-08-08</time>
+              <time title="创建时间：2024-09-19 02:00:32 / 修改时间：02:01:37" itemprop="dateCreated datePublished" datetime="2024-09-19T02:00:32+08:00">2024-09-19</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -196,7 +196,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9D%82%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">游戏设计杂谈</span></a>
+                  <a href="/categories/lua%E7%9B%B8%E5%85%B3/" itemprop="url" rel="index"><span itemprop="name">lua相关</span></a>
                 </span>
             </span>
 
@@ -206,14 +206,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>497</span>
+              <span>3.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -230,69 +230,100 @@
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 <span id="more"></span>
-<title>游戏策划是什么</title>
+<title>Lua实现面向对象</title>
 </head>
-<body><blockquote><p>游戏的改变更多取决于社会的变革与环境的改变，而不是我们游戏人的努力</p>
-<p>游戏人口的扩大，使得游戏体验成本的下降</p>
-</blockquote>
+<body><h1 id='lua实现面向对象'>Lua实现面向对象</h1>
+<p>首先Lua本身是面向过程语言，不存在封装、多态等特性，但是提供了元表元方法供技术人员自己实现面向对象。</p>
 <p>&nbsp;</p>
+<h2 id='元表与元方法'>元表与元方法</h2>
+<p>Lua中的每一个值都<strong>可以拥有一个元表</strong>，元表中定义了这些值在一定条件下的<strong>特定方法</strong>，如__add等。元表本身的内容是以键值对的形式存储的，“事件”为键，<strong>“元方法”</strong>为值。</p>
+<p>对于面向对象模拟，关键要找__ index这个元方法，这个方法的意思是，如果在查找表中不存在的字段时，会查询元表中是否含有__ index，如果含有，则调用__ index。</p>
+<p>__ index本身可以赋值为值，也可以赋值为函数，也可以赋值为表。</p>
+<p>为值则返回值，为函数则调用该函数，为表则向这个表中查找字段。</p>
 <p>&nbsp;</p>
-<h1 id='游戏策划是什么'>游戏策划是什么</h1>
-<p><strong>基础的策划工作流</strong></p>
-<p>灵感-&gt;理论</p>
-<p>创意-&gt;方法</p>
-<p>(设计方案&gt;需求实现&gt;产品整合&gt;测试)&gt;(打磨&gt;测试)&gt;上线反馈&gt;迭代开发</p>
-<p><strong>游戏策划的作用</strong></p>
-<blockquote><p>“创造游戏体验，对体验负责”</p>
-</blockquote>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1 id='游戏策划的分类'>游戏策划的分类</h1>
-<ul>
-<li>文学策划</li>
+<h2 id='从cpp面向对象向lua发展'>从CPP面向对象向Lua发展</h2>
+<p>首先Lua的一大特性就是只有值和表，表包含万物，所以我们可以将表作为面向对象中的封装单位，下意识将成员与方法都放在表中。</p>
+<pre><code class='language-lua' lang='lua'>local tb = &#123;a=0,b=1&#125;
+</code></pre>
+<p>对于函数，在C++中成员函数可以直接放在类中的，然而总所周知在编译器层面C++成员函数实际是这样定义的</p>
+<pre><code class='language-c++' lang='c++'>Class::Function()&#123;&#125;;
+</code></pre>
+<p>也就是说实际上函数是写在类外的，这个和C++的内存结构是一致的，因为对象中的成员参数要么存放在栈区，要么堆区，而函数是存放在代码段的，八竿子打不着。</p>
+<p>C++通过这种方式可以调用到类本身的函数，实际是运用了隐藏的一个this指针：</p>
+<pre><code class='language-c++' lang='c++'>Class::Function(Class *this)&#123;&#125;;//这个this是隐藏的，和下面的&amp;a一样，编译器会自动填上
 
-</ul>
-<blockquote><p>为游戏制造世界观，为角色制作台词，为玩家创造一个虚拟世界</p>
-</blockquote>
-<ul>
-<li>数值策划</li>
+<p>Class a;<br>a.Function(&amp;a);<br></code></pre></p>
+<p>这样，函数调用的时候就会得知到是要处理哪一个对象的参数了。</p>
+<p>在Lua中，this指针的传递成为了可选项。（lua中this指针叫做self）</p>
+<pre><code class='language-lua' lang='lua'>local tb = &#123;a=0,b=1&#125;
+function tb.add(a,b)
+    return a+b
+end
+print(tb.add(tb.a,tb.b)) --直接传递参数
+**********************
+function tb.add(self)
+    return self.a+self.b
+end
+print(tb.add(tb)) --传递表自己
+**********************
+function tb:add()
+    return self.a+self.b
+end
 
-</ul>
-<blockquote><p>包括抽卡概率，平衡等</p>
-</blockquote>
-<ul>
-<li>系统策划</li>
+<p>print(tb:add())	–用冒号省略self指针<br>–print(tb.add(tb))		<br>print(tb.add(tb1))		<br></code></pre></p>
+<p>&nbsp;</p>
+<p>这样的话，在lua中就可以模拟C++定义成员函数的方式来定义函数了。</p>
+<pre><code class='language-lua' lang='lua'>local a = &#123;name=&quot;lisi&quot;&#125;	
 
-</ul>
-<blockquote><p>如各种背包，公会等系统、各种游戏流程链等</p>
-</blockquote>
-<ul>
-<li>关卡策划</li>
+<p>function a:MyPrint()		<br>    print(self.name)<br>end</p>
+<p>–当然等同于<br>local a &#x3D; &#123;<br>    name&#x3D;&quot;lisi&quot;,<br>    function MyPrint(self)		<br>        print(self.name)<br>    end<br>&#125;	<br></code></pre></p>
+<p>&nbsp;</p>
+<p>这个类是需要能够继承的，特点是子类会继承父类的所有属性和函数，那么我们可以使用元表元方法来实现，我们将子表的元表设置成父表，再将父表的__ index设置为父表自己，这样就能实现当子表查不到属性的时候查到父表的__ index，然后直接就开始查父表中的属性了。</p>
+<pre><code class='language-lua' lang='lua'>-- 定义父类 a
+local a = &#123;name = &quot;lisi&quot;&#125;
 
-</ul>
-<blockquote><p>“游戏导演”，在游戏与玩家的交互这个角度中下功夫，是从玩家角度最能体会到的</p>
+<p>function a:new(o)<br>    o &#x3D; o or &#123;&#125;<br>    setmetatable(o, self)<br>    self.__index &#x3D; self<br>    return o<br>end</p>
+<p>function a:MyPrint()<br>    print(self.name)<br>end</p>
+<p>– 定义子类 b，继承自 a<br>local b &#x3D; a:new()  – 子类 b 继承父类 a<br>b.name &#x3D; &quot;zhangsan&quot;  – 子类有自己独立的属性</p>
+<p>– 创建子类实例<br>local obj &#x3D; b:new()</p>
+<p>obj:MyPrint()  – 输出 &quot;zhangsan&quot;<br></code></pre></p>
+<p>这样的面向对象还是比较牵强的，因为“类”b本质上也可以视为类a的对象，具备a对象的所有功能。</p>
+<blockquote><p><strong>lua多继承</strong></p>
+<p>多继承意味着不能直接通过单个基类来直接派生出子类，所以要单独使用一个额外的不与任何类关联的函数（A）来处理继承。</p>
+<p>这个函数中首先是收集要继承的所有父类，存在一个表（B）里，然后再走单继承的流程，先定义子类，再设置子类元表，此时这个元表先设置为空，在空元表中将__index设置为另一个函数search，这个函数在A函数内的表现是查找表B的key值，如果找到了就将value返回。</p>
 </blockquote>
 <p>&nbsp;</p>
+<h2 id='lua面向对象的封装'>lua面向对象的封装</h2>
+<p>常用的处理方法是定义两个表，一个表存私有成员，一个表存调用私有成员的方法。</p>
+<p>方法直接控制私有成员值，或者返回出去，而只有方法表才暴露在外界供调用，这样来模拟面向对象封装。</p>
+<p><strong>闭包</strong></p>
+<p>lua中的闭包也是其一个独有的特性，最明显的就是lua中的<strong>函数是可以通过返回值的方式来返回</strong>的。</p>
+<pre><code class='language-lua' lang='lua'>function createCounter()
+local count = 0  -- 外部局部变量
+
+<p>– 返回一个闭包，持有 count 变量的引用<br>return function()<br>    count &#x3D; count + 1<br>    return count<br>end<br></code></pre></p>
+<p>count是一个局部变量，返回的函数持有这个count的引用。理论上退出createCounter这个作用域后count也会失效，但是他被返回的函数持有，当其他地方调用createCounter得到这个函数的时候也就得到了count，这个得到的count未被析构，他<strong>仍然能够被访问甚至修改</strong>。</p>
+<pre><code class='language-lua' lang='lua'>local counter1 = createCounter()
+print(counter1())  -- 输出 1
+print(counter1())  -- 输出 2
+print(counter1())  -- 输出 3
+
+<p>local counter2 &#x3D; createCounter()  – 创建新的闭包<br>print(counter2())  – 输出 1<br>print(counter2())  – 输出 2<br></code></pre></p>
+<p>更复杂的例子：</p>
+<pre><code class='language-lua' lang='lua'>function createAdder(x)
+    return function(y)
+        return x + y  -- 这里的 x 来自外部作用域
+    end
+end
+
+<p>local add5 &#x3D; createAdder(5)  – 创建一个闭包，x 固定为 5<br>print(add5(3))  – 输出 8 (5 + 3)<br>print(add5(10))  – 输出 15 (5 + 10)</p>
+<p>local add10 &#x3D; createAdder(10)  – 创建另一个闭包，x 固定为 10<br>print(add10(3))  – 输出 13 (10 + 3)<br>print(add10(10))  – 输出 20 (10 + 10)<br></code></pre></p>
+<p>除了使用两个表来模拟封装外，也可以使用闭包来实现，将属性作为局部变量封装在某函数内，然后设置返回函数为控制该属性的函数，这样就能更实际地实现这个属性的封装。</p>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1 id='游戏的制作过程'>游戏的制作过程</h1>
-<p><strong>“我能当策划吗”</strong></p>
-<p>结论：是人就行，但大厂门槛高，有科班</p>
-<p><strong>策划的基础素质</strong>：热爱，视野，沟通，洞察，激情</p>
-<blockquote><p>视野：知识面、学习能力、游戏经验、信息获取</p>
-<p>洞察：独立思考、逻辑能力、求真求实、好奇心</p>
-<p>热爱和激情：不忘初心、坚韧不拔</p>
-</blockquote>
-<p><strong>专业设计理论</strong></p>
-<p>M：机制</p>
-<p>D：动态</p>
-<p>A：审美</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1 id='游戏策划的养成'>游戏策划的养成</h1>
-<p><strong>开普勒计划</strong></p>
-<p>&nbsp;</p>
+<h2 id='lua面向对象的多态'>lua面向对象的多态</h2>
+<p>lua中子类重写父类函数，调用函数会直接执行重写过后的逻辑。</p>
+<p>C++中经常说静态多态，也就是不同参数列表，lua中其实也不支持这样做，不过可以强行从逻辑层面对重写函数进行参数列表的if判断（是否为nil），来实现逻辑重载。</p>
+<p>从另一个角度上讲，因为lua本身就支持函数直接接受任意类型的参数，所以lua本身就支持多态。</p>
 </body>
 </html>
     </div>
@@ -309,13 +340,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E5%8F%91%E5%B1%95%E5%8F%B2/" rel="prev" title="腾讯课堂——电子游戏发展史">
-      <i class="fa fa-chevron-left"></i> 腾讯课堂——电子游戏发展史
+    <a href="/2024/09/18/%E7%BD%91%E7%BB%9C%E6%B8%B8%E6%88%8F%E4%B8%87%E4%BA%8B%E9%80%9A%EF%BC%88%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-%E5%BC%95%E6%93%8E%E6%8A%80%E6%9C%AF%E6%A0%88-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%EF%BC%89/" rel="prev" title="网络游戏万事通（基本概念+引擎技术栈+底层原理）">
+      <i class="fa fa-chevron-left"></i> 网络游戏万事通（基本概念+引擎技术栈+底层原理）
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9C%AC%E8%B4%A8%E4%B8%8E%E6%8A%80%E5%B7%A7/" rel="next" title="腾讯课堂——游戏设计本质与技巧">
-      腾讯课堂——游戏设计本质与技巧 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -375,7 +403,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.</span> <span class="nav-text">游戏策划是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">游戏策划的分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E7%9A%84%E5%88%B6%E4%BD%9C%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">游戏的制作过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92%E7%9A%84%E5%85%BB%E6%88%90"><span class="nav-number">4.</span> <span class="nav-text">游戏策划的养成</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#lua%E5%AE%9E%E7%8E%B0%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.</span> <span class="nav-text">Lua实现面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%83%E8%A1%A8%E4%B8%8E%E5%85%83%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">元表与元方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8Ecpp%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%90%91lua%E5%8F%91%E5%B1%95"><span class="nav-number">1.2.</span> <span class="nav-text">从CPP面向对象向Lua发展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lua%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B0%81%E8%A3%85"><span class="nav-number">1.3.</span> <span class="nav-text">lua面向对象的封装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lua%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%A4%9A%E6%80%81"><span class="nav-number">1.4.</span> <span class="nav-text">lua面向对象的多态</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -544,7 +572,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog-comment',
       owner       : 'mikasa1x',
       admin       : ['mikasa1x'],
-      id          : 'f45180553fd7baa59a0f8c1168b6e400',
+      id          : '12a69b0475665c616fd15433d3ac06b7',
         language: '',
       distractionFreeMode: true
     });
