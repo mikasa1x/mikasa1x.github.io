@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="UnrealC++">
+<meta property="og:url" content="http://example.com/2024/10/01/UnrealC/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-09-30T17:47:40.000Z">
+<meta property="article:modified_time" content="2024-09-30T18:31:37.838Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2024/10/01/UnrealC/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>UnrealC++ | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/01/UnrealC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UnrealC++
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-10-01 01:47:40 / 修改时间：02:31:37" itemprop="dateCreated datePublished" datetime="2024-10-01T01:47:40+08:00">2024-10-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BB%8EC%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C开始的C++</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>Unreal C++</title>
+</head>
+<body><h1 id='unreal-c'>Unreal C++</h1>
+<p>&nbsp;</p>
+<h2 id='命名规范'>命名规范</h2>
+<p>AActor派生的类以A开头、UObject派生的类以U开头、枚举以E开头、接口以I开头、模板类以T开头、SWidget派生的类以S开头、其余类以F开头。</p>
+<p>&nbsp;</p>
+<h2 id='容器'>容器</h2>
+<p>&nbsp;</p>
+<p>标准C++</p>
+<ul>
+<li>char/short/int/long/float/double</li>
+
+</ul>
+<p>UEC++</p>
+<ul>
+<li>int8/int16/int32/int64/float/double</li>
+
+</ul>
+<p>&nbsp;</p>
+<p>字符串</p>
+<ul>
+<li>FString——类似C++中的String，含有多种字符串操作方法，<strong>能被修改</strong>，可多次存储。</li>
+<li>FName——表示字符串标识符的类，通常用于在代码中唯一标识对象、变量、函数等。无法修改、大小写不敏感、查询对比快。只是一个全局名字表的索引。</li>
+<li>FText——处理本地化文本的类，可以理解为“要被显示”的字符串，UE中有内置的本地化支持。</li>
+
+</ul>
+<p>&nbsp;</p>
+<p>容器</p>
+<ul>
+<li><p>TArray——std::vector</p>
+<ul>
+<li>Add——插入数组尾部</li>
+<li>Clear——清除</li>
+<li>Length——返回个数</li>
+
+</ul>
+</li>
+<li><p>TMap——std::map</p>
+<ul>
+<li>Add</li>
+<li>Clear</li>
+<li>Contains——根据键查找是否存在键值对</li>
+<li>Find——根据键返回值</li>
+<li>Keys——找出所有键</li>
+<li>Length——返回键值对数量</li>
+<li>Remove——根据键去除一个键值对</li>
+<li>Values——找出所有值</li>
+
+</ul>
+</li>
+<li><p>TSet——std::set</p>
+<ul>
+<li>Add</li>
+<li>Clear</li>
+<li>Length</li>
+<li>Remove</li>
+
+</ul>
+</li>
+
+</ul>
+<blockquote><p>UE4常用，且支持反射系统</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='反射'>反射</h2>
+<p>首先理解一下反射这个词意味着什么。</p>
+<blockquote><p><strong>反射是指程序在运行时动态获取对象属性与方法的一种机制</strong></p>
+</blockquote>
+<p>这一句用来描述广义上的反射是没有任何问题的，从技术定义上讲，反射就是用来解决运行时调控程序运行的一种方式，不过在不同的应用场景中，反射具有不同的解释。</p>
+<p>对于游戏开发来说，反射更适合这样的定义。</p>
+<blockquote><p><strong>反射是运行时动态获取属性、调用方法、序列化与通信的基础，也可为开发者提供运行时获取类型信息、使用脚本语言编写逻辑并较为方便地与宿主引擎通信的能力</strong></p>
+</blockquote>
+<p>&nbsp;</p>
+<p>对于游戏开发er来说，理解反射，获取反射相关知识之前先默认都熟悉某引擎，至少使用过相关引擎做过一些demo。</p>
+<p>那么肯定会对这个场景很熟悉：</p>
+<ul>
+<li>在场景中拉入一个角色，感觉角色的血量需要调整，于是在编辑器里甚至在游戏运行过程中动态调整血量的最大值。</li>
+
+</ul>
+<p>这个血量包括任何可能需要调整的数据，包括obj的transform等等一系列属性。</p>
+<p>这是一个最为常见的场景，也是游戏引擎需要实现的最为基础的功能了。</p>
+<p>你也可以在代码中直接设置数据，但是这样做很明显十分麻烦，因为数据肯定是一个需要实时调整的值，所以引擎需要实现不动代码的情况下去对一些数值进行设置，这样再简单不过的一个动作本身其实涉及了很复杂的反射系统。</p>
+<blockquote><p>曾经对反射系统长期感到困惑，因为没有意识到引擎运行本身就是程序在运行，错把“游戏开始”和“引擎开始”搞混了。</p>
+</blockquote>
+<p>也正印证了反射的定义——满足“动态”获取对象属性方法等一系列需求。</p>
+<p>&nbsp;</p>
+<p><strong>其他应用场景</strong></p>
+<p>游戏引擎在反射上的获益其实非常多，只不过大部分都在程序员不知不觉中完成了。</p>
+<ul>
+<li>蓝图属性映射C++属性，修改蓝图属性引用到运行时。</li>
+<li>Socket数据包的序列化与反序列化。</li>
+<li>调用Lua方法，Lua代替蓝图逻辑，Lua调用C++方法。</li>
+<li>运行时动态加载库。</li>
+<li>根据字符串找到类。</li>
+<li>.......</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>实现思路</strong></p>
+<p>1、在程序打包之前，将程序中相关类信息、类中属性信息、属性类型、成员函数信息等等以元数据的方式存储下来。</p>
+<blockquote><p>元数据：描述数据的数据</p>
+</blockquote>
+<p>2、初始化类之前利用元数据生成了类型对象，这个类型对象包含实现实例对象反射的一系列方法，也包含了一些其他方法。</p>
+<p>3、实例化实例对象，一个类型的所有实例对象都含有一个指针指向唯一的类型对象。</p>
+<p>几乎所有的具有反射功能的语言实现反射都是用的这一套思路，一般的文章介绍到这里也就结束了，这里直捣黄龙把反射实现具体功能的一套流程都整理出来。</p>
+<p>以上面说的动态调整属性为例：</p>
+<p>4、选中相应对象后，绘制器可以直接获取到这个对象所代表的类的标识，并通过这个标识在元数据中查到这个类的相关信息。</p>
+<p>5、通过类信息获取到这个<em>类的对象</em>，也就是当前操作对象，绘制器直接将这个类（组件）的所需要打印的属性打印出来。</p>
+<p>6、获取到对象的属性后，即可以实时通过反射实时更新这个对象的属性了。</p>
+<blockquote><p>对于UE来说，可以通过UObject的GetClass来获取某类的实例，这个是通过直接存储这个类实例的指针来做到的。不同语言都会有一个类似的直接获取到实例的方式，不过会有一定限制条件，例如至少要先获取到类信息才能获取到具体对象。</p>
+<p>对于反射来说，反射本身也包装了一套获取实例的方式，例如java中的Class AClass = A.class;本身就运用反射获取到了A的类信息，然后底层可能就调用了类似GetClass的方法获取到了类实例对象。</p>
+<p>在UE中，针对继承自 UObject 的类，可以通过 <code>GetClass()</code> 来获取 UClass 实例，但是如果想直接获取某个类型的 UClass，则可以通过 <code>StaticClass&lt;UObject&gt;</code> 或者 <code>UObject::StaticClass()</code> 来获取。</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>原因</strong></p>
+<p>写这篇文章的时候是2024年，Java、C#都早早实现了官方的反射功能，早些年为了让可执行文件足够“小”，编程时不会想着使用额外的内存空间将类的相关信息提前存储好，毕竟C++的结构体满足可以无需序列化直接传输的功能。</p>
+<p>不过C++结构直接传输是不易读的，随技术发展，网络带宽与硬件内存限制不再是问题，这个时候的主要矛盾是数据需要序列化成xml或者json等文件来进行传输。序列化本身是一件比较麻烦的事，所以Java率先实现了反射功能，<strong>让类在序列化时可以直接通过类的元数据动态获取类的属性与值</strong>，而不需要一个个手动序列化。</p>
+<p>C++到底有没有保存类的信息，作为菜鸟的我不想去追究，但是可以知道的是虚幻引擎为了这个功能直接掀桌手动实现了一整套的C++反射功能，这也是虚幻当中最为重要最为复杂的一个系统了。</p>
+<p>&nbsp;</p>
+<p><strong>UE反射系统流程</strong></p>
+<ul>
+<li><strong>标记</strong></li>
+<li><strong>分析</strong></li>
+<li><strong>生成</strong></li>
+<li><strong>编译</strong></li>
+<li><strong>使用</strong></li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>标记</strong></p>
+<p>也就是标签，对Class前添加UClass标签，对Function添加UFunction标签，让编译器把被标记的内容纳入反射系统中。</p>
+<p>对于文件来说，需要添加include文件。</p>
+<pre><code class='language-cpp' lang='cpp'>#include &quot;FileName.generated.h&quot;
+</code></pre>
+<blockquote><p>UENUM()、UCLASS()、USTRUCT()、UFUNCTION()、UPROPERTY()</p>
+</blockquote>
+<p>标签本身是一个空宏，仅提供标记功能，实际并不影响原代码编译过程。</p>
+<p>&nbsp;</p>
+<p><strong>分析</strong></p>
+<blockquote><p><a href='https://zhuanlan.zhihu.com/p/89220125' target='_blank' class='url'>https://zhuanlan.zhihu.com/p/89220125</a>
+我们要知道，我们写的UE4代码不是标准的C++代码，是基于UE4源代码层层改装了很多层的（如反射），所以，UHT将UE4代码转化成标准的C++代码，而UBT负责调用UHT来实现这个转化工作的，转化完以后，UBT调用标准C++代码的编译器来将UHT转化后的标准C++代码完全编译成二进制文件，整体上看，UHT是UBT的编译流程的一部分。</p>
+</blockquote>
+<p>UBT（UnrealBuildTool），管理编译配置调用编辑器来编译UE代码。<strong>如果任意一个头文件从上一次编译起发生了变化，就会调用UHT</strong>。</p>
+<p>UHT（UnrealHeaderTool），解析UE代码。</p>
+<p>标记本质上是一个宏，在分析阶段被替换成<em>反射相关函数</em>（todo）。</p>
+<p>&nbsp;</p>
+<p><strong>生成</strong></p>
+<p>生成含反射数据的C++代码(头文件.gen.cpp)</p>
+<p>生成各种帮助函数以及thunk函数(头文件.generated.h)</p>
+<p>todo，，，</p>
+<p>&nbsp;</p>
+<p><strong>编译</strong></p>
+<p>生成的代码与源代码一起被编译，这个时候可以将类信息收集在二进制文件中。</p>
+<p>&nbsp;</p>
+<h2 id='内存池分配'>内存池分配</h2>
+<p>Binned/Binned2，和C++内存管理类似。</p>
+<p>参考：<a target="_blank" rel="noopener" href='https://jiuriri.com/2023/08/07/C-内存管理/'>C++内存管理 | Coding中。。。 (jiuriri.com)</a></p>
+<p>&nbsp;</p>
+<h2 id='垃圾回收'>垃圾回收</h2>
+<p>常用的垃圾回收算法：</p>
+<ul>
+<li>标记清除</li>
+<li>引用计数</li>
+<li>保守式GC</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>标记清除</strong></p>
+<p>分为标记、清除、合并三个阶段。</p>
+<p>在垃圾回收中，被引用的对象被视为“有用的”对象，没有被任何对象引用的叫做“不可达”对象。</p>
+<p>不可达对象也就是需要被清除的对象。</p>
+<p>标记阶段会从根对象开始，寻找根对象的引用并对引用对象进行标记，这个算法会遍历所有的被标记的对象寻找该对象的引用并做上标记，不断增加标记的对象的数量。直到所有该遍历的对象都被遍历完时遍历停止，此时剩下没被标记的对象就称作不可达对象。</p>
+<p>清除阶段会直接从整个堆开始遍历所有对象，如果遍历到没有标记的对象，就将它回收，并将这块空间连接到另一个“空闲链表”中。</p>
+<p>合并阶段就是在清除阶段中，如果发现某两块回收的内存是连续的，则将他们进行合并成一个大内存。当有对象需要分配内存时，遍历空闲链表，寻找到合适大小的块进行分配。</p>
+<ul>
+<li>优点：实现简单，就地GC</li>
+<li>缺点：容易生成碎片块，分配速度慢</li>
+<li>改进：多个空闲链表记录不同大小的块，根据对象大小进入不同的分块中，可以加快查找时间；把堆区分成不同大小的区间，每一个区间内只存有相同大小的块，对象直接更具大小匹配不同区间，提高内存使用效率。</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>引用计数</strong></p>
+<p>额外分配内存块为每个对象存储有哪些对象引用了自己，当引用数为零时，即刻回收对象内存。</p>
+<ul>
+<li>优点：即刻回收，不需要等待GC判断；不需要遍历链表</li>
+<li>缺点：计数器频繁计算占用CPU效率；占用额外空间；实现复杂；<strong>循环引用无法回收</strong></li>
+<li>改进：延迟引用，只记录引用数的变化存在某表中而不立即计算他，待到一定条件的时候去遍历变化表来释放0引用内存；减少计数器位数，哪怕数量溢出也不管他，把他剔除引用技术的GC体系，可以考虑等待利用标记清除来GC他。</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>GC复制算法</strong></p>
+<p>把有效的对象全复制到另一块内存当中，然后清除原内存的所有对象，这样不会产生碎片，遍历次数也少，具体就不展开了。</p>
+<p>&nbsp;</p>
+<blockquote><p>UE中的GC利用的是标记清除算法</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='智能指针'>智能指针</h2>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/10/01/lua%E8%BF%9B%E9%98%B6/" rel="prev" title="lua进阶">
+      <i class="fa fa-chevron-left"></i> lua进阶
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/10/01/C-%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE/" rel="next" title="C++使用建议">
+      C++使用建议 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#unreal-c"><span class="nav-number">1.</span> <span class="nav-text">Unreal C++</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="nav-number">1.1.</span> <span class="nav-text">命名规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8"><span class="nav-number">1.2.</span> <span class="nav-text">容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84"><span class="nav-number">1.3.</span> <span class="nav-text">反射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E6%B1%A0%E5%88%86%E9%85%8D"><span class="nav-number">1.4.</span> <span class="nav-text">内存池分配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">1.5.</span> <span class="nav-text">垃圾回收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="nav-number">1.6.</span> <span class="nav-text">智能指针</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/3333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/9.13%E9%9D%A2%E8%AF%95%E6%8B%BE%E9%81%97/" title="2024&#x2F;10&#x2F;01&#x2F;9.13面试拾遗&#x2F;"></a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/C-%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE/" title="2024&#x2F;10&#x2F;01&#x2F;C-使用建议&#x2F;">C++使用建议</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/UnrealC/" title="2024&#x2F;10&#x2F;01&#x2F;UnrealC&#x2F;">UnrealC++</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/lua%E8%BF%9B%E9%98%B6/" title="2024&#x2F;10&#x2F;01&#x2F;lua进阶&#x2F;">lua进阶</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/C-%E6%96%B0%E7%89%B9%E6%80%A7/" title="2024&#x2F;10&#x2F;01&#x2F;C-新特性&#x2F;">C++新特性</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/09/19/lua%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" title="2024&#x2F;09&#x2F;19&#x2F;lua面向对象&#x2F;">lua面向对象</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/09/18/%E7%BD%91%E7%BB%9C%E6%B8%B8%E6%88%8F%E4%B8%87%E4%BA%8B%E9%80%9A%EF%BC%88%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-%E5%BC%95%E6%93%8E%E6%8A%80%E6%9C%AF%E6%A0%88-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%EF%BC%89/" title="2024&#x2F;09&#x2F;18&#x2F;网络游戏万事通（基本概念-引擎技术栈-底层原理）&#x2F;">网络游戏万事通（基本概念+引擎技术栈+底层原理）</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/09/14/C-%E9%9D%A2%E8%AF%95/" title="2024&#x2F;09&#x2F;14&#x2F;C-面试&#x2F;">C++面试</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/02/25/lua%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="2024&#x2F;02&#x2F;25&#x2F;lua快速入门&#x2F;">lua快速入门</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/01/18/C-%E5%85%83%E7%BC%96%E7%A8%8B/" title="2024&#x2F;01&#x2F;18&#x2F;C-元编程&#x2F;">C++元编程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '1b2d85f02a967b10188c84ef5413c39d',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

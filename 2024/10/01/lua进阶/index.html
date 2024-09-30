@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="lua进阶">
+<meta property="og:url" content="http://example.com/2024/10/01/lua%E8%BF%9B%E9%98%B6/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-09-30T17:44:47.000Z">
+<meta property="article:modified_time" content="2024-09-30T18:31:37.815Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2024/10/01/lua%E8%BF%9B%E9%98%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>lua进阶 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/01/lua%E8%BF%9B%E9%98%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          lua进阶
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-10-01 01:44:47 / 修改时间：02:31:37" itemprop="dateCreated datePublished" datetime="2024-10-01T01:44:47+08:00">2024-10-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/lua%E7%9B%B8%E5%85%B3/" itemprop="url" rel="index"><span itemprop="name">lua相关</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>Lua进阶</title>
+</head>
+<body><h1 id='lua进阶'>Lua进阶</h1>
+<p>&nbsp;</p>
+<h2 id='lua表深拷贝'>Lua表深拷贝</h2>
+<p>Lua的表是一种类似引用类型，这种类型赋值的时候会直接将对象地址赋值过去。</p>
+<pre><code class='language-lua' lang='lua'>local t10=&#123;1,2,3,4,5,6&#125;
+local t9=t10
+t9[1]=10
+print(t10[1]) --- 输出为10
+</code></pre>
+<ul>
+<li>递归拷贝</li>
+
+</ul>
+<p>最简单的方式就是新建表，然后遍历要复制的表元素一个个复制过去。由于表本身也可以存表，所以使用递归实现。</p>
+<pre><code class='language-lua' lang='lua'>function deep_copy(tbl)
+    local new_tbl = &#123;&#125;
+    for key, value in pairs(tbl) do
+        if type(value) == &quot;table&quot; then
+            new_tbl[key] = deep_copy(value)
+        else
+            new_tbl[key] = value
+        end
+    end
+    return new_tbl
+end
+</code></pre>
+<p>由于存储的表也有可能是表本身或者是表本身的表元素，所以可能产生循环引用的现象，优化过后的深拷贝函数对已经克隆过后的对象进行了存储。</p>
+<pre><code class='language-lua' lang='lua'>function clone(object)
+    local lookup_table = &#123;&#125;
+    local function _copy(object)
+        if type(object) ~= &quot;table&quot; then 
+            return object 
+        elseif lookup_table[object] then
+            return lookup_table[object]
+        end
+        local new_table = &#123;&#125;
+        lookup_table[object] = new_table
+        for key, value in pairs(object) do
+            new_table[_copy(key)] = _copy(value)
+        end
+        return setmetatable(new_table, getmetatable(object))
+    end
+    return _copy(object) -- 返回clone出来的object表指针/地址
+end
+</code></pre>
+<h2 id='ipair与pair'>ipair与pair</h2>
+<ul>
+<li>ipair遇到不连续的数据停止输出，<strong>遇到nil停止输出</strong>，会按照key的顺序输出；而pair会<strong>无序</strong>输出<strong>所有</strong>数据。</li>
+<li>ipair和pair都会优先输出<strong>没有key</strong>的数据。对于pair，同样会无序输出带key的值，但是会按顺序输出不带key的值；对于ipair，在key值方面，他会补充不带key值的key，按顺序输出key。</li>
+
+</ul>
+<p>例子：</p>
+<pre><code class='language-lua' lang='lua'>local t = &#123;[1]=1,2,[3]=3,4,[5]=5,[6]=6&#125;
+print(&quot;------ipairs------&quot;)
+for k,v in ipairs(t1) do
+    print(k,v)
+end
+ 
+<p>print(&quot;——pairs——&quot;)<br>for k,v in  pairs(t1) do<br>    print(k,v)<br>end<br></code></pre></p>
+<p>结果为：</p>
+<pre><code class='language-lua' lang='lua'>------ipairs------
+1       2
+2       4
+3       3
+------pairs------
+1       2
+2       4
+3       3
+5       5
+6       6
+</code></pre>
+<p>首先无论pairs还是ipairs都会将无key的元素优先遍历，也就是{2,4}。</p>
+<p>此时要注意输出的这个k与实际的key值不是一个值，也就是按顺序开2就是第一个，4就是第二个，所以都直接输出12和24。</p>
+<p>之后遍历会沿着2往后找，也就是说在原表内不会再关注1了，而是直接看key=3的键值对，也就是33。</p>
+<p>此时再次发生分歧，因为原表中找不到key为4的键值对了。</p>
+<p>所以ipairs断开，pairs继续遍历。</p>
+<p>理论上从3开始pairs就要随机输出了，但是因为哈希算法排序样本较小，只有三个的话还看不出随机，当数量多了之后就随机了。</p>
+<blockquote><p>lua表中可以用table来表示key</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='全局变量泛滥'>全局变量泛滥</h2>
+<p>设置_G的元表，在其中进行检测，在触发__ newindex或者__ index时判断元素是否有显式声明过。</p>
+<p>&nbsp;</p>
+<h2 id='典型元方法'>典型元方法</h2>
+<ul>
+<li><code>_add</code>处理对象相加，用于重载<code>+</code></li>
+<li><code>_index</code>定义表索引，访问不存在的索引时触发</li>
+<li><code>_newindex</code>为不存在的索引赋值时触发</li>
+<li><code>_pairs</code>、<code>_ipairs</code>定义对象迭代器行为</li>
+
+</ul>
+<p>&nbsp;</p>
+<h2 id='luagc与cgc'>luaGC与C#GC</h2>
+<p>unity中的内存管理分为托管内存和非托管内存，GC只影响托管内存。</p>
+<p>lua采用增量回收的方式，性能更高。</p>
+<ul>
+<li>lua中需要gc的数据类型——表、用户数据（指用于表示C语言中任意数据的类型）、函数、线程。</li>
+
+</ul>
+<p>lua的gc是基于引用计数，利用标记-清除法来处理循环引用。</p>
+<p>&nbsp;</p>
+<h2 id='lua长短字符串'>lua长短字符串</h2>
+<pre><code class='language-lua' lang='lua'>local shortStr1 = &#39;This is a short string.&#39;
+local shortStr2 = &quot;This is another short string.&quot;
+
+<p>local longStr &#x3D; [[<br>This is a long string.<br>It can contain multiple lines<br>and special characters like \n and \t.<br>]]<br></code></pre></p>
+<p>短字符串和string很像，需要转义字符，而长字符串不需要。</p>
+<p>长字符串总是存在堆内存中，此外，任何字符串长度超过一定阈值都会存在堆中。</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/10/01/C-%E6%96%B0%E7%89%B9%E6%80%A7/" rel="prev" title="C++新特性">
+      <i class="fa fa-chevron-left"></i> C++新特性
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/10/01/UnrealC/" rel="next" title="UnrealC++">
+      UnrealC++ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#lua%E8%BF%9B%E9%98%B6"><span class="nav-number">1.</span> <span class="nav-text">Lua进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lua%E8%A1%A8%E6%B7%B1%E6%8B%B7%E8%B4%9D"><span class="nav-number">1.1.</span> <span class="nav-text">Lua表深拷贝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ipair%E4%B8%8Epair"><span class="nav-number">1.2.</span> <span class="nav-text">ipair与pair</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E6%B3%9B%E6%BB%A5"><span class="nav-number">1.3.</span> <span class="nav-text">全局变量泛滥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E5%85%83%E6%96%B9%E6%B3%95"><span class="nav-number">1.4.</span> <span class="nav-text">典型元方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#luagc%E4%B8%8Ecgc"><span class="nav-number">1.5.</span> <span class="nav-text">luaGC与C#GC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lua%E9%95%BF%E7%9F%AD%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">1.6.</span> <span class="nav-text">lua长短字符串</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/3333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/9.13%E9%9D%A2%E8%AF%95%E6%8B%BE%E9%81%97/" title="2024&#x2F;10&#x2F;01&#x2F;9.13面试拾遗&#x2F;"></a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/C-%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE/" title="2024&#x2F;10&#x2F;01&#x2F;C-使用建议&#x2F;">C++使用建议</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/UnrealC/" title="2024&#x2F;10&#x2F;01&#x2F;UnrealC&#x2F;">UnrealC++</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/lua%E8%BF%9B%E9%98%B6/" title="2024&#x2F;10&#x2F;01&#x2F;lua进阶&#x2F;">lua进阶</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/C-%E6%96%B0%E7%89%B9%E6%80%A7/" title="2024&#x2F;10&#x2F;01&#x2F;C-新特性&#x2F;">C++新特性</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/09/19/lua%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" title="2024&#x2F;09&#x2F;19&#x2F;lua面向对象&#x2F;">lua面向对象</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/09/18/%E7%BD%91%E7%BB%9C%E6%B8%B8%E6%88%8F%E4%B8%87%E4%BA%8B%E9%80%9A%EF%BC%88%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-%E5%BC%95%E6%93%8E%E6%8A%80%E6%9C%AF%E6%A0%88-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%EF%BC%89/" title="2024&#x2F;09&#x2F;18&#x2F;网络游戏万事通（基本概念-引擎技术栈-底层原理）&#x2F;">网络游戏万事通（基本概念+引擎技术栈+底层原理）</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/09/14/C-%E9%9D%A2%E8%AF%95/" title="2024&#x2F;09&#x2F;14&#x2F;C-面试&#x2F;">C++面试</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/02/25/lua%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="2024&#x2F;02&#x2F;25&#x2F;lua快速入门&#x2F;">lua快速入门</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/01/18/C-%E5%85%83%E7%BC%96%E7%A8%8B/" title="2024&#x2F;01&#x2F;18&#x2F;C-元编程&#x2F;">C++元编程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : 'a25093bb8367f41c0a643312725a7115',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="C++使用建议">
+<meta property="og:url" content="http://example.com/2024/10/01/C-%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-09-30T18:10:44.000Z">
+<meta property="article:modified_time" content="2024-09-30T18:31:37.852Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2024/10/01/C-%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C++使用建议 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/01/C-%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++使用建议
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-10-01 02:10:44 / 修改时间：02:31:37" itemprop="dateCreated datePublished" datetime="2024-10-01T02:10:44+08:00">2024-10-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BB%8EC%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C开始的C++</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>C++使用建议</title>
+</head>
+<body><ul>
+<li><p>模板声明和定义
+编译器编译阶段就要掌握模板的定义，所以模板头文件必须既包含声明也包含定义。</p>
+</li>
+<li><p>虚函数补充</p>
+<ul>
+<li>构造函数析构函数内也可以调用虚函数，但是这个调用<strong>不具有多态性</strong>，和当前构造/析构函数所处理的类型一致，比如基类构造函数被调用时子类对象还不存在，所以只能调用基类的。基类析构函数调用的时候子类对象已经析构完成，所以基类析构函数仍然只能调用基类的虚函数。  </li>
+<li>重写的虚函数不能更改原虚函数的默认实参，这个是C++标准定义的<strong>未定义行为</strong></li>
+
+</ul>
+</li>
+<li><p>严格弱序三条原则</p>
+<ul>
+<li>两个关键字不能同时“严格弱序”对方</li>
+<li>a严格弱序b，b严格弱序c，那么a必须严格弱序c</li>
+<li>如果两个关键字任何一个都不“严格弱序”对方，则两个关键字相等
+比如“&lt;”符号，符合上序规则，而“&lt;=”符号不符合。
+所有的<strong>自定义比较函数</strong>都必须遵循严格弱序。
+例如sort函数，在sort函数内，弱元素个数大于<code>_S_threshold</code>，则使用快速排序，弱快速排序迭代深度大于<code>__depth_limit</code>则使用堆排序；反之元素个数大于<code>_S_threshold</code>，则使用插入排序。
+其中快速排序的实现：</li>
+
+</ul>
+</li>
+
+</ul>
+<pre><code class='language-c++' lang='c++'>while (true)
+&#123;
+    while (__comp(*__first, __pivot))
+        ++__first;
+    --__last;
+    while (__comp(__pivot, *__last))
+        --__last;
+    if (!(__first &lt; __last))
+        return __first;
+    std::iter_swap(__first, __last);
+    ++__first;
+&#125;
+</code></pre>
+<p>对于对比函数<code>__comp</code>，如果不遵循严格弱序，且出现<strong>first与</strong>pivot一直相等的情况，那么__first就不会被return，会一直自增导致越界。
+原码这样做的原因，是为了节省比较的运算开销，没有进行边界检查。</p>
+<ul>
+<li><p>尽量少使用智能指针的get()来获取裸指针
+get函数直接返回一个对象的裸指针，这个指针是新建的，和原来的智能指针不冲突，所以很容易发生冲突问题。</p>
+</li>
+<li><p>形参在函数体内的形式一定是左值，哪怕传过来的是右值
+如果确定是右值，那么用std::move进行转换
+如果不确定，那么用std::forward进行完美转发</p>
+</li>
+<li><p>引用和指针
+经常会被问到指针和引用的适用场景，其实准确讲两者的本质没有差别，对于编译器来说，会利用一个符号表存储引用，而符号表内本身也是存的引用对象的地址，也就是指针，本体没差别。
+不过一般情况下说的都是引用比较值引用，比如函数的形参会将参数复制一次，额外损耗性能，如果直接使用引用可以模拟值引用的情况，节省性能。
+另一种情况就是引用可以模拟指针的传地址，而不用到处都使用解地址符了。
+说一下自己的理解，引用发明出来就是为了方便做“值处理”，也就是实现在函数内也能做到修改原参数变量的功能。原本这个功能利用指针也能解决，但是指针有一个性质就是其指向会被更改，也就是说对指针进行操作的时候可能就不小心更改了其指向了，这是一个很危险的设计，所以在这个层面上尽量使用加了限制还更方便的引用来处理。如果说需要更改指针指向，那么就直接使用指针。
+其次，一句话总结就是如果允许参数为空，那就传指针，其他情况下就传引用。</p>
+</li>
+<li><p>const与constexpr尽量使用</p>
+<ul>
+<li>const&amp;作为函数参数</li>
+<li>成员参数符合const条件就用const</li>
+<li>增加泛用性，让编译器进行更高级的优化</li>
+
+</ul>
+</li>
+<li><p>vector中的reserve指预留空间，而不真正创建元素对象；resize指直接改变元素大小并创建对象。</p>
+</li>
+
+</ul>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/10/01/UnrealC/" rel="prev" title="UnrealC++">
+      <i class="fa fa-chevron-left"></i> UnrealC++
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/10/01/9.13%E9%9D%A2%E8%AF%95%E6%8B%BE%E9%81%97/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/3333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/9.13%E9%9D%A2%E8%AF%95%E6%8B%BE%E9%81%97/" title="2024&#x2F;10&#x2F;01&#x2F;9.13面试拾遗&#x2F;"></a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/C-%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE/" title="2024&#x2F;10&#x2F;01&#x2F;C-使用建议&#x2F;">C++使用建议</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/UnrealC/" title="2024&#x2F;10&#x2F;01&#x2F;UnrealC&#x2F;">UnrealC++</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/lua%E8%BF%9B%E9%98%B6/" title="2024&#x2F;10&#x2F;01&#x2F;lua进阶&#x2F;">lua进阶</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/C-%E6%96%B0%E7%89%B9%E6%80%A7/" title="2024&#x2F;10&#x2F;01&#x2F;C-新特性&#x2F;">C++新特性</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/09/19/lua%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" title="2024&#x2F;09&#x2F;19&#x2F;lua面向对象&#x2F;">lua面向对象</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/09/18/%E7%BD%91%E7%BB%9C%E6%B8%B8%E6%88%8F%E4%B8%87%E4%BA%8B%E9%80%9A%EF%BC%88%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-%E5%BC%95%E6%93%8E%E6%8A%80%E6%9C%AF%E6%A0%88-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%EF%BC%89/" title="2024&#x2F;09&#x2F;18&#x2F;网络游戏万事通（基本概念-引擎技术栈-底层原理）&#x2F;">网络游戏万事通（基本概念+引擎技术栈+底层原理）</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/09/14/C-%E9%9D%A2%E8%AF%95/" title="2024&#x2F;09&#x2F;14&#x2F;C-面试&#x2F;">C++面试</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/02/25/lua%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="2024&#x2F;02&#x2F;25&#x2F;lua快速入门&#x2F;">lua快速入门</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/01/18/C-%E5%85%83%E7%BC%96%E7%A8%8B/" title="2024&#x2F;01&#x2F;18&#x2F;C-元编程&#x2F;">C++元编程</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '23b2bcb2d2511d58b5500c597b744ab0',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
