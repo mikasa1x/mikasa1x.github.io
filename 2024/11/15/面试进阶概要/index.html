@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="面试进阶概要">
+<meta property="og:url" content="http://example.com/2024/11/15/%E9%9D%A2%E8%AF%95%E8%BF%9B%E9%98%B6%E6%A6%82%E8%A6%81/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-15T11:07:06.000Z">
+<meta property="article:modified_time" content="2024-11-15T11:07:47.073Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2024/11/15/%E9%9D%A2%E8%AF%95%E8%BF%9B%E9%98%B6%E6%A6%82%E8%A6%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>面试进阶概要 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/15/%E9%9D%A2%E8%AF%95%E8%BF%9B%E9%98%B6%E6%A6%82%E8%A6%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          面试进阶概要
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-11-15 19:07:06 / 修改时间：19:07:47" itemprop="dateCreated datePublished" datetime="2024-11-15T19:07:06+08:00">2024-11-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E8%AF%95%E6%9F%A5%E6%BC%8F%E8%A1%A5%E7%BC%BA/" itemprop="url" rel="index"><span itemprop="name">面试查漏补缺</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>11.12例行复习</title>
+</head>
+<body><h1 id='例行复习'>例行复习</h1>
+<h2 id='图集-drawcall相关------------unity-ue适用'>图集 drawcall相关————Unity UE适用</h2>
+<p>Q：为什么要打图集，打图集的作用是什么？
+A：在图片渲染的过程中，涉及到一个DrawCall的过程，DrawCall的意识是CPU向GPU申请一次图像处理接口，一般情况下CPU会将图像的信息发送过去，比如物体的顶点数和面数等等，这些数据都非常大，涉及几千几万条，GPU很擅长处理大数据，但CPU不擅长，所以<strong>GPU进行计算的速度会比CPU进行调用的速度要快</strong>很多。那么CPU就很容易成为性能瓶颈了，进行UI优化的一个经典思路就是减少DrawCall，也就是尽量让CPU在一次DrawCall过程中发送更多的图像数据，因为DrawCall的过程会涉及到一些图片<strong>渲染状态的切换</strong>。无论是Unity还是UE，都有打图集的功能，图集就是将相同纹理的图片汇聚成一张图片，这样这一张图片的信息就能直接通过一次DrawCall发送给GPU了。
+Unity里面有动态批处理和静态批处理，这些都是应用层上自动打图集的一些策略。动态批处理不需要应用人员去考虑，他会自动将一些较小的mesh合并起来；静态批处理就是指一些静态的部分，比如2D地图等设置为Batching Static，然后这些静态的mesh就会合并到一块去。静态批处理、以及图集本身都有一些缺点，那就是<strong>会拷贝额外的一份图片填充内存</strong>，所以在内存紧张的情况下，有时候需要牺牲一点渲染性能。其次，通用的图集打包规则也是一个问题，比如一张很大的图集，有的一些部分可能在实际运行过程中用不到，那么这本身也就造成了一定的内存占用和性能开销。</p>
+<h2 id='unity碰撞检测'>Unity碰撞检测</h2>
+<p>Q：如果子弹速度很快，发生了穿透的现象，那么要如何去处理。
+A：Unity可以直接对刚体进行设置Continuous，原理是做连续、更精细的碰撞检测，比较损耗性能。第二种处理方式是使用射线检测取代碰撞体，如果子弹速度非常快的情况下，不过一般情况下比如大战场fps游戏里面的子弹速度很快，但是游戏内要考虑弹速和下坠，这个时候就会使用分段的射线检测，也就是在子弹飞行的过程中不停地向前发射有距离限制的射线，这样射线的方向就会和子弹一致，而且也会和飞行速度相匹配。</p>
+<h2 id='网络同步的验证逻辑'>网络同步的验证逻辑</h2>
+<p>Q：比如说fps，如何去验证子弹是否真的打中了呢，现在有一些外挂可能会出现魔法子弹的情况。
+A：对于性能需求、体量较小的游戏推荐采用校验服，就是额外在服务端跑一个逻辑，不断向客户端发送心跳包，对客户端验证信息进行验证；如果性能需求较大，比如大型的fps，使用校验服会造成一定的网络延迟，这个时候采用哈希加密验证的方式进行数据验证，就是在两个以上的客户端的游戏里面，对要进行同步的关键数据进行哈希加密，然后客户端通过对数据进行解密来进行自验证；应用层上也有很多防止外挂的策略，这样的策略反而是最有效的，比如异常状态，服务器对多个客户端发来的数据进行比对，如果某一个客户端的数据与其他客户端不一致，那么说明这个客户端的数据异常，也有天花板策略，比如某玩家的数据比全服第一还高好几个百分比，那么说明数据异常。</p>
+<h2 id='ui框架设计'>UI框架设计</h2>
+<p>Q：一般游戏的UI底层架构是怎样的
+A：UI是分模块的，原则是不会同时出现在一块屏幕上的UI一般不会属于一个模块，这个原则也和图集规则相互适配，因为图片渲染的原则也是尽量将同一块屏幕里的图片打成一个图集。分成模块的UI在代码的表现上为一颗树，树的根部是一个消息事件中心，负责控制模块的命令调度。模块可以将自己注册在事件中心里面，也可以向事件中心发送带信息的消息，然后再由事件中心广播事件。在事件中心中对消息的定义是一个object，在Unity中可以将不同的struct直接装入object中，然后接收消息的模块需要拆开object，这个操作涉及C#的一个装箱拆箱过程，如果是其他语言，那也会有类型的数据结构。
+模块内就是一个传统的MVC架构，ctr拥有model和view的引用，负责在Unity层直接唤醒/销毁UI，view层负责持有unity控件的引用，也负责控件的表现逻辑，model则负责数据保存，数据会通过ctr中的方法进行更新，ctr中的数据更新方法又会调用模块中的信息传输方法，这些方法除了上面说的模块间消息传输，也会有与后台通信的RPC方法。
+模块的好处就是热拔插，网络游戏系统UI变动频率非常大，开发过程中需要频繁对UI进行更改，所以解耦后的模块化UI架构很适合网络游戏。</p>
+<h2 id='引擎工具相关'>引擎工具相关</h2>
+<p>Q：图集工具有哪些，怎么去实现。
+A：无论是unity还是ue，制作图集本身是一件繁琐的事，他需要新建图集，然后在图集里面一个个添加图片。新建图集、添加图片这件事可以通过原本就有的插件实现，比如TexturePacker，适用多平台多引擎。
+说一下可以做的补充TP缺陷的方面。比如重打图集，TP重新打图集，需要将原来的图片删除，然后重新打一个图集出来。重打图集非常常见，比如又新进了一批UI图标，那么这一批UI图标肯定要和之前的资源打到一块去。这里涉及到一个九宫数据，就是图片边界设置，设置边界后的图片在编辑器里面进行修改（拉长缩放等）的时候会按照边界的比例来进行缩放，比如某UI框，大小经常变化，边界宽度不会变。这个边界数据需要在图集里面设置的，也会随着图集删除而丢失，所以在TP重新打包的时候，需要将这个图集的每个图片和他的九宫数据都用内存保存好，然后第二次打包的时候重新将他们自动一一设置上去。
+引用检测和查询。UI是模块化的，那么每个模块都有一个私有的图集，那么打图集的过程中就要防止模块之间的图集混用，如果AUI里面引用了BUI的资源，那么在AUI进行渲染的时候内存里就会同时出现AUI和BUI的图集资源，这样很不好。非法图集查找工具实现起来比较简单，他的原理依托于图集和UI模块规则。比如一个模块叫“背包系统”，那么图集文件夹里面也要有一个相应的“背包系统”的同名文件夹。当然具体规则也可以改变，比如加个前缀之类。Unity和UE内部都拥有查对象引用的api，这个api在很多地方都有引用，比如反射系统、垃圾回收等。引用层上可以将所有对象的引用遍历一遍，划出png格式文件，然后直接检查这个文件的路径，如果路径上对应的文件夹名字和模块名字是一致的，那么说明这个图片是合法的。
+引用查询，无论是untiy，还是UE，都只能做到查询引用，而不能查询被哪些对象引用。开发过程中经常遇到修改UI的影响面，那么这个功能就很重要。“引用查找”也有相应的插件，可以找某个小模块被哪些资源引用，原理也是通过查找对象引用的api，但是会私下用一系列字典序将引用记录下来，然后永久保存到内存当中，在需要的时候进行数据更新，这样进行查询的时候就可以直接秒查。
+Unity里面有预制体保存时的回调事件，可以在这里面进行数据内存更新，其他引擎应该也会有这个回调。永久保存可以通过Unity给的api进行，也可以直接查meta文件里的guid来进行JSON格式化保存。
+我依靠这个原理也做了依赖关系工具，针对图集专有的，更省性能，还使用了协程来进一步优化体验。有了这两个工具，那么其他一系列的和图集相关的引擎外围工具也都能开展了，比如在编辑器展示prefab的时候，可以直接对这个prefab标红，提示这个prefab是非法的；然后在这个prefab的子节点面板上，在对应出现非法图集引用的节点也标红，这些都是面向其他用户的功能需求了。</p>
+<h2 id='slate与umg'>Slate与UMG</h2>
+<p>Q：虚幻UMG与Slate是什么关系，虚幻引擎如何进行引擎开发
+A：Unity做引擎界面开发通常会用到一些插件，比如OdinInspactor之类，这些插件的源头就是因为Unity本身做引擎修改就比较方便（在购买的前提下），而UE就麻烦了。可以说UE的所有UI界面本质上就是Slate，而Slate内部引用的是webapi的展示界面，这里不做扩展了。Slate本身是流式编程，他对[] . +这些符号都做了符号重写，比如[]的意思就是返回一个widget，而符号本身的结构直观上看起来也很像树结构，+的内部调用了addSlot()，意思是增加一个插槽。
+UE一整个编辑器就是用Slate开发出来的，但是Slate一整个架构是和UObject系统切割开来的，他太老旧了，所以研究Slate的人不多，就不会有类似OdinInspactor这样方便的插件了。虚幻里面编辑UI蓝图的编辑器，就是UMG，UMG同样底层也是Slate，但是UMG实现了Slate做不到的控件实时拖拽预览这些功能，以及控件树的实时展示，这个和[]的逻辑是一致的。当然最重要的是，UMG利用UObject将Slate系统进行包裹了，比如UMG的控件UButton拥有SBotton的引用，而UButton本身就是属于UObject系列的，这样就相当于SBotton也拥有了UObject的反射功能和蓝图交互功能，其他控件也是一样的。
+但是编辑器本身就没有这么方便了，Slate的性质就意味着修改任何控件都需要代码级别的重新编译，如果只是编辑器工具栏或者编辑器大界面这样的单例界面还好说，但是所有的细节面板都是用同一个父类实现的，也就是说没有办法去修改某个特定数据结构的细节面板，想要个性化细节面板，只能新建一个类去将他进行自定义。</p>
+<p>Q：Slate的结构是怎样的
+A：会有一个主面板，然后向这个面板中注册各种控件，或者界面，或者插槽。可以直接调用AddSlot来直接添加插槽，也可以使用+来添加，[]可以对控件添加子控件/插槽，这样Slate的结构就看起来很像一棵控件树，和UMG里面的控件树结构上是一致的。</p>
+<h2 id='ue经典试题'>UE经典试题</h2>
+<p>Q：说一下UE的GamePlay架构
+A：首先是UObject，提供了反射、GC、序列化等必备功能，继承UObject的一个很重要的GamePlayer相关类是UActor，Actor就是游戏对象，他本身带有网络复制和tick功能，其他的功能由Component提供，Actor可以挂载一系列的Component去实现一些特定功能，比如SceneComponent提供transform。Actor相关的类有Controller、Pawn和AInfo，Controller就是角色的控制器，Pawn就是Actor的物理表示，实现物理碰撞、Mesh渲染等功能，也会有input操作接口。AInfo代表无实体的Actor，用于记录一些对象数据，比如APlayerState，就是用于记录Actor状态的。
+GameInstance顾名思义就是游戏单例，负责进行游戏引擎的初始化，游戏地图的加载，角色的创建等，关卡的切换等。Level类就是关卡，多个关卡组成一个UWorld，关卡在UE里面可以代表完整切换场景的一个个关卡，也可以代表大世界里的某一块区域，Level拥有这个关卡里所有Actor的引用。
+GameMode继承与AInfo，也就是游戏模式，记录一个关卡的基本规则，比如游戏人数胜利条件这种数据化规则。ALevelScript也就是关卡蓝图，继承与Actor，也是和Level一一对应，但更强调事件，比如某个关卡触发一些事件会生成一些敌人。世界设置也会有相应的AInfo，类名叫WorldSetting。
+网络GamePlay层面上有一个UNetDriver类，里面会存有一些Connection，也就是网络连接。Connection继承于UPlayer，也就是UE对玩家的定义，另一个继承于UPlayer的叫LocalPlayer，也就是本地玩家。</p>
+<p>Q：说一下UE的网络架构
+A：UNetDriver，也就是网络管理器，负责对象的同步事件。UNetDriver里带有Connection的引用，对于服务端，每有一个客户端连接进来，就会加一个ClientConnection，而对于客户端，只会有一个ServerConnnection存在。Controller会和Connection作一一对应，Connection和LocolPlayer同级。客户端连接上服务端，也可以理解成Controller的同步过程，对于客户端来说，连接进服务端的过程就是申请连接，成功后加载服务器地图，然后服务端会创建并返回一个Controller给客户端，接着这个Controller就会根据脚本来找到对应要控制的Pawn。
+无论是Ctr，还是Pawn，这些都是Actor，而Actor是网络同步的基础对象。同步Actor有三种表现，一种是属性同步，一种是RPC调用，一种是生命周期同步。属性同步就是Actor类中有一些属性，打上一个复制标记，那么在Actor每次生命周期的同步tick时就会遍历所有带标记的属性，然后将其数据发送到服务端上。RPC调用就是对函数的标记，可以实现客户端调用到服务端的函数，也可以实现服务端调用客户端的函数。
+无论什么同步，归根结底都是一些数据包的传输，UE里面数据包的单位叫Bunch，对应UDP里面的Packet。但是UE本身就是用的可靠UDP，所以传输Bunch的实质也是传输Packet，但是Packet里面含有大量的Bunch。
+UE里面还有Channel的概念，Channel就是用来分类接收并拆分不同的Bunch的。比如有的Bunch是控制信息，那么他会最终传入ControlChannel里面处理。Channel隶属于Connection，所以Channel接收并分割的数据包最终都会回到Connection中。</p>
+<p>Q：UE的反射是怎么一回事
+A：我的理解是反射就是对象自省，也就是这个类本身持有类自己的一些信息，包括属性信息函数信息等，然后在运行阶段这个类的对象甚至其他对象都可以通过这些信息来对这个对象的数据进行改变，或者进行函数调用。UE通过各种标记来将代码中的一些结构划入反射系统，比如Class就用UClass来标记，Function就用UFunction，标记会在UHT的编译阶段进行展开并生成大量反射函数，这些函数就是用于记录这些被标记的属性信息的。每一个UObject都会有一个UClass的引用，UClass就是记录这些类信息的一个容器。不单单有UClass，基于不同数据结构也会有不同的描述类别，比如UEnum，UFunction等。反射可以用于多种场所，比如编辑器显示对象属性，动态调试，蓝图调用C++等，在代码里面使用反射功能最经典的方式就是调用GetClass和StaticClass方法，一个是根据对象获取对应类型信息，一个是根据类名获取一个类的类信息。</p>
+<p>Q：你知道蓝图和C++的关系吗
+A：在UE的源码当中，C++类又被称作Native类，特地和蓝图类做区分，因为蓝图就是用来描述某些类的，尽管蓝图类本来也是C++类。换句话说蓝图就是某些类的编辑器，但是一般情况下我们都会叫这些蓝图类直接称呼某某蓝图。
+蓝图类持有一个GeneratedClass类引用，这个引用就是这个蓝图描述出来的类，蓝图自身拥有描述这个类的逻辑，比如将这个类的一些属性通过反射功能表现出来，也可以通过蓝图标记来调用这个类的函数，而这个GeneratedClass，就是这个类的对象本质。当游戏运行起来的时候，会读取一次GeneratedClass的数据然后描述到蓝图上面，我们可以在游戏运行的时候调整这个蓝图，比如更改一些属性等，但是停止游戏的时候这些属性的更改就丢失了，编辑阶段始终以GeneratedClass为准。
+蓝图的逻辑层是通过蓝图虚拟机来运行的，蓝图的每一个节点，里面可能有好几条逻辑，每一条逻辑都叫他为statement，也就是语句，而这些语句最终会被转换成蓝图字节码，然后被蓝图虚拟机翻译成一条条C++逻辑。这些语句和汇编代码很像，比如条件跳转等等，还有一些比较重要的字节码，比如“调用某C++代码”，蓝图就是通过这样的方式调用到C++的代码的。
+C++本质上不允许调用蓝图的节点，因为C++层面根本获取不到蓝图的定义和实现。C++调用蓝图的方式只有蓝图方法在C++声明，然后在蓝图实现，这样的方法才会被C++调用到。
+我的理解是蓝图有点像插件，或者说是一个代码黑盒，当有一些属性需要实时调控或者对外开放的时候，我就会创建这个类的一个蓝图类，比如某个角色的外貌设置，替换mesh可能会涉及到路径的替换，这些最好不能写死在C++中，而且蓝图能更好地运用事件系统，逻辑更加清晰。蓝图都最好有对应的C++类，因为蓝图涉及字节码转换，本身是很消耗性能的，大部分底层相关的逻辑更适合写在C++里面。其次在多人协作方面C++是文本，蓝图是字节流，所以C++在多人协作方面有得天独厚的优势。蓝图类本身具有局限性，他可能更多和GamePlay系统相关联，而编辑器本身的一些事件就只能通过C++来利用了，比如写一些编辑器工具，和其他平台交互等等。</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/11/15/UMG%E4%B8%8ESlate/" rel="prev" title="UMG与Slate">
+      <i class="fa fa-chevron-left"></i> UMG与Slate
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BE%8B%E8%A1%8C%E5%A4%8D%E4%B9%A0"><span class="nav-number">1.</span> <span class="nav-text">例行复习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E9%9B%86-drawcall%E7%9B%B8%E5%85%B3------------unity-ue%E9%80%82%E7%94%A8"><span class="nav-number">1.1.</span> <span class="nav-text">图集 drawcall相关————Unity UE适用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unity%E7%A2%B0%E6%92%9E%E6%A3%80%E6%B5%8B"><span class="nav-number">1.2.</span> <span class="nav-text">Unity碰撞检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%90%8C%E6%AD%A5%E7%9A%84%E9%AA%8C%E8%AF%81%E9%80%BB%E8%BE%91"><span class="nav-number">1.3.</span> <span class="nav-text">网络同步的验证逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ui%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.4.</span> <span class="nav-text">UI框架设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E6%93%8E%E5%B7%A5%E5%85%B7%E7%9B%B8%E5%85%B3"><span class="nav-number">1.5.</span> <span class="nav-text">引擎工具相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#slate%E4%B8%8Eumg"><span class="nav-number">1.6.</span> <span class="nav-text">Slate与UMG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ue%E7%BB%8F%E5%85%B8%E8%AF%95%E9%A2%98"><span class="nav-number">1.7.</span> <span class="nav-text">UE经典试题</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/3333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">76</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E9%9D%A2%E8%AF%95%E8%BF%9B%E9%98%B6%E6%A6%82%E8%A6%81/" title="2024&#x2F;11&#x2F;15&#x2F;面试进阶概要&#x2F;">面试进阶概要</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/UMG%E4%B8%8ESlate/" title="2024&#x2F;11&#x2F;15&#x2F;UMG与Slate&#x2F;">UMG与Slate</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/UE4%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95%E4%B8%8Eslate%E5%9F%BA%E7%A1%80/" title="2024&#x2F;11&#x2F;15&#x2F;UE4编辑器扩展与slate基础&#x2F;">UE4编辑器扩展与slate基础</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E8%99%9A%E5%B9%BB%E8%93%9D%E5%9B%BE/" title="2024&#x2F;11&#x2F;15&#x2F;虚幻蓝图&#x2F;">虚幻蓝图</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E5%90%AF%E5%8A%A8%E9%98%B6%E6%AE%B5%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88/" title="2024&#x2F;11&#x2F;15&#x2F;虚幻引擎启动阶段做了什么&#x2F;">虚幻引擎启动阶段做了什么</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/06/InsideUE5%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0GamePlay/" title="2024&#x2F;10&#x2F;06&#x2F;InsideUE5阅读笔记GamePlay&#x2F;">InsideUE5阅读笔记GamePlay</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/C-%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE/" title="2024&#x2F;10&#x2F;01&#x2F;C-使用建议&#x2F;">C++使用建议</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/UnrealC/" title="2024&#x2F;10&#x2F;01&#x2F;UnrealC&#x2F;">UnrealC++</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/lua%E8%BF%9B%E9%98%B6/" title="2024&#x2F;10&#x2F;01&#x2F;lua进阶&#x2F;">lua进阶</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/01/C-%E6%96%B0%E7%89%B9%E6%80%A7/" title="2024&#x2F;10&#x2F;01&#x2F;C-新特性&#x2F;">C++新特性</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '9942516971bdf5596e0088c957d4abd6',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
