@@ -21,16 +21,18 @@
   </script>
 
   <meta property="og:type" content="article">
-<meta property="og:title" content="腾讯课堂——浅述游戏策划">
-<meta property="og:url" content="http://example.com/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B5%85%E8%BF%B0%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92/index.html">
+<meta property="og:title" content="UMG与Slate">
+<meta property="og:url" content="http://example.com/2024/11/15/UMG%E4%B8%8ESlate/index.html">
 <meta property="og:site_name" content="Coding中。。。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-08-07T17:08:01.000Z">
-<meta property="article:modified_time" content="2023-08-07T17:11:24.656Z">
+<meta property="og:image" content="https://s21.ax1x.com/2024/11/07/pAytpwD.md.png">
+<meta property="article:published_time" content="2024-11-15T11:03:39.000Z">
+<meta property="article:modified_time" content="2024-11-15T11:05:02.142Z">
 <meta property="article:author" content="九日">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s21.ax1x.com/2024/11/07/pAytpwD.md.png">
 
-<link rel="canonical" href="http://example.com/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B5%85%E8%BF%B0%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92/">
+<link rel="canonical" href="http://example.com/2024/11/15/UMG%E4%B8%8ESlate/">
 
 
 <script id="page-configurations">
@@ -43,7 +45,7 @@
   };
 </script>
 
-  <title>腾讯课堂——浅述游戏策划 | Coding中。。。</title>
+  <title>UMG与Slate | Coding中。。。</title>
   
 
 
@@ -164,7 +166,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B5%85%E8%BF%B0%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/15/UMG%E4%B8%8ESlate/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/3333.jpg">
@@ -177,7 +179,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          腾讯课堂——浅述游戏策划
+          UMG与Slate
         </h1>
 
         <div class="post-meta">
@@ -188,7 +190,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-08-08 01:08:01 / 修改时间：01:11:24" itemprop="dateCreated datePublished" datetime="2023-08-08T01:08:01+08:00">2023-08-08</time>
+              <time title="创建时间：2024-11-15 19:03:39 / 修改时间：19:05:02" itemprop="dateCreated datePublished" datetime="2024-11-15T19:03:39+08:00">2024-11-15</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -196,7 +198,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9D%82%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">游戏设计杂谈</span></a>
+                  <a href="/categories/%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">虚幻引擎系列</span></a>
                 </span>
             </span>
 
@@ -206,14 +208,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>497</span>
+              <span>4.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -230,69 +232,142 @@
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
 <span id="more"></span>
-<title>游戏策划是什么</title>
+<title>11.7Slate细节</title>
 </head>
-<body><blockquote><p>游戏的改变更多取决于社会的变革与环境的改变，而不是我们游戏人的努力</p>
-<p>游戏人口的扩大，使得游戏体验成本的下降</p>
+<body><h1 id='ue-umg-slate-详解'>UE UMG Slate 详解</h1>
+<blockquote><p>umg是umg，slate是slate，但是slate是umg的爹，umg拿着爹给的资源包装一下，就成了显示在HUD上的用户界面</p>
 </blockquote>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1 id='游戏策划是什么'>游戏策划是什么</h1>
-<p><strong>基础的策划工作流</strong></p>
-<p>灵感-&gt;理论</p>
-<p>创意-&gt;方法</p>
-<p>(设计方案&gt;需求实现&gt;产品整合&gt;测试)&gt;(打磨&gt;测试)&gt;上线反馈&gt;迭代开发</p>
-<p><strong>游戏策划的作用</strong></p>
-<blockquote><p>“创造游戏体验，对体验负责”</p>
-</blockquote>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1 id='游戏策划的分类'>游戏策划的分类</h1>
+<p>比如UButton（umg），里头就有SButton（Slate）的引用，用的就是SButton的逻辑。
+如果单看编辑器本身，那么编辑器用户界面基本上都是Slate，有一个理由是编辑器需要提供给用户，游戏引擎的用户界面有一部分是需要频繁改变的，比如UI编辑器，是用户自定义给玩家的UI界面，另一部分是大体固定的，比如一个类的细节面板，如果这个类属性标签上有蓝图可使用，那么这个属性在细节面板上就会多一个属性名，一个输入框，以及可能的一些其他周边按钮比如撤回按钮。
+Slate的结构看起来是很扯淡的，比如：</p>
+<pre><code class='language-c++' lang='c++'>	TSharedPtr&lt;SVerticalBox&gt; TempWidget;
+    Widgets[3]-&gt;AddSlot()
+    .AutoHeight()
+    [
+        SAssignNew(TempWidget, SVerticalBox)
+        + SVerticalBox::Slot()
+        .AutoHeight()
+        .Padding(0.f, 0.f, 0.f, 0.f)
+        [
+            Showing[4]-&gt;CreatePropertyValueWidget()
+        ]
+        + SVerticalBox::Slot()
+        .AutoHeight()
+        [
+            SNew(SExpandableArea)
+            .AreaTitle(NSLOCTEXT(&quot;DetailCustomization&quot;, &quot;Open&quot;, &quot;Open&quot;))
+            .InitiallyCollapsed(true)
+            .BodyContent()
+            [
+                VerticalBoxEx
+            ]
+        ]
+    ];
+</code></pre>
+<p>给哥们干哪去了，这还是C++吗。
+而且一个更重要的是，这些都是写死的代码，都是写死的组件引用，能不能轻易实现动态的组件还另说，光是更改界面需要重新编译就够吃一壶了。
+总而言之就是Slate<strong>不属于UObject系统</strong>，他是基于web的方式来渲染UI的，SlateCore 负责UI逻辑和布局， SlateRHIRenderer负责UI的渲染。所以Slate当然不和蓝图系统坐一桌，但是UMG和蓝图绑定地死死的，毕竟UMG对Slate进行了包装，将SButtom包装成UButtom。</p>
+<h2 id='hud-与-umg-概念'>HUD 与 UMG 概念</h2>
+<p>细节面板、引擎工具栏、窗口栏由Slate实现，现在窗口里头有一张画布，画布上可以添加按钮，也可以添加其他UI，还能添加事件脚本，这个可以快速创建新UI的编辑器就是UMG。
+HUD也是用户界面，但是他一般情况下特指不能互动的提示关键信息的UI，比如屏幕左上的血条，网络的ping值等，或者编辑器的性能面板也属于HUD，当然，UMG也可以将其制作的UI嵌入HUD。</p>
+<h2 id='uwidget与swidget'>UWidget与SWidget</h2>
+<p>UWidget是WidgetBlueprint里的可视化编辑控件，是向UObject暴露的，所以自然和蓝图系统有所联系.
+UWidget内有TakeWidget函数将SWidget转换成UWidget，函数内部逻辑就是将RebuildWidget调用了一次。
+RebuildWidget被SWidget里所有的组件都重写了一遍，比如说UButton</p>
+<pre><code class='language-c++' lang='c++'>TSharedRef&lt;SWidget&gt; UButton::RebuildWidget()
+&#123;
+    MyButton = SNew(SButton)
+        .OnClicked(BIND_UOBJECT_DELEGATE(FOnClicked, SlateHandleClicked))
+        .OnPressed(BIND_UOBJECT_DELEGATE(FSimpleDelegate, SlateHandlePressed))
+        .OnReleased(BIND_UOBJECT_DELEGATE(FSimpleDelegate, SlateHandleReleased))
+        .OnHovered_UObject( this, &amp;ThisClass::SlateHandleHovered )
+        .OnUnhovered_UObject( this, &amp;ThisClass::SlateHandleUnhovered )
+        .ButtonStyle(&amp;WidgetStyle)
+        .ClickMethod(ClickMethod)
+        .TouchMethod(TouchMethod)
+        .PressMethod(PressMethod)
+        .IsFocusable(IsFocusable)
+        ;
+
+<pre><code>if ( GetChildrenCount() &amp;gt; 0 )
+&#123;
+    Cast&amp;lt;UButtonSlot&amp;gt;(GetContentSlot())-&amp;gt;BuildSlot(MyButton.ToSharedRef());
+&#125;
+
+return MyButton.ToSharedRef();
+</code></pre>
+<p>}<br></code></pre></p>
+<p><a target="_blank" rel="noopener" href='https://imgse.com/i/pAytpwD'><img src="https://s21.ax1x.com/2024/11/07/pAytpwD.md.png" referrerpolicy="no-referrer" alt="pAytpwD.md.png"></a>
+这是SWidget相关继承图
+SPanel中需要添加一系列的Slot（插槽）结构来进行UI布局编写，Overlay的意思是没有预定布局，所有后渲染的直接覆盖前渲染的，所以布局位置大小都需要自定义，BoxPanel指预定布局，比如说从垂直方向或者水平方向顺序放置Slot组件。
+看一下FSlot的重载：</p>
+<pre><code class='language-c++' lang='c++'>FSlot&amp; operator[]( TSharedRef&lt;SWidget&gt; InWidget )
+&#123;
+    SBoxPanel::FSlot::operator[](InWidget);
+    return *this;
+&#125;
+</code></pre>
+<p>这下知道为什么Slate要用[]来写了，[]内返回SWidget组件，这样就可以用比如ChildSlot[SNew(...)]的方式为其添加子SWidget。
+再看BoxPanel初始化宏</p>
+<pre><code class='language-c++' lang='c++'>#define SLATE_SUPPORTS_SLOT( SlotType ) \
+TArray&lt; SlotType* &gt; Slots; \
+WidgetArgsType&amp; operator + (SlotType&amp; SlotToAdd) \
+&#123; \
+    Slots.Add( &amp;SlotToAdd ); \
+    return *this; \
+&#125;
+</code></pre>
+<p>也是重载了+当初Add函数。</p>
+<p>然后就是最后一个和C++不太熟悉的点号</p>
+<pre><code class='language-c++' lang='c++'>SLATE_BEGIN_ARGS( SButton )
+    : _Content()
+    , _ButtonStyle( &amp;FCoreStyle::Get().GetWidgetStyle&lt; FButtonStyle &gt;( &quot;Button&quot; ) )
+    , _TextStyle( &amp;FCoreStyle::Get().GetWidgetStyle&lt; FTextBlockStyle &gt;(&quot;NormalText&quot;) )
+    , _HAlign( HAlign_Fill )
+    , _VAlign( VAlign_Fill )
+    , _ContentPadding(FMargin(4.0, 2.0))
+    , _Text()
+    , _ClickMethod( EButtonClickMethod::DownAndUp )
+    , _TouchMethod( EButtonTouchMethod::DownAndUp )
+    , _PressMethod( EButtonPressMethod::DownAndUp )
+    , _DesiredSizeScale( FVector2D(1,1) )
+    , _ContentScale( FVector2D(1,1) )
+    , _ButtonColorAndOpacity(FLinearColor::White)
+    , _ForegroundColor( FCoreStyle::Get().GetSlateColor( &quot;InvertedForeground&quot; ) )
+    , _IsFocusable( true )
+    &#123;
+    &#125;
+
+<pre><code>/** Slot for this button&amp;#39;s content (optional) */
+SLATE_DEFAULT_SLOT( FArguments, Content )
+
+/** The visual style of the button */
+SLATE_STYLE_ARGUMENT( FButtonStyle, ButtonStyle )
+</code></pre>
+<p></code></pre></p>
+<p>使用了结构化构造，本身就是为属性赋值，比如_ButtonStyle属性，最终赋值到FArguments中，在使用SNew构造时进行传参。</p>
+<p>Slate真没啥用，但是如果有要更改编辑器的需求，那么Slate是真的有用，就像前面说的，UMG管不到游戏单例局外，所以只能通过重写Slate来实现，相对于Unity来说真的是一个很老旧的实现方式。</p>
+<h2 id='生命周期'>生命周期</h2>
+<p>UMG基于UObject，而Slate基于TSharedFromThis。
+UMG生命周期也就是UE的UI生命周期，基本上是这几个生命周期函数：</p>
 <ul>
-<li>文学策划</li>
+<li>virtual void NativeOnInitialized();</li>
+<li>virtual void NativePreConstruct();</li>
+<li>virtual void NativeConstruct(); ---开始tick</li>
+<li>virtual void NativeTick();</li>
+<li>virtual void NativeDestruct(); ---结束tick</li>
 
 </ul>
-<blockquote><p>为游戏制造世界观，为角色制作台词，为玩家创造一个虚拟世界</p>
-</blockquote>
+<p>Slate，都说了是TSharedFromThis，那么生命周期就是由智能指针来管理的。</p>
+<h2 id='一些问答防止被抓）'>一些问答（防止被抓）</h2>
 <ul>
-<li>数值策划</li>
+<li>Slate中怎么用UMG
+TakeWidget，将UUserWidget转化为SWidget</li>
+<li>如何在UMG里混合使用Slate与UMG
+也就是使用UWidget组件，而RebuildWidget是用来创造SWidget，所以思路是重写它，内容由UWidget来代替</li>
 
 </ul>
-<blockquote><p>包括抽卡概率，平衡等</p>
-</blockquote>
-<ul>
-<li>系统策划</li>
-
-</ul>
-<blockquote><p>如各种背包，公会等系统、各种游戏流程链等</p>
-</blockquote>
-<ul>
-<li>关卡策划</li>
-
-</ul>
-<blockquote><p>“游戏导演”，在游戏与玩家的交互这个角度中下功夫，是从玩家角度最能体会到的</p>
-</blockquote>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1 id='游戏的制作过程'>游戏的制作过程</h1>
-<p><strong>“我能当策划吗”</strong></p>
-<p>结论：是人就行，但大厂门槛高，有科班</p>
-<p><strong>策划的基础素质</strong>：热爱，视野，沟通，洞察，激情</p>
-<blockquote><p>视野：知识面、学习能力、游戏经验、信息获取</p>
-<p>洞察：独立思考、逻辑能力、求真求实、好奇心</p>
-<p>热爱和激情：不忘初心、坚韧不拔</p>
-</blockquote>
-<p><strong>专业设计理论</strong></p>
-<p>M：机制</p>
-<p>D：动态</p>
-<p>A：审美</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<h1 id='游戏策划的养成'>游戏策划的养成</h1>
-<p><strong>开普勒计划</strong></p>
-<p>&nbsp;</p>
+<p>//todo一些别的，比如UUserWidget还没概念</p>
 </body>
 </html>
     </div>
@@ -309,13 +384,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E5%8F%91%E5%B1%95%E5%8F%B2/" rel="prev" title="腾讯课堂——电子游戏发展史">
-      <i class="fa fa-chevron-left"></i> 腾讯课堂——电子游戏发展史
+    <a href="/2024/11/15/UE4%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95%E4%B8%8Eslate%E5%9F%BA%E7%A1%80/" rel="prev" title="UE4编辑器扩展与slate基础">
+      <i class="fa fa-chevron-left"></i> UE4编辑器扩展与slate基础
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/08/08/%E8%85%BE%E8%AE%AF%E8%AF%BE%E5%A0%82%E2%80%94%E2%80%94%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E6%9C%AC%E8%B4%A8%E4%B8%8E%E6%8A%80%E5%B7%A7/" rel="next" title="腾讯课堂——游戏设计本质与技巧">
-      腾讯课堂——游戏设计本质与技巧 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -375,7 +447,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.</span> <span class="nav-text">游戏策划是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">游戏策划的分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E7%9A%84%E5%88%B6%E4%BD%9C%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">游戏的制作过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E7%AD%96%E5%88%92%E7%9A%84%E5%85%BB%E6%88%90"><span class="nav-number">4.</span> <span class="nav-text">游戏策划的养成</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ue-umg-slate-%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">UE UMG Slate 详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#hud-%E4%B8%8E-umg-%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">HUD 与 UMG 概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#uwidget%E4%B8%8Eswidget"><span class="nav-number">1.2.</span> <span class="nav-text">UWidget与SWidget</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">1.3.</span> <span class="nav-text">生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%97%AE%E7%AD%94%E9%98%B2%E6%AD%A2%E8%A2%AB%E6%8A%93%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">一些问答（防止被抓）</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -544,7 +616,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog-comment',
       owner       : 'mikasa1x',
       admin       : ['mikasa1x'],
-      id          : 'f45180553fd7baa59a0f8c1168b6e400',
+      id          : '696940b19e740edcd416ff3e25384b3e',
         language: '',
       distractionFreeMode: true
     });
