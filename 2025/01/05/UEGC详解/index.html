@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="UE标记清除GC算法特点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UEGC详解">
+<meta property="og:url" content="http://example.com/2025/01/05/UEGC%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:description" content="UE标记清除GC算法特点">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-01-05T12:21:01.000Z">
+<meta property="article:modified_time" content="2025-01-05T12:25:56.341Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2025/01/05/UEGC%E8%AF%A6%E8%A7%A3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>UEGC详解 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/01/05/UEGC%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UEGC详解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-01-05 20:21:01 / 修改时间：20:25:56" itemprop="dateCreated datePublished" datetime="2025-01-05T20:21:01+08:00">2025-01-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">虚幻引擎系列</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>UE标记清除GC算法特点</title>
+<span id="more"></span>
+</head>
+<body><p>ＵＥＧＣ分析</p>
+<h2 id='ue标记清除gc算法特点'>UE标记清除GC算法特点</h2>
+<blockquote><p>UE4采用“<strong>追踪式、精确式、非搬迁式、非实时、非渐进式</strong>”的标记清扫（Mark-Sweep）GC算法。该算法分为两个阶段：标记阶段（GC Mark）和清扫阶段（GC Sweep）</p>
+</blockquote>
+<ul>
+<li><p>跟踪式：达到GC条件时，通过扫描系统中是否有对象引用的方式来判断是否回收</p>
+<ul>
+<li>引用计数：额外分配空间用于存储引用计数，引用为0时回收对象本身</li>
+
+</ul>
+</li>
+<li><p>精确式：需要额外的数据来判断，以识别每个对象的引用（比如标识符UPROPERTY）</p>
+<ul>
+<li>保守式：不需要额外的数据来支持对象的判断</li>
+
+</ul>
+</li>
+<li><p>非搬迁式：不需要移动GC对象的内存位置</p>
+<ul>
+<li>搬迁式：例如标记复制法，将成功标记的对象复制到另一个堆中，剩下的对象就可以被GC了</li>
+
+</ul>
+</li>
+<li><p>非实时：需要停止用户程序的执行</p>
+<ul>
+<li>实时：不需要停止用户执行</li>
+
+</ul>
+</li>
+<li><p>非渐进式：对象被GC后立即回收占用的内存资源</p>
+<ul>
+<li>渐进式：在GC达成一定条件的时候进行回收操作</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<p>被UPROPERTY宏修饰，或者在AddReferencedObjects手动添加引用的UObject*成员变量，才能被GC识别。</p>
+<p>首先说一下UE中GC的大致流程：</p>
+<ul>
+<li>启动GC时加锁，防止GC时引用关系发生变化</li>
+<li>将所有对象设置为“不可达”（特殊对象、根对象除外）</li>
+<li>从根对象开始遍历，引用到的对象去除“不可达”标记</li>
+<li>将所有“不可达”删除</li>
+
+</ul>
+<p>&nbsp;</p>
+<h2 id='基础操作'>基础操作</h2>
+<p><strong>使用</strong>：在大多数情况下，继承自UObject类的变量，前面加一个UPROPERTY宏，那么这个变量自然就被纳入UE的垃圾回收系统之中了。</p>
+<p>如果变量继承自非UObject类的对象变量，那么这个这个承载这个变量需要继承自FGCObject类，并且该类需要重写实现FGCObject提供的AddReferencedObjects接口，在接口中调用AddReferencedObject方法手动添加该对象至Collector实现。</p>
+<blockquote><p>也就是非UObject引用了UObject类对象</p>
+</blockquote>
+<pre><code class='language-c++' lang='c++'>//.h
+class FTestClass : public FGCObject
+&#123;
+public:
+
+<pre><code>FTestClass();
+
+class UTestObject* MyObject;
+
+virtual void AddReferencedObjects(FReferenceCollector&amp;amp; Collector) override;
+</code></pre>
+<p>};</p>
+<p>&#x2F;&#x2F;.cpp<br>FTestClass::FTestClass()<br>{<br>    MyObject &#x3D; NewObject&lt;UTestObject&gt;(GetTransientPackage(), TEXT(&quot;TestGCPlgTestObject&quot;));<br>}</p>
+<p>void FTestClass::AddReferencedObjects(FReferenceCollector&amp; Collector)<br>{<br>    Collector.AddReferencedObject(MyObject);<br>}<br></code></pre></p>
+<p>至于其他类型的对象，则使用智能指针或者其他方法进行GC管理</p>
+<p>Q：如果一个对象在拥有UPROPERTY标记的同时又被AddReferenceObjects手动添加进GC系统会发生什么？</p>
+<p>&nbsp;</p>
+<p><strong>其他操作方法</strong></p>
+<p>AddToRoot()将UObject对象添加到根节点Root上，这样就不会被GC回收了，对应的方法为RemoveFromRoot()。是通过将对象对应GUObjectArray中的FUObjectItem的Flags会加上EInternalObjectFlags::RootSet标记实现的。</p>
+<p>&nbsp;</p>
+<p>IsValid()这个函数检查对象是否有效，对应C++中的“!=null”操作，但是这个函数本身可以对对象进行更多的检查。</p>
+<ul>
+<li>检查UObject指针指向是否为空——为空则返回false</li>
+<li>检查对象内部的<code>InternalFlags</code>，如果被标记为待销毁，则返回false</li>
+<li>检查对象是否正在被垃圾回收，如果是，则返回false</li>
+
+</ul>
+<pre><code class='language-c++' lang='c++'>#include &quot;UObject/UObjectGlobals.h&quot;
+
+<p>bool IsValid(const UObject* Object)<br>&#123;<br>    if (Object &#x3D;&#x3D; nullptr)<br>    &#123;<br>        return false;<br>    &#125;</p>
+<pre><code>if (Object-&amp;gt;IsPendingKill())
+&#123;
+    return false;
+&#125;
+
+if (Object-&amp;gt;HasAnyFlags(RF_BeginDestroyed) || Object-&amp;gt;HasAnyFlags(RF_FinishDestroyed))
+&#123;
+    return false;
+&#125;
+
+return true;
+</code></pre>
+<p>}<br></code></pre></p>
+<p>&nbsp;</p>
+<p>MarkPendingKill()手动将对象设置为等待回收的对象，意思就是跳过GC一系列的算法，直接在下一轮将对象回收。是通过将对象对应GUObjectArray中的FUObjectItem的Flags加上EInternalObjectFlags::PendingKill标记来实现的。</p>
+<p>&nbsp;</p>
+<p><strong>防止被GC</strong></p>
+<ul>
+<li>使用AddToRoot函数</li>
+<li>直接或间接被Root对象引用</li>
+<li>直接或间接被FGCObject对象引用</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>主动GC</strong></p>
+<p>CollectGarbage()在当前帧内进行一次垃圾回收</p>
+<p>ForceCollectGarbage()在下一帧内进行一次垃圾回收</p>
+<p>&nbsp;</p>
+<p><strong>判断UObject对象有效性</strong></p>
+<p>IsValid()——判断指针是否为空，判断是否为PendingKill</p>
+<p>&nbsp;</p>
+<h2 id='基础定义'>基础定义</h2>
+<p><strong>类EInternalObjectFlags</strong></p>
+<p>FUObjectItem用于保存UObject信息，存有一个EInernalObjectFlags的枚举变量，这个变量代表着当前对象的情况，比如PendingKill代表对象就要被回收了。</p>
+<blockquote><p>在类型系统中的其他Flags：</p>
+<ul>
+<li>EObjectFlags：对象本身的标志。</li>
+<li>EInternalObjectFlags：<a target="_blank" rel="noopener" href='https://zhida.zhihu.com/search?content_id=101527643&amp;content_type=Article&amp;match_order=1&amp;q=对象存储&amp;zhida_source=entity'>对象存储</a>的标志，GC的时候用来检查可达性。</li>
+<li>EObjectMark：用来额外标记对象特征的标志，用在<a target="_blank" rel="noopener" href='https://zhida.zhihu.com/search?content_id=101527643&amp;content_type=Article&amp;match_order=2&amp;q=序列化&amp;zhida_source=entity'>序列化</a>过程中标识状态。</li>
+<li>EClassFlags：类的标志，定义了一个类的特征。</li>
+<li>EClassCastFlags：类之间的转换，可以快速的测试一个类是否可以转换成某种类型。</li>
+<li>EStructFlags：结构的特征标志。</li>
+<li>EFunctionFlags：函数的特征标志。</li>
+<li>EPropertyFlags：属性的特征标志。</li>
+
+</ul>
+<p>来自大钊的《InsideUE4》</p>
+</blockquote>
+<blockquote><p>ReachableInCluster = 1 &lt;&lt; 23, ///&lt; 集群中存在对对象的外部引用</p>
+<p>ClusterRoot = 1 &lt;&lt; 24, ///&lt; 集群的根
+Native = 1 &lt;&lt; 25, ///&lt; 本地的(仅UClass)。
+Async = 1 &lt;&lt; 26, ///&lt; 对象只存在于与游戏线程不同的线程上。
+AsyncLoading = 1 &lt;&lt; 27, ///&lt; 对象正在异步加载。
+Unreachable = 1 &lt;&lt; 28, ///&lt; 对象在对象图(Graph)上不可达。
+PendingKill = 1 &lt;&lt; 29, ///&lt; 等待销毁的对象(在GamePlay中无效，但暂时还依然有效的对象)
+RootSet = 1 &lt;&lt; 30, ///&lt; 对象将不会被垃圾回收，即使未引用。</p>
+</blockquote>
+<blockquote><p>如何看待FUObjectItem？这个结构在某UObject被纳入UE的GC管理后被分配，为一对一的关系，用于存储该对象的一些GC相关的元数据。也并不一定为一对一的关系，比如某些UObject不被纳入此UE的正常GC之中则不会被分配。</p>
+<p>由于FUObjectItem本身只是结构体，而且在GUObjectArray中排列紧密，所以在GC的扫描中能很方便得直接进行For循环遍历，而且此For循环也可以使用多线程版本的For循环。</p>
+</blockquote>
+<pre><code class='language-c++' lang='c++'>//UObjectArray.h
+struct FUObjectItem
+&#123;
+   class UObjectBase* Object; //对象，使用newObject时返回的对象指针
+   int32 Flags;               //EInternalObjectFlags标识
+   int32 ClusterRootIndex;    //当前所属簇索引
+   int32 SerialNumber;        //对象序列码(WeakObjectPtr实现用到它)
+&#125;
+</code></pre>
+<p>&nbsp;</p>
+<h2 id='gc流程'>GC流程</h2>
+<p>首先从CollectGarbage()开始，这个函数做了三件事：</p>
+<ul>
+<li>获取GC锁</li>
+<li>执行CollectGarbageInternal</li>
+<li>释放GC锁</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><strong>UE引擎中的GC是多线程的</strong>，所以要设置GC锁。比如防止一个对象加载后，其引用还没被添加，就被当成垃圾被GC掉，所以这个锁的目的是防止其他线程对这个UObject进行相关操作。</p>
+<p>重点是CollectGarbageInternal，这个函数之内执行标记和清扫操作。</p>
+<p><strong>标记</strong></p>
+<p>PerformReachabilityAnalysis()方法：</p>
+<ul>
+<li>在ObjectsToSerialize中添加<strong>FGCObject::GGCObjectReferencer</strong>，用于在非UObject对象上调用AddReferencedObjects方法。</li>
+<li>调用<strong>MarkObjectsAsUnreachable</strong>，将不带KeepFlags标记的对象标记为不可达。</li>
+
+</ul>
+<p><strong>GUObjectArray</strong>，这个全局的变量保存了所有的UObject（由FUObjectItem封装）。可以通过下标来找到UObject，此下标就存储在UObjectBase::InternalIndex属性之中。</p>
+<p>此外，这个UObject列表的前部有一些不被纳入GC的obj，会在gc扫描时特地排除。</p>
+<ul>
+<li><strong>PerformReachabilityAnalysisOnObjects</strong>判断可达。</li>
+
+</ul>
+<p><strong>ReferenceToken</strong>是一组token流，用于描述类中对象的引用情况，使用它的原因是代替UProperty来扫描对象引用关系，达到更高效率。</p>
+<blockquote><p>每一个UObject都有一个对应的UClass来保存这个对象中每一个属性的相关信息，可以通过这个对象的实例化地址来遍历所有的属性，这样也能得到所有的引用对象。但是时则以的效率太慢，因为大部分情况下对象的属性都不是UObject类型。</p>
+</blockquote>
+<p>token流的意思就是将一系列数据转化为uint32值，这个值的实际意义是这个对象引用的其他对象的偏移位置，使之更方便传输与缓存。</p>
+<blockquote><p>token在UE中由FGCReferenceInfo这个类来描述，具体如下：</p>
+<pre><code class='language-c++' lang='c++'>/** Mapping to exactly one uint32 */
+union
+&#123;
+ /** Mapping to exactly one uint32 */
+ struct
+ &#123;
+     /** Return depth, e.g. 1 for last entry in an array, 2 for last entry in an array of structs of arrays, ... */
+     uint32 ReturnCount	: 8;
+     /** Type of reference */
+     uint32 Type			: 4;
+     /** Offset into struct/ object */
+     uint32 Offset		: 20;
+ &#125;;
+ /** uint32 value of reference info, used for easy conversion to/ from uint32 for token array */
+ uint32 Value;
+&#125;;
+</code></pre>
+</blockquote>
+<blockquote><ul>
+<li>ReturnCount——嵌套深度</li>
+<li>Type——引用的类型（EGCRefenceType）</li>
+<li>Offset——引用对应属性在类中的地址偏移</li>
+
+</ul>
+<p>可以通过解析token流来得到所引用的属性，然后这个属性其实就是这个类的成员变量，换句话说也就是“这个对象所引用的对象”了；其次，两个token（32位）还可以用于存储指针（64位），比如使用AddReferencedObjects添加对象时，它的函数指针。</p>
+</blockquote>
+<p><strong>ProcessObjectArray</strong>就是实质性的遍历Uobject的token流并寻找引用关系的方法，在多线程的情况下，UObject的列表被分配给各个线程，并调用ProcessObjectArray。此方法中遍历的就是ObjectsToSerialize中的UObject来寻找引用关系并判断可达性的。</p>
+<blockquote><p>所有一整个标记的流程大概为：UObject的反射信息UClass中含有一个token流属性，这个属性为一个用int值保存属性信息的共同体——&gt;CollectGarbage()中的标记核心函数触发——&gt;PerformReachabilityAnalysis()获取到GUObjectArray中的所有对象，根据标签更改标记，包括继承了FGCObject的非UObject对象，如果对象可达，则放入ObjectsToSerialize——&gt;PerformReachabilityAnalysisOnObjectsInternal()通过解析对象的token流，判断属性是否为UObject类型，如果是，则将引用对象去除不可达标记，并将其加入ObjectsToSerialize中</p>
+</blockquote>
+<p>ObjectsToSerialize这个列表是动态的，因为遍历的过程中肯定会遍历到引用的新对象，于是这个新对象也会被纳入到这个ObjectsToSerialize中，并一轮又一轮得递归遍历。</p>
+<p>&nbsp;</p>
+<p><strong>清除</strong></p>
+<p>整个标记流程结束后，GObjectArray再次被遍历，所有的不可达对象放入GUnreachableObjects中。</p>
+<p>清除的流程分为UnhashUnreachableObjects和IncrementalDestroyGarbage两部分，前者调用所有不可达对象的BeginDestroy，后者调用所有不可达对象的FinishDestroy。</p>
+<p><strong>BeginDestroy</strong>意思是通知对象即将被销毁，该对象需要做好在其他线程上的清理工作。</p>
+<p><strong>FinishDestroy</strong>调用之前会判断对象是否做好清理工作，之后会将走到这一流程的所有对象在下一帧调用析构函数，被彻底清理。</p>
+<p>&nbsp;</p>
+<p><strong>Cluster</strong></p>
+<p>//todo</p>
+<p>&nbsp;</p>
+<h2 id='qa'>QA</h2>
+<p>可以看<a href='https://zhuanlan.zhihu.com/p/401956734' target='_blank' class='url'>https://zhuanlan.zhihu.com/p/401956734</a>的最后段，我觉得很有用</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/12/16/%E4%BA%8C%E7%BB%B4%E7%9F%A9%E5%BD%A2%E8%A3%85%E7%AE%B1%E7%AE%97%E6%B3%95/" rel="prev" title="二维矩形装箱算法">
+      <i class="fa fa-chevron-left"></i> 二维矩形装箱算法
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ue%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4gc%E7%AE%97%E6%B3%95%E7%89%B9%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">UE标记清除GC算法特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">基础操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E5%AE%9A%E4%B9%89"><span class="nav-number">3.</span> <span class="nav-text">基础定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gc%E6%B5%81%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">GC流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#qa"><span class="nav-number">5.</span> <span class="nav-text">QA</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/3333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">80</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2025/01/05/UEGC%E8%AF%A6%E8%A7%A3/" title="2025&#x2F;01&#x2F;05&#x2F;UEGC详解&#x2F;">UEGC详解</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/12/16/%E4%BA%8C%E7%BB%B4%E7%9F%A9%E5%BD%A2%E8%A3%85%E7%AE%B1%E7%AE%97%E6%B3%95/" title="2024&#x2F;12&#x2F;16&#x2F;二维矩形装箱算法&#x2F;">二维矩形装箱算法</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E5%AE%9E%E4%B9%A0%E6%80%BB%E7%BB%93%EF%BC%8C%E4%B8%8D%E8%81%8A%E6%8A%80%E6%9C%AF%E5%90%91/" title="2024&#x2F;11&#x2F;15&#x2F;实习总结，不聊技术向&#x2F;">实习总结，不聊技术向</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/Unity-UE-C/" title="2024&#x2F;11&#x2F;15&#x2F;Unity-UE-C&#x2F;">Unity/UE/C++</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E9%9D%A2%E8%AF%95%E8%BF%9B%E9%98%B6%E6%A6%82%E8%A6%81/" title="2024&#x2F;11&#x2F;15&#x2F;面试进阶概要&#x2F;">面试进阶概要</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/UMG%E4%B8%8ESlate/" title="2024&#x2F;11&#x2F;15&#x2F;UMG与Slate&#x2F;">UMG与Slate</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/UE4%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95%E4%B8%8Eslate%E5%9F%BA%E7%A1%80/" title="2024&#x2F;11&#x2F;15&#x2F;UE4编辑器扩展与slate基础&#x2F;">UE4编辑器扩展与slate基础</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E8%99%9A%E5%B9%BB%E8%93%9D%E5%9B%BE/" title="2024&#x2F;11&#x2F;15&#x2F;虚幻蓝图&#x2F;">虚幻蓝图</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E5%90%AF%E5%8A%A8%E9%98%B6%E6%AE%B5%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88/" title="2024&#x2F;11&#x2F;15&#x2F;虚幻引擎启动阶段做了什么&#x2F;">虚幻引擎启动阶段做了什么</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/10/06/InsideUE5%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0GamePlay/" title="2024&#x2F;10&#x2F;06&#x2F;InsideUE5阅读笔记GamePlay&#x2F;">InsideUE5阅读笔记GamePlay</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '48f61cbefcb96bcb96245c375c64637f',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
