@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="C++11知识点">
+<meta property="og:url" content="http://example.com/2025/03/11/C-11%E7%9F%A5%E8%AF%86%E7%82%B9/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-11T15:02:01.000Z">
+<meta property="article:modified_time" content="2025-03-11T15:02:33.015Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2025/03/11/C-11%E7%9F%A5%E8%AF%86%E7%82%B9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>C++11知识点 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/03/11/C-11%E7%9F%A5%E8%AF%86%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          C++11知识点
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-03-11 23:02:01 / 修改时间：23:02:33" itemprop="dateCreated datePublished" datetime="2025-03-11T23:02:01+08:00">2025-03-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BB%8EC%E5%BC%80%E5%A7%8B%E7%9A%84C/" itemprop="url" rel="index"><span itemprop="name">从C开始的C++</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<span id="more"></span>
+<title>C++11知识点</title>
+</head>
+<body><h1 id='c11知识点'>C++11知识点</h1>
+<h2 id='const和constexpr'>const和constexpr</h2>
+<p>前者修饰常量，后者修饰常量表达式</p>
+<p>区别在于前者只是表达只读语义，保证运行时不被修改，但是其修饰的遍历本身仍然可能是个动态变量，而后者所修饰的是真正的常量，会保证在编译期间就计算出来。</p>
+<figure><table>
+<thead>
+<tr><th style='text-align:center;' >特性</th><th style='text-align:center;' ><code>const</code></th><th style='text-align:center;' ><code>constexpr</code></th></tr></thead>
+<tbody><tr><td style='text-align:center;' >计算阶段</td><td style='text-align:center;' >运行时</td><td style='text-align:center;' >编译时</td></tr><tr><td style='text-align:center;' >初始化要求</td><td style='text-align:center;' >可运行时初始化</td><td style='text-align:center;' >必须编译期确定</td></tr><tr><td style='text-align:center;' >函数修饰</td><td style='text-align:center;' >不能修饰函数</td><td style='text-align:center;' >可修饰函数</td></tr><tr><td style='text-align:center;' >内存分配</td><td style='text-align:center;' >可能需要存储空间</td><td style='text-align:center;' >可能仅存在于编译期符号表</td></tr></tbody>
+</table></figure>
+<blockquote><p>constexpr修饰函数：只能修饰单语句return的函数，相当于修饰其返回值，这类函数在被调用的时候其返回值会尽可能在编译期确定</p>
+<pre><code class='language-cpp' lang='cpp'>#include&lt;iostream&gt;
+using namespace std;
+
+<p>constexpr int func(int i) &#123;<br>    return i + 1;<br>&#125;</p>
+<p>int main() &#123;<br>    int i &#x3D; 2;<br>    func(i);&#x2F;&#x2F; 普通函数<br>    func(2);&#x2F;&#x2F; 编译期间就会被计算出来<br>&#125;<br></code></pre></p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='function类与反射实现'>function类与反射实现</h2>
+<p><strong>function</strong></p>
+<p>顾名思义，std::function就是用来存储函数的，专业名词称为“多态函数包装器”，可以复制和存储任意可调用的目标：函数、lambda表达式、绑定表达式、指向成员函数和指向数据成员的指针等等。	</p>
+<p>用法：<code>class function&lt;R(Args...)&gt;</code></p>
+<p>R为函数返回类型、Args为调用函数的形参。</p>
+<p>C++简单反射实现：</p>
+<pre><code class='language-c++' lang='c++'>#include &lt;iostream&gt;
+#include &lt;unordered_map&gt;
+#include &lt;functional&gt;
+class Reflector&#123;
+public:
+    template&lt;typename Function&gt;
+    static void registerFunc(const std::string&amp; name,Function func)&#123;
+        getRegistery()[name] = func;
+    &#125;
+    static bool invoke(const str::string&amp; name)&#123;
+        auto&amp; registry = getRegistry();
+        if(registry.find(name)!=registry.end())&#123;
+            registry[name]();
+            return true;
+        &#125;
+        return false;
+    &#125;
+private:
+    //全局注册表，用static做线程安全单例
+    static auto&amp; getRegistry()&#123;
+        static std::unordere_map&lt;std::string,std::function&lt;void()&gt;&gt; registry;
+        return registry;
+    &#125;
+&#125;
+
+<p>void solve() &#123;&#125;</p>
+<p>int main()&#123;<br>    Reflector::registerFunc(&quot;solve&quot;,solve);<br>    Reflector::invoke(&quot;solve&quot;);<br>&#125;<br></code></pre></p>
+<blockquote><p>函数对象，即仿函数</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='explicit'>explicit</h2>
+<p>用于修饰有参构造函数，表明此构造函数是显式而非隐式的</p>
+<ul>
+<li>禁止对象间的隐式转换</li>
+<li>禁止隐式调用拷贝构造函数</li>
+
+</ul>
+<p>例如：</p>
+<pre><code class='language-c++' lang='c++'>class Obj&#123;
+    Obj()&#123;&#125;
+    explicit Obj(int val):_val(val)&#123;&#125;
+private:
+    int _val;    
+&#125;
+
+<p>int main()&#123;<br>    Obj obj1(1);<br>    Obj obj2 &#x3D; 1;&#x2F;&#x2F;这种方法在有参构造函数被explicit修饰后会报错，因为其中涉及到<strong>构造临时对象1</strong>、<strong>拷贝临时对象到对象obj2</strong>两步骤<br>&#125;<br></code></pre></p>
+<p>&nbsp;</p>
+<h2 id='delete'>delete</h2>
+<p>//略</p>
+<p>&nbsp;</p>
+<h2 id='default'>default</h2>
+<p>显式声明默认构造函数</p>
+<p>&nbsp;</p>
+<h2 id='final--override'>final &amp; override</h2>
+<p>final用于修饰一个类，表示该类禁止进一步派生</p>
+<p>override用于修饰派生类中的成员函数，标明该函数重写了基类函数，如果用override声明了函数但是父类没有对应虚函数则报错。</p>
+<p>&nbsp;</p>
+<h2 id='nullptr'>nullptr</h2>
+<p>//略</p>
+<p>&nbsp;</p>
+<h2 id='继承构造函数'>继承构造函数</h2>
+<p>即子类继承父类的构造函数。</p>
+<pre><code class='language-c++' lang='c++'>struct Base &#123;
+    Base() &#123;&#125;
+    Base(int a) &#123; a_ = a; &#125;
+    Base(int a, int b) : Base(a) &#123; b_ = b; &#125;
+    Base(int a, int b, int c) : Base(a, b) &#123; c_ = c; &#125;
+
+<pre><code>int a_;
+int b_;
+int c_;
+</code></pre>
+<p>};</p>
+<p>struct Derived : Base {<br>    using Base::Base;<br>};<br></code></pre></p>
+<p>&nbsp;</p>
+<h2 id='委托构造函数'>委托构造函数</h2>
+<p>同一个类中一个构造函数调用另一个构造函数：</p>
+<pre><code class='language-c++' lang='c++'>struct A &#123;
+    A()&#123;&#125;
+    A(int a) &#123; a_ = a; &#125;
+    A(int a, int b) : A(a) &#123; b_ = b; &#125;
+    A(int a, int b, int c) : A(a, b) &#123; c_ = c; &#125;
+    
+<pre><code>int a_;
+int b_;
+int c_;
+</code></pre>
+<p>};<br></code></pre></p>
+<p>&nbsp;</p>
+<h2 id='并发'>并发</h2>
+<p>//略</p>
+<p>&nbsp;</p>
+<h2 id='bind'>bind</h2>
+<p>bind返回一个函数对象，可以放进Funtion类对象中</p>
+<pre><code class='language-c++' lang='c++'>//以下两种分别代表了bind的两种重载（函数和成员函数）
+
+<p>double callableFunc (double x, double y) &#123;return x&#x2F;y;&#125;<br>auto NewCallable &#x3D; std::bind (callableFunc, std::placeholders::_1,2);  </p>
+<p>&#x2F;&#x2F;</p>
+<p>class Base<br>&#123;<br>public:<br>    void display_sum(int a1, int a2)<br>    &#123;<br>        std::cout &lt;&lt; a1 + a2 &lt;&lt; &#39;\n&#39;;<br>    &#125;</p>
+<pre><code>int m_data = 30;
+</code></pre>
+<p>};<br>int main()<br>{<br>    Base base;<br>    auto newiFunc &#x3D; std::bind(&amp;Base::display_sum, &amp;base, 100, std::placeholders::_1);<br>    newiFunc(20); &#x2F;&#x2F; should out put 120.<br>}<br></code></pre></p>
+<p>&nbsp;</p>
+<h2 id='列表初始化'>列表初始化</h2>
+<p>//略</p>
+<p>&nbsp;</p>
+<h2 id='左值右值'>左值右值</h2>
+<p>//略</p>
+<p>&nbsp;</p>
+<h2 id='auto--decltype'>auto &amp; decltype</h2>
+<p>auto类型即编译器来编译期就推导出来的类型，用于推导变量类型</p>
+<p>decltype用于推导表达式类型</p>
+<pre><code class='language-c++' lang='c++'>auto a = 10;
+const int&amp; i = 1;
+int a = 2;
+decltype(i) b = 2;
+</code></pre>
+<p>&nbsp;</p>
+<h2 id='enum-class'>enum class</h2>
+<p>带作用域的枚举。</p>
+<p>原来的枚举是自动转换成整型的，所以不同枚举之间可以进行比较，例如枚举A的第一个值和枚举B的第一个值相等，容易出现隐性bug。</p>
+<p>使用带作用域的枚举，不同枚举之间比较会出现<strong>编译错误</strong>。而且此枚举可以手动选择底层类型。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/01/05/UEGC%E8%AF%A6%E8%A7%A3/" rel="prev" title="UEGC详解">
+      <i class="fa fa-chevron-left"></i> UEGC详解
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#c11%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">C++11知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#const%E5%92%8Cconstexpr"><span class="nav-number">1.1.</span> <span class="nav-text">const和constexpr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#function%E7%B1%BB%E4%B8%8E%E5%8F%8D%E5%B0%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">function类与反射实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#explicit"><span class="nav-number">1.3.</span> <span class="nav-text">explicit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#delete"><span class="nav-number">1.4.</span> <span class="nav-text">delete</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#default"><span class="nav-number">1.5.</span> <span class="nav-text">default</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#final--override"><span class="nav-number">1.6.</span> <span class="nav-text">final &amp; override</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nullptr"><span class="nav-number">1.7.</span> <span class="nav-text">nullptr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.8.</span> <span class="nav-text">继承构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A7%94%E6%89%98%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.9.</span> <span class="nav-text">委托构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91"><span class="nav-number">1.10.</span> <span class="nav-text">并发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bind"><span class="nav-number">1.11.</span> <span class="nav-text">bind</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.12.</span> <span class="nav-text">列表初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A6%E5%80%BC%E5%8F%B3%E5%80%BC"><span class="nav-number">1.13.</span> <span class="nav-text">左值右值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#auto--decltype"><span class="nav-number">1.14.</span> <span class="nav-text">auto &amp; decltype</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#enum-class"><span class="nav-number">1.15.</span> <span class="nav-text">enum class</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/3333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2025/03/11/C-11%E7%9F%A5%E8%AF%86%E7%82%B9/" title="2025&#x2F;03&#x2F;11&#x2F;C-11知识点&#x2F;">C++11知识点</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2025/01/05/UEGC%E8%AF%A6%E8%A7%A3/" title="2025&#x2F;01&#x2F;05&#x2F;UEGC详解&#x2F;">UEGC详解</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/12/16/%E4%BA%8C%E7%BB%B4%E7%9F%A9%E5%BD%A2%E8%A3%85%E7%AE%B1%E7%AE%97%E6%B3%95/" title="2024&#x2F;12&#x2F;16&#x2F;二维矩形装箱算法&#x2F;">二维矩形装箱算法</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E5%AE%9E%E4%B9%A0%E6%80%BB%E7%BB%93%EF%BC%8C%E4%B8%8D%E8%81%8A%E6%8A%80%E6%9C%AF%E5%90%91/" title="2024&#x2F;11&#x2F;15&#x2F;实习总结，不聊技术向&#x2F;">实习总结，不聊技术向</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/Unity-UE-C/" title="2024&#x2F;11&#x2F;15&#x2F;Unity-UE-C&#x2F;">Unity/UE/C++</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E9%9D%A2%E8%AF%95%E8%BF%9B%E9%98%B6%E6%A6%82%E8%A6%81/" title="2024&#x2F;11&#x2F;15&#x2F;面试进阶概要&#x2F;">面试进阶概要</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/UMG%E4%B8%8ESlate/" title="2024&#x2F;11&#x2F;15&#x2F;UMG与Slate&#x2F;">UMG与Slate</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/UE4%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95%E4%B8%8Eslate%E5%9F%BA%E7%A1%80/" title="2024&#x2F;11&#x2F;15&#x2F;UE4编辑器扩展与slate基础&#x2F;">UE4编辑器扩展与slate基础</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E8%99%9A%E5%B9%BB%E8%93%9D%E5%9B%BE/" title="2024&#x2F;11&#x2F;15&#x2F;虚幻蓝图&#x2F;">虚幻蓝图</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E5%90%AF%E5%8A%A8%E9%98%B6%E6%AE%B5%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88/" title="2024&#x2F;11&#x2F;15&#x2F;虚幻引擎启动阶段做了什么&#x2F;">虚幻引擎启动阶段做了什么</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '327cf46b8b2d1564ce9401c39dfeac43',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
