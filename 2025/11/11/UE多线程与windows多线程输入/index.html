@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="UE多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE多线程与windows多线程输入">
+<meta property="og:url" content="http://example.com/2025/11/11/UE%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8Ewindows%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:description" content="UE多线程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/10/pZ9WNvR.png">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/10/pZ9WIIS.md.png">
+<meta property="og:image" content="https://pic1.zhimg.com/v2-aa2ab12e8e2d68c9dae8c0a2ad7a1582_720w.jpg?source=d16d100b">
+<meta property="og:image" content="https://pica.zhimg.com/80/v2-4bb1a05e24ad3d2b2521365b936ce6fd_720w.webp?source=d16d100b">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/11/pZCFDXj.png">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/11/pZCFRhT.png">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/11/pZCFf9U.png">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/11/pZCkiUP.png">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/11/pZCkE8S.png">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/11/pZCkyxe.png">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/11/pZCkIG8.png">
+<meta property="article:published_time" content="2025-11-11T15:43:21.000Z">
+<meta property="article:modified_time" content="2025-11-11T15:44:36.744Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s21.ax1x.com/2025/11/10/pZ9WNvR.png">
+
+<link rel="canonical" href="http://example.com/2025/11/11/UE%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8Ewindows%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>UE多线程与windows多线程输入 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/11/11/UE%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8Ewindows%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE多线程与windows多线程输入
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-11-11 23:43:21 / 修改时间：23:44:36" itemprop="dateCreated datePublished" datetime="2025-11-11T23:43:21+08:00">2025-11-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">虚幻引擎系列</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>UE多线程</title>
+<span id="more"></span>
+</head>
+<body><h1 id='ue5多线程windows系统多线程输入实战'>UE5多线程+windows系统多线程输入实战</h1>
+<h2 id='ue5里的线程'>UE5里的线程</h2>
+<ul>
+<li>GameThread-游戏线程</li>
+<li>DrawThread-渲染线程</li>
+<li>RHIThread-调用各平台绘图API的线程</li>
+<li>其他线程（网络、文件I/O）</li>
+
+</ul>
+<h2 id='怎么进行多线程'>怎么进行多线程</h2>
+<ul>
+<li>RunnableThread</li>
+<li>ThreadPool</li>
+<li>TaskGraph</li>
+
+</ul>
+<h3 id='runnablethread'>RunnableThread</h3>
+<p>这种方式是最基础的多线程方式，既创建一个线程任务。
+这种方式由“FRunnable”类和“FRunnableThread”两个类相互配合实现
+如果用这种方法实现，则需要将我们的业务代码写在继承Runnable类的子类当中，并实现Init(),Run(),Stop(),Exit()四个方法，这里只关心新加的线程是什么逻辑，并不关心多线程具体如何实现。
+FRunnableThread既线程本身的抽象，内含静态方法Create，可以通过这个方法创建FRunnable线程。
+<a target="_blank" rel="noopener" href='https://imgchr.com/i/pZ9WNvR'><img src="https://s21.ax1x.com/2025/11/10/pZ9WNvR.png" alt="pZ9WNvR.png"></a></p>
+<h3 id='threadpool'>ThreadPool</h3>
+<p>固定数量的线程池，适用于持续时间短，比较复杂的异步任务。
+<a target="_blank" rel="noopener" href='https://imgchr.com/i/pZ9WIIS'><img src="https://s21.ax1x.com/2025/11/10/pZ9WIIS.md.png" alt="pZ9WIIS.md.png"></a>
+线程池在这里创建，位置为FEngineLoop::PreInitPreStartupScreen，还有不同种类的好几个池，这里先不看
+Async和AsyncPool函数就是典型的使用线程池的方法</p>
+<pre><code class='language-c++' lang='c++'>Async(EAsyncExecution::ThreadPool,[]()&#123;&#125;);//内部调用AddQueuedWork接口
+</code></pre>
+<p>底层的实现方式也是利用了Runnable，网上偷了张图，不做过多介绍了
+<img src="https://pic1.zhimg.com/v2-aa2ab12e8e2d68c9dae8c0a2ad7a1582_720w.jpg?source=d16d100b" alt="img">
+总结就是线程池当中的基础线程单位FQueuedThread对象继承自FRunnable，这些线程单位通过线程池中的“待执行任务队列”和“空闲线程列表”管理。任务本质其实也就是一个函数，通过封装后通过AddQueuedWork接口传入，一旦传入任务，线程池就会检查是否拥有空闲线程，如果有就直接分配，如果没有就先放进“待执行任务队列”中。</p>
+<h3 id='taskgraph'>TaskGraph</h3>
+<p>既任务线程直接产生依赖。典型的多线程GC就是通过这样的方法来实现的。包括GameThread，RenderThread，都是通过TaskGraph管理的。
+从根本上讲，TaskGraph只是一个“基于任务的并发系统”，管理线程池只是他功能中的一部分，总而言之，TaskGraph可以用来创建并发任务，同时也提供了等待机制，实现了调度一系列有依赖关系、可分布在不同线程的任务的功能。
+关键词：<strong>有向无环任务网络（DAG）</strong>
+TaskGraph支持两种线程，NamedThread和AnyThread，NamedThread就是外部创建的，例如GameThread和RenderThread。</p>
+<p>具体的实现方法也不深入看了，这里浅尝即止，既有一个<em>任务队列</em>，此外每个任务都有个FGraphEvent对象，此对象维护一个“后续任务列表”；每个任务还对应有一个“后续任务引用”，可以理解成这个任务的“代理”；每个任务还有一个计数器，记录自己依赖了多少别的对象，系统会轮询这个计数器，如果为0就加入总任务队列中待运行。
+如果想让A放在B的后面运行，那么就将A的“后续任务引用”加入到B的“后续任务列表”中，一旦B完成了，就会遍历后续任务列表，并将列表中的任务计数器-1。其实也就是是一个<strong>拓扑排序</strong>。
+前面提到的<em>任务队列</em>，也就是线程池中的“工作线程”的任务队列，这些工作线程有不同的优先级，这些优先级决定了CPU调度的优先级，高优先级获得更多CPU时间，在创建任务时，可以配置这些任务的“线程优先级”和“任务优先级”，前者决定去哪个优先级的工作线程，后者决定他在同一个工作线程的任务队列中的优先级。</p>
+<p>也可以使用Async来通过TaskGraph来创建多线程任务</p>
+<pre><code class='language-c++' lang='c++'>Async(EAsyncExecution::TaskGraph,[]()&#123;&#125;);
+</code></pre>
+<p>还是偷了张图，有空就多看看，请忽略叠了好几层的水印
+<img src="https://pica.zhimg.com/80/v2-4bb1a05e24ad3d2b2521365b936ce6fd_720w.webp?source=d16d100b" alt="img2"></p>
+<h2 id='线程同步的方法'>线程同步的方法</h2>
+<p>首先上面说的TaskGraph我认为就是一种同步方法，让DAG自动管理不同任务之间的相互依赖，这样就可以无须关心任务同步。
+当然UE还提供了一些基础的同步功能。</p>
+<ul>
+<li>原子操作——Atomics</li>
+
+</ul>
+<pre><code class='language-c++' lang='c++'>using RefCountType = std::conditional_t&lt;Mode == ESPMode::ThreadSafe, std::atomic&lt;int32&gt;, int32&gt;;
+</code></pre>
+<p>这个类型就是智能指针中引用计数的类型，这里就用到了原子计数</p>
+<ul>
+<li>锁——FCriticalSection</li>
+<li>FEvent——线程间通知机制，允许线程等待特定信号后再进行
+如果在多线程中有线程不确定什么时候结束，又和其他线程有依赖关系，可以考虑用。可以使用FEvent对事件包装，然后调用Wait方法后再调用Trigger。</li>
+
+</ul>
+<h2 id='windows多线程输入'>Windows多线程输入</h2>
+<p>实际在公司里做的一个具体的需求，就是需要保证主游戏线程卡顿（如果发生）的同时，保证其输入以及输入时触发的一系列功能（特效、音效）等不受影响。</p>
+<h3 id='ue的输入流程'>UE的输入流程</h3>
+<p>首先看一下UE是怎么处理输入的。
+<a target="_blank" rel="noopener" href='https://imgchr.com/i/pZCFDXj'><img src="https://s21.ax1x.com/2025/11/11/pZCFDXj.png" alt="pZCFDXj.png"></a>
+在FEngineLoop中
+<a target="_blank" rel="noopener" href='https://imgchr.com/i/pZCFRhT'><img src="https://s21.ax1x.com/2025/11/11/pZCFRhT.png" alt="pZCFRhT.png"></a>
+这个地方只看行的话，是在GEngine-&gt;Tick()之前，也就是说是在每次tick，但是在处理主流程逻辑之前进行输入信号处理。
+再往里走，遇到一个WinPumpMessages函数
+<a target="_blank" rel="noopener" href='https://imgchr.com/i/pZCFf9U'><img src="https://s21.ax1x.com/2025/11/11/pZCFf9U.png" alt="pZCFf9U.png"></a>
+这个函数是一个标准的WINDOWSAPI消息循环，这里稍微扩展一下WindowsOS的一些概念</p>
+<blockquote><p>消息队列：一个由OS直接管理的队列，也分为系统级和应用级，一般消息都是直接发送给系统级的消息队列，然后再由OS分发给各线程的引用级消息队列上
+消息循环：一个死循环，通常由“GetMessage/PeekMessage”、“TranslateMessage”和“DispatchMessage”三部分组成，分别代表“从消息队列中获取消息”、“翻译消息生成字符信息”和“分发消息给目标窗口”，这里GetMessage是阻塞式的，也就是拿不到消息就不会返回，而PeekMessage不是。
+窗口过程函数：在窗口收到消息时（DispatchMessage）触发的逻辑函数
+窗口类：windowsOS在创建窗口时，需要告诉OS这个窗口的类型，比如一些已经预定义的button、edit等，如果需要自定义窗口，则需要自定义窗口类，像这样：<a target="_blank" rel="noopener" href='https://imgchr.com/i/pZCkiUP'><img src="https://s21.ax1x.com/2025/11/11/pZCkiUP.png" alt="pZCkiUP.png"></a>
+这个UnrealWindow既虚幻编辑器的窗口类定义，一般最重要的是要把窗口过程函数（AppWndProc）定义出来。</p>
+</blockquote>
+<p>如果比较熟悉Windows编程，那么对这一套流程应该很熟悉，后面我实现虚幻上的Windows平台多线程输入也是用的这一套逻辑。
+经过UE的窗口过程函数，会走到这里：
+<a target="_blank" rel="noopener" href='https://imgchr.com/i/pZCkE8S'><img src="https://s21.ax1x.com/2025/11/11/pZCkE8S.png" alt="pZCkE8S.png"></a>
+意思就是在UE的Windows输入消息真正传入UE的input系统之前，还有一个机会去处理它，那就是传入一个自定义的MessageHandler。可以在一些Actor中依赖一些自定义的MessageHandler，然后这个Actor就可以越过input系统直接获取到WindowsOS的消息了。这里要注意生命周期，不过暂时还不知道有什么具体应用。
+再之后就是根据输入信息来处理了，ProcessMessage以及后面的ProcessDeferredMessage都会根据Message的不同类别来进行不同的处理，这里的分类指是否为键盘、是否为键盘中的字符串、是否为连携键（比如ctrl+）等等等等，这里有点意思的是输入法相关也算一次输入信息，比如是英文输入法，那么按下键盘a，处理发布一个KeyDown信息，还会发布一个a的KeyChar信息；如果是中文输入法，那么KeyChar会出现在输入法真正打入一个中文时发布，比如发布一个“啊”字符。
+<a target="_blank" rel="noopener" href='https://imgchr.com/i/pZCkyxe'><img src="https://s21.ax1x.com/2025/11/11/pZCkyxe.png" alt="pZCkyxe.png"></a>
+再往后，就到了SlateApplication里面了，从这里开始，一条输入消息算是从原始输入信息正式转换进了UE的inputsystem当中。
+<a target="_blank" rel="noopener" href='https://imgchr.com/i/pZCkIG8'><img src="https://s21.ax1x.com/2025/11/11/pZCkIG8.png" alt="pZCkIG8.png"></a>
+再往后的内容，可能更重要些，但和现在要做的需求关联并不是很大。我以后还会总结的。</p>
+<h3 id='多线程输入'>多线程输入</h3>
+<p>从上面的分析可知，虚幻引擎是在主流程tick之前进行消息输入处理的，那么可能会发生这样的情况：如果主流程因各种原因卡顿、掉帧，就会导致用户的输入会产生延迟。
+所以解决的思路就是利用Runnable单拉一个线程出来，在创建时建立一个新的windows隐藏窗口，然后在这个独立的工作线程中创立一个消息循环，定义窗口过程函数，这样独立线程的输入就不会被主线程影响了。</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/03/11/C-11%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="prev" title="C++11知识点">
+      <i class="fa fa-chevron-left"></i> C++11知识点
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ue5%E5%A4%9A%E7%BA%BF%E7%A8%8Bwindows%E7%B3%BB%E7%BB%9F%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5%E5%AE%9E%E6%88%98"><span class="nav-number">1.</span> <span class="nav-text">UE5多线程+windows系统多线程输入实战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ue5%E9%87%8C%E7%9A%84%E7%BA%BF%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">UE5里的线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E8%BF%9B%E8%A1%8C%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">怎么进行多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#runnablethread"><span class="nav-number">1.2.1.</span> <span class="nav-text">RunnableThread</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#threadpool"><span class="nav-number">1.2.2.</span> <span class="nav-text">ThreadPool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#taskgraph"><span class="nav-number">1.2.3.</span> <span class="nav-text">TaskGraph</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">线程同步的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#windows%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5"><span class="nav-number">1.4.</span> <span class="nav-text">Windows多线程输入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ue%E7%9A%84%E8%BE%93%E5%85%A5%E6%B5%81%E7%A8%8B"><span class="nav-number">1.4.1.</span> <span class="nav-text">UE的输入流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5"><span class="nav-number">1.4.2.</span> <span class="nav-text">多线程输入</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/3333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">82</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2025/11/11/UE%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8Ewindows%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5/" title="2025&#x2F;11&#x2F;11&#x2F;UE多线程与windows多线程输入&#x2F;">UE多线程与windows多线程输入</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2025/03/11/C-11%E7%9F%A5%E8%AF%86%E7%82%B9/" title="2025&#x2F;03&#x2F;11&#x2F;C-11知识点&#x2F;">C++11知识点</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2025/01/05/UEGC%E8%AF%A6%E8%A7%A3/" title="2025&#x2F;01&#x2F;05&#x2F;UEGC详解&#x2F;">UEGC详解</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/12/16/%E4%BA%8C%E7%BB%B4%E7%9F%A9%E5%BD%A2%E8%A3%85%E7%AE%B1%E7%AE%97%E6%B3%95/" title="2024&#x2F;12&#x2F;16&#x2F;二维矩形装箱算法&#x2F;">二维矩形装箱算法</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E5%AE%9E%E4%B9%A0%E6%80%BB%E7%BB%93%EF%BC%8C%E4%B8%8D%E8%81%8A%E6%8A%80%E6%9C%AF%E5%90%91/" title="2024&#x2F;11&#x2F;15&#x2F;实习总结，不聊技术向&#x2F;">实习总结，不聊技术向</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/Unity-UE-C/" title="2024&#x2F;11&#x2F;15&#x2F;Unity-UE-C&#x2F;">Unity/UE/C++</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E9%9D%A2%E8%AF%95%E8%BF%9B%E9%98%B6%E6%A6%82%E8%A6%81/" title="2024&#x2F;11&#x2F;15&#x2F;面试进阶概要&#x2F;">面试进阶概要</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/UMG%E4%B8%8ESlate/" title="2024&#x2F;11&#x2F;15&#x2F;UMG与Slate&#x2F;">UMG与Slate</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/UE4%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95%E4%B8%8Eslate%E5%9F%BA%E7%A1%80/" title="2024&#x2F;11&#x2F;15&#x2F;UE4编辑器扩展与slate基础&#x2F;">UE4编辑器扩展与slate基础</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E8%99%9A%E5%B9%BB%E8%93%9D%E5%9B%BE/" title="2024&#x2F;11&#x2F;15&#x2F;虚幻蓝图&#x2F;">虚幻蓝图</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : 'f370a3025cfe7ab6ccf639a2e790f0d4',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
