@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="UE里的智能指针源码阅读">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE智能指针源码阅读">
+<meta property="og:url" content="http://example.com/2025/11/12/UE%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:description" content="UE里的智能指针源码阅读">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/11/pZCACM4.png">
+<meta property="article:published_time" content="2025-11-11T16:06:36.000Z">
+<meta property="article:modified_time" content="2025-11-11T16:07:14.355Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s21.ax1x.com/2025/11/11/pZCACM4.png">
+
+<link rel="canonical" href="http://example.com/2025/11/12/UE%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>UE智能指针源码阅读 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/11/12/UE%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UE智能指针源码阅读
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-11-12 00:06:36 / 修改时间：00:07:14" itemprop="dateCreated datePublished" datetime="2025-11-12T00:06:36+08:00">2025-11-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">虚幻引擎系列</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>UE里的智能指针源码阅读</title>
+<span id="more"></span>
+</head>
+<body><h1 id='ue里的智能指针源码阅读'>UE里的智能指针源码阅读</h1>
+<p>注释：</p>
+<p><a target="_blank" rel="noopener" href='https://imgchr.com/i/pZCACM4'><img src="https://s21.ax1x.com/2025/11/11/pZCACM4.png" alt="pZCACM4.png"></a></p>
+<p>还有很多，这里直接总结（抄一段）：</p>
+<ul>
+<li>惯例的智能指针内存分配特性</li>
+<li>弱引用解决循环引用</li>
+<li>有线程安全的版本</li>
+<li>模板特性可支持几乎所有类型</li>
+<li>共享引用永远不会为空，永远可以解引用，实现运行时安全</li>
+
+</ul>
+<p>辅助类和函数：</p>
+<ul>
+<li>MakeShareable() - 将普通指针转化成共享指针</li>
+<li>MakeShared<T>(...) - 构造时同时分配控制块内存与目标对象内存</li>
+<li>TSharedFromThis - 从本类中生成一个自己的类，或者获取TSharedRef*</li>
+<li>StaticCastSharedRef() - 静态向下转换</li>
+<li>ConstCastSharedPtr() - const引用转换为mutable引用</li>
+<li>StaticCastSharedPtr() - 动态向下转换</li>
+<li>ConstCastSharedRef() - const指针转换为mutable指针</li>
+<li>StaticCastWeakPtr()</li>
+<li>ConstCastWeakPtr()</li>
+
+</ul>
+<p>几条建议：</p>
+<ul>
+<li>Reset()释放对象引用并（可能）释放内存</li>
+<li>共享指针内部不要调用自己的delete</li>
+<li>不光C指针，UE的智能指针和UObject也不兼容，原因一致</li>
+
+</ul>
+<p>和标准库以及其他智能指针的不同点：</p>
+<ul>
+<li>称呼不一样，更贴近Unreal语法</li>
+<li>不要直接用weak类型的指针做参数，然后使用shared的构造函数凭空构造，最好用pin，理由和上面的一样</li>
+<li>TSharedFromThis返回的是共享引用</li>
+
+</ul>
+<p>虚幻实现智能指针的理由：</p>
+<ul>
+<li>std以及其他库的智能指针并不是全平台通用的</li>
+<li>与Unreal容器更好的协作</li>
+<li>线程安全可选，强制线程安全可能导致性能问题</li>
+<li>更多改进</li>
+
+</ul>
+<p>以上，便是虚幻官方对U智能指针的总结，基本上涵盖了所有智能指针特性</p>
+<p>SharedPtr：</p>
+<pre><code class='language-c++' lang='c++'>template&lt; class ObjectType, ESPMode InMode &gt;
+class TSharedPtr
+&#123;
+public:
+    static constexpr ESPMode Mode = InMode;
+    ...
+    //省去一大堆各自特化的构造函数、功能函数
+    ...
+private:
+    ObjectType* Object;// 不能为空
+    SharedPointerInternals::FSharedReferencer&lt; Mode &gt; SharedReferenceCount;
+&#125;
+FSharedReferencer是一个包含一个指针的对象，它指向的是引用控制块，在SharedPointerInternals.h内：
+
+<p>template&lt; ESPMode Mode &gt;<br>class FSharedReferencer<br>&#123;<br>    …<br>private:<br>   TReferenceControllerBase&lt;Mode&gt;* ReferenceController;<br>&#125;<br></code></pre></p>
+<p>所以一个Shared指针对象的大小为16，（在64位的情况下），而控制块的内容是两个计数：</p>
+<pre><code class='language-c++' lang='c++'>template &lt;ESPMode Mode&gt;
+class TReferenceControllerBase
+&#123;
+public:
+    FORCEINLINE explicit TReferenceControllerBase() = default;// 顺手把默认构造函数删了
+    RefCountType SharedReferenceCount&#123;1&#125;;
+    RefCountType WeakReferenceCount&#123;1&#125;;
+    ...
+&#125;
+</code></pre>
+<p>贴上原注释机翻：</p>
+<p>// 对这个对象的共享引用数量。当这个计数达到零时，关联的对象</p>
+<p>// 将被销毁（即使还有弱引用！），但引用控制器不会被销毁。</p>
+<p>//</p>
+<p>// 这个计数从1开始，因为我们通过构造TSharedPtr创建引用控制器，</p>
+<p>// 而这就是第一个引用。没有必要从0开始然后再递增</p>
+<p>// 对此对象的弱引用数量。如果有任何共享引用，这也算作一个</p>
+<p>// 弱引用。当这个计数达到零时，引用控制器将被删除。</p>
+<p>//</p>
+<p>// 这个计数从1开始，因为它表示我们也在初始化</p>
+<p>// SharedReferenceCount 的共享引用。</p>
+<p>&nbsp;</p>
+<p>所以一个Shared指针的基本结构就很清晰了，本质就是一个指向对象的指针，和一个指向引用控制块的指针，在文件中，又通过Internals将引用控制块包了一层，各自处理逻辑来实现自动化引用技术功能。</p>
+<h2 id='sharedptr做了什么引用控制块做了什么'>SharedPtr做了什么，引用控制块做了什么</h2>
+<p>先看最底层的引用控制块，由上文的注释可得到以下信息：</p>
+<p>控制块初始化的时候，强引用计数就附一
+强引用计数也算做一个弱引用计数（但是从代码中看并不会对计数本身的值产生影响）
+强引用计数归0时释放指向对象，弱引用计数归0时释放控制块
+也就是说，虚幻的shared智能指针支持：哪怕对象本身已经销毁，也允许弱引用的安全存在。</p>
+<p>这样做的目的之一，就是保证在对象释放掉之后也能被查询到，比如使用IsValid()安全检测对象是否有效，而且控制块本身肯定要比对象轻量，所以控制块是否销毁也无所谓。</p>
+<p>&nbsp;</p>
+<p>看下控制块内的剩下内容：</p>
+<pre><code class='language-c++' lang='c++'>virtual void DestroyObject() = 0; // 虚函数声明的，允许重写的自定义delete
+FORCEINLINE int32 GetSharedReferenceCount() const&#123;&#125; // 获取计数数量，懒得看，里面有个线程安全的分支
+FORCEINLINE bool IsUnique() const // 检查此控制块是否只被一个引用
+&#123;
+    return 1 == GetSharedReferenceCount();
+&#125;
+FORCEINLINE void AddSharedReference()&#123;&#125; // 增加引用计数，也有线程安全的版本，可以理解为SharedReferenceCount++
+FORCEINLINE void ReleaseSharedReference() // 释放（减少）引用计数
+&#123;
+    //如果为线程安全版本，则在此处多加，但减少计数的代码还是一样的
+    checkSlow( SharedReferenceCount &gt; 0 );
+    if( --SharedReferenceCount == 0 )
+    &#123;
+        DestroyObject(); // 如果变0了就释放对象
+        ReleaseWeakReference();
+    &#125;
+&#125;
+FORCEINLINE void AddWeakReference()&#123;&#125;; // 增加弱计数，和强计数几乎一样
+void ReleaseWeakReference()
+&#123;
+    if(--WeakReferenceCount == 0)
+    &#123;
+        delete this;
+    &#125;
+&#125;
+
+<p>TReferenceControllerBase(const TReferenceControllerBase&amp;) &#x3D; delete;<br>TReferenceControllerBase&amp; operator&#x3D;(const TReferenceControllerBase&amp;) &#x3D; delete; &#x2F;&#x2F;不准拷贝<br></code></pre></p>
+<p>也没啥，基本上都是计数的基本操作，提供api，分别设置强引用弱引用为0干嘛。</p>
+<p>再看下SharedPointerInternals的内容，其构造和控制块是一致的，通过构造函数列表的方式，同步控制块和其指针的构造，例：</p>
+<pre><code class='language-c++' lang='c++'>FORCEINLINE FSharedReferencer()
+: ReferenceController( nullptr )&#123; &#125;
+</code></pre>
+<p>总结下shared指针控制块构造规则：</p>
+<ul>
+<li>拷贝构造时，强引用计数+1</li>
+<li>移动构造时，原始控制块指针赋空</li>
+<li>通过弱指针拷贝构造时，会检查是否已经存在强引用计数，如果有，才会+1</li>
+<li>通过弱指针移动构造时，也会检查是否已经存在强引用计数，而且会释放掉原弱指针</li>
+<li>拷贝赋值运算符，在赋值的对象不同的情况下，增加原引用计数，减少强指针计数，最后将自己的控制块指针赋值过去</li>
+<li>移动赋值运算符，直接将指向挪过去就行</li>
+
+</ul>
+<p>其实和字符串定义如出一辙。从上面的总结其实就可以分析出智能指针对引用计数的管理方式了，以下为盲写的shared指针定义，代码为伪代码，实际情况比这个负责得多。</p>
+<pre><code class='language-c++' lang='c++'>template&lt;class Type, ESPMode InMode&gt; // InMode为线程安全的设置，先不管，这里写上属于是一个象征意义
+class TSharedPtr
+&#123;
+public:
+    inline void explicit TSharedPtr() = default;
+    inline void TSharedPtr(TSharedPtr const&amp; ptr)&#123;
+        if(ptr != nullptr)&#123;
+            count++;
+        &#125;
+    &#125;;
+    inline void TSharedPtr(TSharedPtr&amp;&amp; ptr)&#123;
+        ptr.ObjectPtr = nullptr;
+    &#125;
+    inline TSharedPtr&amp; operator=(TSharedPtr const&amp; ptr)&#123;
+        if(ptr.ObjectPtr != ObjectPtr)
+        &#123;
+         ptr.count++;
+        &#125;
+        return *this
+    &#125;      
+   inline TSharedPtr&amp; operator=(TSharedPtr&amp;&amp; ptr)&#123;
+        if(ptr.ObjectPtr != ObjectPtr)
+        &#123;  
+            count--;
+            if(ptr != nullptr)
+            &#123;
+                ptr.count++;
+            &#125;
+        &#125;
+        return *this;
+    &#125;   
+    virtual ~TSharedPtr()&#123;&#125;
+    void Release()&#123;
+        count--;
+        if(count&lt;=0)&#123;
+            Destory(ObjectPtr);
+        &#125;
+    &#125;
+private:
+    Type* ObjectPtr;
+    int count;
+&#125;
+</code></pre>
+<p>由于控制块聚焦于计数，所以此伪代码省去了ObjectPtr指针本身的管理，那么指针本身在哪管理呢，那就是TSharedPtr本体 </p>
+<p>真实的SharedPtr的构造函数重载非常多，这里只举例几个：</p>
+<pre><code class='language-c++' lang='c++'>FORCEINLINE explicit TSharedPtr( OtherType* InObject )
+    : Object( InObject )
+    , SharedReferenceCount( SharedPointerInternals::NewDefaultReferenceController&lt; Mode &gt;( InObject ) )
+&#123;
+    SharedPointerInternals::EnableSharedFromThis( this, InObject, InObject );
+&#125;
+
+<p>FORCEINLINE TSharedPtr( OtherType* InObject, DeleterType&amp;&amp; InDeleter )<br>    : Object( InObject )<br>    , SharedReferenceCount( SharedPointerInternals::NewCustomReferenceController&lt; Mode &gt;( InObject, Forward&lt; DeleterType &gt;( InDeleter ) ) )<br>&#123;<br>    SharedPointerInternals::EnableSharedFromThis( this, InObject, InObject );<br>&#125;<br></code></pre></p>
+<p>先关注一个细节：Shared指针只在类名处使用模板ObjectType，但实际构造时却使用了通用模板OtherType，这样做的好处是适配关联类型的指针指针构造，比如ObjectType为父类，通过此基础类型构造子类OtherType的指针，那么是可以的；如果两者不关联呢？请看以下构造函数模板声明：</p>
+<pre><code class='language-c++' lang='c++'>template &lt;
+typename OtherType,
+typename DeleterType,
+typename = decltype(ImplicitConv&lt;ObjectType*&gt;((OtherType*)nullptr))
+</code></pre>
+<blockquote><p>第三行意思就是检查OtherType<em>类型是否可以转换成ObjectType</em>类型，如果不通过，则编译期检查失败，那么这个模板就不会实例化，于是编译器就会报错。</p>
+</blockquote>
+<p>其他常规的也不贴了，总之这些更上层的构造都有一个特点：只关注于UE对象本身的联动。</p>
+<p>比如上层可以重载各种各样的构造函数来完善指针的各自初始化途径；</p>
+<p>再比如上文使用普通指针去初始化一个智能指针，内部其实是调用了EnableSharedFromThis来创建，这个后面再说。</p>
+<p>智能指针与普通指针同时指向一个对象的做法是不规范的，因为智能指针自动会析构对象，此时普通指针就会变成悬空指针</p>
+<h2 id='weakptr'>WeakPtr</h2>
+<p>弱指针的定义，大致结构和共享指针是一致的。</p>
+<pre><code class='language-c++' lang='c++'>template&lt; class ObjectType, ESPMode InMode &gt;
+class TWeakPtr
+&#123;
+    ...
+private:
+    ObjectType* Object;
+    SharedPointerInternals::FWeakReferencer&lt; Mode &gt; WeakReferenceCount;
+&#125;
+//有一个FWeakReferencer，含有一个TReferenceControllerBase*对象，和共享指针是一致的
+
+<p>template&lt; ESPMode Mode &gt;<br>class FWeakReferencer<br>&#123;<br>    …<br>private:<br>    &#x2F;** Pointer to the reference controller for the object a TWeakPtr is referencing <em>&#x2F;<br>    TReferenceControllerBase&lt;Mode&gt;</em> ReferenceController;<br>&#125;<br></code></pre></p>
+<p>这个控制块，如果这个弱指针和共享指针指向的是同一个对象，那么这个控制块也是同一个控制块，他们共享内部的所有功能。</p>
+<p>如上文所示，功能块内有共享指针计数与弱指针计数，而这两个计数的增加删除规则，其实是差不多的，重点在析构的时候有所不同</p>
+<pre><code class='language-c++' lang='c++'>FORCEINLINE void ReleaseSharedReference() // 释放（减少）引用计数
+&#123;
+    //如果为线程安全版本，则在此处多加，但减少计数的代码还是一样的
+    checkSlow( SharedReferenceCount &gt; 0 );
+    if( --SharedReferenceCount == 0 )
+    &#123;
+        DestroyObject(); // 如果变0了就释放对象
+        ReleaseWeakReference();
+    &#125;
+&#125;
+
+<p>FORCEINLINE void ReleaseWeakReference()<br>&#123;<br>   checkSlow( WeakReferenceCount&gt; 0 );<br>    if( –WeakReferenceCount&#x3D;&#x3D; 0 )<br>    &#123;<br>      delete this;<br>    &#125;<br>&#125;<br></code></pre></p>
+<p>维持了人设，即控制控制块，在计数为0的时候直接删除this。</p>
+<p>&nbsp;</p>
+<h2 id='pin'>Pin</h2>
+<pre><code class='language-c++' lang='c++'>[[nodiscard]] FORCEINLINE TSharedPtr&lt; ObjectType, Mode &gt; Pin() const&amp;
+&#123;
+    return TSharedPtr&lt; ObjectType, Mode &gt;( *this );
+&#125;
+
+<p>[[nodiscard]] FORCEINLINE TSharedPtr&lt; ObjectType, Mode &gt; Pin() &amp;&amp;<br>&#123;<br>    return TSharedPtr&lt; ObjectType, Mode &gt;( MoveTemp( *this ) );<br>&#125;<br></code></pre></p>
+<p>pin用于利用一个WeakPtr对象来返回一个SharedPtr对象，如果指向的目的对象没有其他有效SharedPtr指向，则会返回空。</p>
+<p>有左值引用和右值引用两个版本，如果是右值版本，则转化后这个弱引用则用不了了。</p>
+<p>调用的是这个私有构造函数：</p>
+<pre><code class='language-c++' lang='c++'>FORCEINLINE explicit TSharedPtr( TWeakPtr&lt; OtherType, Mode &gt; const&amp; InWeakPtr )
+    : Object( nullptr )
+    , SharedReferenceCount( InWeakPtr.WeakReferenceCount )
+&#123;
+    if( SharedReferenceCount.IsValid() )
+    &#123;
+        Object = InWeakPtr.Object;
+    &#125;
+&#125;
+</code></pre>
+<p>检查引用计数的逻辑，卸载SharedReferenceCount里面，就不深入了。</p>
+<p>&nbsp;</p>
+<h2 id='sharedref'>SharedRef</h2>
+<p>和SharedPtr一样，但是必须有所指向，区别在于SharedPtr内允许空指针构造，而SharedRef不允许。</p>
+<p>&nbsp;</p>
+<h2 id='uniqueptr'>UniquePtr</h2>
+<p>UniquePtr写在Unique.h文件中。</p>
+<pre><code class='language-c++' lang='c++'>template &lt;typename T, typename Deleter = TDefaultDelete&lt;T&gt;&gt;
+class TUniquePtr : private Deleter
+&#123;
+    ...
+private:
+    using PtrType = T*;
+    LAYOUT_FIELD(PtrType, Ptr);
+    ...
+    FORCEINLINE ~TUniquePtr()
+    &#123;
+        GetDeleter()(Ptr);
+    &#125;
+    ...
+&#125;
+</code></pre>
+<p>LAYOUT_FIELD宏展开后是一个T*类型的变量，以及这个字段相关的反射代码。</p>
+<p>和C++保持一致，他将拷贝构造和拷贝运算符直接删除了。</p>
+<pre><code class='language-c++' lang='c++'>TUniquePtr(const TUniquePtr&amp;) = delete;
+TUniquePtr&amp; operator=(const TUniquePtr&amp;) = delete;
+</code></pre>
+<h2 id='sharedfromthis'>SharedFromThis</h2>
+<p>对标std::enable_shared_from_this</p>
+<p>本质是一个类，总所周知想要调用这个，需要将自己的类继承它。</p>
+<pre><code class='language-c++' lang='c++'>template&lt; class ObjectType, ESPMode Mode &gt;
+class TSharedFromThis
+&#123;
+public:
+    [[nodiscard]] TSharedRef&lt; ObjectType, Mode &gt; AsShared()
+    &#123;
+        TSharedPtr&lt; ObjectType, Mode &gt; SharedThis( WeakThis.Pin() );
+        check( SharedThis.Get() == this );
+       return MoveTemp( SharedThis ).ToSharedRef();
+    &#125;
+
+<p>   [[nodiscard]] TWeakPtr&lt; ObjectType, Mode &gt; AsWeak()<br>    &#123;<br>        TWeakPtr&lt; ObjectType, Mode &gt; Result &#x3D; WeakThis;<br>       check( Result.Pin().Get() &#x3D;&#x3D; this );<br>        return Result;<br>    &#125;</p>
+<p>   template&lt; class SharedRefType, class OtherType &gt;<br>    FORCEINLINE void UpdateWeakReferenceInternal( TSharedRef&lt; SharedRefType, Mode &gt; const* InSharedRef, OtherType* InObject ) const<br>    &#123;<br>        if( !WeakThis.IsValid() )<br>        &#123;<br>            WeakThis &#x3D; TSharedRef&lt; ObjectType, Mode &gt;( *InSharedRef, InObject );<br>        &#125;<br>    &#125;<br>protected:<br>    TSharedFromThis() &#123; &#125;<br>    TSharedFromThis( TSharedFromThis const&amp; ) &#123; &#125;<br>    FORCEINLINE TSharedFromThis&amp; operator&#x3D;( TSharedFromThis const&amp; )<br>    &#123;<br>        return *this;<br>    &#125;<br>    ~TSharedFromThis() &#123; &#125;<br>private:<br>    mutable TWeakPtr&lt; ObjectType, Mode &gt; WeakThis;<br>&#125;<br></code></pre></p>
+<p>构造函数啥也不干，有一个弱指针的对象，此对象在UpdateWeakReferenceInternal内赋值，还有一个返回SharedPtr的版本，懒得抄了，然后就是应用端使用的AsShared和AsWeak，分别返回WeakThis.Pin和WeakThis自己。</p>
+<p>UpdateWeakReferenceInternal其实得是private而不是public，但是模板的bug让他得是public（这是5.5版本注释自己写的）。</p>
+<p>此函数在EnableSharedFromThis内直接调用。</p>
+<p>这个EnableSharedFromThis挺眼熟，也就是之前分析过的SharedPtr（SharedRef）构造中必会出现的一个函数。</p>
+<p>&nbsp;</p>
+<p>所以说继承TSharedFromThis的类，在初始化时，TSharedFromThis自身是啥都不干的，但是当有共享指针构造并指向它时，会调用EnableSharedFromThis→UpdateWeakReferenceInternal。而EnableSharedFromThis本身就接收一个TSharedFromThis对象（如果为空就跳出），这里产生逻辑闭环。</p>
+<p>结果就是类内的弱指针得到此类对象的赋值，再然后就是用户自己调用AsShared或者AsWeak来获取它了。</p>
+<p>&nbsp;</p>
+<h2 id='makeshared'>MakeShared</h2>
+<p>对标C++的std::make_shared</p>
+<p>&nbsp;</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/11/11/UE%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8Ewindows%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5/" rel="prev" title="UE多线程与windows多线程输入">
+      <i class="fa fa-chevron-left"></i> UE多线程与windows多线程输入
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ue%E9%87%8C%E7%9A%84%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB"><span class="nav-number">1.</span> <span class="nav-text">UE里的智能指针源码阅读</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#sharedptr%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88%E5%BC%95%E7%94%A8%E6%8E%A7%E5%88%B6%E5%9D%97%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.</span> <span class="nav-text">SharedPtr做了什么，引用控制块做了什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#weakptr"><span class="nav-number">1.2.</span> <span class="nav-text">WeakPtr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pin"><span class="nav-number">1.3.</span> <span class="nav-text">Pin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sharedref"><span class="nav-number">1.4.</span> <span class="nav-text">SharedRef</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#uniqueptr"><span class="nav-number">1.5.</span> <span class="nav-text">UniquePtr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sharedfromthis"><span class="nav-number">1.6.</span> <span class="nav-text">SharedFromThis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#makeshared"><span class="nav-number">1.7.</span> <span class="nav-text">MakeShared</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/3333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2025/11/12/UE%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/" title="2025&#x2F;11&#x2F;12&#x2F;UE智能指针源码阅读&#x2F;">UE智能指针源码阅读</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2025/11/11/UE%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8Ewindows%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5/" title="2025&#x2F;11&#x2F;11&#x2F;UE多线程与windows多线程输入&#x2F;">UE多线程与windows多线程输入</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2025/03/11/C-11%E7%9F%A5%E8%AF%86%E7%82%B9/" title="2025&#x2F;03&#x2F;11&#x2F;C-11知识点&#x2F;">C++11知识点</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2025/01/05/UEGC%E8%AF%A6%E8%A7%A3/" title="2025&#x2F;01&#x2F;05&#x2F;UEGC详解&#x2F;">UEGC详解</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/12/16/%E4%BA%8C%E7%BB%B4%E7%9F%A9%E5%BD%A2%E8%A3%85%E7%AE%B1%E7%AE%97%E6%B3%95/" title="2024&#x2F;12&#x2F;16&#x2F;二维矩形装箱算法&#x2F;">二维矩形装箱算法</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E5%AE%9E%E4%B9%A0%E6%80%BB%E7%BB%93%EF%BC%8C%E4%B8%8D%E8%81%8A%E6%8A%80%E6%9C%AF%E5%90%91/" title="2024&#x2F;11&#x2F;15&#x2F;实习总结，不聊技术向&#x2F;">实习总结，不聊技术向</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/Unity-UE-C/" title="2024&#x2F;11&#x2F;15&#x2F;Unity-UE-C&#x2F;">Unity/UE/C++</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E9%9D%A2%E8%AF%95%E8%BF%9B%E9%98%B6%E6%A6%82%E8%A6%81/" title="2024&#x2F;11&#x2F;15&#x2F;面试进阶概要&#x2F;">面试进阶概要</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/UMG%E4%B8%8ESlate/" title="2024&#x2F;11&#x2F;15&#x2F;UMG与Slate&#x2F;">UMG与Slate</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/UE4%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95%E4%B8%8Eslate%E5%9F%BA%E7%A1%80/" title="2024&#x2F;11&#x2F;15&#x2F;UE4编辑器扩展与slate基础&#x2F;">UE4编辑器扩展与slate基础</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '8f7bcc2e91a13506c89932acfaa903e3',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
