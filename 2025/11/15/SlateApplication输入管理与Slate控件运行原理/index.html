@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="SlateApplication输入管理与Slate控件运行原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SlateApplication输入管理与Slate控件运行原理">
+<meta property="og:url" content="http://example.com/2025/11/15/SlateApplication%E8%BE%93%E5%85%A5%E7%AE%A1%E7%90%86%E4%B8%8ESlate%E6%8E%A7%E4%BB%B6%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="Coding中。。。">
+<meta property="og:description" content="SlateApplication输入管理与Slate控件运行原理">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/13/pZCvvMq.png">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/13/pZCxii4.png">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/13/pZCxFJJ.png">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/13/pZCxAzR.png">
+<meta property="og:image" content="c:\Users\73628\AppData\Roaming\Typora\typora-user-images\image-20251113234601704.png">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/13/pZCx8SA.png">
+<meta property="og:image" content="https://s21.ax1x.com/2025/11/14/pZCxfkF.png">
+<meta property="og:image" content="https://i-blog.csdnimg.cn/blog_migrate/fb4c14ef9fb331e6a932b6c8149ba348.png#pic_center">
+<meta property="og:image" content="https://i0.hdslb.com/bfs/article/b714fdc4a2ad163536216fe2a02aa2f172a7f6d6.png@1192w.avif">
+<meta property="article:published_time" content="2025-11-15T11:12:09.000Z">
+<meta property="article:modified_time" content="2025-11-15T11:12:38.779Z">
+<meta property="article:author" content="九日">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s21.ax1x.com/2025/11/13/pZCvvMq.png">
+
+<link rel="canonical" href="http://example.com/2025/11/15/SlateApplication%E8%BE%93%E5%85%A5%E7%AE%A1%E7%90%86%E4%B8%8ESlate%E6%8E%A7%E4%BB%B6%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SlateApplication输入管理与Slate控件运行原理 | Coding中。。。</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Coding中。。。</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-link fa-fw"></i>Links</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/11/15/SlateApplication%E8%BE%93%E5%85%A5%E7%AE%A1%E7%90%86%E4%B8%8ESlate%E6%8E%A7%E4%BB%B6%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/3333.jpg">
+      <meta itemprop="name" content="九日">
+      <meta itemprop="description" content="饥冻虽切，违己交病">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Coding中。。。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SlateApplication输入管理与Slate控件运行原理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-11-15 19:12:09 / 修改时间：19:12:38" itemprop="dateCreated datePublished" datetime="2025-11-15T19:12:09+08:00">2025-11-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%99%9A%E5%B9%BB%E5%BC%95%E6%93%8E%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">虚幻引擎系列</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>SlateApplication输入管理与Slate控件运行原理</title>
+</head>
+<span id="more"></span>
+<body><h1 id='slateapplication输入管理与slate控件运行原理'>SlateApplication输入管理与Slate控件运行原理</h1>
+<p>在<a target="_blank" rel="noopener" href='http://jiuriri.com/2024/11/15/UE4编辑器扩展与slate基础/#more'>UE4编辑器扩展与slate基础 | Coding中。。。</a>中稍微研究了点Slate的一些基础概念，在<a target="_blank" rel="noopener" href='http://jiuriri.com/2025/11/11/UE多线程与windows多线程输入/'>UE多线程与windows多线程输入 | Coding中。。。</a>中涉及到了输入相关，也和SlateApplication这个类有一些关系，所以现在来具体看看这几个东西是怎么一回事。</p>
+<p>Slate在官方文档上的描述：</p>
+<ul>
+<li>易于访问模型的代码和数据。</li>
+<li>支持程序化 UI 生成。</li>
+<li>UI 描述不易出错。</li>
+<li>支持动画和设计。</li>
+
+</ul>
+<p>&nbsp;</p>
+<h2 id='widget控件结构'>Widget控件结构</h2>
+<p>SWidget是所有控件的父类，和一般的控件一样，UWidget持有SWidget的引用，UWidget只处理一些数据相关的内容，而SWidget则去管理一些渲染和点击相关的内容。</p>
+<p>按照结构区分，控件大致可分为三种类型：</p>
+<ul>
+<li><strong>叶控件</strong> - 不带子槽的控件。如显示一块文本的 STextBlock。其原生便了解如何绘制文本。</li>
+<li><strong>面板</strong> - 子槽数量为动态的控件。如垂直排列任意数量子项，形成一些布局规则的 <strong>SVerticalBox</strong>。</li>
+<li><strong>合成控件</strong> - 子槽显式命名、数量固定的控件。如拥有一个名为 Content 的槽（包含按钮中所有控件）的 <strong>SButton</strong>。</li>
+
+</ul>
+<p>如果是SPanel（面板）或者SCompoundWidget（合成控件），那么他们是可以实现父子关系以实现复杂布局的，由Slot来实现。</p>
+<p>举个例子SVerticalBox，Slot在代码里的体现是这样的：</p>
+<pre><code class='language-c++' lang='c++'>class SVerticalBox : public SBoxPanel
+&#123;
+    SLATE_DECLARE_WIDGET_API(SVerticalBox, SBoxPanel, SLATECORE_API)
+public:
+    class FSlot : public SBoxPanel::TSlot&lt;FSlot&gt;
+    &#123;
+    public:
+        //。。。
+    &#125;
+&#125;
+</code></pre>
+<p>用了一个很罕见的嵌套类的方式来定义FSlot，基类为TSlot，这种方式本质目的为实现一个垂直插槽特有的Slot类型，例如实现一些布局相关的属性方法，设置内边距、水平垂直对齐方式等。</p>
+<p>Slot有一些很经典的使用方式：</p>
+<pre><code class='language-c++' lang='c++'>// 使用 SNew 创建 VerticalBox，然后使用 + 操作符添加插槽
+TSharedRef&lt;SVerticalBox&gt; VerticalBox = SNew(SVerticalBox)
+
+<p>&#x2F;&#x2F; 添加第一个槽位，设置自动高度和居中对齐</p>
+<ul>
+<li>SVerticalBox::Slot()<br>.AutoHeight() &#x2F;&#x2F; 插槽高度由内容决定<br>.HAlign(HAlign_Center) &#x2F;&#x2F; 水平居中对齐<br>[<br>  SNew(SButton) &#x2F;&#x2F; 在这个插槽中放置一个按钮<br>  .Text(FText::FromString(&quot;Button 1&quot;))<br>]<br></code></pre><p>这个内容在<a target="_blank" rel="noopener" href='http://jiuriri.com/2024/11/15/UE4编辑器扩展与slate基础/'>UE4编辑器扩展与slate基础 | Coding中。。。</a>里面见过一点，其实只是个语法糖，重载了+和[]等一些符号，值得一提的是这种方式添加控件其实就是和在UMG里面操作UI蓝图的底层实现，当UMG中的控件 <code>AddToViewport</code>时，会触发UWidget的RebuildWidget与TakeWidget等逻辑，然后UMG上面的控件树就会转化成Slate的控件树了，也就和代码所示的内容类似，这个地方也蛮重要，等到渲染流程时再研究。</p>
+<p>在SVerticalBox对应的UVerticalBox中，有一些和Slot相关的虚函数：</p>
+<p><a target="_blank" rel="noopener" href='https://imgchr.com/i/pZCvvMq'><img src="https://s21.ax1x.com/2025/11/13/pZCvvMq.png" alt="pZCvvMq.png"></a></p>
+<p>这个OnSlotAdded，在UPanelWidget的AddChild内被调用，意思就是这样的布局控件添加了新子控件后就会调用这样的函数来添加插槽Slot。</p>
+<p>OnSlotAdded在UPanelWidget里面没有逻辑，而是在UVerticalBox中重写：</p>
+<p><a target="_blank" rel="noopener" href='https://imgchr.com/i/pZCxii4'><img src="https://s21.ax1x.com/2025/11/13/pZCxii4.png" alt="pZCxii4.png"></a></p>
+<p>BuildSlot的内容：</p>
+<p><a target="_blank" rel="noopener" href='https://imgchr.com/i/pZCxFJJ'><img src="https://s21.ax1x.com/2025/11/13/pZCxFJJ.png" alt="pZCxFJJ.png"></a></p>
+<p>AddSlot，将slot用FScopedWidgetSlotArguments包了一下，暂时不知道干啥的，总之最后还是添加到了BoxPanel是Slot插槽中：<a target="_blank" rel="noopener" href='https://imgchr.com/i/pZCxAzR'><img src="https://s21.ax1x.com/2025/11/13/pZCxAzR.png" alt="pZCxAzR.png"></a></p>
+<p><img src="C:\Users\73628\AppData\Roaming\Typora\typora-user-images\image-20251113234601704.png" alt="image-20251113234601704"></p>
+<h3 id='交互'>交互</h3>
+<p>前面提到具体的点击和渲染的管理由SWidget负责，而面向用户的数据由UWidget负责。</p>
+<p>几个UWidget的方法：</p>
+<pre><code class='language-cpp' lang='cpp'>public:
+  virtual void SynchronizeProperties() override;
+protected:
+  UMG_API virtual TSharedRef&lt;SWidget&gt; RebuildWidget();
+</code></pre>
+<p>举个例子UButton的RebuildWidget：</p>
+<pre><code class='language-c++' lang='c++'>TSharedRef&lt;SWidget&gt; UButton::RebuildWidget()
+&#123;
+PRAGMA_DISABLE_DEPRECATION_WARNINGS
+  MyButton = SNew(SButton)
+      .OnClicked(BIND_UOBJECT_DELEGATE(FOnClicked, SlateHandleClicked))
+      .OnPressed(BIND_UOBJECT_DELEGATE(FSimpleDelegate, SlateHandlePressed))
+      .OnReleased(BIND_UOBJECT_DELEGATE(FSimpleDelegate, SlateHandleReleased))
+      .OnHovered_UObject( this, &amp;ThisClass::SlateHandleHovered )
+      .OnUnhovered_UObject( this, &amp;ThisClass::SlateHandleUnhovered )
+      .ButtonStyle(&amp;WidgetStyle)
+      .ClickMethod(ClickMethod)
+      .TouchMethod(TouchMethod)
+      .PressMethod(PressMethod)
+      .IsFocusable(IsFocusable)
+      ;</li>
+</ul>
+<p>PRAGMA_ENABLE_DEPRECATION_WARNINGS<br>    if ( GetChildrenCount() &gt; 0 )<br>    &#123;<br>        Cast&lt;UButtonSlot&gt;(GetContentSlot())-&gt;BuildSlot(MyButton.ToSharedRef());<br>    &#125;</p>
+<pre><code>return MyButton.ToSharedRef();
+</code></pre>
+<p>}<br></code></pre></p>
+<p>每次Rebuild，SWidget都在UWidget里面重建并重新绑定各种事件。RebuildWidget这个函数，只有在Slate初始化和认为需要彻底重建的时候才会触发，这里需要区分两个点：<strong>彻底重建</strong>与<strong>属性同步</strong>。</p>
+<p>如果在UMG中只是修改一些控件属性，例如文本颜色，控件大小等，那么就会触发SynchronizeProperties进行属性同步，将控件状态进行标记，然后由每一帧的OnPaint进行重绘。</p>
+<p>只有当涉及到结构性的修改时才会触发RebuildWidget，例如将控件删除替换等。</p>
+<pre><code class='language-c++' lang='c++'>void UButton::SynchronizeProperties()
+&#123;
+    Super::SynchronizeProperties();
+
+<pre><code>if (!MyButton.IsValid())
+&#123;
+    return;
+&#125;
+</code></pre>
+<p>PRAGMA_DISABLE_DEPRECATION_WARNINGS<br>    MyButton-&gt;SetButtonStyle(&amp;WidgetStyle);<br>    MyButton-&gt;SetColorAndOpacity( ColorAndOpacity );<br>    MyButton-&gt;SetBorderBackgroundColor( BackgroundColor );<br>    MyButton-&gt;SetClickMethod(ClickMethod);<br>    MyButton-&gt;SetTouchMethod(TouchMethod);<br>    MyButton-&gt;SetPressMethod(PressMethod);<br>PRAGMA_ENABLE_DEPRECATION_WARNINGS<br>}<br></code></pre></p>
+<p>如果有自定义的控件且有额外的自定义属性，记得重写这个函数，不然在UMG编辑器内每次修改属性都需要重新编译蓝图（触发RebuildWidget）才会触发重绘。</p>
+<blockquote><p>还有一些别的比如TArrtibute绑定的方法，总之思路就是需要同步属性并进行重绘就行</p>
+</blockquote>
+<p>&nbsp;</p>
+<h2 id='ui点击流程'>UI点击流程</h2>
+<p>在<a target="_blank" rel="noopener" href='http://jiuriri.com/2025/11/11/UE多线程与windows多线程输入/'>UE多线程与windows多线程输入 | Coding中。。。</a>内聊了Windows系统的点击事件怎么传到UE里的，到了SlateApplication停止了，那么这篇就从这里开始研究，这个地方的代码也是很经典的。</p>
+<p>以鼠标点下事件为例，从文章中，消息已经通过消息循环走到了SlateApplication的OnMouseDown内：<a target="_blank" rel="noopener" href='https://imgchr.com/i/pZCx8SA'><img src="https://s21.ax1x.com/2025/11/13/pZCx8SA.png" alt="pZCx8SA.png"></a></p>
+<p>这里可以看出还在做转换，将WindowsOS的消息包成PointerEvent，内含点击的屏幕坐标等等。</p>
+<p>ProcessMouseButtonDownEvent 对应的还有很多</p>
+<p>ProcessMouseButtonUpEvent 抬起</p>
+<p>ProcessKeyDownEvent 键盘按钮相关</p>
+<p>ProcessTouchStartedEvent 模拟动端触屏</p>
+<p>等等等等，就不一一列举了，这些事件的路由都是相似的，涉及到的函数名也是这种什么MouseDown什么KeyDown，也不一一列举了。</p>
+<p>经过一系列判断捕获的代码之后：</p>
+<pre><code class='language-c++' lang='c++'>FReply FSlateApplication::RoutePointerDownEvent(const FWidgetPath&amp; WidgetsUnderPointer, const FPointerEvent&amp; PointerEvent)
+&#123;
+    ...
+    //slateUser，包含了一些什么鼠标的位置，捕获的对象等等，举个例子就是多人游戏本地连两个手柄的情况，内涵索引index来区分
+    TSharedRef&lt;FSlateUser&gt; SlateUser = GetOrCreateUser(PointerEvent);
+    SlateUser-&gt;UpdatePointerPosition(PointerEvent);
+    //先回走一遍OnPreviewMouseButtonDown的流程，从根节点往下遍历
+    FReply Reply = FEventRouter::Route&lt;FReply&gt;( this, FEventRouter::FTunnelPolicy( WidgetsUnderPointer ), TransformedPointerEvent, []( const FArrangedWidget TargetWidget, const FPointerEvent&amp; Event )
+    &#123;
+        const FReply TempReply = TargetWidget.Widget-&gt;OnPreviewMouseButtonDown(TargetWidget.Geometry, Event);
+        return TempReply;
+    &#125;, ESlateDebuggingInputEvent::PreviewMouseButtonDown);
+    
+<pre><code>if( !Reply.IsEventHandled() )
+&#123;
+    //然后从叶子节点往上遍历
+    Reply = FEventRouter::Route&amp;lt;FReply&amp;gt;( this, FEventRouter::FBubblePolicy( WidgetsUnderPointer ), TransformedPointerEvent, [this]( const FArrangedWidget TargetWidget, const FPointerEvent&amp;amp; Event )
+    &#123;
+        FReply TempReply = FReply::Unhandled();
+            if( !TempReply.IsEventHandled() )
+        &#123;
+                        //如果是模拟点击
+            if( Event.IsTouchEvent() )
+            &#123;
+                TempReply = TargetWidget.Widget-&amp;gt;OnTouchStarted( TargetWidget.Geometry, Event );
+                //如果是不是模拟点击
+            if( !Event.IsTouchEvent() || ( !TempReply.IsEventHandled() &amp;amp;&amp;amp; this-&amp;gt;bTouchFallbackToMouse ) )
+            &#123;
+                TempReply = TargetWidget.Widget-&amp;gt;OnMouseButtonDown( TargetWidget.Geometry, Event );
+            &#125;
+&#125;
+    return TempReply;
+</code></pre>
+<p>}, ESlateDebuggingInputEvent::MouseButtonDown);</p>
+<p></code></pre></p>
+<p>Route函数算是最精髓的部分了，但这里先不看这个，先看下最后OnMouseButtonDown到哪了，把流程走完。</p>
+<p>直接看Visual的调用栈发现直接走到了SWidget的OnMouseButtonDown里面：</p>
+<p><a target="_blank" rel="noopener" href='https://imgchr.com/i/pZCxfkF'><img src="https://s21.ax1x.com/2025/11/14/pZCxfkF.png" alt="pZCxfkF.png"></a></p>
+<p>SWidget的OnMouseButtonDown本质是将这个事件传给鼠标事件处理器去了，很明显这是一个虚函数，要通过子类重写，然后来函数体内触发一些事件委托等等，值得一提的是<strong>这个函数的返回值FReply是何意味</strong>。</p>
+<p>来了解这个之前，先了解几个点击的基本概念。</p>
+<h3 id='捕获capture焦点focus和控件树'>捕获（Capture）、焦点（Focus）和控件树</h3>
+<p><strong>捕获</strong>的概念从控件角度理解可能要好点，意思就是某个控件捕获到了鼠标的输入，然后后续的事件会最优先作用于这个控件，例如鼠标拖动某控件（哪怕鼠标已经移出窗口了，回来也会接着被捕获）。</p>
+<p><strong>焦点</strong>是一个状态，通常意义为某某控件被“聚焦”了，被聚焦的控件会直接收到键盘、手柄等的输入。</p>
+<p>这两个概念都被上面提到的FSlateUser控制，里面有一些比如设置Focus、设置Capture等的方法。</p>
+<p>从源代码上看，一次鼠标事件处理，要经过<strong>信息转换</strong>-&gt;<strong>事件本身是否捕获</strong>-&gt;<strong>哪个控件被聚焦（如果不是捕获）</strong>-&gt;<strong>具体控件处理事件</strong>几个流程，所以可以将“捕获”理解成一次特定的，向特殊控件传输专门信息的方案，但这块接触的应用不多，还不是很能理解。</p>
+<pre><code class='language-c++' lang='c++'>bool FSlateApplication::ProcessMouseButtonDownEvent( const TSharedPtr&lt; FGenericWindow &gt;&amp; PlatformWindow, const FPointerEvent&amp; MouseEvent )&#123;
+    ...
+    if (!SlateUser-&gt;IsDragDropping())//还顺便处理的拖动的情况，这里也的理解也不是很深
+    &#123;
+        FReply Reply = FReply::Unhandled();
+        if (SlateUser-&gt;HasCapture(MouseEvent.GetPointerIndex()))//是否被捕获
+        &#123;    
+            Reply = FEventRouter::Route&lt;FReply&gt;(...);
+            ...
+        &#125;
+        else&#123;
+            ...
+            Reply = RoutePointerDownEvent(WidgetsUnderCursor, MouseEvent);//不是就检查聚焦
+            ...
+        &#125;
+&#125;
+</code></pre>
+<p><strong>控件树</strong>在上面的SWidget结构中已经提到过了，这里指的最终形成的在UMG控件反射器上表现的UI树形结构。</p>
+<blockquote><p>UI控件树的单位：FArrangedWidget，内含一个SWidget，这个单位也作为Route函数中lambda表达式的参数类型之一</p>
+</blockquote>
+<h3 id='route'>Route</h3>
+<p>Route直译过来就是路线，结合源代码中的作用，理解成“利用UI控件树的结构路径，通过某种算法，找到这个事件应该由哪个控件接手”。</p>
+<pre><code class='language-c++' lang='c++'>	template&lt; typename ReplyType, typename RoutingPolicyType, typename EventType, typename FuncType &gt;
+    static ReplyType Route( FSlateApplication* ThisApplication, RoutingPolicyType RoutingPolicy, EventType EventCopy, const FuncType&amp; Lambda, ESlateDebuggingInputEvent DebuggingInputEvent)
+    &#123;
+        ReplyType Reply = ReplyType::Unhandled();
+        const FWidgetPath&amp; RoutingPath = RoutingPolicy.GetRoutingPath();
+        const FWidgetPath* WidgetsUnderCursor = RoutingPolicy.GetWidgetsUnderCursor();
+        
+<p>#if WITH_SLATE_DEBUGGING<br>        FSlateDebugging::FScopeRouteInputEvent Scope(DebuggingInputEvent, RoutingPolicyType::Name);<br>#endif</p>
+<pre><code>    EventCopy.SetEventPath( RoutingPath );
+
+    for (; !Reply.IsEventHandled() &amp;amp;&amp;amp; RoutingPolicy.ShouldKeepGoing(); RoutingPolicy.Next())
+    &#123;
+        const FWidgetAndPointer&amp;amp; ArrangedWidget = RoutingPolicy.GetWidget();
+
+        if constexpr (Translate&amp;lt;EventType&amp;gt;::TranslationNeeded())
+        &#123;
+            const EventType TranslatedEvent = Translate&amp;lt;EventType&amp;gt;::PointerEvent(ArrangedWidget, EventCopy);
+            Reply = Lambda(ArrangedWidget, TranslatedEvent).SetHandler(ArrangedWidget.Widget);
+            ProcessReply(ThisApplication, RoutingPath, Reply, WidgetsUnderCursor, &amp;amp;TranslatedEvent);
+        &#125;
+        else
+        &#123;
+            Reply = Lambda(ArrangedWidget, EventCopy).SetHandler(ArrangedWidget.Widget);
+            ProcessReply(ThisApplication, RoutingPath, Reply, WidgetsUnderCursor, &amp;amp;EventCopy);
+        &#125;
+    &#125;
+
+    return Reply;
+&#125;
+</code></pre>
+<p></code></pre></p>
+<p>其实我也不是很想直接贴源码，太难看了，但是还是嫌麻烦，所以不想看的话就直接看我总结：</p>
+<ul>
+<li>Route通过某种策略RoutingPolicy来获取一系列要处理的ArrangedWidget（前面提到的控件树结点）</li>
+<li>所谓的处理也就是调用传入Route的Lambda函数，看前面的代码可以知道这个Lambda函数其实就是在调用具体控件里的类似OnMouseButtonDown方法，这些方法还会返回FReply回复</li>
+<li>这里的RoutingPolicy涉及到Next()等方法，感兴趣的可以进去看看并学习下算法</li>
+<li>核心是一个for循环，意思就是遍历通过这些“策略”获取到的SWidget，调用他们的OnMouseButtonDown（或者其他事件）方法，然后这些方法还会返回Reply，如果Reply是Handled了，或者策略不是ShouldKeepGoing了，就停止循环。</li>
+<li>那么SWidget的遍历顺序就很重要了，因为如果遍历的过程中被某个Widget返回了Handled，那么循环就停止了，相当于事件被“截胡”了</li>
+
+</ul>
+<p>所谓的Handled、Unhandled，没有具体的定义必须什么时候要返回被处理，其实理解成设计思想就行，Handled也就意味着这次点击起到了实质性作用了就返回处理，反之则不处理，体现在源码中举个例子就是Button控件的事件通常会返回Handled，而像是VerticalBox这种布局控件通常就会返回Unhandled，当然这些都是可以自行定制的，没有绝对的限制。</p>
+<p>那么具体有哪些策略呢？直接偷一张别人的图</p>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/fb4c14ef9fb331e6a932b6c8149ba348.png#pic_center" alt="img"></p>
+<ul>
+<li><strong>FDirectPolicy只查找根节点</strong>，用于拖拽</li>
+<li><strong>FToLeafmostPolicy只查找最后的叶子节点</strong>，用于Capture</li>
+<li><strong>FTunnelPolicy从根节点往下遍历</strong>，用于PreviewMouseButton</li>
+<li><strong>FBubblePolicy从叶子节点往上遍历</strong>，用于上面提到的以外的情况</li>
+
+</ul>
+<p>&nbsp;</p>
+<h3 id='特殊鼠标事件的双层路由机制'>特殊：鼠标事件的<strong>双层路由机制</strong></h3>
+<p>对于MouseButtonDown，也就是上文提到过的源代码的内容，会发现它的处理方式是<strong>先从父节点遍历到子节点，触发OnPreviewMouseButtonDown，然后再从叶子节点往上遍历（如果没被Handled），触发OnMouseButtonDown</strong>。</p>
+<p>这里的设计叫做“双层路由机制”，一是在父节点上预留一个接口，用于处理比如“点击统计”或者阻断式的“弹窗”等，从上往下遍历；二是为了保证点击事件能更直观，比如按钮下层有另一个按钮，那么肯定是直接触发这个子按钮，所以要从下往上遍历</p>
+<p>&nbsp;</p>
+<h3 id='hittestgrid'>HitTestGrid</h3>
+<p>时间紧任务重，不想具体研究这个了，以后再说吧，实在不行参考别人写的：<a target="_blank" rel="noopener" href='https://blog.csdn.net/j756915370/article/details/121964442'>【UE·底层篇】Slate源码分析——点击事件的触发流程梳理_ue slate-CSDN博客</a></p>
+<p>&nbsp;</p>
+<h2 id='ui渲染流程'>UI渲染流程</h2>
+<p>大致可分为以下几个流程：</p>
+<ul>
+<li>触发渲染指令（在tick中）——标志函数：<strong>FSlateApplication::DrawWindows()</strong></li>
+<li>测量布局，控件树执行中序遍历，<strong>自下而上</strong>询问每一个控件的<strong>DesiredSize</strong>——标志函数：<strong>FSlateApplication::DrawPrepass()</strong></li>
+<li>排列绘制，<strong>自上而下</strong>计算控件要显示的真正大小——标志函数：<strong>FSlateApplication::DrawWindowAndChildren()</strong></li>
+<li>生成绘制指令与渲染批次，然后在渲染线程中进行合批，最后传入RHI线程内执行GPU绘制</li>
+
+</ul>
+<h3 id='准备gamethread'>准备（GameThread）</h3>
+<p>DesiredSize顾名思义就是“期待大小”，由每个控件本身决定，每个控件都实现<strong>ComputeDesiredSize</strong>()——SWidget内，比如图片可以设置为图片原大小，也可以设置字体为原大小等。对于不含子项的控件，按照自己的属性和缓存去决定DesiredSize，对于含子项的控件需要依据子项大小和本身的计算逻辑去算自己的DesiredSize。</p>
+<p>在绘制过程中，因为已经知道了子控件的DesiredSize，所以自顶向下排列（排列的函数<strong>ArrangeChildren()</strong>也需要SWidget中的每个控件去实现）并绘制，比如某父项在OnPaint时，会优先给子项预留他的DesiredSize的空间，然后递归调用子项的OnPaint来绘制。</p>
+<p>&nbsp;</p>
+<h3 id='开始renderthread'>开始（RenderThread）</h3>
+<p>每个OnPaint最终都会将要绘制的图元信息传入一个Slate的绘制元素列表中，这个列表每一帧都会更新，渲染线程会不断消耗这个列表。</p>
+<p>渲染线程，在UE中封装了一个类来处理Slate的渲染，那就是FSlateRenderer，这个类会根据图形API的不同被派生成不同的类，例如FSlateRHIRenderer、FSlateOpenGLRenderer等等。	</p>
+<pre><code class='language-cpp' lang='cpp'>int32 SImage::OnPaint( const FPaintArgs&amp; Args, const FGeometry&amp; AllottedGeometry, const FSlateRect&amp; MyCullingRect, FSlateWindowElementList&amp; OutDrawElements, int32 LayerId, const FWidgetStyle&amp; InWidgetStyle, bool bParentEnabled ) const &#123;
+    ....
+    FSlateDrawElement::MakeBox(OutDrawElements, LayerId, AllottedGeometry.ToPaintGeometry(), ImageBrush, DrawEffects, FinalColorAndOpacity);
+    .....
+    return LayerId;
+&#125;
+</code></pre>
+<p>由上面的代码中可见，生成了一个FSlateDrawElement，这个元素会被进一步包装成FSlateRenderBatch，然后再传给渲染线程进行合批操作。</p>
+<p><strong>合批</strong></p>
+<p>OnPaint自己返回了一个LayerId。</p>
+<blockquote><p>SWindow::Paint返回的LayerId为0，依据传递链通过OnPaint依次将这个参数传递给控件并返回新值，大部分控件不会改变这个值，有子项的可能会改变，（部分）规矩为：</p>
+<ul>
+<li><strong>SCompoundWidget 包含一个子控件，它会使子控件的LayerId + 1</strong></li>
+<li>SPanel包含多个子控件，不改变LayerId，所有子控件都继承父控件的LayerId</li>
+
+</ul>
+</blockquote>
+<p>渲染线程中的FSlateRenderBatch会根据LayerId从小到大排序，<strong>LayerId相同的可以合批</strong>，还有一些其他规则，具体参考：<a target="_blank" rel="noopener" href='https://www.zhihu.com/people/copymaster/posts'>(99+ 封私信 / 54 条消息) 南山搬砖道人 - 知乎</a></p>
+<p>总结的一些针对合批的优化：</p>
+<ul>
+<li>尽量保证UI材质相同（图集）</li>
+<li>利用<strong><code>Invalidation Box</code></strong>——可以缓存子控件的布局和绘制，只有变化时才会重新PrePass和OnPaint，针对静态页可以有优化<a target="_blank" rel="noopener" href='https://zhuanlan.zhihu.com/p/531146689'>(99+ 封私信 / 58 条消息) UE4 InvalidationBox优化 - 知乎</a></li>
+<li>简化控件树，复杂的控件树可能导致LayerId管理混乱</li>
+<li>利用<strong><code>Retainer Box</code></strong><a target="_blank" rel="noopener" href='https://zhuanlan.zhihu.com/p/532401520'>(99+ 封私信 / 58 条消息) UE4 RetainerBox优化 - 知乎</a></li>
+
+</ul>
+<p><img src="https://i0.hdslb.com/bfs/article/b714fdc4a2ad163536216fe2a02aa2f172a7f6d6.png@1192w.avif" alt="img"></p>
+<p>合批完成后，生成RHICommand提交给RHIThread完成真正的Slate渲染。</p>
+</body>
+</html>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/11/12/UE%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/" rel="prev" title="UE智能指针源码阅读">
+      <i class="fa fa-chevron-left"></i> UE智能指针源码阅读
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#slateapplication%E8%BE%93%E5%85%A5%E7%AE%A1%E7%90%86%E4%B8%8Eslate%E6%8E%A7%E4%BB%B6%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">SlateApplication输入管理与Slate控件运行原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#widget%E6%8E%A7%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">Widget控件结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E4%BA%92"><span class="nav-number">1.1.1.</span> <span class="nav-text">交互</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ui%E7%82%B9%E5%87%BB%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">UI点击流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8D%95%E8%8E%B7capture%E7%84%A6%E7%82%B9focus%E5%92%8C%E6%8E%A7%E4%BB%B6%E6%A0%91"><span class="nav-number">1.2.1.</span> <span class="nav-text">捕获（Capture）、焦点（Focus）和控件树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#route"><span class="nav-number">1.2.2.</span> <span class="nav-text">Route</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%8F%8C%E5%B1%82%E8%B7%AF%E7%94%B1%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.3.</span> <span class="nav-text">特殊：鼠标事件的双层路由机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hittestgrid"><span class="nav-number">1.2.4.</span> <span class="nav-text">HitTestGrid</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ui%E6%B8%B2%E6%9F%93%E6%B5%81%E7%A8%8B"><span class="nav-number">1.3.</span> <span class="nav-text">UI渲染流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87gamethread"><span class="nav-number">1.3.1.</span> <span class="nav-text">准备（GameThread）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%A7%8Brenderthread"><span class="nav-number">1.3.2.</span> <span class="nav-text">开始（RenderThread）</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="九日"
+      src="/images/3333.jpg">
+  <p class="site-author-name" itemprop="name">九日</p>
+  <div class="site-description" itemprop="description">饥冻虽切，违己交病</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/mikasa1x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;mikasa1x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+  <div class="links-of-recent-posts motion-element">
+    <div class="links-of-recent-posts-title">
+      <i class="fa fa-history fa-fw"></i>
+      最近文章
+    </div>
+    <ul class="links-of-recent-posts-list">
+        <li class="links-of-recent-posts-item">
+          <a href="/2025/11/15/SlateApplication%E8%BE%93%E5%85%A5%E7%AE%A1%E7%90%86%E4%B8%8ESlate%E6%8E%A7%E4%BB%B6%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86/" title="2025&#x2F;11&#x2F;15&#x2F;SlateApplication输入管理与Slate控件运行原理&#x2F;">SlateApplication输入管理与Slate控件运行原理</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2025/11/12/UE%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/" title="2025&#x2F;11&#x2F;12&#x2F;UE智能指针源码阅读&#x2F;">UE智能指针源码阅读</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2025/11/11/UE%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8Ewindows%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%BE%93%E5%85%A5/" title="2025&#x2F;11&#x2F;11&#x2F;UE多线程与windows多线程输入&#x2F;">UE多线程与windows多线程输入</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2025/03/11/C-11%E7%9F%A5%E8%AF%86%E7%82%B9/" title="2025&#x2F;03&#x2F;11&#x2F;C-11知识点&#x2F;">C++11知识点</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2025/01/05/UEGC%E8%AF%A6%E8%A7%A3/" title="2025&#x2F;01&#x2F;05&#x2F;UEGC详解&#x2F;">UEGC详解</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/12/16/%E4%BA%8C%E7%BB%B4%E7%9F%A9%E5%BD%A2%E8%A3%85%E7%AE%B1%E7%AE%97%E6%B3%95/" title="2024&#x2F;12&#x2F;16&#x2F;二维矩形装箱算法&#x2F;">二维矩形装箱算法</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E5%AE%9E%E4%B9%A0%E6%80%BB%E7%BB%93%EF%BC%8C%E4%B8%8D%E8%81%8A%E6%8A%80%E6%9C%AF%E5%90%91/" title="2024&#x2F;11&#x2F;15&#x2F;实习总结，不聊技术向&#x2F;">实习总结，不聊技术向</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/Unity-UE-C/" title="2024&#x2F;11&#x2F;15&#x2F;Unity-UE-C&#x2F;">Unity/UE/C++</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/%E9%9D%A2%E8%AF%95%E8%BF%9B%E9%98%B6%E6%A6%82%E8%A6%81/" title="2024&#x2F;11&#x2F;15&#x2F;面试进阶概要&#x2F;">面试进阶概要</a>
+        </li>
+        <li class="links-of-recent-posts-item">
+          <a href="/2024/11/15/UMG%E4%B8%8ESlate/" title="2024&#x2F;11&#x2F;15&#x2F;UMG与Slate&#x2F;">UMG与Slate</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">九日</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '9c0b290d84f2366fb16f',
+      clientSecret: '144de4df5142a698e6252476ca667f41c64af669',
+      repo        : 'blog-comment',
+      owner       : 'mikasa1x',
+      admin       : ['mikasa1x'],
+      id          : '1ff330c0aa84afef127ae74c44013075',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
